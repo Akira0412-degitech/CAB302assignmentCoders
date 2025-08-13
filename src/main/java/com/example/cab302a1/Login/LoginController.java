@@ -1,16 +1,20 @@
 package com.example.cab302a1.Login;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
+import javafx.stage.*;
+
 
 import javax.swing.*;
+import javafx.event.ActionEvent;
 import java.io.IOException;
 
 public class LoginController {
 
+    private Stage stage;
+    private Scene scene;
+    private  Parent root;
     @FXML
     private TextField usernameField;
 
@@ -31,7 +35,12 @@ public class LoginController {
         }
     }
     @FXML
-    private void handleSignUpClick (){
-        System.out.print("Signup button clicked");
+    private void handleSignUpClick (ActionEvent event) throws IOException{
+        root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/SignUp/SignUp-view.fxml"));
+
+        scene = new Scene(root);
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 }
