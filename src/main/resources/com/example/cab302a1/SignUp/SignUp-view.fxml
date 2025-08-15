@@ -6,5 +6,8 @@
 <VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.cab302a1.SignUp.SignUpController">
 
-    <Button text="aaa"  />
+    <Label text="Sign Up" />
+    <TextField fx:id="usernameField" promptText="Username" />
+    <ChoiceBox fx:id="roleBox" prefWidth="150" />
+    <PasswordField fx:id="passwordField" promptText="Password" />
 </VBox>
