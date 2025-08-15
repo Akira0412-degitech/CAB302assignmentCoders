@@ -37,7 +37,8 @@ public class LoginController {
     @FXML
     private void handleSignUpClick (ActionEvent event) throws IOException{
         root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/SignUp/SignUp-view.fxml"));
-        scene = new Scene(root);
+        scene = new Scene(root, 320, 240);
+
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setTitle("SignUp");
         stage.setScene(scene);
