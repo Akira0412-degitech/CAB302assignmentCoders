@@ -1,4 +1,4 @@
-package com.example.cab302a1;
+package com.example.cab302a1.ui;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;

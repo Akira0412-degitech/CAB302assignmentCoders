@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.cab302a1.ui.HomeGridController"
+            prefWidth="1000.0" prefHeight="640.0">
+
+    <top>
+        <HBox spacing="12" alignment="CENTER_LEFT"
+              style="-fx-padding: 12 16; -fx-background-color: #f4f4f4; -fx-border-color: #e5e5e5; -fx-border-width: 0 0 1 0;">
+            <Label text="Title for Home Page" styleClass="page-title"/>
+        </HBox>
+    </top>
+
+    <center>
+        <!-- SCroll Available -->
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+            <content>
+                <VBox spacing="16" styleClass="page" alignment="TOP_LEFT">
+                    <!-- Grid width 4 -->
+                    <TilePane fx:id="grid" prefColumns="4" hgap="24" vgap="24"
+                              styleClass="grid" alignment="TOP_LEFT"/>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
