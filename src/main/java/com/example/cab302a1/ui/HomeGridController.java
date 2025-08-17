@@ -17,7 +17,7 @@ public class HomeGridController {
         // test
         List<String> quizNames = List.of(
                 "Java test", "OOP", "Math",
-                "A", "B", "C",
+                "A", "B", "Cd",
                 "D", "E"
         );
 
