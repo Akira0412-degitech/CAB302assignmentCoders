@@ -8,7 +8,7 @@
             prefWidth="1000.0" prefHeight="640.0">
 
     <top>
-        <HBox spacing="12" alignment="CENTER_LEFT"
+        <HBox spacing="12" alignment="CENTER"
               style="-fx-padding: 12 16; -fx-background-color: #f4f4f4; -fx-border-color: #e5e5e5; -fx-border-width: 0 0 1 0;">
             <Label text="Title for Home Page" styleClass="page-title"/>
         </HBox>
@@ -18,10 +18,10 @@
         <!-- SCroll Available -->
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
             <content>
-                <VBox spacing="16" styleClass="page" alignment="TOP_LEFT">
+                <VBox spacing="16" styleClass="page" alignment="CENTER">
                     <!-- Grid width 4 -->
                     <TilePane fx:id="grid" prefColumns="4" hgap="24" vgap="24"
-                              styleClass="grid" alignment="TOP_LEFT"/>
+                              styleClass="grid" alignment="CENTER"/>
                 </VBox>
             </content>
         </ScrollPane>

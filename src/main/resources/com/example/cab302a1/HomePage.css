@@ -3,7 +3,6 @@
 
 .quiz-card {
     -fx-background-insets: 0, 1;
-    /* light blue 테두리 */
     -fx-background-color: #e8f3ff, white;
     -fx-border-color: #9bbfe8;
     -fx-border-width: 1;

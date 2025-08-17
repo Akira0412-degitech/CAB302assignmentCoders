@@ -14,7 +14,8 @@ public class HomePage extends Application {
                 Objects.requireNonNull(getClass().getResource("/com/example/cab302a1/HomePage.fxml"))
         );
         Scene scene = new Scene(loader.load(), 1000, 640);
-        var css = getClass().getResource("/HomePage.css");
+        var css = getClass().getResource("/com/example/cab302a1/HomePage.css");
+
         if (css != null) scene.getStylesheets().add(css.toExternalForm());
 
         stage.setTitle("Quiz App");
