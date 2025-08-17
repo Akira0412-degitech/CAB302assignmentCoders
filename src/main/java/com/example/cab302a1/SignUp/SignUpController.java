@@ -24,7 +24,7 @@ public class SignUpController   {
     private PasswordField passwordField;
 
     @FXML
-    private ChoiceBox roleBox;
+    private ChoiceBox<String> roleBox;
 
     @FXML
     private Hyperlink loginLink;
@@ -50,8 +50,9 @@ public class SignUpController   {
     private void handleSignUpclick() {
         String username = usernameField.getText();
         String password = passwordField.getText();
+        String role =  roleBox.getValue();
 
-        if(username.equals("akira") && password.equals("1234")){
+        if(username.equals("akira") && password.equals("1234") && role.equals("Student")){
             System.out.println("Akira is Correctly signed up!");
         }else {
             System.out.println("Invalid credentials.");
