@@ -46,4 +46,15 @@ public class SignUpController   {
         stage.setScene(scene);
         stage.show();
     }
+    @FXML
+    private void handleSignUpclick() {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        if(username.equals("akira") && password.equals("1234")){
+            System.out.println("Akira is Correctly signed up!");
+        }else {
+            System.out.println("Invalid credentials.");
+        }
+    }
 }
