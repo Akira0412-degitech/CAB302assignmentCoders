@@ -47,13 +47,20 @@ public class SignUpController   {
         stage.show();
     }
     @FXML
-    private void handleSignUpclick() {
+    private void handleSignUpclick(ActionEvent event) throws IOException {
         String username = usernameField.getText();
         String password = passwordField.getText();
         String role =  roleBox.getValue();
 
         if(username.equals("akira") && password.equals("1234") && role.equals("Student")){
             System.out.println("Akira is Correctly signed up!");
+            root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root, 1000, 450);
+            stage.setTitle("SignUp");
+            stage.setScene(scene);
+            stage.show();
+
         }else {
             System.out.println("Invalid credentials.");
         }
