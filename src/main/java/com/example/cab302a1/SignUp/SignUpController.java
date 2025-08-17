@@ -57,7 +57,7 @@ public class SignUpController   {
             root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root, 1000, 450);
-            stage.setTitle("SignUp");
+            stage.setTitle("Home");
             stage.setScene(scene);
             stage.show();
 
