@@ -11,7 +11,6 @@ public class HomeController {
 
     @FXML
     public void initialize() {
-        // 최소 예시용 더미 문자열
         todoList.setItems(FXCollections.observableArrayList(
                 "Java Basic",
                 "OOP Basic",
