@@ -1,0 +1,61 @@
+/* Apply Roboto font to all elements */
+* {
+    -fx-font-family: "Roboto", sans-serif;
+}
+
+/* Sidebar button styling */
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ecf0f1; /* Light gray for text */
+    -fx-font-size: 16px;
+    -fx-padding: 12px 15px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-pref-width: 200px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand; /* Changes cursor to a hand on hover */
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #34495e; /* Darker background on hover */
+}
+
+/* Active sidebar button styling */
+.sidebar-button-active {
+    -fx-background-color: #007bff; /* Blue to highlight active page */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 12px 15px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-pref-width: 200px;
+    -fx-background-radius: 5px;
+    -fx-font-weight: bold;
+    -fx-cursor: default; /* Standard cursor as it's the current page */
+}
+
+/* Styling for student list items (buttons) */
+.student-list-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 15px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-color: #e0e0e0; /* Light gray border */
+    -fx-border-width: 0 0 1px 0; /* Only bottom border */
+    -fx-background-radius: 0;
+    -fx-cursor: hand;
+}
+
+.student-list-item:hover {
+    -fx-background-color: #f0f0f0; /* Lighter background on hover */
+}
+
+/* Specific text colors for correct/incorrect answers (if used in future) */
+.text-incorrect {
+    -fx-text-fill: #dc3545; /* Red for incorrect */
+    -fx-font-weight: bold;
+}
+
+.text-correct {
+    -fx-text-fill: #28a745; /* Green for correct */
+    -fx-font-weight: bold;
+}
