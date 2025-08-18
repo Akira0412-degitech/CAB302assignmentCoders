@@ -89,7 +89,7 @@ Interactive Quiz Creator is a comprehensive educational tool that enables educat
 
 - **Jebeom Yeon** - Project Coordination & Development
 - **Luqmaan Baichoo** - Planner Page Development
-- **Chun-Huan Lee** - Core Development
+- **Chun-Huan Lee** - Core UI/UX Development
 - **Mitchell Tran** - Review Page Development
 - **Akira Hasuo** - Backend Developer & Database Design
 
