@@ -15,7 +15,7 @@
     </top>
 
     <center>
-        <!-- SCroll Available -->
+        <!-- SCroll Available when size changed -->
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
             <content>
                 <VBox spacing="16" styleClass="page" alignment="CENTER">
