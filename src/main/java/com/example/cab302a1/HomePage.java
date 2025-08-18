@@ -19,6 +19,9 @@ public class HomePage extends Application {
         if (css != null) scene.getStylesheets().add(css.toExternalForm());
 
         stage.setTitle("Quiz App");
+        stage.setWidth(1000);
+        stage.setHeight(600);
+
         stage.setScene(scene);
         stage.show();
     }
