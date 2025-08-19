@@ -10,6 +10,7 @@
     <TextField fx:id="usernameField" promptText="Username" />
     <ChoiceBox fx:id="roleBox" prefWidth="150" />
     <PasswordField fx:id="passwordField" promptText="Password" />
-    <Hyperlink fx:id="loginLink" text="Login?" onAction="#handleLoginClick"/>
     <Button text="SignUp" onAction="#handleSignUpclick" />
+    <Hyperlink fx:id="loginLink" text="Login?" onAction="#handleLoginClick"/>
+
 </VBox>
