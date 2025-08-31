@@ -11,11 +11,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        // Db connection check
         try (var conn = DBconnection.getConnection()){
             System.out.println(("Connected to DB: " + conn.getCatalog()));
         } catch (Exception e){
             e.printStackTrace();
         }
+
         // Load the FXML file for the review page UI
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login/login-view.fxml"));
 
