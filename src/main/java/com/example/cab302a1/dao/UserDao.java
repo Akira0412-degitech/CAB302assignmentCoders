@@ -5,6 +5,9 @@ import java.sql.*;
 
 public class UserDao {
     // Simple method: print all users from DB
+
+
+
     public void printAllUsers() {
         String sql = "SELECT id, email, created_at FROM users";
         try (Connection conn = DBconnection.getConnection();

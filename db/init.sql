@@ -17,3 +17,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 INSERT IGNORE INTO users (email, password_hash)
 VALUES ('demo@example.com', 'demo');
+
+-- to run the code above to set up database, run the code below
+-- Get-Content .\db\init.sql | mysql -u root -p
+-- but before that, mysql path need to be set in a system path to run mysql command.
