@@ -38,6 +38,7 @@ public class SignUpController {
     @FXML
     private void handleLoginClick(ActionEvent event) throws IOException {
         // Switch to Login page
+        //aaa
         root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/Login/Login-view.fxml"));
         scene = new Scene(root, 1000, 450);
 
