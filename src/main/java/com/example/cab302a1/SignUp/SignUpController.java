@@ -35,7 +35,6 @@ public class SignUpController {
         // Default value is Student
         roleBox.setValue("Student");
     }
-
     @FXML
     private void handleLoginClick(ActionEvent event) throws IOException {
         // Switch to Login page
