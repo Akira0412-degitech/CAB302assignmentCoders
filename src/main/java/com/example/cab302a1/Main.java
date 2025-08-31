@@ -1,5 +1,6 @@
 package com.example.cab302a1;
 
+import com.example.cab302a1.dao.UserDao;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,6 +15,8 @@ public class Main extends Application {
         // Db connection check
         try (var conn = DBconnection.getConnection()){
             System.out.println(("Connected to DB: " + conn.getCatalog()));
+            UserDao userdao = new UserDao();
+            userdao.printAllUsers();
         } catch (Exception e){
             e.printStackTrace();
         }
