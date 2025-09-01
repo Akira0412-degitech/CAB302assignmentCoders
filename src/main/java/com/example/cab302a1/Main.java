@@ -18,7 +18,9 @@ public class Main extends Application {
             UserDao userdao = new UserDao();
             userdao.printAllUsers();
 
-
+            if(userdao.registerUser("Akira@example.com", "1234")){
+                System.out.printf("just for debuging");
+            }
         } catch (Exception e){
             e.printStackTrace();
         }

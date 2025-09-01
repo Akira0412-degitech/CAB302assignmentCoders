@@ -43,6 +43,10 @@ public class UserDao {
     }
 
     public boolean registerUser(String _email, String _password){
+        if(existsByEmail(_email)){
+            System.out.printf("User already exists");
+            return false;
+        }
         String sql = "INSERT INTO users(email, password) VALUES (? , ?)";
         try(Connection conn = DBconnection.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql)) {
