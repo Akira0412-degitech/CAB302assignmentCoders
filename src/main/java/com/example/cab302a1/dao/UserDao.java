@@ -44,7 +44,7 @@ public class UserDao {
 
     public boolean registerUser(String _email, String _password){
         if(existsByEmail(_email)){
-            System.out.printf("User already exists");
+            System.out.printf("User already exists: " + _email);
             return false;
         }
         String sql = "INSERT INTO users(email, password) VALUES (? , ?)";
@@ -60,4 +60,27 @@ public class UserDao {
         }
         return false;
     }
+    public boolean login(String _email, String _password){
+        if(!existsByEmail(_email)){
+            System.out.printf("User not found: " + _email);
+            return false;
+        }
+        String sql = "SELECT password FROM users where email = ? LIMIT 1";
+        try {Connection conn = DBconnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, _email);
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                if(rs.next()){
+                    String password = rs.getString("password");
+                    System.out.printf("Password is :" + password);
+                }
+                return true;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
