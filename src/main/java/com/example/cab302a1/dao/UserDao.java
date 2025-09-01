@@ -17,7 +17,8 @@ public class UserDao {
                 System.out.println(
                         rs.getInt("id") + " | " +
                                 rs.getString("email") + " | " +
-                                rs.getTimestamp("created_at")
+                                rs.getTimestamp("created_at") + " | " +
+                                rs.getString("role")
                 );
             }
         } catch (Exception e) {
@@ -84,6 +85,24 @@ public class UserDao {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public String getRoleByEmail(String _email){
+        String sql = "SELECT role FROM users WHERE email = ? LIMIT 1";
+
+        try(Connection conn = DBconnection.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, _email);
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                if(rs.next()){
+                    return rs.getString("role");
+                }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
