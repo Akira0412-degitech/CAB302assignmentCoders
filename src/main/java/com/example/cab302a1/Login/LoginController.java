@@ -5,7 +5,6 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
 
-import javax.swing.*;
 import javafx.event.ActionEvent;
 import java.io.IOException;
 
@@ -16,7 +15,7 @@ public class LoginController {
     private Parent root;
 
     @FXML
-    private TextField usernameField;   // Username input field
+    private TextField useremailField;   // Username input field
 
     @FXML
     private PasswordField passwordField;   // Password input field
@@ -27,7 +26,7 @@ public class LoginController {
     @FXML
     protected void handleLogin(ActionEvent event) throws IOException {
         // Get entered username and password
-        String username = usernameField.getText();
+        String username = useremailField.getText();
         String password = passwordField.getText();
 
         // Temporary login check (username: admin, password: 1234)

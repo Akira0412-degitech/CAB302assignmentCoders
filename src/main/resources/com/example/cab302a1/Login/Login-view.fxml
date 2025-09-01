@@ -7,7 +7,7 @@
       fx:controller="com.example.cab302a1.Login.LoginController">
 
     <Label text="Login" />
-    <TextField fx:id="usernameField" promptText="Username" />
+    <TextField fx:id="useremailField" promptText="Useremail" />
     <PasswordField fx:id="passwordField" promptText="Password" />
     <Button text="Login" onAction="#handleLogin" />
     <Hyperlink fx:id="signUpLink" text="Sign up?" onAction="#handleSignUpClick"/>

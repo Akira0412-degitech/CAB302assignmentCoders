@@ -42,7 +42,7 @@ public class UserDao {
         return false;
     }
 
-    public boolean registerUser(String _email, String _password){
+    public boolean signUpUser(String _email, String _password){
         if(existsByEmail(_email)){
             System.out.printf("User already exists: " + _email);
             return false;
