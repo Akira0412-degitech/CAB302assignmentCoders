@@ -10,6 +10,7 @@
     <TextField fx:id="useremailField" promptText="Useremail" />
     <PasswordField fx:id="passwordField" promptText="Password" />
     <Button text="Login" onAction="#handleLogin" />
-    <Hyperlink fx:id="signUpLink" text="Sign up?" onAction="#handleSignUpClick"/>
+    <Label fx:id="errorloginLabel" text="" textFill="red" />
+    <Hyperlink fx:id="signupLink" text="Sign up?" onAction="#handleSignUpClick"/>
 
 </VBox>

@@ -18,7 +18,7 @@ public class Main extends Application {
             UserDao userdao = new UserDao();
             userdao.printAllUsers();
 
-            userdao.login("Akira@example.com", "1234");
+//            userdao.login("Akira@example.com", "1234");
         } catch (Exception e){
             e.printStackTrace();
         }

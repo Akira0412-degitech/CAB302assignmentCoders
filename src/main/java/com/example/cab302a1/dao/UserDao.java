@@ -76,9 +76,6 @@ public class UserDao {
                     if(password.equals(_password)){
                         System.out.printf("Login successful for user: " + _email);
                         return  true;
-                    }else {
-                        System.out.printf("Invalid password for user " + _email);
-                        return  false;
                     }
                 }
 
