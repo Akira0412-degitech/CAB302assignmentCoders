@@ -17,6 +17,8 @@ public class Main extends Application {
             System.out.println(("Connected to DB: " + conn.getCatalog()));
             UserDao userdao = new UserDao();
             userdao.printAllUsers();
+
+
         } catch (Exception e){
             e.printStackTrace();
         }

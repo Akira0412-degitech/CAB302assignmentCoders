@@ -42,4 +42,18 @@ public class UserDao {
         return false;
     }
 
+    public boolean registerUser(String _email, String _password){
+        String sql = "INSERT INTO users(email, password) VALUES (? , ?)";
+        try(Connection conn = DBconnection.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, _email);
+            pstmt.setString(2, _password);
+            pstmt.executeUpdate();
+            System.out.printf("User" + _email + "Passwod: " + _password + "Added");
+            return true;
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
