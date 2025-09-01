@@ -9,7 +9,7 @@ public class UserDao {
 
 
     public void printAllUsers() {
-        String sql = "SELECT id, email, created_at FROM users";
+        String sql = "SELECT id, email, created_at, role FROM users";
         try (Connection conn = DBconnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
