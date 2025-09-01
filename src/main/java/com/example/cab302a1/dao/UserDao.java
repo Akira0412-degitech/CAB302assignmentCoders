@@ -73,9 +73,15 @@ public class UserDao {
             try(ResultSet rs = pstmt.executeQuery()){
                 if(rs.next()){
                     String password = rs.getString("password");
-                    System.out.printf("Password is :" + password);
+                    if(password.equals(_password)){
+                        System.out.printf("Login successful for user: " + _email);
+                        return  true;
+                    }else {
+                        System.out.printf("Invalid password for user " + _email);
+                        return  false;
+                    }
                 }
-                return true;
+
             }
         }catch (SQLException e){
             e.printStackTrace();

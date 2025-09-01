@@ -18,13 +18,7 @@ public class Main extends Application {
             UserDao userdao = new UserDao();
             userdao.printAllUsers();
 
-
-
-            if(userdao.login("Akira@example.com", "1234")){
-                System.out.printf("successful debug in login");
-            }else{
-                System.out.printf("Error for debug in login");
-            }
+            userdao.login("Akira@example.com", "1234");
         } catch (Exception e){
             e.printStackTrace();
         }
