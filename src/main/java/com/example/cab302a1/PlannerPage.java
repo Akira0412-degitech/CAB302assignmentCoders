@@ -21,9 +21,6 @@ public class PlannerPage extends Application {
         );
 
         Scene scene = new Scene(loader.load(), 1000, 640);
-        var css = getClass().getResource("/com/example/cab302a1/Planner/planner.css");
-
-        if (css != null) scene.getStylesheets().add(css.toExternalForm());
 
         stage.setTitle("Quiz App");
         stage.setScene(scene);

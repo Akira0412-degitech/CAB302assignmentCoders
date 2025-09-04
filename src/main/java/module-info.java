@@ -11,4 +11,7 @@ module com.example.cab302a1 {
     opens com.example.cab302a1.ui to javafx.fxml;
     exports com.example.cab302a1.ui;
 
+    exports com.example.cab302a1.Planner;
+    opens com.example.cab302a1.Planner to javafx.fxml;
+
 }

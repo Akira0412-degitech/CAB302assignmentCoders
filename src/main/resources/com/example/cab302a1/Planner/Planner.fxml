@@ -8,7 +8,29 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.cab302a1.PlannerPage"
+            fx:controller="com.example.cab302a1.Planner.PlannerPageController"
+            stylesheets="@planner.css"
             prefHeight="1000.0" prefWidth="640.0">
+
+    <top>
+        <HBox spacing="12" alignment="CENTER"
+              style=" -fx-background-color: #f4f4f4; -fx-border-color: #e5e5e5; -fx-border-width: 0 0 1 0;">
+            <Label text="Planner Page" styleClass="page-title"/>
+
+            <Button fx:id="prevButton" text="Previous"/>
+            <Button fx:id="todayButton" text="Today"/>
+            <Button fx:id="nextButton" text="Next"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="monthTitle" styleClass="month-title"/>
+
+        </HBox>
+    </top>
+
+    <center>
+        <GridPane fx:id="calendarGrid" hgap="6" vgap="6">
+
+        </GridPane>
+    </center>
+
 
 </BorderPane>

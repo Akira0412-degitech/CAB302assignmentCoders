@@ -1,3 +1,45 @@
 .page { -fx-padding: 24; }
 .page-title { -fx-font-size: 28px; -fx-font-weight: bold; }
 
+.weekday-header {
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.date-cell {
+    -fx-padding: 6;
+    -fx-alignment: top-left;
+    -fx-cursor: hand;
+    -fx-background-radius: 10;
+}
+
+.date-cell:hover {
+    -fx-background-color: -fx-control-inner-background;
+}
+
+.date-cell.today {
+    -fx-border-color: -fx-accent;
+    -fx-border-width: 2;
+    -fx-border-radius: 12;
+}
+
+.date-cell.selected {
+    -fx-background-color: derive(-fx-accent, 60%);
+}
+
+.date-cell.other-month {
+    -fx-opacity: 0.45;
+}
+
+.month-title {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+}
+
+HBox {
+    -fx-padding: 10;
+}
+
+#calendarGrid {
+    -fx-padding: 10;
+}
