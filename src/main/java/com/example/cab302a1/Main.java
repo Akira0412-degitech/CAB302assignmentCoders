@@ -13,6 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         // Db connection check
+        DBconnection.migrate();
         try (var conn = DBconnection.getConnection()){
             System.out.println(("Connected to DB: " + conn.getCatalog()));
             UserDao userdao = new UserDao();
@@ -23,7 +24,7 @@ public class Main extends Application {
         }
 
         // Load the FXML file for the review page UI
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login/login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/cab302a1/login/login-view.fxml"));
 
         // Changed dimensions to be smaller and more compact
         Scene scene = new Scene(fxmlLoader.load(), 1000, 450); // Adjusted dimensions: width 1100, height 750
