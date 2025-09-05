@@ -13,23 +13,26 @@
             prefHeight="1000.0" prefWidth="640.0">
 
     <top>
-        <HBox spacing="12" alignment="CENTER"
-              style=" -fx-background-color: #f4f4f4; -fx-border-color: #e5e5e5; -fx-border-width: 0 0 1 0;">
+        <VBox spacing="12" alignment="CENTER" id="headerVBox">
             <Label text="Planner Page" styleClass="page-title"/>
-
-            <Button fx:id="prevButton" text="Previous"/>
-            <Button fx:id="todayButton" text="Today"/>
-            <Button fx:id="nextButton" text="Next"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Label fx:id="monthTitle" styleClass="month-title"/>
-
-        </HBox>
+        </VBox>
     </top>
 
     <center>
-        <GridPane fx:id="calendarGrid" hgap="6" vgap="6">
+        <VBox alignment="CENTER" styleClass="main-contents">
+            <Label fx:id="monthTitle" styleClass="month-title"/>
+            <HBox spacing="10" alignment="CENTER">
+                <Button fx:id="prevButton" text="Previous"/>
+                <Button fx:id="todayButton" text="Today"/>
+                <Button fx:id="nextButton" text="Next"/>
+                <Region HBox.hgrow="ALWAYS"/>
+            </HBox>
 
-        </GridPane>
+            <HBox>
+                <GridPane fx:id="calendarGrid" hgap="6" vgap="6">
+                </GridPane>
+            </HBox>
+        </VBox>
     </center>
 
 

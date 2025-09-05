@@ -36,10 +36,19 @@
     -fx-font-weight: bold;
 }
 
-HBox {
+.main-contents {
     -fx-padding: 10;
+    -fx-alignment: center;
+}
+
+
+#headerVBox {
+    -fx-padding: 10;
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #e5e5e5;
+    -fx-border-width: 0 0 1 0;
 }
 
 #calendarGrid {
-    -fx-padding: 10;
+    -fx-padding: 20;
 }
