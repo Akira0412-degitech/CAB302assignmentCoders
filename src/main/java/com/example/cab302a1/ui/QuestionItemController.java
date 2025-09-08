@@ -1,4 +1,19 @@
+
+
 package com.example.cab302a1.ui;
+/**
+ * QuestionItemController
+ * This class handles the behavior of QuestionItem.fxml.
+ *
+ * What it does:
+ * - Manages the input of the question sentence and four answer choices.
+ * - Marks the answer the user clicks as the correct answer (highlighted with a background color).
+ * - Sends a "delete" request to the parent (QuizEditor) when the X button is pressed.
+ * - Converts the current input to a QuizQuestionCreate/QuizChoiceCreate model.
+ *
+ * Where is it used?
+ * - It is retrieved from QuizEditorController and used to create a quiz.
+ */
 
 import com.example.cab302a1.model.Choice;
 import com.example.cab302a1.model.Question;

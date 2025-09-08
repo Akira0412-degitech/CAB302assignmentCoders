@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
@@ -5,6 +6,17 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+
+<!--
+QuestionItem.fxml
+This file defines the screen layout for entering a single quiz question.
+ - Question text input field (TextField)
+ - Four answer input fields
+ - Question number display
+ - X button (Delete this question)
+
+Multiple items are loaded and used within the QuizEditor screen.
+-->
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.example.cab302a1.ui.QuestionItemController"
