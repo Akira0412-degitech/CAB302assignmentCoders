@@ -12,6 +12,6 @@ public class QuizQuestionCreate {
     public void setText(String text) { this.text = text; }
 
 
-    public List<Choice> getChoices() { return choices; }
+    public List<QuizChoiceCreate> getChoices() { return choices; }
 
 }
