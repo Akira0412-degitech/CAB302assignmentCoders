@@ -1,7 +1,7 @@
 
 
 package com.example.cab302a1.ui;
-/**
+/*
  * QuestionItemController
  * This class handles the behavior of QuestionItem.fxml.
  *
@@ -15,8 +15,8 @@ package com.example.cab302a1.ui;
  * - It is retrieved from QuizEditorController and used to create a quiz.
  */
 
-import com.example.cab302a1.model.Choice;
-import com.example.cab302a1.model.Question;
+import com.example.cab302a1.model.QuizChoiceCreate;
+import com.example.cab302a1.model.QuizQuestionCreate;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -75,7 +75,7 @@ public class QuestionItemController {
     }
 
     /** Convert current UI state to a Question model (with 4 choices). */
-    public Question toQuestion() {
+    public QuizQuestionCreate toQuestion() {
         String q = safe(questionField.getText());
         String a1 = safe(answer1.getText());
         String a2 = safe(answer2.getText());
@@ -87,11 +87,11 @@ public class QuestionItemController {
             throw new IllegalStateException("All answer fields must be filled.");
         if (correctIndex < 0) throw new IllegalStateException("Please choose a correct answer.");
 
-        Question question = new Question();
-        question.setText(q);
+        QuizQuestionCreate question = new QuizQuestionCreate();
+        question.setQuestionText(q);
         List<String> answers = List.of(a1, a2, a3, a4);
         for (int i = 0; i < answers.size(); i++) {
-            question.getChoices().add(new Choice(answers.get(i), i == correctIndex));
+            question.getChoices().add(new QuizChoiceCreate(answers.get(i), i == correctIndex));
         }
         return question;
     }
