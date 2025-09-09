@@ -1,9 +1,13 @@
 package com.example.cab302a1.ui;
 
 import com.example.cab302a1.UserRole;
+// NEW: use full quiz model
+import com.example.cab302a1.model.Quiz;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.TilePane;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,80 +19,84 @@ import java.util.List;
 public class HomeController {
 
     @FXML private TilePane grid;
+    // (Optional) If you added a title label in FXML:  <Label fx:id="titleLabel" .../>
+    // @FXML private Label titleLabel;
 
     // Current role (default to STUDENT for safety).
     private UserRole role = UserRole.STUDENT;
 
-    // In-memory quiz titles for UI preview; will be replaced by DB later
-    private final List<String> quizzes = new ArrayList<>(List.of(
-            "Java Basics", "OOP Essentials", "Exceptions",
-            "Collections", "Streams/Lambda", "File I/O"
-    ));
+    // CHANGED: Store full Quiz objects instead of just titles
+    private final List<Quiz> quizzes = new ArrayList<>();
 
     @FXML
     public void initialize() {
-        // Runs automatically after the FXML screen is ready and UI parts are linked
-        // Shows the screen in its default state; later we can call refresh() to update it
-
+        // Seed with sample quizzes for preview; later this will come from DB.
+        for (String t : List.of("Java Basics", "OOP Essentials", "Exceptions")) {
+            Quiz q = new Quiz();
+            q.setTitle(t);
+            q.setDescription(""); // optional
+            quizzes.add(q);
+        }
         refresh();
     }
 
-    //Sets whether this screen is for a STUDENT or a TEACHER
+    // Sets whether this screen is for a STUDENT or a TEACHER
     public void setRole(UserRole role) {
         this.role = role;
     }
 
     /** Rebuild the grid according to the current role and quiz list. */
     public void refresh() {
+        // if (titleLabel != null) titleLabel.setText("Home — " + role);
         grid.getChildren().clear();
-        quizzes.forEach(name -> grid.getChildren().add(createQuizCard(name)));
+
+        for (Quiz q : quizzes) {
+            grid.getChildren().add(createQuizCard(q));
+        }
         if (role == UserRole.TEACHER) {
             grid.getChildren().add(createPlusCard());
         }
     }
 
     /** Create a square 'quiz card' button with role-specific action. */
-    private Button createQuizCard(String title) {
-        Button card = new Button(title);
+    private Button createQuizCard(Quiz quiz) {
+        Button card = new Button(quiz.getTitle());
         card.getStyleClass().add("quiz-card"); // CSS: .quiz-card
         card.setPrefSize(160, 160);            // square card
         card.setWrapText(true);                // line wrap for long titles
 
         card.setOnAction(e -> {
             if (role == UserRole.STUDENT) {
-                info("Start Quiz", "Selected: " + title + "\n(Next: navigate to attempt screen)");
+                info("Start Quiz", "Selected: " + quiz.getTitle() + "\n(Next: navigate to attempt screen)");
             } else {
-                info("Open Quiz (Edit)", "Selected: " + title + "\n(Next: navigate to editor)");
+                info("Open Quiz (Edit)", "Selected: " + quiz.getTitle() + "\n(Next: open editor with prefill)");
+                // TODO (later): open editor pre-filled to edit this quiz
             }
         });
         return card;
     }
 
-    /** Create the teacher-only '+' card to add a new quiz title. */
+    /** Teacher-only '+' card to open the quiz editor modal. */
     private Button createPlusCard() {
         Button plus = new Button("+");
         plus.getStyleClass().add("plus-card"); // CSS: .plus-card
         plus.setPrefSize(160, 160);
-        plus.setOnAction(e -> onAddQuiz());
+        plus.setOnAction(e -> openCreateQuizEditor());
         return plus;
     }
 
-    /** Prompt for a new quiz title and append it to the list (teacher mode). */
-    private void onAddQuiz() {
-        TextInputDialog d = new TextInputDialog();
-        d.setTitle("Create New Quiz");
-        d.setHeaderText("Enter a title for the new quiz");
-        d.setContentText("Title:");
-        d.showAndWait().ifPresent(title -> {
-            String t = title.trim();
-            if (t.isEmpty()) {
-                warn("Title cannot be empty.");
-                return;
-            }
-            quizzes.add(t);
+    /** Open QuizEditor as a modal dialog; when saved, append to list and refresh UI. */
+    private void openCreateQuizEditor() {
+        Stage owner = (Stage) grid.getScene().getWindow();
+        QuizEditorController.open(owner, quiz -> {
+            // Receive the created Quiz from the editor via callback
+            quizzes.add(quiz);
             refresh(); // re-render grid with the new card
         });
     }
+
+    // (REMOVED) Old title-only dialog method was here:
+    // private void onAddQuiz() { ... TextInputDialog ... }
 
     /** Convenience info dialog. */
     private void info(String header, String msg) {
