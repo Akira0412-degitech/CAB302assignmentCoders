@@ -65,6 +65,7 @@ public class SignUpController {
 
         if(useremail.isEmpty() || password.isEmpty()){
             errorsignup.setText("Please fill the form to sing up");
+            return;
         }
 
         if(userdao.signUpUser(useremail, password)){

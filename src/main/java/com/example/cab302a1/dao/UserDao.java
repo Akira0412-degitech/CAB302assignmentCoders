@@ -9,7 +9,7 @@ public class UserDao {
 
 
     public void printAllUsers() {
-        String sql = "SELECT id, email, created_at, role FROM users";
+        String sql = "SELECT id, email, password, created_at, role FROM users";
         try (Connection conn = DBconnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -18,6 +18,7 @@ public class UserDao {
                         rs.getInt("id") + " | " +
                                 rs.getString("email") + " | " +
                                 rs.getTimestamp("created_at") + " | " +
+                                rs.getString("password") + "|" +
                                 rs.getString("role")
                 );
             }
@@ -54,7 +55,7 @@ public class UserDao {
             pstmt.setString(1, _email);
             pstmt.setString(2, _password);
             pstmt.executeUpdate();
-            System.out.printf("User:" + _email + "Passwod: " + _password + "Added");
+            System.out.printf("User: " + _email + " Passwod: " + _password + " Added");
             return true;
         } catch (SQLException e){
             e.printStackTrace();
