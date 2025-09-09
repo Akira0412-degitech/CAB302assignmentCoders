@@ -5,11 +5,11 @@ import java.util.List;
 
 
 public class QuizQuestionCreate {
-    private String text;
+    private String questionText;
     private final List<QuizChoiceCreate> choices = new ArrayList<>();
 
-    public String getText() { return text; }
-    public void setText(String text) { this.text = text; }
+public String getQuestionText() { return questionText; }
+    public void setQuestionText(String questionText) { this.questionText = questionText; }
 
 
     public List<QuizChoiceCreate> getChoices() { return choices; }

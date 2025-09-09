@@ -18,6 +18,7 @@ import com.example.cab302a1.model.QuizQuestionCreate;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -67,24 +68,36 @@ public class QuizEditorController {
     }
 
     /** Add a new QuestionItem card (load FXML and wire callbacks). */
+    // src/main/java/com/example/cab302a1/ui/QuizEditorController.java
     private void addQuestion() {
         try {
-            URL url = Objects.requireNonNull(
+            var url = Objects.requireNonNull(
                     getClass().getResource("/com/example/cab302a1/QuestionItem.fxml"));
+            System.out.println("Loading FXML: " + url);
+
             FXMLLoader loader = new FXMLLoader(url);
             Node node = loader.load();
 
+            // IMPORTANT: explicit type
             QuestionItemController item = loader.getController();
             item.setOnRemove(this::removeQuestion);
 
+            // IMPORTANT: add to the list 'items', not 'item.add(...)'
             items.add(item);
+
             questionsBox.getChildren().add(node);
             refreshIndices();
         } catch (Exception ex) {
+            // Show the real root cause class/message
+            Throwable cause = ex;
+            while (cause.getCause() != null) cause = cause.getCause();
             ex.printStackTrace();
-            showAlert("Error", "Failed to add question: " + ex.getMessage(), Alert.AlertType.ERROR);
+            showAlert("Error",
+                    "Failed to add question:\n" + cause.getClass().getName() + "\n" + String.valueOf(cause.getMessage()),
+                    Alert.AlertType.ERROR);
         }
     }
+
 
     /** Remove the given QuestionItem card. */
     private void removeQuestion(QuestionItemController item) {
@@ -159,7 +172,7 @@ public class QuizEditorController {
             dialog.initOwner(owner);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.setTitle("Create Quiz");
-            dialog.setScene(new Scene(root, 900, 640));
+            dialog.setScene(new Scene((Parent) root, 900, 640));
 
             // Attach shared CSS if present
             var css1 = QuizEditorController.class.getResource("/HomePage.css");

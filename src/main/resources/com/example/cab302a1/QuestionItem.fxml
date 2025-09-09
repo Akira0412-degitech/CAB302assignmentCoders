@@ -1,12 +1,6 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <!--
 QuestionItem.fxml
 This file defines the screen layout for entering a single quiz question.
@@ -17,7 +11,6 @@ This file defines the screen layout for entering a single quiz question.
 
 Multiple items are loaded and used within the QuizEditor screen.
 -->
-
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.example.cab302a1.ui.QuestionItemController"
       spacing="12" styleClass="question-card">

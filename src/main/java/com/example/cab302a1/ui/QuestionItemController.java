@@ -41,7 +41,15 @@ public class QuestionItemController {
 
     @FXML
     public void initialize() {
-        // Click on an answer field marks it as the correct one (visual + state)
+        // Temporary asserts to catch fx:id injection issues
+        assert indexLabel != null : "fx:id 'indexLabel' not injected (check FXML)";
+        assert questionField != null : "fx:id 'questionField' not injected (check FXML)";
+        assert answer1 != null : "fx:id 'answer1' not injected (check FXML)";
+        assert answer2 != null : "fx:id 'answer2' not injected (check FXML)";
+        assert answer3 != null : "fx:id 'answer3' not injected (check FXML)";
+        assert answer4 != null : "fx:id 'answer4' not injected (check FXML)";
+
+        // Click on an answer field marks it as the correct one
         List<TextField> fields = List.of(answer1, answer2, answer3, answer4);
         for (int i = 0; i < fields.size(); i++) {
             final int idx = i;
