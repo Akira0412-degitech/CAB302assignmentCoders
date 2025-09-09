@@ -1,5 +1,6 @@
 package com.example.cab302a1.SignUp;
 
+import com.example.cab302a1.dao.UserDao;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.Node;
@@ -17,7 +18,7 @@ public class SignUpController {
     private Parent root;
 
     @FXML
-    private TextField usernameField;   // Username input field
+    private TextField useremailField;   // Username input field
 
     @FXML
     private PasswordField passwordField;   // Password input field
@@ -27,6 +28,11 @@ public class SignUpController {
 
     @FXML
     private Hyperlink loginLink;   // Link to go back to Login page
+
+    @FXML
+    private Label errorsignup;
+
+    UserDao userdao = new UserDao();
 
     @FXML
     private void initialize() {
@@ -51,14 +57,17 @@ public class SignUpController {
     @FXML
     private void handleSignUpclick(ActionEvent event) throws IOException {
         // Get values from input fields
-        String username = usernameField.getText();
+        String useremail = useremailField.getText();
         String password = passwordField.getText();
         String role = roleBox.getValue();
 
         // Simple check: only "akira / 1234 / Student" is accepted
-        if (username.equals("akira") && password.equals("1234") && role.equals("Student")) {
-            System.out.println("Akira is Correctly signed up!");
 
+        if(useremail.isEmpty() || password.isEmpty()){
+            errorsignup.setText("Please fill the form to sing up");
+        }
+
+        if(userdao.signUpUser(useremail, password)){
             // Switch to Home page
             root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -66,10 +75,10 @@ public class SignUpController {
             stage.setTitle("Home");
             stage.setScene(scene);
             stage.show();
-
         } else {
             // Print error if sign up fails
             System.out.println("Invalid credentials.");
         }
+
     }
 }

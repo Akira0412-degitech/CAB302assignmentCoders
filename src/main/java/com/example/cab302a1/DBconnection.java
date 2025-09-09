@@ -15,7 +15,7 @@ public class DBconnection {
     }
 
     public static void migrate() {
-
+        //not to show flyway log
         Logger flywayLogger = Logger.getLogger("org.flywaydb");
         flywayLogger.setLevel(Level.WARNING);
         for (var h : Logger.getLogger("").getHandlers()) {

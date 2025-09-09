@@ -54,7 +54,7 @@ public class UserDao {
             pstmt.setString(1, _email);
             pstmt.setString(2, _password);
             pstmt.executeUpdate();
-            System.out.printf("User" + _email + "Passwod: " + _password + "Added");
+            System.out.printf("User:" + _email + "Passwod: " + _password + "Added");
             return true;
         } catch (SQLException e){
             e.printStackTrace();
