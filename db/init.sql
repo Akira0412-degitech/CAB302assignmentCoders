@@ -9,4 +9,7 @@ FLUSH PRIVILEGES;
 
 -- to run the code above to set up database, run the code below
 -- Get-Content .\db\init.sql | mysql -u root -p
+-- or
+-- mysql -u root -p < db/init.sql
+-- for mac/linux user
 -- but before that, mysql path need to be set in a system path to run mysql command.

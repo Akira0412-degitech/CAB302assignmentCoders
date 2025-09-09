@@ -1,6 +1,10 @@
 package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
+import com.example.cab302a1.SignUp.SignUpController;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javax.sound.sampled.Control;
 import java.sql.*;
 
 public class UserDao {
