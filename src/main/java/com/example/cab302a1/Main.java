@@ -14,8 +14,8 @@ public class Main extends Application {
         // Load the FXML file for the review page UI
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login/login-view.fxml"));
 
-        // Changed dimensions to be smaller and more compact
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 450); // Adjusted dimensions: width 1100, height 750
+        // Set the scene dimensions to better fit the content and prevent resizing
+        Scene scene = new Scene(fxmlLoader.load(), 1040, 600);
 
         // Apply a basic stylesheet for common styles
 //        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
@@ -23,6 +23,7 @@ public class Main extends Application {
 //        stage.setTitle("Quiz App - Teacher Review Page"); // Updated title for clarity
         stage.setTitle("Login");
         stage.setScene(scene);
+        stage.setResizable(false); // Make the window non-resizable
         stage.show();
     }
 

@@ -1,61 +1,135 @@
-/* Apply Roboto font to all elements */
-* {
-    -fx-font-family: "Roboto", sans-serif;
+/* Global font and colors */
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-base: #f0f0f0;
+    -fx-background: #ffffff;
 }
 
-/* Sidebar button styling */
+/* Sidebar Styling */
+.sidebar {
+    -fx-background-color: #f8f8f8;
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-insets: 10px;
+}
+
+.sidebar-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
 .sidebar-button {
     -fx-background-color: transparent;
-    -fx-text-fill: #ecf0f1; /* Light gray for text */
+    -fx-border-color: transparent;
     -fx-font-size: 16px;
-    -fx-padding: 12px 15px;
-    -fx-alignment: CENTER_LEFT;
-    -fx-pref-width: 200px;
+    -fx-text-fill: #555;
+    -fx-padding: 10px 15px;
+    -fx-alignment: center-left;
     -fx-background-radius: 5px;
-    -fx-cursor: hand; /* Changes cursor to a hand on hover */
 }
 
 .sidebar-button:hover {
-    -fx-background-color: #34495e; /* Darker background on hover */
+    -fx-background-color: #e0e0e0;
 }
 
-/* Active sidebar button styling */
-.sidebar-button-active {
-    -fx-background-color: #007bff; /* Blue to highlight active page */
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-padding: 12px 15px;
-    -fx-alignment: CENTER_LEFT;
-    -fx-pref-width: 200px;
-    -fx-background-radius: 5px;
+.sidebar-button:pressed {
+    -fx-background-color: #d0d0d0;
+    -fx-text-fill: #000;
+}
+
+/* Main Content Styling */
+.main-content {
+    -fx-background-color: #fff;
+    -fx-padding: 20px;
+}
+
+.header {
+    -fx-background-color: #fff;
+    -fx-padding: 20px 30px;
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-color: #ddd;
+}
+
+.header-title {
+    -fx-font-size: 28px;
     -fx-font-weight: bold;
-    -fx-cursor: default; /* Standard cursor as it's the current page */
+    -fx-text-fill: #333;
 }
 
-/* Styling for student list items (buttons) */
+.section {
+    -fx-background-color: #fcfcfc;
+    -fx-border-color: #eee;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.section-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* Student List Styling */
 .student-list-item {
-    -fx-background-color: transparent;
-    -fx-text-fill: #333333;
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+    -fx-alignment: center-left;
     -fx-font-size: 14px;
-    -fx-padding: 10px 15px;
-    -fx-alignment: CENTER_LEFT;
-    -fx-border-color: #e0e0e0; /* Light gray border */
-    -fx-border-width: 0 0 1px 0; /* Only bottom border */
-    -fx-background-radius: 0;
-    -fx-cursor: hand;
+    -fx-text-fill: #333;
 }
 
 .student-list-item:hover {
-    -fx-background-color: #f0f0f0; /* Lighter background on hover */
+    -fx-background-color: #e6e6e6;
 }
 
-/* Specific text colors for correct/incorrect answers (if used in future) */
-.text-incorrect {
-    -fx-text-fill: #dc3545; /* Red for incorrect */
+.student-list-item:pressed {
+    -fx-background-color: #d9d9d9;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Student Details Styling */
+.details-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #555;
+}
+
+.details-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+.details-item {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666;
+}
+
+/* Button Styling */
+.primary-button {
+    -fx-background-color: #4CAF50; /* A pleasant green */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
     -fx-font-weight: bold;
 }
 
-.text-correct {
-    -fx-text-fill: #28a745; /* Green for correct */
-    -fx-font-weight: bold;
+.primary-button:hover {
+    -fx-background-color: #45a049;
+}
+
+.primary-button:pressed {
+    -fx-background-color: #3e8e41;
 }
