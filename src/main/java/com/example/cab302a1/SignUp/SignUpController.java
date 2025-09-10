@@ -68,7 +68,7 @@ public class SignUpController {
             return;
         }
 
-        if(userdao.signUpUser(useremail, password)){
+        if(userdao.signUpUser(useremail, password, role)){
             // Switch to Home page
             root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
