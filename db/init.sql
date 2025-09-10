@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS cab302_quizApp
   DEFAULT CHARACTER SET utf8mb4
   DEFAULT COLLATE utf8mb4_general_ci;
 
-CREATE USER IF NOT EXISTS 'appuser'@'localhost' IDENTIFIED BY 'apppass';
+CREATE USER IF NOT EXISTS 'appuser'@'localhost' IDENTIFIED BY 'AppPass#2025';
 GRANT ALL PRIVILEGES ON cab302_quizApp.* TO 'appuser'@'localhost';
 FLUSH PRIVILEGES;
 
