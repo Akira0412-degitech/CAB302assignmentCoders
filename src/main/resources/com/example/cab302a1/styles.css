@@ -72,7 +72,17 @@
     -fx-text-fill: #333;
 }
 
+.details-title-smaller {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
 /* Student List Styling */
+.student-list-item-container {
+    -fx-spacing: 10px;
+}
+
 .student-list-item {
     -fx-background-color: #f0f0f0;
     -fx-background-radius: 5px;
@@ -80,6 +90,8 @@
     -fx-alignment: center-left;
     -fx-font-size: 14px;
     -fx-text-fill: #333;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
 }
 
 .student-list-item:hover {
@@ -88,6 +100,22 @@
 
 .student-list-item:pressed {
     -fx-background-color: #d9d9d9;
+}
+
+.more-details-button {
+    -fx-background-color: #555;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 5px;
+}
+
+.more-details-button:hover {
+    -fx-background-color: #666;
+}
+
+.more-details-button:pressed {
+    -fx-background-color: #444;
 }
 
 .scroll-pane {

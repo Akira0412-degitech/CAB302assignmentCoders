@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainPane" prefHeight="750.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302a1.ReviewPageController">
+<BorderPane fx:id="mainPane" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302a1.ReviewPageController">
     <left>
         <!-- Left Sidebar -->
         <VBox styleClass="sidebar" alignment="TOP_CENTER" prefWidth="250.0">
@@ -60,10 +60,7 @@
                         </Label>
                         <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane">
                             <VBox fx:id="studentListContainer" alignment="TOP_LEFT" spacing="5">
-                                <!-- Mock Student List Items -->
-                                <Button maxWidth="1.7976931348623157E308" styleClass="student-list-item" mnemonicParsing="false" text="Rick Owens" />
-                                <Button maxWidth="1.7976931348623157E308" styleClass="student-list-item" mnemonicParsing="false" text="Bruce Wayne" />
-                                <Button maxWidth="1.7976931348623157E308" styleClass="student-list-item" mnemonicParsing="false" text="Kim Chaewon" />
+                                <!-- Student list items will be populated by the controller -->
                             </VBox>
                         </ScrollPane>
                     </VBox>
@@ -78,42 +75,40 @@
                                 <Insets bottom="20" />
                             </VBox.margin>
                         </Label>
-                        <Label text="Student Name: Bruce Wayne" styleClass="details-label">
+                        <Label fx:id="studentNameLabel" styleClass="details-label">
                             <VBox.margin>
                                 <Insets bottom="5.0" />
                             </VBox.margin>
                         </Label>
-                        <Label text="Student Number: n102711911" styleClass="details-label">
+                        <Label fx:id="studentNumberLabel" styleClass="details-label">
                             <VBox.margin>
                                 <Insets bottom="20.0" top="5.0" />
                             </VBox.margin>
                         </Label>
 
                         <HBox spacing="20.0" VBox.vgrow="ALWAYS">
-                            <VBox spacing="10.0">
+                            <VBox fx:id="quizHistoryContainer" spacing="10.0">
                                 <Label text="Quiz History" styleClass="details-title" />
-                                <Label text="Quiz 1: 13/20" styleClass="details-item" />
-                                <Label text="Quiz 2: 20/20" styleClass="details-item" />
-                                <Label text="Quiz 3: 17/20" styleClass="details-item" />
-                                <Label text="Quiz 4: 9/20" styleClass="details-item" />
-                                <Label text="Quiz 5: 15/20" styleClass="details-item" />
+                                <!-- Quiz results will be populated by the controller -->
                             </VBox>
 
-                            <VBox spacing="10.0">
+                            <VBox fx:id="bestSubjectsContainer" spacing="10.0">
                                 <Label text="Best Subjects:" styleClass="details-title-smaller" />
-                                <Label text="Mathematics" styleClass="details-item" />
-                                <Label text="Physics" styleClass="details-item" />
-                                <Label text="Quantum Mechanics" styleClass="details-item" />
+                                <!-- Best subjects will be populated by the controller -->
                             </VBox>
 
-                            <VBox spacing="10.0">
+                            <VBox fx:id="worstSubjectsContainer" spacing="10.0">
                                 <Label text="Worst Subjects:" styleClass="details-title-smaller" />
-                                <Label text="English" styleClass="details-item" />
-                                <Label text="Liberal Arts" styleClass="details-item" />
+                                <!-- Worst subjects will be populated by the controller -->
                             </VBox>
                         </HBox>
-                        <!-- Assign Review Button -->
-                        <HBox alignment="BOTTOM_RIGHT" VBox.vgrow="ALWAYS">
+                        <!-- Action Buttons -->
+                        <HBox alignment="BOTTOM_RIGHT" VBox.vgrow="ALWAYS" spacing="10">
+                            <Button fx:id="moreDetailsBtn" mnemonicParsing="false" text="More Details" styleClass="primary-button">
+                                <HBox.margin>
+                                    <Insets top="20.0" />
+                                </HBox.margin>
+                            </Button>
                             <Button fx:id="assignReviewBtn" mnemonicParsing="false" text="Assign Review" styleClass="primary-button">
                                 <HBox.margin>
                                     <Insets top="20.0" />
