@@ -12,4 +12,4 @@ FLUSH PRIVILEGES;
 -- or
 -- mysql -u root -p < db/init.sql
 -- for mac/linux user
--- but before that, mysql path need to be set in a system path to run mysql command.
+-- but before that, mysql command need to be available to use.
