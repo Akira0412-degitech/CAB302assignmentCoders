@@ -7,10 +7,11 @@
       fx:controller="com.example.cab302a1.SignUp.SignUpController">
 
     <Label text="Sign Up" />
-    <TextField fx:id="usernameField" promptText="Username" />
+    <TextField fx:id="useremailField" promptText="Username" />
     <ChoiceBox fx:id="roleBox" prefWidth="150" />
     <PasswordField fx:id="passwordField" promptText="Password" />
     <Button text="SignUp" onAction="#handleSignUpclick" />
+    <Label fx:id="errorsignup" text="" textFill="red" />
     <Hyperlink fx:id="loginLink" text="Login?" onAction="#handleLoginClick"/>
 
 </VBox>

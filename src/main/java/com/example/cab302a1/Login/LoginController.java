@@ -1,11 +1,11 @@
 package com.example.cab302a1.Login;
 
+import com.example.cab302a1.dao.UserDao;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.*;
 
-import javax.swing.*;
 import javafx.event.ActionEvent;
 import java.io.IOException;
 
@@ -16,23 +16,27 @@ public class LoginController {
     private Parent root;
 
     @FXML
-    private TextField usernameField;   // Username input field
+    private TextField useremailField;   // Username input field
 
     @FXML
     private PasswordField passwordField;   // Password input field
 
     @FXML
-    private Hyperlink signUpLink;  // Link to go to Sign Up page
+    private Hyperlink signupLink;  // Link to go to Sign Up page
 
+    @FXML
+    private Label errorloginLabel;
+
+
+    UserDao userdao = new UserDao();
     @FXML
     protected void handleLogin(ActionEvent event) throws IOException {
         // Get entered username and password
-        String username = usernameField.getText();
+        String username = useremailField.getText();
         String password = passwordField.getText();
 
-        // Temporary login check (username: admin, password: 1234)
-        if (username.equals("admin") && password.equals("1234")) {
-            System.out.println("Login successful!");
+
+        if (userdao.login(username, password)) {
 
             // Load HomePage.fxml and switch to Home scene
             root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
@@ -41,9 +45,8 @@ public class LoginController {
             stage.setTitle("Home");
             stage.setScene(scene);
             stage.show();
-        } else {
-            // Show error message if login fails
-            System.out.println("Invalid credentials.");
+        }else{
+            errorloginLabel.setText("Invalid username or password. ");
         }
     }
 
@@ -58,4 +61,6 @@ public class LoginController {
         stage.setScene(scene);
         stage.show();
     }
+
+
 }
