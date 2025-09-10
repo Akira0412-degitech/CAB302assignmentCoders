@@ -95,15 +95,20 @@ Interactive Quiz Creator is a comprehensive educational tool that enables educat
 
 ## Current Development Status
 
-**Checkpoint 1 (Week 5) - Project Setup & Planning**
+**Checkpoint 1 (Week 2 - 5) - Project Setup & Planning**
 - [x] Team formation and role assignment
 - [x] Project concept finalization
 - [x] Initial UI/UX mockups created
 - [x] Technical requirements analysis
 - [x] Repository setup
-- [ ] Database design implementation
-- [ ] Core authentication system
-- [ ] Basic quiz creation functionality
+
+**Checkpoint 2 (Week 6 - 7) - Project Setup & Progress**
+- [x] Database design implementation
+- [x] Core authentication system
+- [x] Project Management Setup
+- [X] Feature Research
+- [X] Medium fidelity prototypes
+- [X] User Story Creation
 
 ---
 ## Database Setup
