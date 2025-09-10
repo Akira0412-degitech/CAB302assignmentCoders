@@ -1,5 +1,5 @@
 -- init.sql for root user just initialization
-CREATE DATABASE IF NOT EXISTS cab302_quizApp
+CREATE DATABASE IF NOT EXISTS cab302_quizapp
   DEFAULT CHARACTER SET utf8mb4
   DEFAULT COLLATE utf8mb4_general_ci;
 
