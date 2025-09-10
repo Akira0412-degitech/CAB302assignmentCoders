@@ -106,6 +106,20 @@ Interactive Quiz Creator is a comprehensive educational tool that enables educat
 - [ ] Basic quiz creation functionality
 
 ---
+## Database Setup
+
+To initialize the project database, use the provided `db/init.sql` script.
+
+On Windows:
+  ```bash
+    Get-Content .\db\init.sql | mysql -u root -p
+```
+On macOS / Linux:
+  ```bash
+    mysql -u root -p < db/init.sql
+  ```
+
+This makes Database called ```cab302_quizapp``` where user ```appuser@localhost``` password ```AppPass#2025``` are used to login.
 
 **CAB302 - Software Development Project**  
 *Teaching and Learning Theme*  
