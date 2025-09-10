@@ -14,6 +14,31 @@ public class UserDao {
     // Simple method: print all users from DB
 
 
+    public User getUserById(int _userId) {
+        String sql = "SELECT * FROM users WHERE user_id = ?";
+        try (Connection conn = DBconnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, _userId);
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                if(rs.next()){
+
+                    return new User(
+                        rs.getInt("user_id"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        rs.getTimestamp("created_at")
+                    );
+                }
+            }
+        }catch (SQLException e ){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     public void printAllUsers() {
         String sql = "SELECT user_id, email, password, created_at, role FROM users";
@@ -62,7 +87,15 @@ public class UserDao {
             pstmt.setString(1, _email);
             pstmt.setString(2, _password);
             pstmt.setString(3, _role);
-            pstmt.executeUpdate();
+//            int affectedRows = pstmt.executeUpdate();
+//            if(affectedRows > 0){
+//                try(ResultSet rs = pstmt.getGeneratedKeys()){
+//                    if(rs.next()){
+//                        int newId = rs.getInt(1);
+//                        System.out.println(newId);
+//                    }
+//                }
+//            }
             System.out.printf("User: " + _email + " Password: " + _password + " Role: " + _role + " Added");
             return true;
         } catch (SQLException e){

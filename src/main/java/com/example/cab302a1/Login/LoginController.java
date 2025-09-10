@@ -4,6 +4,7 @@ import com.example.cab302a1.dao.UserDao;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.Teacher;
 import com.example.cab302a1.model.User;
+import com.example.cab302a1.util.Session;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -42,6 +43,7 @@ public class LoginController {
 
         if(currentUser != null){
             System.out.println("Login successfully" + currentUser.getEmail());
+            Session.setCurrentUser(currentUser);
             if(currentUser instanceof Student){
                 root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -49,6 +51,7 @@ public class LoginController {
                 stage.setTitle("Home");
                 stage.setScene(scene);
                 stage.show();
+
             } else if(currentUser instanceof Teacher){
                 root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
