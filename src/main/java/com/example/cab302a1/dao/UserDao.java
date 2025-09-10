@@ -23,14 +23,24 @@ public class UserDao {
 
             try(ResultSet rs = pstmt.executeQuery()){
                 if(rs.next()){
-
-                    return new User(
-                        rs.getInt("user_id"),
-                        rs.getString("email"),
-                        rs.getString("password"),
-                        rs.getString("role"),
-                        rs.getTimestamp("created_at")
-                    );
+                    String role = rs.getString("role");
+                    if ("Teacher".equals(role)) {
+                        return new Teacher(
+                                rs.getInt("user_id"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                role,
+                                rs.getTimestamp("created_at")
+                        );
+                    } else {
+                        return new Student(
+                                rs.getInt("user_id"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                role,
+                                rs.getTimestamp("created_at")
+                        );
+                    }
                 }
             }
         }catch (SQLException e ){
@@ -76,32 +86,38 @@ public class UserDao {
         return false;
     }
 
-    public boolean signUpUser(String _email, String _password, String _role){
+    public User signUpUser(String _email, String _password, String _role){
         if(existsByEmail(_email)){
             System.out.printf("User already exists: " + _email);
-            return false;
+            return null;
         }
         String sql = "INSERT INTO users(email, password, role) VALUES (? , ?, ?)";
         try(Connection conn = DBconnection.getConnection();
-        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, _email);
             pstmt.setString(2, _password);
             pstmt.setString(3, _role);
-//            int affectedRows = pstmt.executeUpdate();
-//            if(affectedRows > 0){
-//                try(ResultSet rs = pstmt.getGeneratedKeys()){
-//                    if(rs.next()){
-//                        int newId = rs.getInt(1);
-//                        System.out.println(newId);
-//                    }
-//                }
-//            }
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if(affectedRows > 0){
+                try(ResultSet rs = pstmt.getGeneratedKeys()){
+                    if(rs.next()){
+                        int newId = rs.getInt(1);
+                        User currentUser = getUserById(newId);
+                        return currentUser;
+                    }
+                }
+            }else {
+                System.out.println("Sign-up User failed.");
+                return null;
+            }
             System.out.printf("User: " + _email + " Password: " + _password + " Role: " + _role + " Added");
-            return true;
+
         } catch (SQLException e){
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
     public User login(String _email, String _password){
         if(!existsByEmail(_email)){

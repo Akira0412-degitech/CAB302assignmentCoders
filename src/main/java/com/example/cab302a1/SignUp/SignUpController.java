@@ -1,6 +1,10 @@
 package com.example.cab302a1.SignUp;
 
 import com.example.cab302a1.dao.UserDao;
+import com.example.cab302a1.model.Student;
+import com.example.cab302a1.model.Teacher;
+import com.example.cab302a1.model.User;
+import com.example.cab302a1.util.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.Node;
@@ -61,25 +65,31 @@ public class SignUpController {
         String password = passwordField.getText();
         String role = roleBox.getValue();
 
-        // Simple check: only "akira / 1234 / Student" is accepted
-
         if(useremail.isEmpty() || password.isEmpty()){
             errorsignup.setText("Please fill the form to sing up");
             return;
         }
-
-        if(userdao.signUpUser(useremail, password, role)){
-            // Switch to Home page
-            root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root, 1000, 450);
-            stage.setTitle("Home");
-            stage.setScene(scene);
-            stage.show();
-        } else {
-            // Print error if sign up fails
-            System.out.println("Invalid credentials.");
+        User currentUser = userdao.signUpUser(useremail, password, role);
+        if(currentUser != null){
+            Session.setCurrentUser(currentUser);
+            System.out.println("Signup successfully" + currentUser.getEmail());
+            if(currentUser instanceof Student){
+                root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                scene = new Scene(root, 1000, 450);
+                stage.setTitle("Home");
+                stage.setScene(scene);
+                stage.show();
+            } else if(currentUser instanceof Teacher){
+                root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
+                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                scene = new Scene(root, 1000, 450);
+                stage.setTitle("Home");
+                stage.setScene(scene);
+                stage.show();
+            }
+        }else{
+            errorsignup.setText("Something went wrong, Try again later.");
         }
-
     }
 }
