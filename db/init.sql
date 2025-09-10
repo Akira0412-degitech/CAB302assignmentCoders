@@ -4,7 +4,7 @@ CREATE DATABASE IF NOT EXISTS cab302_quizapp
   DEFAULT COLLATE utf8mb4_general_ci;
 
 CREATE USER IF NOT EXISTS 'appuser'@'localhost' IDENTIFIED BY 'AppPass#2025';
-GRANT ALL PRIVILEGES ON cab302_quizApp.* TO 'appuser'@'localhost';
+GRANT ALL PRIVILEGES ON cab302_quizapp.* TO 'appuser'@'localhost';
 FLUSH PRIVILEGES;
 
 -- To set up the database with this script, run one of the following commands:
