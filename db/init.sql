@@ -7,9 +7,12 @@ CREATE USER IF NOT EXISTS 'appuser'@'localhost' IDENTIFIED BY 'AppPass#2025';
 GRANT ALL PRIVILEGES ON cab302_quizApp.* TO 'appuser'@'localhost';
 FLUSH PRIVILEGES;
 
--- to run the code above to set up database, run the code below
--- Get-Content .\db\init.sql | mysql -u root -p
--- or
--- mysql -u root -p < db/init.sql
--- for mac/linux user
--- but before that, mysql command need to be available to use.
+-- To set up the database with this script, run one of the following commands:
+--
+-- On Windows:
+--   Get-Content .\db\init.sql | mysql -u root -p
+-- On macOS / Linux:
+--   mysql -u root -p < db/init.sql
+-- Note:
+--   Make sure the MySQL client (`mysql` command) is available in your system PATH
+--   before running these commands.
