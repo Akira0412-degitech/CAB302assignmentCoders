@@ -119,12 +119,18 @@ On Windows:
   ```bash
   Get-Content .\db\init.sql | mysql -u root -p
   ```
+  or
+  ```bash
+  Get-Content .\db\init.sql -Raw | & "your-local-path-to-mysql.exe" -u root -p
+  ```
 On macOS / Linux:
   ```bash
   mysql -u root -p < db/init.sql
   ```
 
 This makes Database called ```cab302_quizapp``` where user ```appuser@localhost``` password ```AppPass#2025``` are used to login.
+
+---
 
 **CAB302 - Software Development Project**  
 *Teaching and Learning Theme*  
