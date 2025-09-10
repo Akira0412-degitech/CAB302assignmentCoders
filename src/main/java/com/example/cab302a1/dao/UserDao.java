@@ -2,6 +2,9 @@ package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
 import com.example.cab302a1.SignUp.SignUpController;
+import com.example.cab302a1.model.Student;
+import com.example.cab302a1.model.Teacher;
+import com.example.cab302a1.model.User;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javax.sound.sampled.Control;
@@ -67,22 +70,37 @@ public class UserDao {
         }
         return false;
     }
-    public boolean login(String _email, String _password){
+    public User login(String _email, String _password){
         if(!existsByEmail(_email)){
             System.out.printf("User not found: " + _email);
-            return false;
+            return null;
         }
-        String sql = "SELECT password FROM users where email = ? LIMIT 1";
+        String sql = "SELECT * FROM users WHERE email = ? AND password = ? LIMIT 1";
         try {Connection conn = DBconnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, _email);
+            pstmt.setString(2, _password);
 
             try(ResultSet rs = pstmt.executeQuery()){
                 if(rs.next()){
-                    String password = rs.getString("password");
-                    if(password.equals(_password)){
-                        System.out.printf("Login successful for user: " + _email);
-                        return  true;
+                    String role = rs.getString("role");
+
+                    if("Teacher".equals(role)){
+                        return new Teacher(
+                                rs.getInt("user_id"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                role,
+                                rs.getTimestamp("created_at")
+                        );
+                    }else if("Student".equals(role)){
+                        return new Student(
+                                rs.getInt("user_id"),
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                role,
+                                rs.getTimestamp("created_at")
+                        );
                     }
                 }
 
@@ -90,7 +108,7 @@ public class UserDao {
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return false;
+        return null;
     }
 
     public String getRoleByEmail(String _email){
