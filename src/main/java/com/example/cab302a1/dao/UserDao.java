@@ -22,7 +22,7 @@ public class UserDao {
                         rs.getInt("user_id") + " | " +
                                 rs.getString("email") + " | " +
                                 rs.getTimestamp("created_at") + " | " +
-                                rs.getString("password") + "|" +
+                                rs.getString("password") + " | " +
                                 rs.getString("role")
                 );
             }
