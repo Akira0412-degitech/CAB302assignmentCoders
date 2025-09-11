@@ -210,22 +210,20 @@ public class QuizEditorController {
 
             QuizEditorController c = loader.getController();
             c.setOnSave(onSave);
-            c.editing = quiz;         // ★ 편집 모드 플래그 설정
+            c.editing = quiz;
             c.setStage(new Stage());
 
-            Stage dialog = c.myStage; // setStage에서 넣은 Stage 사용
+            Stage dialog = c.myStage;
             dialog.initOwner(owner);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.setTitle("Edit Quiz");
             dialog.setScene(new Scene((Parent) root, 900, 640));
 
-            // 공용 CSS(있으면) 부착
             var css1 = QuizEditorController.class.getResource("/HomePage.css");
             var css2 = QuizEditorController.class.getResource("/com/example/cab302a1/HomePage.css");
             if (css1 != null) dialog.getScene().getStylesheets().add(css1.toExternalForm());
             else if (css2 != null) dialog.getScene().getStylesheets().add(css2.toExternalForm());
 
-            // ★ 프리필 핵심
             c.prefill(quiz);
 
             dialog.showAndWait();
@@ -236,23 +234,22 @@ public class QuizEditorController {
 
     /** Fill the editor UI with an existing quiz (edit mode prefill). */
     private void prefill(Quiz quiz) {
-        // 상단 필드
         titleField.setText(quiz.getTitle() == null ? "" : quiz.getTitle());
         descArea.setText(quiz.getDescription() == null ? "" : quiz.getDescription());
 
-        // 기존 카드들 초기화
+        // REset card
         questionsBox.getChildren().clear();
         items.clear();
 
-        // 모델의 각 질문을 UI 카드로 복원
+        // Question to UI
         for (QuizQuestionCreate q : quiz.getQuestions()) {
-            addQuestion(); // 빈 카드 하나 추가
+            addQuestion(); // Empty card
             QuestionItemController item = items.get(items.size() - 1); // 방금 추가된 마지막 카드
 
-            // 질문 텍스트
+
             item.setQuestionText(q.getQuestionText());
 
-            // 보기 텍스트 배열(최대 4개 가정)
+
             String[] texts = new String[4];
             int i = 0;
             int correctIdx = -1;
@@ -263,7 +260,7 @@ public class QuizEditorController {
                 }
                 i++;
             }
-            // 빈 칸은 null 대신 "" 처리
+
             for (int k = 0; k < texts.length; k++) {
                 if (texts[k] == null) texts[k] = "";
             }
