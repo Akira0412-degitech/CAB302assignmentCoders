@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<!--
+QuestionItem.fxml
+This file defines the screen layout for entering a single quiz question.
+ - Question text input field (TextField)
+ - Four answer input fields
+ - Question number display
+ - X button (Delete this question)
+
+Multiple items are loaded and used within the QuizEditor screen.
+-->
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.cab302a1.ui.QuestionItemController"
+      spacing="12" styleClass="question-card">
+    <HBox alignment="CENTER_RIGHT" spacing="8">
+        <Label fx:id="indexLabel" text="01/01"/>
+        <Button text="X" onAction="#onRemoveSelf"/>
+    </HBox>
+
+    <TextField fx:id="questionField" promptText="Put your question here..."/>
+
+    <GridPane hgap="12" vgap="12">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="50"/>
+            <ColumnConstraints percentWidth="50"/>
+        </columnConstraints>
+        <TextField fx:id="answer1" promptText="Answer 1" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="answer2" promptText="Answer 2" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <TextField fx:id="answer3" promptText="Answer 3" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="answer4" promptText="Answer 4" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    </GridPane>
+</VBox>
