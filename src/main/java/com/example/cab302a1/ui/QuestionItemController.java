@@ -1,20 +1,9 @@
 package com.example.cab302a1.ui;
-/*
- * QuestionItemController
- * Drives QuestionItem.fxml: one question + four choices.
- * - Click on a choice marks it correct (adds CSS class "correct-answer").
- * - "X" button asks parent to remove this card.
- * - toQuestion(): validates & converts UI to QuizQuestionCreate model.
- *
- * Used by: QuizEditorController
- */
 
 import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.model.QuizQuestionCreate;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-
+import javafx.scene.control.*;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -27,6 +16,10 @@ public class QuestionItemController {
     @FXML private TextField answer3;
     @FXML private TextField answer4;
 
+    // ★ New: Radio buttons for explicit correct selection
+    @FXML private RadioButton rb1, rb2, rb3, rb4;
+    private final ToggleGroup correctGroup = new ToggleGroup();
+
     /** Which answer is correct (0..3). -1 means not selected yet. */
     private int correctIndex = -1;
 
@@ -35,25 +28,52 @@ public class QuestionItemController {
 
     @FXML
     public void initialize() {
+        // Basic fx:id sanity checks
         assert indexLabel != null : "fx:id 'indexLabel' not injected";
         assert questionField != null : "fx:id 'questionField' not injected";
         assert answer1 != null : "fx:id 'answer1' not injected";
         assert answer2 != null : "fx:id 'answer2' not injected";
         assert answer3 != null : "fx:id 'answer3' not injected";
         assert answer4 != null : "fx:id 'answer4' not injected";
+        assert rb1 != null && rb2 != null && rb3 != null && rb4 != null : "RadioButtons not injected";
 
-        // Clicking an answer marks it as correct
+        // ★ ToggleGroup wiring
+        rb1.setToggleGroup(correctGroup);
+        rb2.setToggleGroup(correctGroup);
+        rb3.setToggleGroup(correctGroup);
+        rb4.setToggleGroup(correctGroup);
+
+        // ★ When radio selection changes, update correctIndex and highlight the chosen TextField
+        correctGroup.selectedToggleProperty().addListener((obs, oldT, newT) -> {
+            if (newT == rb1) correctIndex = 0;
+            else if (newT == rb2) correctIndex = 1;
+            else if (newT == rb3) correctIndex = 2;
+            else if (newT == rb4) correctIndex = 3;
+            else correctIndex = -1;
+            updateCorrectHighlight();
+        });
+
+    }
+
+    /** After CSS // Keep same green highlight behavior on the selected answer field (optional). */
+    private void updateCorrectHighlight() {
         List<TextField> fields = List.of(answer1, answer2, answer3, answer4);
         for (int i = 0; i < fields.size(); i++) {
-            final int idx = i;
-            fields.get(i).setOnMouseClicked(e -> setCorrect(idx));
+            TextField tf = fields.get(i);
+            tf.getStyleClass().remove("correct-answer");
+            if (i == correctIndex) tf.getStyleClass().add("correct-answer");
         }
     }
 
+    public void setOnRemove(Consumer<QuestionItemController> cb) { this.onRemove = cb; }
+
+    @FXML
+    private void onRemoveSelf() { if (onRemove != null) onRemove.accept(this); }
+
+    public void setIndexLabel(String text) { indexLabel.setText(text); }
+
     /** Public setter used by prefill: set the question text. */
-    public void setQuestionText(String text) {
-        questionField.setText(text == null ? "" : text);
-    }
+    public void setQuestionText(String text) { questionField.setText(text == null ? "" : text); }
 
     /** Public setter used by prefill: set 4 answers (shorter fills "", longer is ignored). */
     public void setAnswerTexts(String[] texts) {
@@ -61,43 +81,21 @@ public class QuestionItemController {
         String t2 = (texts != null && texts.length > 1 && texts[1] != null) ? texts[1] : "";
         String t3 = (texts != null && texts.length > 2 && texts[2] != null) ? texts[2] : "";
         String t4 = (texts != null && texts.length > 3 && texts[3] != null) ? texts[3] : "";
-        answer1.setText(t1);
-        answer2.setText(t2);
-        answer3.setText(t3);
-        answer4.setText(t4);
+        answer1.setText(t1); answer2.setText(t2); answer3.setText(t3); answer4.setText(t4);
     }
 
     /** Public setter used by prefill: mark the correct answer programmatically. */
     public void setCorrectIndex(int idx) {
-        if (idx < 0 || idx > 3) {
-            this.correctIndex = -1; // leave unselected if out of range
-            return;
-        }
-        setCorrect(idx);
-    }
+        // Select radio button
+        if (idx == 0) rb1.setSelected(true);
+        else if (idx == 1) rb2.setSelected(true);
+        else if (idx == 2) rb3.setSelected(true);
+        else if (idx == 3) rb4.setSelected(true);
+        else correctGroup.selectToggle(null);
 
-    /** Sets CSS highlight for the selected choice and stores correctIndex. */
-    private void setCorrect(int idx) {
-        this.correctIndex = idx;
-        List<TextField> fields = List.of(answer1, answer2, answer3, answer4);
-        for (int i = 0; i < fields.size(); i++) {
-            TextField tf = fields.get(i);
-            tf.getStyleClass().remove("correct-answer");
-            if (i == idx) tf.getStyleClass().add("correct-answer");
-        }
-    }
-
-    public void setOnRemove(Consumer<QuestionItemController> cb) {
-        this.onRemove = cb;
-    }
-
-    @FXML
-    private void onRemoveSelf() {
-        if (onRemove != null) onRemove.accept(this);
-    }
-
-    public void setIndexLabel(String text) {
-        indexLabel.setText(text);
+        // Maintain internal state & CSS highlight
+        correctIndex = (idx >= 0 && idx <= 3) ? idx : -1;
+        updateCorrectHighlight();
     }
 
     /** Build model from current UI (validates). */
