@@ -1,9 +1,9 @@
 package com.example.cab302a1.ui;
 
-import com.example.cab302a1.UserRole;
 // NEW: use full quiz model
 import com.example.cab302a1.model.Quiz;
 
+import com.example.cab302a1.util.Session;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.TilePane;
@@ -22,8 +22,6 @@ public class HomeController {
     // (Optional) If you added a title label in FXML:  <Label fx:id="titleLabel" .../>
     // @FXML private Label titleLabel;
 
-    // Current role (default to STUDENT for safety).
-    private UserRole role = UserRole.STUDENT;
 
     // CHANGED: Store full Quiz objects instead of just titles
     private final List<Quiz> quizzes = new ArrayList<>();
@@ -40,10 +38,10 @@ public class HomeController {
         refresh();
     }
 
-    // Sets whether this screen is for a STUDENT or a TEACHER
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
+//    // Sets whether this screen is for a STUDENT or a TEACHER
+//    public void setRole(UserRole role) {
+//        this.role = role;
+//    }
 
     /** Rebuild the grid according to the current role and quiz list. */
     public void refresh() {
@@ -53,7 +51,7 @@ public class HomeController {
         for (Quiz q : quizzes) {
             grid.getChildren().add(createQuizCard(q));
         }
-        if (role == UserRole.TEACHER) {
+        if (Session.isTeacher()) {
             grid.getChildren().add(createPlusCard());
         }
     }
@@ -66,7 +64,7 @@ public class HomeController {
         card.setWrapText(true);                // line wrap for long titles
 
         card.setOnAction(e -> {
-            if (role == UserRole.STUDENT) {
+            if (Session.isStudent()) {
                 info("Start Quiz", "Selected: " + quiz.getTitle() + "\n(Next: navigate to attempt screen)");
             }else {
                 Stage owner = (Stage) grid.getScene().getWindow();

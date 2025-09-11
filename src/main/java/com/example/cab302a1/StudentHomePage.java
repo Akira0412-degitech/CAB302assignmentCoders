@@ -20,9 +20,9 @@ public class StudentHomePage extends Application {
         URL css = getClass().getResource("/HomePage.css");
         if (css != null) scene.getStylesheets().add(css.toExternalForm());
 
-        HomeController c = loader.getController();
-        c.setRole(UserRole.STUDENT);
-        c.refresh();
+//        HomeController c = loader.getController();
+//        c.setRole(UserRole.STUDENT);
+//        c.refresh();
 
         stage.setTitle("Quiz App — Student");
         stage.setScene(scene);
