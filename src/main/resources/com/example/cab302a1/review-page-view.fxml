@@ -10,116 +10,111 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainPane" prefHeight="750.0" prefWidth="1100.0" xmlns="[http://javafx.com/javafx/21](http://javafx.com/javafx/21)" xmlns:fx="[http://javafx.com/fxml/1](http://javafx.com/fxml/1)" fx:controller="com.example.cab302a1.ReviewPageController">
+<BorderPane fx:id="mainPane" prefHeight="750.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302a1.ReviewPageController">
     <left>
-        <!-- Left Sidebar (250px wide) -->
-        <VBox alignment="TOP_CENTER" prefWidth="250.0" BorderPane.alignment="CENTER">
+        <!-- Left Sidebar -->
+        <VBox styleClass="sidebar" alignment="TOP_CENTER" prefWidth="250.0">
+            <padding>
+                <Insets top="30" bottom="20"/>
+            </padding>
             <children>
-                <Label text="Quiz App">
+                <Label text="Quiz App" styleClass="sidebar-title">
                     <VBox.margin>
                         <Insets bottom="30.0" />
                     </VBox.margin>
                 </Label>
-                <Button fx:id="dashboardBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Dashboard" />
-                <Button fx:id="createQuizBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Create Quiz" />
-                <Button fx:id="manageQuizzesBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Manage Quizzes" />
-                <Button fx:id="studentsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Students" />
-                <Button fx:id="calendarBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Calendar" />
-                <Button fx:id="reviewBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Review" />
-                <Button fx:id="settingsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Settings" />
-                <Button fx:id="exitBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Exit" />
+                <Button fx:id="dashboardBtn" styleClass="sidebar-button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Dashboard" />
+                <Button fx:id="manageQuizzesBtn" styleClass="sidebar-button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Manage Quizzes" />
+                <Button fx:id="calendarBtn" styleClass="sidebar-button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Calendar" />
+                <Button fx:id="reviewBtn" styleClass="sidebar-button" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Review" />
+                <Region VBox.vgrow="ALWAYS"/>
             </children>
         </VBox>
     </left>
     <center>
         <!-- Main Content Area -->
-        <VBox alignment="TOP_LEFT" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+        <VBox alignment="TOP_LEFT" styleClass="main-content">
             <BorderPane.margin>
                 <Insets />
             </BorderPane.margin>
             <children>
                 <!-- Header Section -->
-                <HBox alignment="CENTER_LEFT" prefHeight="80.0">
+                <HBox alignment="CENTER_LEFT" styleClass="header">
                     <children>
-                        <Label text="Teacher Review Page">
-                            <HBox.margin>
-                                <Insets left="30.0" />
-                            </HBox.margin>
-                        </Label>
+                        <Label text="Teacher Review Page" styleClass="header-title"/>
                         <Region HBox.hgrow="ALWAYS" />
                     </children>
-                    <VBox.margin>
-                        <Insets bottom="20.0" />
-                    </VBox.margin>
                 </HBox>
 
                 <!-- Main Content: Student List and Student Details -->
-                <HBox alignment="TOP_LEFT" VBox.vgrow="ALWAYS">
+                <HBox alignment="TOP_LEFT" VBox.vgrow="ALWAYS" spacing="40">
                     <padding>
                         <Insets bottom="20.0" left="30.0" right="30.0" top="10.0" />
                     </padding>
                     <!-- Student List (Left Section) -->
-                    <VBox HBox.hgrow="NEVER" prefWidth="250.0">
-                        <Label text="Student List">
+                    <VBox HBox.hgrow="NEVER" styleClass="section" prefWidth="250.0">
+                        <Label text="Student List" styleClass="section-title">
                             <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                <Insets bottom="10.0" />
                             </padding>
                         </Label>
-                        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
-                            <VBox fx:id="studentListContainer" alignment="TOP_LEFT">
+                        <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="scroll-pane">
+                            <VBox fx:id="studentListContainer" alignment="TOP_LEFT" spacing="5">
                                 <!-- Mock Student List Items -->
-                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Rick Owens" />
-                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Bruce Wayne" />
-                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Kim Chaewon" />
+                                <Button maxWidth="1.7976931348623157E308" styleClass="student-list-item" mnemonicParsing="false" text="Rick Owens" />
+                                <Button maxWidth="1.7976931348623157E308" styleClass="student-list-item" mnemonicParsing="false" text="Bruce Wayne" />
+                                <Button maxWidth="1.7976931348623157E308" styleClass="student-list-item" mnemonicParsing="false" text="Kim Chaewon" />
                             </VBox>
                         </ScrollPane>
                     </VBox>
 
                     <!-- Student Details (Right Section) -->
-                    <VBox HBox.hgrow="ALWAYS">
-                        <HBox.margin>
-                            <Insets left="20.0" />
-                        </HBox.margin>
+                    <VBox HBox.hgrow="ALWAYS" styleClass="section">
                         <padding>
-                            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            <Insets top="10" bottom="10" left="20" right="20"/>
                         </padding>
-                        <Label text="Student Name: Bruce Wayne">
+                        <Label text="Student Details" styleClass="section-title">
+                            <VBox.margin>
+                                <Insets bottom="20" />
+                            </VBox.margin>
+                        </Label>
+                        <Label text="Student Name: Bruce Wayne" styleClass="details-label">
                             <VBox.margin>
                                 <Insets bottom="5.0" />
                             </VBox.margin>
                         </Label>
-                        <Label text="Student Number: n102711911">
+                        <Label text="Student Number: n102711911" styleClass="details-label">
                             <VBox.margin>
                                 <Insets bottom="20.0" top="5.0" />
                             </VBox.margin>
                         </Label>
 
-                        <HBox spacing="40.0" VBox.vgrow="ALWAYS">
+                        <HBox spacing="20.0" VBox.vgrow="ALWAYS">
                             <VBox spacing="10.0">
-                                <Label text="Quiz History" />
-                                <Label text="Quiz 1: 13/20" />
-                                <Label text="Quiz 2: 20/20" />
-                                <Label text="Quiz 3: 17/20" />
-                                <Label text="Quiz 4: 9/20" />
-                                <Label text="Quiz 5: 15/20" />
+                                <Label text="Quiz History" styleClass="details-title" />
+                                <Label text="Quiz 1: 13/20" styleClass="details-item" />
+                                <Label text="Quiz 2: 20/20" styleClass="details-item" />
+                                <Label text="Quiz 3: 17/20" styleClass="details-item" />
+                                <Label text="Quiz 4: 9/20" styleClass="details-item" />
+                                <Label text="Quiz 5: 15/20" styleClass="details-item" />
                             </VBox>
 
                             <VBox spacing="10.0">
-                                <Label text="Best Subjects:" />
-                                <Label text="Mathematics" />
-                                <Label text="Physics" />
-                                <Label text="Quantum Mechanics" />
+                                <Label text="Best Subjects:" styleClass="details-title-smaller" />
+                                <Label text="Mathematics" styleClass="details-item" />
+                                <Label text="Physics" styleClass="details-item" />
+                                <Label text="Quantum Mechanics" styleClass="details-item" />
                             </VBox>
 
                             <VBox spacing="10.0">
-                                <Label text="Worst Subjects:" />
-                                <Label text="English" />
-                                <Label text="Liberal Arts" />
+                                <Label text="Worst Subjects:" styleClass="details-title-smaller" />
+                                <Label text="English" styleClass="details-item" />
+                                <Label text="Liberal Arts" styleClass="details-item" />
                             </VBox>
                         </HBox>
                         <!-- Assign Review Button -->
                         <HBox alignment="BOTTOM_RIGHT" VBox.vgrow="ALWAYS">
-                            <Button fx:id="assignReviewBtn" mnemonicParsing="false" text="Assign Review">
+                            <Button fx:id="assignReviewBtn" mnemonicParsing="false" text="Assign Review" styleClass="primary-button">
                                 <HBox.margin>
                                     <Insets top="20.0" />
                                 </HBox.margin>

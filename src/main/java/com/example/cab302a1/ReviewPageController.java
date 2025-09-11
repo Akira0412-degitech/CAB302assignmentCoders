@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.ScrollPane; // Import ScrollPane
+import javafx.scene.control.ScrollPane;
 
 /**
  * Controller class for the Review Page UI (Tutor View).
