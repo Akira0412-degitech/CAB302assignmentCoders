@@ -8,7 +8,7 @@ public class QuizQuestionCreate {
     private String questionText;
     private final List<QuizChoiceCreate> choices = new ArrayList<>();
 
-public String getQuestionText() { return questionText; }
+    public String getQuestionText() { return questionText; }
     public void setQuestionText(String questionText) { this.questionText = questionText; }
 
 
