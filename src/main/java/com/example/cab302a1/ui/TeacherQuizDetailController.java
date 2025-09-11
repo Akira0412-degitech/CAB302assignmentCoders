@@ -25,15 +25,12 @@ public class TeacherQuizDetailController {
     private Quiz quiz;
     private Consumer<Quiz> onUpdated;
 
-    /** 안전하게 FXML을 로드하고 상세 팝업을 띄움 */
+
     public static void open(Stage owner, Quiz quiz, Consumer<Quiz> onUpdated) {
         try {
-            // ⚠️ 리소스 경로 확인: 보통은 슬래시 패턴이 맞습니다.
             URL fxml = TeacherQuizDetailController.class.getResource(
-                    "/com/example/cab302a1/TeacherQuizDetail.fxml");      // ← 파일명이 TeacherQuizDetail.fxml 인 경우
+                    "/com/example/cab302a1/TeacherQuizDetail.fxml");      //
             if (fxml == null) {
-                // 혹시 파일명이 QuizDetail.fxml 이라면 아래 주석 해제
-                // fxml = TeacherQuizDetailController.class.getResource("/com/example/cab302a1/QuizDetail.fxml");
             }
 
             if (fxml == null) {
@@ -55,7 +52,6 @@ public class TeacherQuizDetailController {
             c.stage.show();
         } catch (Exception e) {
             e.printStackTrace();
-            // 디버깅을 돕는 임시 경고
             javafx.scene.control.Alert a = new javafx.scene.control.Alert(
                     javafx.scene.control.Alert.AlertType.ERROR,
                     "Failed to open detail: " + e.getMessage());
