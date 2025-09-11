@@ -90,11 +90,11 @@
 }
 
 .navbar-button-secondary:hover {
-    -fx-background-color: #F5F3FF; /* Soft Blue on hover */
-    -fx-border-width: 2;
+    -fx-background-color: #A5D8FF; /* Soft Blue on hover */
+    -fx-border-width: 1;
     -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.15), 4, 0.3, 0, 1);
-    -fx-scale-x: 1.02;
-    -fx-scale-y: 1.02;
+    /*-fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;*/
 }
 
 .navbar-button-secondary:pressed {
@@ -115,19 +115,20 @@
    Exit Button (Danger) Styles
    ============================================ */
 .navbar-button-exit {
-    -fx-background-color: #E03131; /* Coral Red background */
-    -fx-border-color: #C92A2A; /* Darker red border */
+    -fx-background-color: #FFC9C9; /* Coral Red background */
+    -fx-border-color: #E03131; /* Darker red border */
     -fx-border-width: 1;
-    -fx-text-fill: #FFFFFF; /* White text */
+    -fx-text-fill: #E03131; /* RED text */
     -fx-font-weight: bold;
 }
 
 .navbar-button-exit:hover {
     -fx-background-color: #F03E3E; /* Lighter red on hover */
-    -fx-border-width: 2;
+    -fx-border-width: 1;
+    -fx-text-fill: #FFFFFF; /* White text */
     -fx-effect: dropshadow(gaussian, rgba(224, 49, 49, 0.3), 6, 0.4, 0, 2);
-    -fx-scale-x: 1.02;
-    -fx-scale-y: 1.02;
+    /*-fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;*/
 }
 
 .navbar-button-exit:pressed {

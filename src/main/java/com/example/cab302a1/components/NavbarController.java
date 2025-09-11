@@ -2,10 +2,14 @@ package com.example.cab302a1.components;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -162,31 +166,22 @@ public class NavbarController implements Initializable {
 
     /**
      * Handles the EXIT button click event.
-     * Shows a confirmation dialog and exits the application if confirmed.
+     * Opens the logout confirmation page for user to confirm or cancel logout.
      *
      * @param event The action event triggered by clicking the EXIT button
      */
     @FXML
     private void handleExitAction(ActionEvent event) {
-        System.out.println("Navigation: EXIT button clicked");
+        System.out.println("Navigation: EXIT button clicked - opening logout confirmation");
         
-        // TODO: Implement confirmation dialog before exit
-        // Example:
-        // Alert confirmDialog = new Alert(Alert.AlertType.CONFIRMATION);
-        // confirmDialog.setTitle("Exit Application");
-        // confirmDialog.setHeaderText("Are you sure you want to exit?");
-        // confirmDialog.setContentText("Any unsaved changes will be lost.");
-        // 
-        // Optional<ButtonType> result = confirmDialog.showAndWait();
-        // if (result.isPresent() && result.get() == ButtonType.OK) {
-        //     Platform.exit();
-        // }
-        
-        // For now, just log the exit attempt
-        System.out.println("Application exit requested - confirmation needed");
-        
-        // Uncomment the line below for immediate exit (for testing purposes)
-        // Platform.exit();
+        try {
+            // Navigate to logout confirmation page
+            navigateToLogoutConfirmation();
+            
+        } catch (IOException e) {
+            System.err.println("Error opening logout confirmation page: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -226,6 +221,42 @@ public class NavbarController implements Initializable {
             default:
                 System.out.println("Warning: Unknown navigation button name: " + buttonName);
         }
+    }
+
+    /**
+     * Navigates to the logout confirmation page.
+     * This method handles the scene transition when the EXIT button is clicked.
+     *
+     * @throws IOException if the logout confirmation FXML file cannot be loaded
+     */
+    private void navigateToLogoutConfirmation() throws IOException {
+        // Get the current stage
+        Stage currentStage = (Stage) exitBtn.getScene().getWindow();
+        
+        // Load the logout confirmation page FXML
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/cab302a1/logout/LogoutConfirmation.fxml"));
+        Scene logoutScene = new Scene(fxmlLoader.load(), 400, 300);
+        
+        // Add the logout confirmation CSS stylesheet
+        try {
+            URL cssUrl = getClass().getResource("/com/example/cab302a1/logout/LogoutConfirmation.css");
+            if (cssUrl != null) {
+                logoutScene.getStylesheets().add(cssUrl.toExternalForm());
+                System.out.println("Logout confirmation stylesheet loaded successfully");
+            } else {
+                System.out.println("Warning: LogoutConfirmation.css not found");
+            }
+        } catch (Exception e) {
+            System.err.println("Error loading logout confirmation stylesheet: " + e.getMessage());
+        }
+        
+        // Update the stage
+        currentStage.setTitle("Interactive Quiz Creator - Logout Confirmation");
+        currentStage.setScene(logoutScene);
+        currentStage.setResizable(false); // Make non-resizable for consistency
+        currentStage.centerOnScreen();
+        
+        System.out.println("Successfully navigated to logout confirmation page");
     }
 
     /**

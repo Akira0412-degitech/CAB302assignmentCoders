@@ -27,7 +27,7 @@
         
         <!-- Navigation Buttons -->
         <Button fx:id="homeBtn" 
-                styleClass="navbar-button, navbar-button-primary" 
+                styleClass="navbar-button, navbar-button-secondary"
                 maxWidth="1.7976931348623157E308" 
                 mnemonicParsing="false" 
                 text="Home"

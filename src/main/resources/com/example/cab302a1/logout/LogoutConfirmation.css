@@ -1,0 +1,137 @@
+/* ============================================
+   Logout Confirmation Page Styles
+   Interactive Quiz Creator - CAB302
+   ============================================ */
+
+/* Import the design system font */
+.root {
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ============================================
+   Page Layout Styles
+   ============================================ */
+.logout-page {
+    -fx-background-color: #FFFFFF; /* White background */
+}
+
+.logout-container {
+    -fx-alignment: center;
+    -fx-spacing: 24; /* 24px between buttons */
+}
+
+/* ============================================
+   Base Button Styles
+   ============================================ */
+.logout-button, .cancel-button {
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-padding: 12 16; /* 12px vertical, 16px horizontal */
+    -fx-alignment: center;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+    -fx-text-alignment: center;
+    -fx-wrap-text: false;
+    -fx-border-width: 2;
+}
+
+/* ============================================
+   Logout Button (Primary Action) Styles
+   ============================================ */
+.logout-button {
+    -fx-background-color: #A5D8FF; /* Light Blue background */
+    -fx-border-color: #005BA1; /* Deep Blue border */
+    -fx-text-fill: #005BA1; /* Deep Blue text */
+}
+
+.logout-button:hover {
+    -fx-background-color: #91CCF7; /* Slightly darker light blue on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.2), 6, 0.4, 0, 2);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.logout-button:pressed {
+    -fx-background-color: #7DB8F0; /* Darker on press */
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+    -fx-translate-y: 1;
+}
+
+.logout-button:focused {
+    -fx-background-color: #A5D8FF;
+    -fx-border-color: #005BA1;
+    -fx-border-width: 3;
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.3), 8, 0.5, 0, 0);
+}
+
+/* ============================================
+   Cancel Button (Secondary/Warning Action) Styles
+   ============================================ */
+.cancel-button {
+    -fx-background-color: #FFC9C9; /* Error Light background */
+    -fx-border-color: #E03131; /* Coral Red border */
+    -fx-text-fill: #E03131; /* Coral Red text */
+}
+
+.cancel-button:hover {
+    -fx-background-color: #FFB3B3; /* Slightly darker error light on hover */
+    -fx-effect: dropshadow(gaussian, rgba(224, 49, 49, 0.2), 6, 0.4, 0, 2);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.cancel-button:pressed {
+    -fx-background-color: #FF9999; /* Darker on press */
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+    -fx-translate-y: 1;
+}
+
+.cancel-button:focused {
+    -fx-background-color: #FFC9C9;
+    -fx-border-color: #E03131;
+    -fx-border-width: 3;
+    -fx-effect: dropshadow(gaussian, rgba(224, 49, 49, 0.3), 8, 0.5, 0, 0);
+}
+
+/* ============================================
+   Accessibility and Interaction Enhancements
+   ============================================ */
+
+/* Ensure proper contrast for accessibility */
+.logout-button:disabled, .cancel-button:disabled {
+    -fx-opacity: 0.6;
+    -fx-cursor: default;
+}
+
+/* Focus indicators for keyboard navigation */
+.logout-button:focused, .cancel-button:focused {
+    -fx-background-insets: 0, 1;
+}
+
+/* ============================================
+   Animation and Visual Feedback
+   ============================================ */
+
+/* Smooth hover transitions */
+.logout-button:hover, .cancel-button:hover {
+    -fx-background-insets: 0;
+}
+
+/* Visual feedback for active states */
+.logout-button:armed, .cancel-button:armed {
+    -fx-background-insets: 1;
+}
+
+/* ============================================
+   Alternative Background Option
+   ============================================ */
+/* Uncomment below if you prefer light blue background instead of white */
+/*
+.logout-page {
+    -fx-background-color: #DBEAFE;
+}
+*/
