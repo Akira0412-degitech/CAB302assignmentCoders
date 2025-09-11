@@ -10,7 +10,7 @@ public class QuizDao {
     public List<Quiz> getAllQuizzes(){
         List<Quiz> quizzes = new ArrayList<>();
 
-        String sql = "SELCT quiz_id, title, description, created_by FROM quizzes";
+        String sql = "SELECT quiz_id, title, description, created_by FROM quizzes";
 
         try(Connection conn = DBconnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -24,9 +24,12 @@ public class QuizDao {
                 q.setCreated_by(rs.getInt("created_by"));
                 quizzes.add(q);
             }
+
         } catch (SQLException e){
             e.printStackTrace();
         }
         return quizzes;
     }
+
+
 }

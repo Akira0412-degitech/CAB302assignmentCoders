@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.example.cab302a1.dao.QuizDao;
+import com.example.cab302a1.model.Quiz;
 
 /**
  * Shared controller for both Student and Teacher home.
@@ -29,12 +31,12 @@ public class HomeController {
     @FXML
     public void initialize() {
         // Seed with sample quizzes for preview; later this will come from DB.
-        for (String t : List.of("Java Basics", "OOP Essentials", "Exceptions")) {
-            Quiz q = new Quiz();
-            q.setTitle(t);
-            q.setDescription(""); // optional
-            quizzes.add(q);
-        }
+//        for (String t : List.of("Java Basics", "OOP Essentials", "Exceptions")) {
+//            Quiz q = new Quiz();
+//            q.setTitle(t);
+//            q.setDescription(""); // optional
+//            quizzes.add(q);
+//        }
         refresh();
     }
 
@@ -47,7 +49,9 @@ public class HomeController {
     public void refresh() {
         // if (titleLabel != null) titleLabel.setText("Home — " + role);
         grid.getChildren().clear();
+        QuizDao quizDao = new QuizDao();
 
+        quizzes.addAll(quizDao.getAllQuizzes());
         for (Quiz q : quizzes) {
             grid.getChildren().add(createQuizCard(q));
         }
