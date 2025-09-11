@@ -68,9 +68,9 @@ public class HomeController {
         card.setOnAction(e -> {
             if (role == UserRole.STUDENT) {
                 info("Start Quiz", "Selected: " + quiz.getTitle() + "\n(Next: navigate to attempt screen)");
-            } else {
-                info("Open Quiz (Edit)", "Selected: " + quiz.getTitle() + "\n(Next: open editor with prefill)");
-                // TODO (later): open editor pre-filled to edit this quiz
+            }else {
+                Stage owner = (Stage) grid.getScene().getWindow();
+                TeacherQuizDetailController.open(owner, quiz, updated -> refresh());
             }
         });
         return card;

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
+import com.example.cab302a1.model.QuizChoiceCreate;
 
 public class QuizEditorController {
 
@@ -44,6 +45,8 @@ public class QuizEditorController {
 
     // Keep child controllers to read data later
     private final List<QuestionItemController> items = new ArrayList<>();
+
+    private Quiz editing; //original Quiz
 
     // Keep my Stage to close dialog
     private Stage myStage;
@@ -109,18 +112,27 @@ public class QuizEditorController {
         }
     }
 
-    /** Update "01/03" labels on each QuestionItem. */
     private void refreshIndices() {
         for (int i = 0; i < items.size(); i++) {
             items.get(i).setIndexLabel(String.format("%02d/%02d", i + 1, items.size()));
         }
     }
 
-    /** Build Quiz from UI and return to parent via onSave. */
+
     private void onDone() {
         try {
-            Quiz quiz = buildQuizFromUI();
-            if (onSave != null) onSave.accept(quiz);
+            Quiz built = buildQuizFromUI();
+            if (onSave != null) {
+                if (editing != null) {
+                    editing.setTitle(built.getTitle());
+                    editing.setDescription(built.getDescription());
+                    editing.getQuestions().clear();
+                    editing.getQuestions().addAll(built.getQuestions());
+                    onSave.accept(editing);
+                } else {
+                    onSave.accept(built);
+                }
+            }
             if (myStage != null) myStage.close();
         } catch (IllegalStateException ex) {
             showAlert("Validation", ex.getMessage(), Alert.AlertType.WARNING);
@@ -129,6 +141,7 @@ public class QuizEditorController {
             showAlert("Error", "Failed to build quiz: " + ex.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
 
     /** Collect & validate fields; convert child cards to model objects. */
     private Quiz buildQuizFromUI() {
@@ -186,4 +199,83 @@ public class QuizEditorController {
             ex.printStackTrace();
         }
     }
+
+    /** Open editor in EDIT mode with prefilled quiz. */
+    public static void openForEdit(Stage owner, Quiz quiz, Consumer<Quiz> onSave) {
+        try {
+            URL url = Objects.requireNonNull(
+                    QuizEditorController.class.getResource("/com/example/cab302a1/QuizEditor.fxml"));
+            FXMLLoader loader = new FXMLLoader(url);
+            var root = loader.load();
+
+            QuizEditorController c = loader.getController();
+            c.setOnSave(onSave);
+            c.editing = quiz;         // ★ 편집 모드 플래그 설정
+            c.setStage(new Stage());
+
+            Stage dialog = c.myStage; // setStage에서 넣은 Stage 사용
+            dialog.initOwner(owner);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.setTitle("Edit Quiz");
+            dialog.setScene(new Scene((Parent) root, 900, 640));
+
+            // 공용 CSS(있으면) 부착
+            var css1 = QuizEditorController.class.getResource("/HomePage.css");
+            var css2 = QuizEditorController.class.getResource("/com/example/cab302a1/HomePage.css");
+            if (css1 != null) dialog.getScene().getStylesheets().add(css1.toExternalForm());
+            else if (css2 != null) dialog.getScene().getStylesheets().add(css2.toExternalForm());
+
+            // ★ 프리필 핵심
+            c.prefill(quiz);
+
+            dialog.showAndWait();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /** Fill the editor UI with an existing quiz (edit mode prefill). */
+    private void prefill(Quiz quiz) {
+        // 상단 필드
+        titleField.setText(quiz.getTitle() == null ? "" : quiz.getTitle());
+        descArea.setText(quiz.getDescription() == null ? "" : quiz.getDescription());
+
+        // 기존 카드들 초기화
+        questionsBox.getChildren().clear();
+        items.clear();
+
+        // 모델의 각 질문을 UI 카드로 복원
+        for (QuizQuestionCreate q : quiz.getQuestions()) {
+            addQuestion(); // 빈 카드 하나 추가
+            QuestionItemController item = items.get(items.size() - 1); // 방금 추가된 마지막 카드
+
+            // 질문 텍스트
+            item.setQuestionText(q.getQuestionText());
+
+            // 보기 텍스트 배열(최대 4개 가정)
+            String[] texts = new String[4];
+            int i = 0;
+            int correctIdx = -1;
+            for (QuizChoiceCreate ch : q.getChoices()) {
+                if (i < 4) {
+                    texts[i] = ch.getText();
+                    if (ch.isCorrect()) correctIdx = i;
+                }
+                i++;
+            }
+            // 빈 칸은 null 대신 "" 처리
+            for (int k = 0; k < texts.length; k++) {
+                if (texts[k] == null) texts[k] = "";
+            }
+
+            item.setAnswerTexts(texts);
+            if (correctIdx >= 0) {
+                item.setCorrectIndex(correctIdx);
+            }
+        }
+
+        refreshIndices();
+    }
+
+
 }

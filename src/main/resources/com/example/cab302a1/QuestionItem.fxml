@@ -16,7 +16,7 @@ Multiple items are loaded and used within the QuizEditor screen.
       spacing="12" styleClass="question-card">
     <HBox alignment="CENTER_RIGHT" spacing="8">
         <Label fx:id="indexLabel" text="01/01"/>
-        <Button text="✕" onAction="#onRemoveSelf"/>
+        <Button text="X" onAction="#onRemoveSelf"/>
     </HBox>
 
     <TextField fx:id="questionField" promptText="Put your question here..."/>
