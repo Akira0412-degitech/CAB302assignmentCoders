@@ -25,7 +25,7 @@ public class TeacherQuizDetailController {
     private Quiz quiz;
     private Consumer<Quiz> onUpdated;
 
-    /** 안전하게 FXML을 로드하고 상세 팝업을 띄움 */
+
     public static void open(Stage owner, Quiz quiz, Consumer<Quiz> onUpdated) {
         try {
             // ⚠️ 리소스 경로 확인: 보통은 슬래시 패턴이 맞습니다.
