@@ -69,10 +69,13 @@ public class SignUpController {
             errorsignup.setText("Please fill the form to sing up");
             return;
         }
+
         User currentUser = userdao.signUpUser(useremail, password, role);
+
         if(currentUser != null){
             Session.setCurrentUser(currentUser);
             System.out.println("Signup successfully" + currentUser.getEmail());
+
             if(currentUser instanceof Student){
                 root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

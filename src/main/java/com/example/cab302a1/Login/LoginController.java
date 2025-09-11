@@ -35,7 +35,7 @@ public class LoginController {
     UserDao userdao = new UserDao();
     @FXML
     protected void handleLogin(ActionEvent event) throws IOException {
-        // Get entered username and password
+
         String userEmail = useremailField.getText();
         String password = passwordField.getText();
 
