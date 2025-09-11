@@ -31,5 +31,17 @@ public class QuizDao {
         return quizzes;
     }
 
+    public void insertQuiz(Quiz _quiz){
+        String sql = "INSERT INTO quizzes (title, description, created_by) VALUES (?, ?, ?)";
 
+        try(Connection conn =DBconnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, _quiz.getTitle());
+            pstmt.setString(2, _quiz.getDescription());
+            pstmt.setInt(3, _quiz.getCreated_by());
+            pstmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
