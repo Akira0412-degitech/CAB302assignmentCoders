@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="500.0" spacing="20.0" style="-fx-background-color: #fcfcfc; -fx-border-color: #ddd; -fx-border-width: 1px; -fx-border-radius: 10px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302a1.StudentDetailsController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <children>
+        <Label fx:id="studentNameLabel" styleClass="section-title" />
+        <Label fx:id="studentNumberLabel" styleClass="details-label" />
+        <VBox fx:id="quizHistoryContainer" spacing="5.0" styleClass="section" />
+        <VBox fx:id="bestSubjectsContainer" spacing="5.0" styleClass="section" />
+        <VBox fx:id="worstSubjectsContainer" spacing="5.0" styleClass="section" />
+        <Button fx:id="closeButton" text="Close" styleClass="secondary-button" />
+    </children>
+</VBox>

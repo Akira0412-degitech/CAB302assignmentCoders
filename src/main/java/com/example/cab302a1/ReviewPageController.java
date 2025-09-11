@@ -83,7 +83,7 @@ public class ReviewPageController {
             assignReviewBtn.setOnAction(event -> onAssignReviewClicked());
         }
 
-        // Action for the new "More Details" button - now opens the self-review form
+        // Action for the new "More Details" button - now opens the detailed student view
         if (moreDetailsBtn != null) {
             moreDetailsBtn.setOnAction(event -> onMoreDetailsClicked());
         }
@@ -128,8 +128,8 @@ public class ReviewPageController {
     }
 
     /**
-     * Handles the "More Details" button click. This method now opens the student's
-     * self-review form in a new dialog.
+     * Handles the "More Details" button click. This method now opens a detailed
+     * view of the selected student's performance.
      */
     private void onMoreDetailsClicked() {
         if (selectedStudent == null) {
@@ -137,13 +137,13 @@ public class ReviewPageController {
             return;
         }
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("student-self-review.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("student-details-view.fxml"));
             VBox root = fxmlLoader.load();
-            StudentSelfReviewController controller = fxmlLoader.getController();
+            StudentDetailsController controller = fxmlLoader.getController();
             controller.setStudent(selectedStudent);
 
             Stage stage = new Stage();
-            stage.setTitle(selectedStudent.getName() + "'s Self-Review");
+            stage.setTitle("More Details for " + selectedStudent.getName());
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(new Scene(root));
             stage.setResizable(false);

@@ -8,21 +8,14 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
-
     @Override
     public void start(Stage stage) throws IOException {
-        // Load the FXML file for the review page UI
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("review-page-view.fxml"));
-
-        // Set the scene dimensions to better fit the content and prevent resizing
-        Scene scene = new Scene(fxmlLoader.load(), 1040, 600);
-
-        // Apply a basic stylesheet for common styles
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login-page.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 600);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-
-        stage.setTitle("Quiz App - Teacher Review Page"); // Updated title for clarity
+        stage.setTitle("CAB302 Assessment - Login");
         stage.setScene(scene);
-        stage.setResizable(false); // Make the window non-resizable
+        stage.setResizable(false);
         stage.show();
     }
 
