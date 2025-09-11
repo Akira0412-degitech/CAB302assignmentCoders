@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<!--
+    Demo Integration Example: Navbar Component
+    
+    This file demonstrates how to integrate the Navbar component
+    into existing views of the Interactive Quiz Creator application.
+    
+    Usage:
+    1. Copy the fx:include line to your existing BorderPane
+    2. Ensure your main content is in the center region
+    3. The navbar will automatically appear on the left side
+-->
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            prefWidth="1000.0" prefHeight="640.0">
+    
+    <!-- Left: Navbar Component Integration -->
+    <left>
+        <fx:include source="components/Navbar.fxml"/>
+    </left>
+    
+    <!-- Center: Main Content Area (Replace with your existing content) -->
+    <center>
+        <VBox alignment="CENTER" spacing="20" style="-fx-background-color: #DBEAFE; -fx-padding: 40;">
+            <Label text="Demo: Navbar Integration" 
+                   style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #005BA1;"/>
+            
+            <Label text="This is a demonstration of the Navbar component integration."
+                   style="-fx-font-size: 16px; -fx-text-fill: #000000; -fx-text-alignment: center;"/>
+            
+            <Label text="Click the navigation buttons on the left to see console output."
+                   style="-fx-font-size: 14px; -fx-text-fill: #005BA1; -fx-text-alignment: center;"/>
+            
+            <VBox alignment="CENTER" spacing="10" style="-fx-background-color: #FFFFFF; -fx-padding: 20; -fx-background-radius: 10; -fx-border-color: #005BA1; -fx-border-radius: 10;">
+                <Label text="Integration Instructions:" 
+                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #005BA1;"/>
+                
+                <Label text="1. Add &lt;fx:include source=&quot;components/Navbar.fxml&quot;/&gt; to your BorderPane's left region"
+                       style="-fx-font-size: 12px; -fx-text-fill: #000000;"/>
+                
+                <Label text="2. Put your main content in the center region"
+                       style="-fx-font-size: 12px; -fx-text-fill: #000000;"/>
+                
+                <Label text="3. The navbar will automatically handle navigation and styling"
+                       style="-fx-font-size: 12px; -fx-text-fill: #000000;"/>
+                
+                <Label text="4. Customize the action handlers in NavbarController.java for actual navigation"
+                       style="-fx-font-size: 12px; -fx-text-fill: #000000;"/>
+            </VBox>
+            
+            <VBox alignment="CENTER" spacing="8" style="-fx-background-color: #F5F3FF; -fx-padding: 15; -fx-background-radius: 8;">
+                <Label text="Design System Colors in Use:" 
+                       style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #005BA1;"/>
+                
+                <Label text="• Deep Blue (#005BA1) - Primary text and borders"
+                       style="-fx-font-size: 11px; -fx-text-fill: #005BA1;"/>
+                
+                <Label text="• Light Blue (#A5D8FF) - Button backgrounds and highlights"
+                       style="-fx-font-size: 11px; -fx-text-fill: #005BA1;"/>
+                
+                <Label text="• Soft Blue (#F5F3FF) - Navbar background"
+                       style="-fx-font-size: 11px; -fx-text-fill: #005BA1;"/>
+                
+                <Label text="• Coral Red (#E03131) - EXIT button"
+                       style="-fx-font-size: 11px; -fx-text-fill: #E03131;"/>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>
