@@ -13,8 +13,12 @@ package com.example.cab302a1.ui;
  *  - Opened from HomeController (teacher '+' button) as a modal dialog.
  */
 
+import com.example.cab302a1.dao.OptionDao;
+import com.example.cab302a1.dao.QuestionDao;
+import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizQuestionCreate;
+import com.example.cab302a1.util.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -122,16 +126,38 @@ public class QuizEditorController {
     private void onDone() {
         try {
             Quiz built = buildQuizFromUI();
-            if (onSave != null) {
-                if (editing != null) {
-                    editing.setTitle(built.getTitle());
-                    editing.setDescription(built.getDescription());
-                    editing.getQuestions().clear();
-                    editing.getQuestions().addAll(built.getQuestions());
-                    onSave.accept(editing);
-                } else {
-                    onSave.accept(built);
+
+            QuizDao quizDao = new QuizDao();
+            built.setCreated_by(Session.getCurrentUser().getUser_id());
+            int quiz_id = quizDao.insertQuiz(built);
+            built.setQuizId(quiz_id);
+
+            QuestionDao questionDao = new QuestionDao();
+            OptionDao optionDao = new OptionDao();
+
+            for (QuizQuestionCreate q : built.getQuestions()) {
+                q.setQuiz_id(quiz_id);
+                int questionId = questionDao.insertQuestion(q);
+                q.setQuestion_id(questionId);
+
+
+                for (QuizChoiceCreate choice : q.getChoices()) {
+                    choice.setQuestion_id(questionId);
+                    int optionId = optionDao.insertOption(choice);
+                    choice.setOption_id(optionId);
                 }
+            }
+            if (onSave != null) {
+                onSave.accept(built);
+//                if (editing != null) {
+//                    editing.setTitle(built.getTitle());
+//                    editing.setDescription(built.getDescription());
+//                    editing.getQuestions().clear();
+//                    editing.getQuestions().addAll(built.getQuestions());
+//                    onSave.accept(editing);
+//                } else {
+//                    onSave.accept(built);
+//                }
             }
             if (myStage != null) myStage.close();
         } catch (IllegalStateException ex) {
@@ -256,7 +282,7 @@ public class QuizEditorController {
             for (QuizChoiceCreate ch : q.getChoices()) {
                 if (i < 4) {
                     texts[i] = ch.getText();
-                    if (ch.isCorrect()) correctIdx = i;
+                    if (ch.isAnswer()) correctIdx = i;
                 }
                 i++;
             }

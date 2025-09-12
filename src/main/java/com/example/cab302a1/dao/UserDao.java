@@ -11,8 +11,6 @@ import javax.sound.sampled.Control;
 import java.sql.*;
 
 public class UserDao {
-    // Simple method: print all users from DB
-
 
     public User getUserById(int _userId) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
