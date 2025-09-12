@@ -256,7 +256,7 @@ public class QuizEditorController {
             for (QuizChoiceCreate ch : q.getChoices()) {
                 if (i < 4) {
                     texts[i] = ch.getText();
-                    if (ch.isCorrect()) correctIdx = i;
+                    if (ch.isAnswer()) correctIdx = i;
                 }
                 i++;
             }

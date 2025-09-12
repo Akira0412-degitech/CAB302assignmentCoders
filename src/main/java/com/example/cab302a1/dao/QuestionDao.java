@@ -39,13 +39,13 @@ public class QuestionDao {
         return questions;
     }
 
-    public void insertQuestion(QuizQuestionCreate q){
+    public int insertQuestion(QuizQuestionCreate q){
         String sql = "INSERT INTO questions (quiz_id, statement, type, explanation) VALUES (?,?, ?, ?)";
 
 //        For now we have only one type "MCQ"
         String type = "MCQ";
         try(Connection conn = DBconnection.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
+            PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
             pstmt.setInt(1, q.getQuizId());
             pstmt.setString(2, q.getQuestionText());
             pstmt.setString(3, type);
@@ -53,8 +53,15 @@ public class QuestionDao {
 
             pstmt.executeUpdate();
 
+            try(ResultSet rs = pstmt.getGeneratedKeys()){
+                if(rs.next()){
+                    return rs.getInt(1);
+                }
+            }
+
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return -1;
     }
 }
