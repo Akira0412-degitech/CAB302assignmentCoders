@@ -1,5 +1,7 @@
 package com.example.cab302a1.ui;
 
+import com.example.cab302a1.dao.OptionDao;
+import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.model.QuizQuestionCreate;
@@ -13,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class TeacherQuizDetailController {
@@ -48,6 +51,17 @@ public class TeacherQuizDetailController {
             c.stage.setTitle("Quiz Detail");
             c.stage.setScene(new Scene(root, 560, 480));
 
+
+            QuestionDao questionDao = new QuestionDao();
+            List<QuizQuestionCreate> loadedQuestions = questionDao.getAllQuestions(quiz);
+
+            OptionDao optionDao = new OptionDao();
+            for(QuizQuestionCreate q : loadedQuestions){
+                q.getChoices().addAll(optionDao.getOptionsByQuestionId(q.getQuestionId()));
+            }
+            quiz.setQuestions(loadedQuestions);
+
+
             c.setData(quiz, onUpdated);
             c.stage.show();
         } catch (Exception e) {
@@ -68,7 +82,7 @@ public class TeacherQuizDetailController {
 
     private void render() {
         titleLabel.setText(quiz.getTitle() == null ? "(Untitled)" : quiz.getTitle());
-        descLabel.setText(quiz.getDescription() == null ? "" : quiz.getDescription());
+        descLabel.setText(quiz.getDescription() == null ? "No Description" : quiz.getDescription());
 
         questionsBox.getChildren().clear();
         int qIdx = 1;
@@ -81,7 +95,7 @@ public class TeacherQuizDetailController {
 
             int cIdx = 0;
             for (QuizChoiceCreate ch : q.getChoices()) {
-                String mark = ch.isCorrect() ? " (✓)" : "";
+                String mark = ch.isAnswer() ? " (✓)" : "";
                 String text = ch.getText() == null ? "" : ch.getText();
                 Label cLabel = new Label(" - " + (char)('A' + cIdx) + ". " + text + mark);
                 block.getChildren().add(cLabel);

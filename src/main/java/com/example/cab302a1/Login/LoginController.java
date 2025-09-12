@@ -35,7 +35,7 @@ public class LoginController {
     UserDao userdao = new UserDao();
     @FXML
     protected void handleLogin(ActionEvent event) throws IOException {
-        // Get entered username and password
+
         String userEmail = useremailField.getText();
         String password = passwordField.getText();
 
@@ -48,7 +48,7 @@ public class LoginController {
                 root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root, 1000, 450);
-                stage.setTitle("Home");
+                stage.setTitle("Student-Home");
                 stage.setScene(scene);
                 stage.show();
 
@@ -56,7 +56,7 @@ public class LoginController {
                 root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
                 stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 scene = new Scene(root, 1000, 450);
-                stage.setTitle("Home");
+                stage.setTitle("Teacher-Home");
                 stage.setScene(scene);
                 stage.show();
             }

@@ -69,26 +69,36 @@ public class SignUpController {
             errorsignup.setText("Please fill the form to sing up");
             return;
         }
+
         User currentUser = userdao.signUpUser(useremail, password, role);
+
         if(currentUser != null){
             Session.setCurrentUser(currentUser);
             System.out.println("Signup successfully" + currentUser.getEmail());
-            if(currentUser instanceof Student){
-                root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
-                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                scene = new Scene(root, 1000, 450);
-                stage.setTitle("Home");
-                stage.setScene(scene);
-                stage.show();
-            } else if(currentUser instanceof Teacher){
-                root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
-                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                scene = new Scene(root, 1000, 450);
-                stage.setTitle("Home");
-                stage.setScene(scene);
-                stage.show();
-            }
-        }else{
+//            if(currentUser instanceof Student){
+//
+////                root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
+////                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+////                scene = new Scene(root, 1000, 450);
+////                stage.setTitle("Home");
+////                stage.setScene(scene);
+////                stage.show();
+//            } else if(currentUser instanceof Teacher){
+//
+////                root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
+////                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+////                scene = new Scene(root, 1000, 450);
+////                stage.setTitle("Home");
+////                stage.setScene(scene);
+////                stage.show();
+//            }
+            root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root, 1000, 450);
+            stage.setTitle(currentUser.getRole() + "- Page");
+            stage.setScene(scene);
+            stage.show();
+        }else {
             errorsignup.setText("Something went wrong, Try again later.");
         }
     }
