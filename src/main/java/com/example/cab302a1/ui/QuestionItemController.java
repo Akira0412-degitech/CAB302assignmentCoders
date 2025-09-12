@@ -16,9 +16,12 @@ public class QuestionItemController {
     @FXML private TextField answer3;
     @FXML private TextField answer4;
 
-    // ★ New: Radio buttons for explicit correct selection
+    // Radios for explicit correct selection
     @FXML private RadioButton rb1, rb2, rb3, rb4;
     private final ToggleGroup correctGroup = new ToggleGroup();
+
+    // Explanation textarea under D choice
+    @FXML private TextArea explanationArea;
 
     /** Which answer is correct (0..3). -1 means not selected yet. */
     private int correctIndex = -1;
@@ -36,26 +39,26 @@ public class QuestionItemController {
         assert answer3 != null : "fx:id 'answer3' not injected";
         assert answer4 != null : "fx:id 'answer4' not injected";
         assert rb1 != null && rb2 != null && rb3 != null && rb4 != null : "RadioButtons not injected";
+        assert explanationArea != null : "fx:id 'explanationArea' not injected";
 
-        // ★ ToggleGroup wiring
+        // ToggleGroup wiring
         rb1.setToggleGroup(correctGroup);
         rb2.setToggleGroup(correctGroup);
         rb3.setToggleGroup(correctGroup);
         rb4.setToggleGroup(correctGroup);
 
-        // ★ When radio selection changes, update correctIndex and highlight the chosen TextField
+        // When radio selection changes, update correctIndex and highlight the chosen TextField
         correctGroup.selectedToggleProperty().addListener((obs, oldT, newT) -> {
-            if (newT == rb1) correctIndex = 0;
+            if (newT == rb1)      correctIndex = 0;
             else if (newT == rb2) correctIndex = 1;
             else if (newT == rb3) correctIndex = 2;
             else if (newT == rb4) correctIndex = 3;
-            else correctIndex = -1;
+            else                  correctIndex = -1;
             updateCorrectHighlight();
         });
-
     }
 
-    /** After CSS // Keep same green highlight behavior on the selected answer field (optional). */
+    /** Keep same green highlight behavior on the selected answer field (optional). */
     private void updateCorrectHighlight() {
         List<TextField> fields = List.of(answer1, answer2, answer3, answer4);
         for (int i = 0; i < fields.size(); i++) {
@@ -72,10 +75,10 @@ public class QuestionItemController {
 
     public void setIndexLabel(String text) { indexLabel.setText(text); }
 
-    /** Public setter used by prefill: set the question text. */
+    /** Prefill: set the question text. */
     public void setQuestionText(String text) { questionField.setText(text == null ? "" : text); }
 
-    /** Public setter used by prefill: set 4 answers (shorter fills "", longer is ignored). */
+    /** Prefill: set 4 answers (shorter fills "", longer is ignored). */
     public void setAnswerTexts(String[] texts) {
         String t1 = (texts != null && texts.length > 0 && texts[0] != null) ? texts[0] : "";
         String t2 = (texts != null && texts.length > 1 && texts[1] != null) ? texts[1] : "";
@@ -84,27 +87,31 @@ public class QuestionItemController {
         answer1.setText(t1); answer2.setText(t2); answer3.setText(t3); answer4.setText(t4);
     }
 
-    /** Public setter used by prefill: mark the correct answer programmatically. */
+    /** Prefill: explanation text */
+    public void setExplanationText(String text) {
+        explanationArea.setText(text == null ? "" : text);
+    }
+
+    /** Prefill: mark the correct answer programmatically. */
     public void setCorrectIndex(int idx) {
-        // Select radio button
-        if (idx == 0) rb1.setSelected(true);
+        if      (idx == 0) rb1.setSelected(true);
         else if (idx == 1) rb2.setSelected(true);
         else if (idx == 2) rb3.setSelected(true);
         else if (idx == 3) rb4.setSelected(true);
-        else correctGroup.selectToggle(null);
+        else               correctGroup.selectToggle(null);
 
-        // Maintain internal state & CSS highlight
         correctIndex = (idx >= 0 && idx <= 3) ? idx : -1;
         updateCorrectHighlight();
     }
 
     /** Build model from current UI (validates). */
     public QuizQuestionCreate toQuestion() {
-        String q = safe(questionField.getText());
+        String q  = safe(questionField.getText());
         String a1 = safe(answer1.getText());
         String a2 = safe(answer2.getText());
         String a3 = safe(answer3.getText());
         String a4 = safe(answer4.getText());
+        String exp = safe(explanationArea.getText());
 
         if (q.isEmpty()) throw new IllegalStateException("Question text is empty.");
         if (a1.isEmpty() || a2.isEmpty() || a3.isEmpty() || a4.isEmpty())
@@ -113,6 +120,8 @@ public class QuestionItemController {
 
         QuizQuestionCreate question = new QuizQuestionCreate();
         question.setQuestionText(q);
+        question.setExplanation(exp); // ★ set BEFORE return
+
         List<String> answers = List.of(a1, a2, a3, a4);
         for (int i = 0; i < answers.size(); i++) {
             question.getChoices().add(new QuizChoiceCreate(answers.get(i), i == correctIndex));

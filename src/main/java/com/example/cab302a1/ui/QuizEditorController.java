@@ -243,32 +243,20 @@ public class QuizEditorController {
 
         // Question to UI
         for (QuizQuestionCreate q : quiz.getQuestions()) {
-            addQuestion(); // Empty card
-            QuestionItemController item = items.get(items.size() - 1); // 방금 추가된 마지막 카드
+            addQuestion(); // add Empty card
+            QuestionItemController item = items.get(items.size() - 1);
 
-
+            // question text prefill
             item.setQuestionText(q.getQuestionText());
 
 
-            String[] texts = new String[4];
-            int i = 0;
             int correctIdx = -1;
-            for (QuizChoiceCreate ch : q.getChoices()) {
-                if (i < 4) {
-                    texts[i] = ch.getText();
-                    if (ch.isCorrect()) correctIdx = i;
-                }
-                i++;
+            for (int i = 0; i < q.getChoices().size(); i++) {
+                if (q.getChoices().get(i).isCorrect()) { correctIdx = i; break; }
             }
+            if (correctIdx >= 0) item.setCorrectIndex(correctIdx);
 
-            for (int k = 0; k < texts.length; k++) {
-                if (texts[k] == null) texts[k] = "";
-            }
-
-            item.setAnswerTexts(texts);
-            if (correctIdx >= 0) {
-                item.setCorrectIndex(correctIdx);
-            }
+            item.setExplanationText(q.getExplanation());
         }
 
         refreshIndices();

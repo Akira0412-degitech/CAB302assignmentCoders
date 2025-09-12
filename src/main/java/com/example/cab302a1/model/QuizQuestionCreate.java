@@ -14,4 +14,11 @@ public String getQuestionText() { return questionText; }
 
     public List<QuizChoiceCreate> getChoices() { return choices; }
 
+
+    //explanation
+    private String explanation;
+
+    public String getExplanation() { return explanation; }
+    public void setExplanation(String explanation) { this.explanation = explanation; }
+
 }
