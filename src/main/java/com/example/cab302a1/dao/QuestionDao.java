@@ -40,15 +40,16 @@ public class QuestionDao {
     }
 
     public void insertQuestion(QuizQuestionCreate q){
-        String sql = "INSERT INTO questions (statement, type, explanation) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO questions (quiz_id, statement, type, explanation) VALUES (?,?, ?, ?)";
 
 //        For now we have only one type "MCQ"
         String type = "MCQ";
         try(Connection conn = DBconnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setString(1, q.getQuestionText());
-            pstmt.setString(2, type);
-            pstmt.setString(3, q.getExplanation());
+            pstmt.setInt(1, q.getQuizId());
+            pstmt.setString(2, q.getQuestionText());
+            pstmt.setString(3, type);
+            pstmt.setString(4, q.getExplanation());
 
             pstmt.executeUpdate();
 
