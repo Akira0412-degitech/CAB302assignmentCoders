@@ -122,6 +122,7 @@ On Windows:
   or
   ```bash
   Get-Content .\db\init.sql -Raw | & "your-local-path-to-mysql.exe" -u root -p
+  ex:  Get-Content .\db\init.sql -Raw | & "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p    
   ```
 On macOS / Linux:
   ```bash

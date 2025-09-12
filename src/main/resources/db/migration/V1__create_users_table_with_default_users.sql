@@ -1,5 +1,5 @@
 CREATE TABLE users (
-  user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id INT PRIMARY KEY AUTO_INCREMENT,
   email VARCHAR(255) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
   role ENUM('Teacher', 'Student'),
