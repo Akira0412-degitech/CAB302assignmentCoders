@@ -39,5 +39,21 @@ public class QuestionDao {
         return questions;
     }
 
+    public void insertQuestion(QuizQuestionCreate q){
+        String sql = "INSERT INTO questions (statement, type, explanation) VALUES (?, ?, ?)";
 
+//        For now we have only one type "MCQ"
+        String type = "MCQ";
+        try(Connection conn = DBconnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, q.getQuestionText());
+            pstmt.setString(2, type);
+            pstmt.setString(3, q.getExplanation());
+
+            pstmt.executeUpdate();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
