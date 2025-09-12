@@ -14,7 +14,7 @@ public class OptionDao {
 
     // 1. Insert option and return generated option_id
     public int insertOption(QuizChoiceCreate choice) {
-        String sql = "INSERT INTO question_options (question_id, option_text, is_answer) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO question_options (question_id, option_text, is_correct) VALUES (?, ?, ?)";
         try (Connection conn = DBconnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
@@ -38,7 +38,7 @@ public class OptionDao {
     // 2. Get all options by question_id
     public List<QuizChoiceCreate> getOptionsByQuestionId(int questionId) {
         List<QuizChoiceCreate> options = new ArrayList<>();
-        String sql = "SELECT option_id, question_id, option_text, is_answer FROM question_options WHERE question_id = ?";
+        String sql = "SELECT option_id, question_id, option_text, is_correct FROM question_options WHERE question_id = ?";
 
         try (Connection conn = DBconnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -51,7 +51,7 @@ public class OptionDao {
                     choice.setOption_id(rs.getInt("option_id"));
                     choice.setQuestion_id(rs.getInt("question_id"));
                     choice.setText(rs.getString("option_text"));
-                    choice.setIs_answer(rs.getBoolean("is_answer"));
+                    choice.setIs_correct(rs.getBoolean("is_correct"));
                     options.add(choice);
                 }
             }

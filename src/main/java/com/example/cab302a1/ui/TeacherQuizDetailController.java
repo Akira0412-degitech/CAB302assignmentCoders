@@ -1,5 +1,7 @@
 package com.example.cab302a1.ui;
 
+import com.example.cab302a1.dao.OptionDao;
+import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.model.QuizQuestionCreate;
@@ -13,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class TeacherQuizDetailController {
@@ -47,6 +50,16 @@ public class TeacherQuizDetailController {
             c.stage.initModality(Modality.WINDOW_MODAL);
             c.stage.setTitle("Quiz Detail");
             c.stage.setScene(new Scene(root, 560, 480));
+
+            QuestionDao questionDao = new QuestionDao();
+            List<QuizQuestionCreate> loadedQuestions = questionDao.getAllQuestions(quiz);
+
+            OptionDao optionDao = new OptionDao();
+            for(QuizQuestionCreate q : loadedQuestions){
+                q.getChoices().addAll(optionDao.getOptionsByQuestionId(q.getQuestionId()));
+            }
+            quiz.setQuestions(loadedQuestions);
+
 
             c.setData(quiz, onUpdated);
             c.stage.show();

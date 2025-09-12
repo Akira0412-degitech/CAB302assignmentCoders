@@ -49,6 +49,7 @@ public class HomeController {
     public void refresh() {
         // if (titleLabel != null) titleLabel.setText("Home — " + role);
         grid.getChildren().clear();
+        quizzes.clear();
         QuizDao quizDao = new QuizDao();
 
         quizzes.addAll(quizDao.getAllQuizzes());
