@@ -1,135 +1,104 @@
-/* Global font and colors */
+/* Root container */
 .root {
-    -fx-font-family: "Segoe UI", Arial, sans-serif;
-    -fx-base: #f0f0f0;
-    -fx-background: #ffffff;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-background-color: #ffffff;
 }
 
-/* Sidebar Styling */
+/* Sidebar */
 .sidebar {
-    -fx-background-color: #f8f8f8;
-    -fx-padding: 20px;
-    -fx-spacing: 10px;
-    -fx-background-radius: 10px;
-    -fx-background-insets: 10px;
+    -fx-background-color: #e6f0ff; /* light blue */
 }
 
-.sidebar-title {
-    -fx-font-size: 24px;
+/* App Title */
+.app-name {
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+    -fx-text-fill: #000000;
 }
 
+/* Sidebar Buttons */
 .sidebar-button {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-font-size: 16px;
-    -fx-text-fill: #555;
-    -fx-padding: 10px 15px;
-    -fx-alignment: center-left;
-    -fx-background-radius: 5px;
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #000000;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #2196f3;
+    -fx-border-width: 2;
+    -fx-padding: 10 20;
 }
 
 .sidebar-button:hover {
-    -fx-background-color: #e0e0e0;
+    -fx-background-color: #bbdefb;
 }
 
-.sidebar-button:pressed {
-    -fx-background-color: #d0d0d0;
-    -fx-text-fill: #000;
+/* Exit Button */
+.exit-button {
+    -fx-background-color: #ffcccc;
+    -fx-text-fill: #000000;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-color: #ff4444;
+    -fx-border-width: 2;
+    -fx-padding: 10 20;
 }
 
-/* Main Content Styling */
-.main-content {
-    -fx-background-color: #fff;
+.exit-button:hover {
+    -fx-background-color: #ff9999;
+}
+
+/* Content Area */
+.content-pane {
+    -fx-background-color: #ffffff;
     -fx-padding: 20px;
 }
 
-.header {
-    -fx-background-color: #fff;
-    -fx-padding: 20px 30px;
-    -fx-border-width: 0 0 1px 0;
-    -fx-border-color: #ddd;
-}
-
-.header-title {
-    -fx-font-size: 28px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333;
-}
-
-.section {
-    -fx-background-color: #fcfcfc;
-    -fx-border-color: #eee;
-    -fx-border-width: 1px;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
-}
-
-.section-title {
+/* Page Title */
+.page-title {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+    -fx-text-fill: #000000;
+    -fx-padding: 10 0 20 0;
 }
 
-/* Student List Styling */
-.student-list-item {
-    -fx-background-color: #f0f0f0;
-    -fx-background-radius: 5px;
-    -fx-padding: 10px;
-    -fx-alignment: center-left;
-    -fx-font-size: 14px;
-    -fx-text-fill: #333;
+/* Quiz Table */
+.quiz-table {
+    -fx-border-color: #2196f3;
+    -fx-border-width: 2;
+    -fx-background-color: #ffffff;
 }
 
-.student-list-item:hover {
-    -fx-background-color: #e6e6e6;
-}
-
-.student-list-item:pressed {
-    -fx-background-color: #d9d9d9;
-}
-
-.scroll-pane {
-    -fx-background-color: transparent;
-    -fx-padding: 0;
-}
-
-.scroll-pane .viewport {
-    -fx-background-color: transparent;
-}
-
-/* Student Details Styling */
-.details-label {
-    -fx-font-size: 16px;
-    -fx-text-fill: #555;
-}
-
-.details-title {
-    -fx-font-size: 18px;
+/* Table Headers */
+.quiz-table .column-header {
+    -fx-background-color: #e6f0ff;
+    -fx-border-color: #2196f3;
+    -fx-border-width: 0 0 2 0;
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+    -fx-alignment: CENTER;
 }
 
-.details-item {
-    -fx-font-size: 14px;
-    -fx-text-fill: #666;
+/* Table Cells */
+.quiz-table .table-cell {
+    -fx-alignment: CENTER;
+    -fx-padding: 5px;
 }
 
-/* Button Styling */
-.primary-button {
-    -fx-background-color: #4CAF50; /* A pleasant green */
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-padding: 10px 20px;
-    -fx-background-radius: 5px;
+/* Action Buttons inside Table (View/Feedback) */
+.action-button {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #000000;
+    -fx-font-size: 12px;
     -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #2196f3;
+    -fx-border-width: 2;
+    -fx-padding: 4 12;
 }
 
-.primary-button:hover {
-    -fx-background-color: #45a049;
-}
-
-.primary-button:pressed {
-    -fx-background-color: #3e8e41;
+.action-button:hover {
+    -fx-background-color: #bbdefb;
 }
