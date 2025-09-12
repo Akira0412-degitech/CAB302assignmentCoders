@@ -67,6 +67,11 @@ public class PlannerPageController {
         StackPane cell = new StackPane(lbl);
         cell.getStyleClass().add("date-cell");
 
+        cell.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); // allows cells to expand
+
+        GridPane.setFillWidth(cell, true);
+        GridPane.setFillHeight(cell, true);
+
         if (date.getMonth() != displayed.getMonth()) {
             cell.getStyleClass().add("other-month");
         }

@@ -13,23 +13,45 @@
             prefHeight="1000.0" prefWidth="640.0">
 
     <top>
-        <VBox spacing="12" alignment="CENTER" id="headerVBox">
+        <VBox spacing="12" alignment="CENTER" id="header-vbox">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button text="Home"/>
+            </HBox>
+
             <Label text="Planner Page" styleClass="page-title"/>
         </VBox>
     </top>
 
     <center>
-        <VBox alignment="CENTER" styleClass="main-contents">
+        <VBox styleClass="main-contents">
             <Label fx:id="monthTitle" styleClass="month-title"/>
-            <HBox spacing="10" alignment="CENTER">
+            <HBox spacing="20" alignment="BASELINE_CENTER" styleClass="calendar-buttons">
                 <Button fx:id="prevButton" text="Previous"/>
                 <Button fx:id="todayButton" text="Today"/>
                 <Button fx:id="nextButton" text="Next"/>
-                <Region HBox.hgrow="ALWAYS"/>
             </HBox>
 
-            <HBox>
-                <GridPane fx:id="calendarGrid" hgap="6" vgap="6">
+            <HBox alignment="CENTER">
+                <GridPane fx:id="calendarGrid" hgap="10" vgap="6" styleClass="calendar-grid">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="14.28"/> <!-- 100 / 7 -->
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                        <ColumnConstraints percentWidth="14.28"/>
+                    </columnConstraints>
+
+                    <rowConstraints>
+                        <RowConstraints percentHeight="10"/> <!-- header row -->
+                        <RowConstraints percentHeight="15"/>
+                        <RowConstraints percentHeight="15"/>
+                        <RowConstraints percentHeight="15"/>
+                        <RowConstraints percentHeight="15"/>
+                        <RowConstraints percentHeight="15"/>
+                        <RowConstraints percentHeight="15"/>
+                    </rowConstraints>
                 </GridPane>
             </HBox>
         </VBox>
