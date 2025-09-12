@@ -51,6 +51,7 @@ public class TeacherQuizDetailController {
             c.stage.setTitle("Quiz Detail");
             c.stage.setScene(new Scene(root, 560, 480));
 
+
             QuestionDao questionDao = new QuestionDao();
             List<QuizQuestionCreate> loadedQuestions = questionDao.getAllQuestions(quiz);
 
@@ -81,7 +82,7 @@ public class TeacherQuizDetailController {
 
     private void render() {
         titleLabel.setText(quiz.getTitle() == null ? "(Untitled)" : quiz.getTitle());
-        descLabel.setText(quiz.getDescription() == null ? "" : quiz.getDescription());
+        descLabel.setText(quiz.getDescription() == null ? "No Description" : quiz.getDescription());
 
         questionsBox.getChildren().clear();
         int qIdx = 1;
