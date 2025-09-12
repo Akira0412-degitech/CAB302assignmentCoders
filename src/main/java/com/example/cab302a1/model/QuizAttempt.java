@@ -2,7 +2,7 @@ package com.example.cab302a1.model;
 
 import java.sql.Timestamp;
 
-public class Attempt {
+public class QuizAttempt {
     private int attempt_id;
     private int quiz_id;
     private int answered_by;
