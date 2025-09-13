@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.example.cab302a1.result.QuizResultController"
+            styleClass="quiz-result-page"
+            prefWidth="1200.0" prefHeight="700.0">
+    
+    <!-- Left: Navbar Component Integration -->
+    <left>
+        <fx:include source="../components/Navbar.fxml"/>
+    </left>
+    
+    <!-- Center: Main Content Area -->
+    <center>
+        <VBox alignment="CENTER" spacing="48" styleClass="result-main-content">
+            <padding>
+                <Insets top="32" bottom="32" left="32" right="32"/>
+            </padding>
+            
+            <!-- Score Display Section -->
+            <VBox alignment="CENTER" spacing="16" styleClass="score-section">
+                <!-- Score Header -->
+                <Label text="Your Score:" styleClass="score-header"/>
+                
+                <!-- Score Display -->
+                <Label fx:id="scoreLabel" text="0/0" styleClass="score-display"/>
+                
+                <!-- Optional: Additional score information -->
+                <VBox fx:id="additionalScoreInfo" alignment="CENTER" spacing="8" styleClass="score-details">
+                    <Label fx:id="percentageLabel" text="" styleClass="score-percentage"/>
+                    <Label fx:id="gradeLabel" text="" styleClass="score-grade"/>
+                </VBox>
+            </VBox>
+            
+            <!-- Action Buttons Section -->
+            <VBox alignment="CENTER" spacing="24" styleClass="action-buttons-section">
+                <!-- View Answer Button (Success/Green Theme) -->
+                <Button fx:id="viewAnswerBtn" 
+                        styleClass="view-answer-button" 
+                        mnemonicParsing="false" 
+                        text="View the answer"
+                        onAction="#handleViewAnswerAction"
+                        prefWidth="200.0"
+                        prefHeight="48.0">
+                </Button>
+                
+                <!-- Back to Home Button (Navigation/Blue Theme) -->
+                <Button fx:id="backHomeBtn" 
+                        styleClass="back-home-button" 
+                        mnemonicParsing="false" 
+                        text="Back to home page"
+                        onAction="#handleBackHomeAction"
+                        prefWidth="200.0"
+                        prefHeight="48.0">
+                </Button>
+            </VBox>
+            
+            <!-- Optional: Quiz Information Section (Hidden by default) -->
+            <VBox fx:id="quizInfoSection" alignment="CENTER" spacing="8" styleClass="quiz-info-section" visible="false">
+                <Label fx:id="quizTitleLabel" text="" styleClass="quiz-title"/>
+                <Label fx:id="completionTimeLabel" text="" styleClass="completion-time"/>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>
