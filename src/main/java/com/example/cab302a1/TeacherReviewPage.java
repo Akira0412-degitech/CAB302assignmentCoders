@@ -5,10 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ReviewPage extends Application {
+public class TeacherReviewPage extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("review-page-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("teacher-review-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1100, 750);
         stage.setTitle("Interactive Quiz Creator");
         stage.setScene(scene);
