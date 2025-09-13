@@ -461,7 +461,7 @@ QuizResultData failingScore = new QuizResultData(5, 20, "Pop Quiz", 888, 123);
 
 When implementing database storage, consider this structure:
 
-(Dude plssss change your table name from "quiz_attempts" to this, plssss)
+_(Dude plssss change your table name from "quiz_attempts" to this, plssss)_
 
 ```sql
 CREATE TABLE quiz_results (
