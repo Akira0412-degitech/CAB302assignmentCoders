@@ -23,20 +23,19 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-        // Load the FXML file for the navbar demo
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("demo-navbar-integration.fxml"));
+        // Load the FXML file for the review page UI
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/cab302a1/login/login-view.fxml"));
 
-        // Set the scene dimensions to accommodate the navbar demo
-        Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
+        // Set the scene dimensions to better fit the content and prevent resizing
+        Scene scene = new Scene(fxmlLoader.load(), 1040, 600);
 
         // Apply a basic stylesheet for common styles
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-
-        stage.setTitle("Interactive Quiz Creator - Navbar Demo");
+//        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+//
+//        stage.setTitle("Quiz App - Teacher Review Page"); // Updated title for clarity
+        stage.setTitle("Login");
         stage.setScene(scene);
-        stage.setResizable(true); // Allow resizing to test navbar responsiveness
-        stage.setMinWidth(800); // Set minimum window size
-        stage.setMinHeight(500);
+        stage.setResizable(false); // Make the window non-resizable
         stage.show();
     }
 

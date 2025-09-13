@@ -32,6 +32,7 @@ public class DBconnection {
         Flyway flyway = Flyway.configure()
                 .dataSource(URL, USER, PASSWORD)
                 .load();
+        flyway.repair();
 
         flyway.migrate();
         System.out.println("Flyway migration applied");

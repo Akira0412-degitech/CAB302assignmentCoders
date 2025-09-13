@@ -1,4 +1,4 @@
-module com.example.cab302a1 {
+module com.example.cab302a {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
@@ -7,7 +7,8 @@ module com.example.cab302a1 {
     // JDBC & Flyway
     requires mysql.connector.j;
     requires flyway.core;
-
+    requires javafx.graphics;
+    //requires com.example.cab302a;
 
     // FXML
     opens com.example.cab302a1 to javafx.fxml;
