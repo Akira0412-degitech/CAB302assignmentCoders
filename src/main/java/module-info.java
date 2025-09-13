@@ -1,4 +1,4 @@
-module com.example.cab302a {
+module com.example.cab302a1 {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
