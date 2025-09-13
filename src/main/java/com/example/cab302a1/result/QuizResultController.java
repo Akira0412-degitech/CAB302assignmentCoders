@@ -1,5 +1,6 @@
 package com.example.cab302a1.result;
 
+import com.example.cab302a1.components.NavigationManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -165,6 +166,9 @@ public class QuizResultController implements Initializable {
 
         this.currentQuizResult = quizResultData;
         updateDisplay();
+        
+        // Register this page with NavigationManager
+        NavigationManager.getInstance().setCurrentPage(NavigationManager.Pages.QUIZ_RESULT);
         
         System.out.println("Quiz result data set: " + quizResultData.toString());
     }

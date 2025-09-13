@@ -1,5 +1,6 @@
 package com.example.cab302a1.result;
 
+import com.example.cab302a1.components.NavigationManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -38,7 +39,11 @@ public class QuizResultDemo extends Application {
         stage.setMinHeight(600);
         stage.show();
         
+        // Initialize NavigationManager with this page as the starting point
+        NavigationManager.getInstance().setCurrentPage(NavigationManager.Pages.QUIZ_RESULT);
+        
         System.out.println("Quiz Result Demo started - showing score: 13/20");
+        System.out.println("NavigationManager initialized - EXIT -> Cancel will return to this page");
     }
 
     /**
