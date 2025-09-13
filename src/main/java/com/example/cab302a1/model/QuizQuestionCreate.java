@@ -8,7 +8,14 @@ public class QuizQuestionCreate {
     private String questionText;
     private final List<QuizChoiceCreate> choices = new ArrayList<>();
 
-public String getQuestionText() { return questionText; }
+    public <E> QuizQuestionCreate(String s, List<E> es, String s1) {
+    }
+
+    public QuizQuestionCreate() {
+
+    }
+
+    public String getQuestionText() { return questionText; }
     public void setQuestionText(String questionText) { this.questionText = questionText; }
 
 

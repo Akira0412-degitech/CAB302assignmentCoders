@@ -10,6 +10,13 @@ public class Quiz {
     private String description;
     private final List<QuizQuestionCreate> questions = new ArrayList<>();
 
+    public <E> Quiz(String title, String s, List<E> q1) {
+    }
+
+    public Quiz() {
+
+    }
+
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 

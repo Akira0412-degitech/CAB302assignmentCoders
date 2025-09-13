@@ -2,7 +2,7 @@ package com.example.cab302a1.ui;
 
 /*
  * Purpose:
- *  - Drives QuizEditor.fxml (title/description + a list of QuestionItem cards).
+ *  - Drives TeacherQuizEditor.fxml (title/description + a list of QuestionItem cards).
  *  - Adds/removes question cards, and on "Done" builds a Quiz model.
  *
  * How it works:
@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
-import com.example.cab302a1.model.QuizChoiceCreate;
 
 public class QuizEditorController {
 
@@ -174,7 +173,7 @@ public class QuizEditorController {
     public static void open(Stage owner, Consumer<Quiz> onSave) {
         try {
             URL url = Objects.requireNonNull(
-                    QuizEditorController.class.getResource("/com/example/cab302a1/QuizEditor.fxml"));
+                    QuizEditorController.class.getResource("/com/example/cab302a1/TeacherQuizPage/TeacherQuizEditor.fxml"));
             FXMLLoader loader = new FXMLLoader(url);
             var root = loader.load();
 
@@ -204,7 +203,7 @@ public class QuizEditorController {
     public static void openForEdit(Stage owner, Quiz quiz, Consumer<Quiz> onSave) {
         try {
             URL url = Objects.requireNonNull(
-                    QuizEditorController.class.getResource("/com/example/cab302a1/QuizEditor.fxml"));
+                    QuizEditorController.class.getResource("/com/example/cab302a1/TeacherQuizPage/TeacherQuizEditor.fxml"));
             FXMLLoader loader = new FXMLLoader(url);
             var root = loader.load();
 

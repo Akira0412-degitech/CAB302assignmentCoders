@@ -3,12 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<!--
-  간단한 퀴즈 편집 화면:
-  - Title, Description 입력
-  - 질문 카드(QuestionItem)들을 세로로 나열
-  - "ADD MORE"로 질문 추가, "Done"으로 저장
--->
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.cab302a1.ui.QuizEditorController"
             prefWidth="900.0" prefHeight="640.0">
@@ -25,7 +19,6 @@
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
             <content>
                 <VBox fx:id="questionsBox" spacing="16" style="-fx-padding: 16;">
-                    <!-- QuestionItem.fxml 들이 동적으로 추가됩니다 -->
                 </VBox>
             </content>
         </ScrollPane>

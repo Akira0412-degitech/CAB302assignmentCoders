@@ -29,9 +29,7 @@ public class TeacherQuizDetailController {
     public static void open(Stage owner, Quiz quiz, Consumer<Quiz> onUpdated) {
         try {
             URL fxml = TeacherQuizDetailController.class.getResource(
-                    "/com/example/cab302a1/TeacherQuizDetail.fxml");      //
-            if (fxml == null) {
-            }
+                    "/com/example/cab302a1/TeacherQuizPage/TeacherQuizDetail.fxml");
 
             if (fxml == null) {
                 throw new IllegalStateException(
@@ -100,8 +98,8 @@ public class TeacherQuizDetailController {
         Stage owner = (Stage) questionsBox.getScene().getWindow();
         QuizEditorController.openForEdit(owner, quiz, updated -> {
             this.quiz = updated;
-            render(); // 상세 갱신
-            if (onUpdated != null) onUpdated.accept(updated); // 홈 갱신
+            render(); // refresh detail
+            if (onUpdated != null) onUpdated.accept(updated); // home refresh
         });
     }
 
