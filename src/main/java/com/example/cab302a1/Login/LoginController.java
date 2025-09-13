@@ -39,6 +39,10 @@ public class LoginController {
         String userEmail = useremailField.getText();
         String password = passwordField.getText();
 
+        if(userEmail == null || password == null){
+            errorloginLabel.setText("Invalid username or password");
+        }
+
         User currentUser = userdao.login(userEmail, password);
 
         if(currentUser != null){
