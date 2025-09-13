@@ -11,7 +11,7 @@ public class PlannerPage extends Application {
 
     @Override
     public void init() {
-        // Non-UI setup (loading config, preparing data, etc.)
+
     }
 
     @Override

@@ -2,6 +2,7 @@ module com.example.cab302a1 {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
+    requires ical4j.core;
 
 
     opens com.example.cab302a1 to javafx.fxml;

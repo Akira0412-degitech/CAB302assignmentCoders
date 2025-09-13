@@ -1,4 +1,4 @@
-.page { -fx-padding: 24; }
+.page { -fx-padding: 24; -background-color: #f0f1f5;}
 .page-title { -fx-font-size: 28px; -fx-font-weight: bold; }
 
 .weekday-header {
@@ -12,7 +12,6 @@
     -fx-alignment: center;
     -fx-cursor: hand;
     -fx-background-radius: 10;
-
 }
 
 .date-cell:hover {

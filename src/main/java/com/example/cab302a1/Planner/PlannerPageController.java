@@ -3,6 +3,7 @@ package com.example.cab302a1.Planner;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -10,7 +11,11 @@ import javafx.scene.layout.StackPane;
 import java.time.*;
 import java.time.format.TextStyle;
 import java.time.temporal.WeekFields;
-import java.util.Locale;
+import java.util.*;
+
+import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.model.component.VEvent;
 
 
 public class PlannerPageController {
@@ -19,6 +24,7 @@ public class PlannerPageController {
     @FXML private Button nextButton;
     @FXML private Label monthTitle;
     @FXML private GridPane calendarGrid;
+    @FXML private ListView<String> eventsList;
 
     private YearMonth displayed = YearMonth.now();
     private final Locale locale = Locale.getDefault();
