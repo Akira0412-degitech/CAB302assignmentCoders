@@ -16,6 +16,7 @@ module com.example.cab302a1 {
     opens com.example.cab302a1.ui to javafx.fxml;
     opens com.example.cab302a1.components to javafx.fxml;
     opens com.example.cab302a1.logout to javafx.fxml;
+    opens com.example.cab302a1.result to javafx.fxml;
 
     // for Flyway to read migration path
     opens db.migration;
@@ -25,6 +26,7 @@ module com.example.cab302a1 {
     exports com.example.cab302a1.ui;
     exports com.example.cab302a1.components;
     exports com.example.cab302a1.logout;
+    exports com.example.cab302a1.result;
 
 
 }
