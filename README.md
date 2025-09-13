@@ -97,16 +97,20 @@ Interactive Quiz Creator is a comprehensive educational tool that enables educat
 
 To initialize the project database, use the provided `db/init.sql` script.
 
-On Windows:
+### On Windows:
   ```bash
   Get-Content .\db\init.sql | mysql -u root -p
   ```
   or
   ```bash
   Get-Content .\db\init.sql -Raw | & "your-local-path-to-mysql.exe" -u root -p
-  ex:  Get-Content .\db\init.sql -Raw | & "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p    
   ```
-On macOS / Linux:
+  example:
+  ```bash
+  Get-Content .\db\init.sql -Raw | & "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p
+  ```
+
+### On macOS / Linux:
   ```bash
   mysql -u root -p < db/init.sql
   ```
