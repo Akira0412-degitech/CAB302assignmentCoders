@@ -5,7 +5,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -13,8 +12,8 @@ import javafx.stage.Stage;
 public class StudentReviewController {
 
     @FXML private Button dashboardBtn;
-    @FXML private Button quizzesBtn;
     @FXML private Button reviewBtn;
+    @FXML private Button timetableBtn;
     @FXML private Button exitBtn;
 
     @FXML private TableView<QuizResult> quizTable;
@@ -28,16 +27,16 @@ public class StudentReviewController {
     @FXML
     public void initialize() {
         // Sidebar navigation actions
-        dashboardBtn.setOnAction(e -> System.out.println("Home clicked"));
+        dashboardBtn.setOnAction(e -> System.out.println("Dashboard clicked"));
         reviewBtn.setOnAction(e -> System.out.println("Review clicked"));
-        quizzesBtn.setOnAction(e -> System.out.println("Timetable clicked"));
+        timetableBtn.setOnAction(e -> System.out.println("Timetable clicked"));
         exitBtn.setOnAction(this::handleExit);
 
         // Setup table columns
         quizNameCol.setCellValueFactory(data -> data.getValue().quizNameProperty());
         scoreCol.setCellValueFactory(data -> data.getValue().scoreProperty());
 
-        // Add "View Result" buttons
+        // "View Result" buttons
         viewResultCol.setCellFactory(col -> new TableCell<>() {
             private final Button btn = new Button("View");
 
@@ -45,22 +44,18 @@ public class StudentReviewController {
                 btn.getStyleClass().add("action-button");
                 btn.setOnAction(e -> {
                     QuizResult item = getTableView().getItems().get(getIndex());
-                    System.out.println("View Result clicked for " + item.getQuizName());
+                    System.out.println("Viewing results for " + item.getQuizName());
                 });
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(new HBox(btn));
-                }
+                setGraphic(empty ? null : new HBox(btn));
             }
         });
 
-        // Add "Feedback" buttons
+        // "Feedback" buttons
         feedbackCol.setCellFactory(col -> new TableCell<>() {
             private final Button btn = new Button("View");
 
@@ -68,22 +63,18 @@ public class StudentReviewController {
                 btn.getStyleClass().add("action-button");
                 btn.setOnAction(e -> {
                     QuizResult item = getTableView().getItems().get(getIndex());
-                    System.out.println("Feedback clicked for " + item.getQuizName());
+                    System.out.println("Viewing feedback for " + item.getQuizName());
                 });
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(new HBox(btn));
-                }
+                setGraphic(empty ? null : new HBox(btn));
             }
         });
 
-        // Populate with mock data
+        // Mock data
         quizData.addAll(
                 new QuizResult("Quiz 1", "16/20"),
                 new QuizResult("Quiz 2", "18/20"),
