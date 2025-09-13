@@ -44,22 +44,18 @@ public class LoginController {
         if(currentUser != null){
             System.out.println("Login successfully" + currentUser.getEmail());
             Session.setCurrentUser(currentUser);
+            String title = "demo";
             if(currentUser instanceof Student){
-                root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
-                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                scene = new Scene(root, 1000, 450);
-                stage.setTitle("Student-Home");
-                stage.setScene(scene);
-                stage.show();
-
+                title = "Student";
             } else if(currentUser instanceof Teacher){
-                root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
-                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                scene = new Scene(root, 1000, 450);
-                stage.setTitle("Teacher-Home");
-                stage.setScene(scene);
-                stage.show();
+                title = "Teacher";
             }
+            root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root, 1000, 450);
+            stage.setTitle(title + "-Home");
+            stage.setScene(scene);
+            stage.show();
         }else{
             errorloginLabel.setText("Invalid username or password");
         }
