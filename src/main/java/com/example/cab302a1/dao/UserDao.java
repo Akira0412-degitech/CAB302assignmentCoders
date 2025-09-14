@@ -158,22 +158,6 @@ public class UserDao {
         return null;
     }
 
-    public String getRoleByEmail(String _email){
-        String sql = "SELECT role FROM users WHERE email = ? LIMIT 1";
 
-        try(Connection conn = DBconnection.getConnection();
-        PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setString(1, _email);
-
-            try(ResultSet rs = pstmt.executeQuery()){
-                if(rs.next()){
-                    return rs.getString("role");
-                }
-            }
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 }
