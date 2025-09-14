@@ -20,16 +20,16 @@ public class LoginController {
     private Parent root;
 
     @FXML
-    private TextField useremailField;   // Username input field
+    TextField useremailField;   // Username input field
 
     @FXML
-    private PasswordField passwordField;   // Password input field
+    PasswordField passwordField;   // Password input field
 
     @FXML
     private Hyperlink signupLink;  // Link to go to Sign Up page
 
     @FXML
-    private Label errorloginLabel;
+    Label errorloginLabel;
 
 
     UserDao userdao = new UserDao();
@@ -48,7 +48,7 @@ public class LoginController {
         if(currentUser != null){
             System.out.println("Login successfully" + currentUser.getEmail());
             Session.setCurrentUser(currentUser);
-            String title = "demo";
+            String title = "";
             if(currentUser instanceof Student){
                 title = "Student";
             } else if(currentUser instanceof Teacher){

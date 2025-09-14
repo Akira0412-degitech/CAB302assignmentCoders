@@ -4,6 +4,10 @@ import com.example.cab302a1.Login.LoginController;
 import com.example.cab302a1.dao.UserDao;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.User;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
 
@@ -27,7 +31,7 @@ class LoginControllerTest {
     @Test
     void testLoginSuccess() throws Exception {
         // Arrange: define behavior of mock DAO
-        User mockUser = new Student(10000, "test@example.com", "pass", "Student", null);
+        User mockUser = new Student(1, "test@example.com", "pass", "Student", null);
         when(mockDao.login("test@example.com", "pass")).thenReturn(mockUser);
 
         // Act: call login method
@@ -52,8 +56,5 @@ class LoginControllerTest {
         verify(mockDao).login("wrong@example.com", "bad");
     }
 
-    @Test
-    void testLoginWithNull() throws Exception{
 
-    }
 }
