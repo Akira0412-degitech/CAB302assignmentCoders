@@ -32,7 +32,7 @@ public class OptionDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1; // 失敗時
+        return -1; //Return -1 when failing
     }
 
     // 2. Get all options by question_id
