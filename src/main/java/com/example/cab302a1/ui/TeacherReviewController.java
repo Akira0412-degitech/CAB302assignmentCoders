@@ -18,7 +18,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
-public class ReviewPageController {
+public class TeacherReviewController {
 
     // Sidebar buttons
     @FXML private Button dashboardBtn;

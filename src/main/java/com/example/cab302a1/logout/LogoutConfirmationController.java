@@ -1,5 +1,6 @@
 package com.example.cab302a1.logout;
 
+import com.example.cab302a1.components.NavigationManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -87,7 +88,7 @@ public class LogoutConfirmationController implements Initializable {
 
     /**
      * Handles the Cancel button click event.
-     * Cancels the logout process and returns to the previous page.
+     * Cancels the logout process and returns to the previous page using NavigationManager.
      *
      * @param event The action event triggered by clicking the Cancel button
      */
@@ -96,19 +97,36 @@ public class LogoutConfirmationController implements Initializable {
         System.out.println("Logout cancelled by user - returning to previous page");
         
         try {
-            // Return to the previous page (demo navbar integration)
-            returnToPreviousPage();
+            // Get the current stage
+            Stage currentStage = (Stage) cancelBtn.getScene().getWindow();
             
-            System.out.println("Successfully returned to previous page");
+            // Use NavigationManager to go back to previous page
+            NavigationManager navigationManager = NavigationManager.getInstance();
+            boolean navigationSuccessful = navigationManager.navigateBack(currentStage);
+            
+            if (navigationSuccessful) {
+                System.out.println("Successfully returned to previous page via NavigationManager");
+            } else {
+                // Fallback to default page if no history available
+                System.out.println("No navigation history available, using fallback navigation");
+                returnToPreviousPageFallback();
+            }
             
         } catch (Exception e) {
             System.err.println("Error returning to previous page: " + e.getMessage());
             e.printStackTrace();
+            
+            // Try fallback navigation
+            try {
+                returnToPreviousPageFallback();
+            } catch (IOException fallbackError) {
+                System.err.println("Fallback navigation also failed: " + fallbackError.getMessage());
+            }
         }
     }
 
     /**
-     * Navigates to the login page by loading the login-view.fxml.
+     * Navigates to the login page using NavigationManager.
      * This method handles the scene transition after successful logout confirmation.
      *
      * @throws IOException if the login FXML file cannot be loaded
@@ -117,44 +135,31 @@ public class LogoutConfirmationController implements Initializable {
         // Get the current stage
         Stage currentStage = (Stage) logoutBtn.getScene().getWindow();
         
-        // Load the login page FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/cab302a1/Login/Login-view.fxml"));
-        Scene loginScene = new Scene(fxmlLoader.load(), 1040, 600);
+        // Clear navigation history since user is logging out
+        NavigationManager navigationManager = NavigationManager.getInstance();
+        navigationManager.clearHistory();
         
-        // Apply the styles
-        loginScene.getStylesheets().add(getClass().getResource("/com/example/cab302a1/styles.css").toExternalForm());
-        
-        // Update the stage
-        currentStage.setTitle("Interactive Quiz Creator - Login");
-        currentStage.setScene(loginScene);
-        currentStage.centerOnScreen();
+        // Navigate to login page (replace, don't add to history)
+        navigationManager.navigateToReplace(currentStage, NavigationManager.Pages.LOGIN);
         
         System.out.println("Successfully navigated to login page");
     }
 
     /**
-     * Returns to the previous page by loading the demo navbar integration page.
-     * In a full implementation, this could maintain navigation history.
+     * Fallback method to return to a default page when NavigationManager history is empty.
+     * This provides a safety net for navigation.
      *
      * @throws IOException if the demo page FXML file cannot be loaded
      */
-    private void returnToPreviousPage() throws IOException {
+    private void returnToPreviousPageFallback() throws IOException {
         // Get the current stage
         Stage currentStage = (Stage) cancelBtn.getScene().getWindow();
         
-        // Load the demo navbar integration page
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/cab302a1/demo-navbar-integration.fxml"));
-        Scene previousScene = new Scene(fxmlLoader.load(), 1200, 700);
+        // Use NavigationManager to navigate to default page (navbar demo)
+        NavigationManager navigationManager = NavigationManager.getInstance();
+        navigationManager.navigateToReplace(currentStage, NavigationManager.Pages.NAVBAR_DEMO);
         
-        // Apply the styles
-        previousScene.getStylesheets().add(getClass().getResource("/com/example/cab302a1/styles.css").toExternalForm());
-        
-        // Update the stage
-        currentStage.setTitle("Interactive Quiz Creator - Navbar Demo");
-        currentStage.setScene(previousScene);
-        currentStage.centerOnScreen();
-        
-        System.out.println("Successfully returned to navbar demo page");
+        System.out.println("Used fallback navigation to navbar demo page");
     }
 
     /**
@@ -202,7 +207,15 @@ public class LogoutConfirmationController implements Initializable {
      */
     public void cancelLogout() {
         try {
-            returnToPreviousPage();
+            // Try to navigate back using NavigationManager
+            Stage currentStage = (Stage) cancelBtn.getScene().getWindow();
+            NavigationManager navigationManager = NavigationManager.getInstance();
+            
+            boolean navigationSuccessful = navigationManager.navigateBack(currentStage);
+            if (!navigationSuccessful) {
+                returnToPreviousPageFallback();
+            }
+            
             System.out.println("Programmatic logout cancellation completed successfully");
         } catch (IOException e) {
             System.err.println("Error during programmatic logout cancellation: " + e.getMessage());

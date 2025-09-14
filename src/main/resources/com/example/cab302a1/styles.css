@@ -1,104 +1,162 @@
-/* Root container */
+/* Root styles */
 .root {
-    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-    -fx-background-color: #ffffff;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-background-color: #DBEAFE;
+    -fx-text-fill: #005BA1;
+}
+
+/* Typography */
+.page-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #005BA1;
+}
+
+.section-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #005BA1;
+}
+
+.subsection-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #005BA1;
+}
+
+.component-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #005BA1;
+}
+
+.body-text {
+    -fx-font-size: 14px;
+    -fx-font-weight: 400;
+    -fx-text-fill: #000000;
+}
+
+.caption {
+    -fx-font-size: 11px;
+    -fx-font-weight: 400;
+    -fx-text-fill: #000000;
 }
 
 /* Sidebar */
 .sidebar {
-    -fx-background-color: #e6f0ff; /* light blue */
+    -fx-background-color: #F5F3FF;
+    -fx-padding: 24px;
+    -fx-alignment: TOP_CENTER;
 }
 
-/* App Title */
 .app-name {
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #000000;
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #005BA1;
+    -fx-padding: 0 0 32px 0;
 }
 
-/* Sidebar Buttons */
 .sidebar-button {
-    -fx-background-color: #ffffff;
-    -fx-text-fill: #000000;
+    -fx-background-color: #A5D8FF;
+    -fx-text-fill: #005BA1;
     -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-background-radius: 10;
-    -fx-border-radius: 10;
-    -fx-border-color: #2196f3;
+    -fx-font-weight: 500;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #005BA1;
     -fx-border-width: 2;
-    -fx-padding: 10 20;
+    -fx-padding: 10px 16px;
+    -fx-cursor: hand;
 }
 
 .sidebar-button:hover {
-    -fx-background-color: #bbdefb;
+    -fx-background-color: #91cdfd;
 }
 
-/* Exit Button */
 .exit-button {
-    -fx-background-color: #ffcccc;
-    -fx-text-fill: #000000;
+    -fx-background-color: #E03131;
+    -fx-text-fill: #FFFFFF;
     -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-background-radius: 8;
-    -fx-border-radius: 8;
-    -fx-border-color: #ff4444;
-    -fx-border-width: 2;
-    -fx-padding: 10 20;
+    -fx-font-weight: 600;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 16px;
+    -fx-cursor: hand;
 }
 
 .exit-button:hover {
-    -fx-background-color: #ff9999;
+    -fx-background-color: #c62828;
 }
 
-/* Content Area */
+/* Content */
 .content-pane {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10px;
+    -fx-padding: 24px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 0);
+}
+
+.list-container, .details-container {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10px;
+    -fx-border-color: #005BA1;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1;
     -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 0);
 }
 
-/* Page Title */
-.page-title {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #000000;
-    -fx-padding: 10 0 20 0;
-}
-
-/* Quiz Table */
-.quiz-table {
-    -fx-border-color: #2196f3;
+/* Table styling */
+.quiz-table, .table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #005BA1;
     -fx-border-width: 2;
-    -fx-background-color: #ffffff;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px;
 }
 
-/* Table Headers */
-.quiz-table .column-header {
-    -fx-background-color: #e6f0ff;
-    -fx-border-color: #2196f3;
+.table-view .column-header {
+    -fx-background-color: #A5D8FF;
+    -fx-border-color: #005BA1;
     -fx-border-width: 0 0 2 0;
-    -fx-font-weight: bold;
+    -fx-font-weight: 600;
+    -fx-text-fill: #005BA1;
     -fx-alignment: CENTER;
 }
 
-/* Table Cells */
-.quiz-table .table-cell {
-    -fx-alignment: CENTER;
-    -fx-padding: 5px;
+.table-row-cell {
+    -fx-border-color: #DBEAFE;
 }
 
-/* Action Buttons inside Table (View/Feedback) */
+.table-row-cell:filled:selected {
+    -fx-background-color: #DBEAFE;
+}
+
+/* Action buttons */
 .action-button {
-    -fx-background-color: #ffffff;
-    -fx-text-fill: #000000;
+    -fx-background-color: #A5D8FF;
+    -fx-text-fill: #005BA1;
     -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-background-radius: 6;
-    -fx-border-radius: 6;
-    -fx-border-color: #2196f3;
+    -fx-font-weight: 600;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-border-color: #005BA1;
     -fx-border-width: 2;
-    -fx-padding: 4 12;
+    -fx-padding: 4px 12px;
+    -fx-cursor: hand;
 }
 
 .action-button:hover {
-    -fx-background-color: #bbdefb;
+    -fx-background-color: #91cdfd;
+}
+
+/* Feedback colors */
+.success {
+    -fx-background-color: #B2F2BB;
+    -fx-text-fill: #005BA1;
+}
+
+.error {
+    -fx-background-color: #FFC9C9;
+    -fx-text-fill: #E03131;
 }
