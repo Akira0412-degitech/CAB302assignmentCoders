@@ -38,13 +38,7 @@ public class SignUpController {
 
     UserDao userdao = new UserDao();
 
-    //For Testing implementing data into private fields
-    public void setTestingFields(TextField email, PasswordField password, ChoiceBox<String> role, Label error) {
-        this.useremailField = email;
-        this.passwordField = password;
-        this.roleBox = role;
-        this.errorsignup = error;
-    }
+
 
 
     @FXML

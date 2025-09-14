@@ -40,7 +40,7 @@ public class LoginController {
         String password = passwordField.getText();
 
         if(userEmail == null || password == null){
-            errorloginLabel.setText("Invalid username or password");
+            errorloginLabel.setText("Please enter valid email and password");
         }
 
         User currentUser = userdao.login(userEmail, password);
@@ -61,7 +61,7 @@ public class LoginController {
             stage.setScene(scene);
             stage.show();
         }else{
-            errorloginLabel.setText("Invalid username or password");
+            errorloginLabel.setText("Please enter valid email and password");
         }
 
     }

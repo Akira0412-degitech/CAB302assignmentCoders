@@ -4,6 +4,7 @@ import com.example.cab302a1.Login.LoginController;
 import com.example.cab302a1.dao.UserDao;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.User;
+import com.example.cab302a1.util.Session;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -16,16 +17,34 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LoginControllerTest {
 
-    @Mock
-    private UserDao mockDao; // Mocked DAO (no real DB connection)
+    private LoginController loginController;
+    private UserDao mockDao;
 
-    @InjectMocks
-    private LoginController loginController; // Controller under test
+    @BeforeAll
+    static void initToolkit() {
+        try {
+            javafx.application.Platform.startup(() -> {});
+        } catch (IllegalStateException e) {
+            // already initialized
+        }
+    }
 
     @BeforeEach
     void setUp() {
-        // Initialize all @Mock and @InjectMocks
-        MockitoAnnotations.openMocks(this);
+        // Create controller
+        loginController = new LoginController();
+
+        // Inject fake UI controls
+        loginController.useremailField = new TextField();
+        loginController.passwordField = new PasswordField();
+        loginController.errorloginLabel = new Label();
+
+        // Mock DAO
+        mockDao = mock(UserDao.class);
+        loginController.userdao = mockDao;
+
+        // Clear session
+        Session.clearUser();
     }
 
     @Test
@@ -55,6 +74,26 @@ class LoginControllerTest {
         assertNull(result);
         verify(mockDao).login("wrong@example.com", "bad");
     }
+
+    @Test
+    void testLoginWithEmptyFields() throws Exception {
+        // Arrange: set both email and password empty
+        loginController.useremailField.setText("");
+        loginController.passwordField.setText("");
+
+        // Act: call the controller’s login method (instead of DAO directly)
+        try {
+            loginController.handleLogin(null); // event can be null for logic test
+        } catch (Exception ignored) {
+            // Ignore any UI navigation exceptions, only check logic
+        }
+
+        // Assert: error message is set and no session user
+        assertEquals("Please enter valid email and password", loginController.errorloginLabel.getText());
+        assertNull(Session.getCurrentUser());
+    }
+
+
 
 
 }
