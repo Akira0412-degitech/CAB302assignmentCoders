@@ -3,9 +3,7 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.UserRole;
 import com.example.cab302a1.model.Quiz;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 

@@ -24,7 +24,7 @@ public class Main extends Application {
         }
 
         // Load the FXML file for the review page UI
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/cab302a1/login/login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/cab302a1/Login/Login-view.fxml"));
 
         // Set the scene dimensions to better fit the content and prevent resizing
         Scene scene = new Scene(fxmlLoader.load(), 1040, 600);
