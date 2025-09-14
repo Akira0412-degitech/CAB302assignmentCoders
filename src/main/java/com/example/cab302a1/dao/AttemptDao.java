@@ -29,7 +29,7 @@ public class AttemptDao {
     }
 
     public Integer getScore(int _quiz_id, int _user_id){
-        String sql =  "SELECT score from quiz_attempts WHERE WHERE is_completed = true AND quiz_id = ? AND answered_by = ? ORDER BY attempt_id DESC LIMIT 1";
+        String sql =  "SELECT score from quiz_attempts WHERE is_completed = true AND quiz_id = ? AND answered_by = ? ORDER BY attempt_id DESC LIMIT 1";
 
         try(Connection conn = DBconnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
