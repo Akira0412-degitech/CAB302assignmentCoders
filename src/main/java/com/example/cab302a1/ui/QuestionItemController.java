@@ -7,6 +7,8 @@ import javafx.scene.control.*;
 import java.util.List;
 import java.util.function.Consumer;
 
+
+
 public class QuestionItemController {
 
     @FXML private Label indexLabel;
@@ -128,6 +130,8 @@ public class QuestionItemController {
         }
         return question;
     }
+
+
 
     private static String safe(String s) { return s == null ? "" : s.trim(); }
 }

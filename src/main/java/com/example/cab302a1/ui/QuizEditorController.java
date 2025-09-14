@@ -24,12 +24,16 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
+
+
+//For test import
+import com.example.cab302a1.service.validation.QuizDraft;
+import com.example.cab302a1.service.validation.QuizValidator;
 
 public class QuizEditorController {
 

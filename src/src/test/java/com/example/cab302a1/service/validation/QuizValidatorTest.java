@@ -25,14 +25,14 @@ class QuizValidatorTest {
     }
 
     @Test
-    @DisplayName("정상 입력: 에러 없음")
+    @DisplayName("Normal input: no errors")
     void ok() {
         List<String> errors = QuizValidator.validate(validDraft());
         assertTrue(errors.isEmpty());
     }
 
     @Test
-    @DisplayName("질문 텍스트 비어있음 → 에러")
+    @DisplayName("Question text is empty: Error")
     void questionTextEmpty() {
         QuizDraft d = validDraft();
         d.getQuestions().get(0).setText("  ");
@@ -41,7 +41,7 @@ class QuizValidatorTest {
     }
 
     @Test
-    @DisplayName("보기 4개 중 공란 존재 → 에러들 포함")
+    @DisplayName("There are 4 blanks in the view: Includes errors")
     void choicesBlank() {
         QuizDraft d = validDraft();
         d.getQuestions().get(0).setChoices(Arrays.asList("A", "", "C", ""));
@@ -51,16 +51,16 @@ class QuizValidatorTest {
     }
 
     @Test
-    @DisplayName("보기 개수가 4개가 아님 → 에러")
+    @DisplayName("Number of views is not 4: Error")
     void choicesCountNotFour() {
         QuizDraft d = validDraft();
-        d.getQuestions().get(0).setChoices(Arrays.asList("A", "B", "C")); // 3개
+        d.getQuestions().get(0).setChoices(Arrays.asList("A", "B", "C")); // 3answer
         List<String> errors = QuizValidator.validate(d);
         assertTrue(errors.contains("Q#1_CHOICES_NEED_4"));
     }
 
     @Test
-    @DisplayName("정답 미선택 → 에러")
+    @DisplayName("No correct answer selected: Error")
     void noCorrectSelected() {
         QuizDraft d = validDraft();
         d.getQuestions().get(0).setCorrectIndex(null);
