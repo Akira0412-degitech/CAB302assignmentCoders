@@ -6,6 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.cab302a1.Planner.PlannerPageController"
@@ -13,7 +14,7 @@
             prefHeight="1000.0" prefWidth="640.0">
 
     <top>
-        <VBox spacing="12" alignment="CENTER" id="header-vbox">
+        <VBox spacing="12" alignment="CENTER" styleClass="header-vbox">
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Button text="Home"/>
             </HBox>
@@ -31,7 +32,7 @@
                 <Button fx:id="nextButton" text="Next"/>
             </HBox>
 
-            <HBox alignment="CENTER">
+            <HBox alignment="CENTER" styleClass="calendar-bg">
                 <GridPane fx:id="calendarGrid" hgap="10" vgap="6" styleClass="calendar-grid">
                     <columnConstraints>
                         <ColumnConstraints percentWidth="14.28"/> <!-- 100 / 7 -->
@@ -53,6 +54,15 @@
                         <RowConstraints percentHeight="15"/>
                     </rowConstraints>
                 </GridPane>
+
+                <VBox styleClass="events-bg" alignment="TOP_CENTER">
+                    <Label text="Events Today:" styleClass="events-title"/>
+
+                    <Label text="Nothing happening today..." alignment="CENTER"/>
+
+
+                    <Button text="Add Event" alignment="BOTTOM_CENTER" styleClass="event-button"/>
+                </VBox>
             </HBox>
         </VBox>
     </center>

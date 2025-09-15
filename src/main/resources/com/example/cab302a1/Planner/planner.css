@@ -37,6 +37,13 @@
     -fx-font-weight: bold;
 }
 
+.header-vbox {
+    -fx-padding: 10;
+    -fx-background-color: #e8effe;
+    -fx-border-color: #ceddf8;
+    -fx-border-width: 0 0 1 0;
+}
+
 .main-contents {
     -fx-padding: 10;
     -fx-alignment: top-center;
@@ -63,19 +70,46 @@
 }
 
 
-#header-vbox {
+.calendar-bg {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 15;
     -fx-padding: 10;
-    -fx-background-color: #e8effe;
-    -fx-border-color: #ceddf8;
-    -fx-border-width: 0 0 1 0;
 }
 
-#calendar-grid {
+.calendar-grid {
     -fx-padding: 20;
 }
 
-#calendar-buttons{
+.calendar-buttons{
     -alignment: CENTER;
-    -spacing: 10;
     -fx-padding: 20;
+}
+
+
+.events-bg{
+    -fx-background-color: #f3f3f3;
+    -fx-background-radius: 15;
+    -fx-padding: 20;
+    -fx-spacing: 20;
+    -fx-pref-width: 300;
+}
+
+.events-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.event-button{
+    -fx-padding: 10;
+    -fx-background-color: #dce7ff;
+    -fx-border-color: #b2caff;
+    -fx-border-width: 2 2 2 2;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-pref-width: 150;
+}
+
+.event-button:active{
+   -fx-background-color: #99a3ba;
+   -fx-border-color: #748cc2;
 }
