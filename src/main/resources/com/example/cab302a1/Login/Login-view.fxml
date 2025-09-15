@@ -1,16 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.cab302a1.Login.LoginController">
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.example.cab302a1.Login.LoginController"
+            styleClass="login-page">
+    
 
-    <Label text="Login" />
-    <TextField fx:id="useremailField" promptText="Useremail" />
-    <PasswordField fx:id="passwordField" promptText="Password" />
-    <Button text="Login" onAction="#handleLogin" />
-    <Label fx:id="errorloginLabel" text="" textFill="red" />
-    <Hyperlink fx:id="signupLink" text="Sign up?" onAction="#handleSignUpClick"/>
-
-</VBox>
+    <center>
+        <VBox alignment="CENTER" spacing="24" styleClass="login-container" maxWidth="400.0">
+            <padding>
+                <Insets bottom="48.0" left="48.0" right="48.0" top="48.0" />
+            </padding>
+            
+            <!-- Page Title -->
+            <Label text="Login" styleClass="page-title"/>
+            
+            <!-- Form Container -->
+            <VBox alignment="CENTER" spacing="16" maxWidth="300.0">
+                
+                <!-- Username Field -->
+                <TextField fx:id="useremailField" promptText="User Name" styleClass="input-field"/>
+                
+                <!-- Password Field -->
+                <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field"/>
+                
+                <!-- Navigation Link Container -->
+                <HBox alignment="CENTER_RIGHT" maxWidth="300.0">
+                    <Hyperlink fx:id="signupLink" text="Signup?" onAction="#handleSignUpClick" styleClass="nav-link"/>
+                </HBox>
+                
+                <!-- Login Button -->
+                <Button text="Login" onAction="#handleLogin" styleClass="primary-button"/>
+                
+                <!-- Error Label -->
+                <Label fx:id="errorloginLabel" text="" styleClass="error-label" visible="false" managed="false"/>
+                
+            </VBox>
+        </VBox>
+    </center>
+    
+</BorderPane>

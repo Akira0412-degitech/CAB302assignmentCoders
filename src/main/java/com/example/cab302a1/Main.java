@@ -23,19 +23,27 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-        // Load the FXML file for the review page UI
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/cab302a1/login/login-view.fxml"));
+        // Load the FXML file for the login page UI
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/cab302a1/Login/Login-view.fxml"));
 
-        // Set the scene dimensions to better fit the content and prevent resizing
-        Scene scene = new Scene(fxmlLoader.load(), 900, 600);
+        // Set the scene dimensions to fit the new login design
+        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+        
+        // Load CSS stylesheet for login page
+        try {
+            String cssPath = Main.class.getResource("/com/example/cab302a1/Login/Login.css").toExternalForm();
+            scene.getStylesheets().add(cssPath);
+            System.out.println("Login CSS loaded successfully: " + cssPath);
+        } catch (Exception e) {
+            System.err.println("Could not load Login.css: " + e.getMessage());
+        }
 
-        // Apply a basic stylesheet for common styles
-//        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-//
-//        stage.setTitle("Quiz App - Teacher Review Page"); // Updated title for clarity
-        stage.setTitle("Login");
+        stage.setTitle("Interactive Quiz Creator - Login");
         stage.setScene(scene);
-        stage.setResizable(false); // Make the window non-resizable
+        stage.setResizable(true); // Allow resizing for better user experience
+        stage.setMinWidth(600);   // Set minimum width
+        stage.setMinHeight(500);  // Set minimum height
+        stage.centerOnScreen();   // Center the window
         stage.show();
     }
 

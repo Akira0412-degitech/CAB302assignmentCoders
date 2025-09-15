@@ -28,6 +28,7 @@ module com.example.cab302a1 {
     exports com.example.cab302a1.components;
     exports com.example.cab302a1.logout;
     exports com.example.cab302a1.result;
+    exports com.example.cab302a1.demo;
 
 
 }
