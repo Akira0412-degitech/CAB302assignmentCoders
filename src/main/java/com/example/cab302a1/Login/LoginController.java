@@ -53,7 +53,7 @@ public class LoginController {
 
         // Validation - ensure fields are not empty
         if(email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()){
-            showErrorMessage("Please enter your email and password");
+            showErrorMessage("Please enter valid email and password");
             return;
         }
 

@@ -36,9 +36,9 @@ public class LoginSignUpDemo extends Application {
         try {
             String cssPath = LoginSignUpDemo.class.getResource("/com/example/cab302a1/Login/Login.css").toExternalForm();
             scene.getStylesheets().add(cssPath);
-            System.out.println("✅ Login CSS loaded successfully: " + cssPath);
+            System.out.println("Login CSS loaded successfully: " + cssPath);
         } catch (Exception e) {
-            System.err.println("❌ Could not load Login.css: " + e.getMessage());
+            System.err.println("Could not load Login.css: " + e.getMessage());
         }
         
         // Configure stage

@@ -93,24 +93,26 @@ src/main/java/module-info.java
 ## 🔄 **Database Integration Strategy**
 
 ### **Field Mapping Solution**
-Since the database schema uses email only but the prototype requires both username and email:
+Updated database schema now includes separate username and email columns:
 
 **Login Page:**
-- `useremailField` → Labeled as "User Name" in UI
-- Database uses the value as email for authentication
-- Maintains backward compatibility
+- `emailField` → Email input field for authentication
+- Database authenticates using the email column
+- UI prompts for "Email" instead of "User Name"
 
 **SignUp Page:**
-- `useremailField` → Username field (display only)
-- `emailField` → Email field (used for database storage)
-- `UserDao.signUpUser(email, password, role)` called with email field
-- Console logging shows both username and email for debugging
+- `usernameField` → Username field (stored in username column)
+- `emailField` → Email field (stored in email column)
+- `UserDao.signUpUser(username, email, password, role)` called with both fields
+- Both username and email are stored separately in database
 
 ### **Validation Logic**
 ```java
 // Enhanced validation in SignUpController
 - All fields required (username, email, password, role)
 - Email format validation (contains @ and .)
+- Username is stored in dedicated username column
+- Email is stored in dedicated email column
 - Proper error message display management
 - Database error handling (duplicate email, etc.)
 ```
@@ -179,7 +181,7 @@ Invalid email formats for validation testing
 ## ⚠️ **Important Notes for Team**
 
 ### **Critical Compatibility Information**
-1. **Field Mapping**: `useremailField` in SignUp now represents username, not email
+1. **Field Mapping**: `usernameField` and `emailField` in SignUp store to separate database columns
 2. **Database Operations**: Always use `emailField.getText()` for database calls in SignUp
 3. **Controller Methods**: All existing method signatures preserved
 4. **Navigation**: Updated scene dimensions (800x600) for better design fit

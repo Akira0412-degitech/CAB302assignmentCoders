@@ -38,9 +38,10 @@ class SignUpControllerTest {
     void setUp() {
         controller = new SignUpController();
 
-        controller.useremailField = new TextField();
+        controller.usernameField = new TextField();
+        controller.emailField = new TextField();
         controller.passwordField = new PasswordField();
-        controller.roleBox = new ChoiceBox<>();
+        controller.roleBox = new ComboBox<>();
         controller.errorsignup = new Label();
 
         controller.roleBox.getItems().addAll("Teacher", "Student");
@@ -55,12 +56,13 @@ class SignUpControllerTest {
 
     @Test
     void testSignUpWithEmptyFields() throws Exception {
-        controller.useremailField.setText("");
+        controller.usernameField.setText("");
+        controller.emailField.setText("");
         controller.passwordField.setText("");
 
         controller.handleSignUpclick(new ActionEvent());
 
-        assertEquals("Please fill the form to sing up", controller.errorsignup.getText());
+        assertEquals("Please fill in all fields to sign up", controller.errorsignup.getText());
         assertNull(Session.getCurrentUser());
     }
 
@@ -111,7 +113,7 @@ class SignUpControllerTest {
         controller.passwordField.setText("validpass");
 
         // 特定入力で明示的に null を返す
-        when(mockUserDao.signUpUser(anyString(), "user@example.com", "validpass", "Student")).thenReturn(null);
+        when(mockUserDao.signUpUser(eq("testuser"), eq("user@example.com"), eq("validpass"), eq("Student"))).thenReturn(null);
 
         controller.handleSignUpclick(new ActionEvent());
 

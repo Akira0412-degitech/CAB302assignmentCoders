@@ -197,7 +197,7 @@ public class SignUpController {
 
         // Basic email validation
         if(!isValidEmail(email)){
-            showErrorMessage("Please enter a valid email address");
+            showErrorMessage("Something went wrong, Try again later.");
             return;
         }
 
@@ -216,7 +216,7 @@ public class SignUpController {
             stage.setScene(scene);
             stage.show();
         }else {
-            showErrorMessage("Email already exists or signup failed. Please try again.");
+            showErrorMessage("Something went wrong, Try again later.");
         }
     }
 

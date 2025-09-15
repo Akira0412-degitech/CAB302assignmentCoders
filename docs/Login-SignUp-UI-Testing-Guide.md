@@ -38,7 +38,7 @@ Ensure your database contains test users:
 - [ ] **Input Fields**: 
   - [ ] White background with black border (2px)
   - [ ] Rounded corners (25px border radius)
-  - [ ] Proper placeholder text: "User Name", "Password"
+  - [ ] Proper placeholder text: "Email", "Password"
   - [ ] 300px width, 50px height
 - [ ] **Button**: 
   - [ ] Light blue background (#A5D8FF)
@@ -65,7 +65,7 @@ Ensure your database contains test users:
 
 - [ ] **Empty Fields**:
   1. Leave fields empty, click Login
-  2. ✅ Error message: "Please enter your username and password"
+  2. ✅ Error message: "Please enter valid email and password"
 
 - [ ] **Navigation to SignUp**:
   1. Click "Signup?" link
@@ -77,7 +77,7 @@ Ensure your database contains test users:
 - [ ] **Background**: Light blue (#DBEAFE) background
 - [ ] **Title**: "SignUp" in deep blue (#005BA1), 28px, bold
 - [ ] **Input Fields**: 
-  - [ ] Four fields: User Name, Email, Role, Password
+  - [ ] Four fields: Username, Email, Role, Password
   - [ ] Same styling as Login page
   - [ ] Proper placeholder text
 - [ ] **Role Dropdown**: 
@@ -103,7 +103,7 @@ Ensure your database contains test users:
 - [ ] **Email Validation**:
   1. Enter invalid email: `invalidemail`
   2. Click SignUp
-  3. ✅ Error message: "Please enter a valid email address"
+  3. ✅ Error message: "Something went wrong, Try again later."
 
 - [ ] **Empty Fields**:
   1. Leave any field empty, click SignUp
@@ -111,7 +111,7 @@ Ensure your database contains test users:
 
 - [ ] **Duplicate Email**:
   1. Try to signup with existing email: `demo@example.com`
-  2. ✅ Error message: "Email already exists or signup failed. Please try again."
+  2. ✅ Error message: "Something went wrong, Try again later."
 
 - [ ] **Role Selection**:
   1. Test both Teacher and Student roles
@@ -227,9 +227,9 @@ Ensure your database contains test users:
 ## Known Issues and Limitations
 
 ### **Design Decisions**
-1. **Username vs Email**: Database stores email only, but UI shows both for prototype compliance
-2. **Field Mapping**: `useremailField` in SignUp now represents username, `emailField` represents email
-3. **Backward Compatibility**: Existing code using `useremailField` still works
+1. **Username and Email**: Database now stores both username and email in separate columns
+2. **Field Mapping**: `usernameField` stores to username column, `emailField` stores to email column
+3. **Database Schema**: Updated with separate username column via Flyway migration V9
 
 ### **Future Enhancements**
 1. **Password Strength**: Could add password strength indicators
