@@ -14,13 +14,12 @@ DEALLOCATE PREPARE stmt;
 -- Now add the username column properly
 ALTER TABLE users ADD COLUMN username VARCHAR(100);
 
--- Update existing users with unique default usernames
+-- Update existing users with default usernames
 UPDATE users SET username = 'demo_user' WHERE email = 'demo@example.com';
 UPDATE users SET username = 'admin_user' WHERE email = 'admin@example.com';
 
--- Update any remaining rows with generic usernames based on user_id to ensure uniqueness
+-- Update any remaining rows with generic usernames based on user_id
 UPDATE users SET username = CONCAT('user_', user_id) WHERE username IS NULL;
 
--- Now make the column NOT NULL and add UNIQUE constraint
+-- Now make the column NOT NULL (but not UNIQUE - only email should be unique)
 ALTER TABLE users MODIFY COLUMN username VARCHAR(100) NOT NULL;
-ALTER TABLE users ADD CONSTRAINT uk_users_username UNIQUE (username);
