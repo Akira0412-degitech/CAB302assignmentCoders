@@ -147,7 +147,7 @@ See more detail in [QuizResultIntegration-README](docs/QuizResultIntegration-REA
 **Checkpoint 3 (Week 8 - 9) - Project Progress**
 - [x] DB design finalization
 - [x] Created Design Style Guide document
-- [x] Completed Make the final prototype
+- [x] Completed the final functional prototype
 - [x] Connect DB part to Teacher/Student Pagea
 - [x] Unit Testing
 - [x] Prepare script for video demo
