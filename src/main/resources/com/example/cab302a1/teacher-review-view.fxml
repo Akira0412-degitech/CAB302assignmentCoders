@@ -36,7 +36,7 @@
                     </children>
                 </VBox>
                 <Button fx:id="exitBtn" maxWidth="Infinity"
-                        styleClass="sidebar-button" text="Exit">
+                        styleClass="exit-button" text="Exit">
                     <VBox.margin>
                         <Insets top="20.0"/>
                     </VBox.margin>

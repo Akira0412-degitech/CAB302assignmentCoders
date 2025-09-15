@@ -53,26 +53,24 @@ public class TeacherReviewController {
         quizNameCol.setCellValueFactory(new PropertyValueFactory<>("quizName"));
         scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
 
-        // Add "View" button column
+        // Inside initialize(), when creating the View column
         resultCol.setCellFactory(param -> new TableCell<>() {
             private final Button viewBtn = new Button("View");
 
             {
+                // Apply consistent style
+                viewBtn.getStyleClass().add("action-button");
+
                 viewBtn.setOnAction(event -> {
                     QuizResult result = getTableView().getItems().get(getIndex());
                     System.out.println("Viewing result for " + result.getQuizName());
-                    // TODO: open detailed review page if needed
                 });
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(viewBtn);
-                }
+                setGraphic(empty ? null : viewBtn);
             }
         });
 
