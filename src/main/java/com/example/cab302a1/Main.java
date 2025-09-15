@@ -1,5 +1,6 @@
 package com.example.cab302a1;
 
+import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.UserDao;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
