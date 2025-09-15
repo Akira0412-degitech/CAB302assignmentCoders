@@ -169,9 +169,9 @@ public class SignUpController {
         try {
             String cssPath = getClass().getResource("/com/example/cab302a1/Login/Login.css").toExternalForm();
             scene.getStylesheets().add(cssPath);
-            System.out.println("✅ Login CSS loaded successfully: " + cssPath);
+            System.out.println("Login CSS loaded successfully: " + cssPath);
         } catch (Exception e) {
-            System.err.println("❌ Could not load Login.css: " + e.getMessage());
+            System.err.println("Could not load Login.css: " + e.getMessage());
         }
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
