@@ -144,6 +144,16 @@ See more detail in [QuizResultIntegration-README](docs/QuizResultIntegration-REA
 - [X] Medium fidelity prototypes
 - [X] User Story Creation
 
+**Checkpoint 3 (Week 8 - 9) - Project Progress**
+- [x] DB design finalization
+- [x] Created Design Style Guide document
+- [x] Completed Make the final prototype
+- [x] Connect DB part to Teacher/Student Pagea
+- [x] Unit Testing
+- [x] Prepare script for video demo
+- [x] Added Fryway
+- [x] Implement page for quiz
+
 ---
 
 **CAB302 - Software Development Project**  
