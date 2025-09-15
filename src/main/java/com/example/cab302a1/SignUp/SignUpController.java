@@ -22,7 +22,7 @@ public class SignUpController {
     private Parent root;
 
     @FXML
-    TextField useremailField;   // Username input field (for display purposes)
+    TextField usernameField;   // Username input field
 
     @FXML
     TextField emailField;   // Email input field (for database storage)
@@ -57,8 +57,8 @@ public class SignUpController {
         // Remove auto-focus from first field by focusing on the container instead
         // This will be executed after the FXML is loaded
         javafx.application.Platform.runLater(() -> {
-            if (useremailField.getParent() != null) {
-                useremailField.getParent().requestFocus();
+            if (usernameField.getParent() != null) {
+                usernameField.getParent().requestFocus();
             }
         });
     }
@@ -184,7 +184,7 @@ public class SignUpController {
     @FXML
     void handleSignUpclick(ActionEvent event) throws IOException {
         // Get values from input fields
-        String username = useremailField.getText();
+        String username = usernameField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
         String role = roleBox.getValue();
@@ -201,8 +201,8 @@ public class SignUpController {
             return;
         }
 
-        // Use email for database operations (as per existing database structure)
-        User currentUser = userdao.signUpUser(email, password, role);
+        // Store username and email separately in database
+        User currentUser = userdao.signUpUser(username, email, password, role);
 
         if(currentUser != null){
             Session.setCurrentUser(currentUser);

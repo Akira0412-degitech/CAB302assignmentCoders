@@ -50,7 +50,7 @@ class LoginControllerTest {
     @Test
     void testLoginSuccess() throws Exception {
         // Arrange: define behavior of mock DAO
-        User mockUser = new Student(1, "test@example.com", "pass", "Student", null);
+        User mockUser = new Student(1, "testuser", "test@example.com", "pass", "Student", null);
         when(mockDao.login("test@example.com", "pass")).thenReturn(mockUser);
 
         // Act: call login method

@@ -20,7 +20,7 @@ public class LoginController {
     private Parent root;
 
     @FXML
-    TextField useremailField;   // Username input field
+    TextField emailField;   // Email input field
 
     @FXML
     PasswordField passwordField;   // Password input field
@@ -39,8 +39,8 @@ public class LoginController {
         // Remove auto-focus from first field by focusing on the container instead
         // This will be executed after the FXML is loaded
         javafx.application.Platform.runLater(() -> {
-            if (useremailField.getParent() != null) {
-                useremailField.getParent().requestFocus();
+            if (emailField.getParent() != null) {
+                emailField.getParent().requestFocus();
             }
         });
     }
@@ -48,16 +48,16 @@ public class LoginController {
     @FXML
     protected void handleLogin(ActionEvent event) throws IOException {
 
-        String userEmail = useremailField.getText();
+        String email = emailField.getText();
         String password = passwordField.getText();
 
         // Validation - ensure fields are not empty
-        if(userEmail == null || userEmail.trim().isEmpty() || password == null || password.trim().isEmpty()){
-            showErrorMessage("Please enter your username and password");
+        if(email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()){
+            showErrorMessage("Please enter your email and password");
             return;
         }
 
-        User currentUser = userdao.login(userEmail.trim(), password);
+        User currentUser = userdao.login(email.trim(), password);
 
         if(currentUser != null){
             System.out.println("Login successful: " + currentUser.getEmail());

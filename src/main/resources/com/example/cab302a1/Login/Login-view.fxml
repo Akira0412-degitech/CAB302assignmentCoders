@@ -22,8 +22,8 @@
             <!-- Form Container -->
             <VBox alignment="CENTER" spacing="16" maxWidth="300.0">
                 
-                <!-- Username Field -->
-                <TextField fx:id="useremailField" promptText="User Name" styleClass="input-field"/>
+                <!-- Email Field -->
+                <TextField fx:id="emailField" promptText="Email" styleClass="input-field"/>
                 
                 <!-- Password Field -->
                 <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field"/>

@@ -67,12 +67,13 @@ class SignUpControllerTest {
     @Test
     void testSignUpWithValidValues() throws Exception {
         // 入力をセット
-        controller.useremailField.setText("test@example.com");
+        controller.usernameField.setText("testuser");
+        controller.emailField.setText("test@example.com");
         controller.passwordField.setText("password123");
 
         // UserDao をモックして成功パターンを返す
-        User fakeUser = new User(1, "test@example.com", "password123", "Student", null);
-        when(mockUserDao.signUpUser(anyString(), anyString(), anyString()))
+        User fakeUser = new User(1, "testuser", "test@example.com", "password123", "Student", null);
+        when(mockUserDao.signUpUser(anyString(), anyString(), anyString(), anyString()))
                 .thenReturn(fakeUser);
 
         // 画面遷移は不要なので event は null を渡す
@@ -90,11 +91,12 @@ class SignUpControllerTest {
 
     @Test
     void testSignUpWithInvalidValues() throws Exception {
-        controller.useremailField.setText("bad_email");
+        controller.usernameField.setText("baduser");
+        controller.emailField.setText("bad_email");
         controller.passwordField.setText("short");
 
         // DAO が null を返すように設定（失敗ケース）
-        when(mockUserDao.signUpUser(anyString(), anyString(), anyString())).thenReturn(null);
+        when(mockUserDao.signUpUser(anyString(), anyString(), anyString(), anyString())).thenReturn(null);
 
         controller.handleSignUpclick(new ActionEvent());
 
@@ -104,11 +106,12 @@ class SignUpControllerTest {
 
     @Test
     void testSignUpDaoReturnsNullExplicit() throws Exception {
-        controller.useremailField.setText("user@example.com");
+        controller.usernameField.setText("testuser");
+        controller.emailField.setText("user@example.com");
         controller.passwordField.setText("validpass");
 
         // 特定入力で明示的に null を返す
-        when(mockUserDao.signUpUser("user@example.com", "validpass", "Student")).thenReturn(null);
+        when(mockUserDao.signUpUser(anyString(), "user@example.com", "validpass", "Student")).thenReturn(null);
 
         controller.handleSignUpclick(new ActionEvent());
 

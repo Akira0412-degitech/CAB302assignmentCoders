@@ -22,8 +22,8 @@
             <!-- Form Container -->
             <VBox alignment="CENTER" spacing="16" maxWidth="300.0">
                 
-                <!-- Username Field (keeping fx:id as useremailField for controller compatibility) -->
-                <TextField fx:id="useremailField" promptText="User Name" styleClass="input-field"/>
+                <!-- Username Field -->
+                <TextField fx:id="usernameField" promptText="User Name" styleClass="input-field"/>
                 
                 <!-- Email Field (new field for prototype compliance) -->
                 <TextField fx:id="emailField" promptText="Email" styleClass="input-field"/>
