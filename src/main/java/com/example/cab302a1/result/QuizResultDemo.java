@@ -42,12 +42,12 @@ public class QuizResultDemo extends Application {
             // These are sample IDs - in real usage, these would come from your quiz flow
             controller.setQuizResultFromDatabaseForCurrentUser(1); // quiz_id = 1
             databaseLoaded = true;
-            System.out.println("✅ DATABASE INTEGRATION: Successfully loaded quiz result from database using AttemptDao.getScore()");
-            System.out.println("📊 Score fetched from quiz_attempts table for current user");
+            System.out.println("DATABASE INTEGRATION: Successfully loaded quiz result from database using AttemptDao.getScore()");
+            System.out.println("Score fetched from quiz_attempts table for current user");
         } catch (QuizResultService.QuizResultException e) {
             // Fallback to sample data if database doesn't have the data
-            System.out.println("⚠️  Database integration available but no data found: " + e.getMessage());
-            System.out.println("🔄 Falling back to sample data for demo purposes");
+            System.out.println("Database integration available but no data found: " + e.getMessage());
+            System.out.println("Falling back to sample data for demo purposes");
             QuizResultData sampleData = new QuizResultData(13, 20, "Mathematics Quiz (Sample)", 123, 1);
             controller.setQuizResult(sampleData);
         }
@@ -66,7 +66,7 @@ public class QuizResultDemo extends Application {
         System.out.println("Quiz Result Demo started");
         System.out.println("NavigationManager initialized - EXIT -> Cancel will return to this page");
         if (databaseLoaded) {
-            System.out.println("🎯 TEAM INTEGRATION: This demo shows how your quiz completion logic should call the database methods");
+            System.out.println("TEAM INTEGRATION: This demo shows how your quiz completion logic should call the database methods");
         }
     }
     
@@ -79,8 +79,8 @@ public class QuizResultDemo extends Application {
             // Create a mock user for demo purposes
             User mockUser = new User(1, "demo@example.com", "password", "Student", new Timestamp(System.currentTimeMillis()));
             Session.setCurrentUser(mockUser);
-            System.out.println("📝 Mock user session created for demo (ID: 1, Role: Student)");
-            System.out.println("💡 In real usage, user would be logged in through LoginController");
+            System.out.println("Mock user session created for demo (ID: 1, Role: Student)");
+            System.out.println("In real usage, user would be logged in through LoginController");
         }
     }
 
@@ -91,9 +91,9 @@ public class QuizResultDemo extends Application {
      */
     public static void main(String[] args) {
         System.out.println("Starting Quiz Result Demo with Database Integration...");
-        System.out.println("🔍 Will attempt to load quiz results from database using AttemptDao.getScore()");
-        System.out.println("📋 If no database data found, will show sample score: 13/20");
-        System.out.println("🎯 This demonstrates how your quiz completion logic should integrate");
+        System.out.println("Will attempt to load quiz results from database using AttemptDao.getScore()");
+        System.out.println("If no database data found, will show sample score: 13/20");
+        System.out.println("This demonstrates how your quiz completion logic should integrate");
         launch(args);
     }
 }
