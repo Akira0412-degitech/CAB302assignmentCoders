@@ -16,6 +16,8 @@ public class QuestionItemController {
     @FXML private TextField answer3;
     @FXML private TextField answer4;
 
+    private int[] optionIds = new int[4];
+
     // ★ New: Radio buttons for explicit correct selection
     @FXML private RadioButton rb1, rb2, rb3, rb4;
     private final ToggleGroup correctGroup = new ToggleGroup();
@@ -25,6 +27,24 @@ public class QuestionItemController {
 
     /** Parent callback to remove this card. */
     private Consumer<QuestionItemController> onRemove;
+
+    private int questionId = 0;
+    public void setQuestionId(int id) {
+        this.questionId = id;
+    }
+
+    public int getQuestionId() {
+        return this.questionId;
+    }
+    public void setOptionIds(int[] ids) {
+        if (ids.length == 4) {
+            this.optionIds = ids;
+        }
+    }
+
+    public int[] getOptionIds() {
+        return optionIds;
+    }
 
     @FXML
     public void initialize() {
@@ -112,11 +132,15 @@ public class QuestionItemController {
         if (correctIndex < 0) throw new IllegalStateException("Please choose a correct answer.");
 
         QuizQuestionCreate question = new QuizQuestionCreate();
+        question.setQuestion_id(this.questionId);
         question.setQuestionText(q);
-        List<String> answers = List.of(a1, a2, a3, a4);
-        for (int i = 0; i < answers.size(); i++) {
-            question.getChoices().add(new QuizChoiceCreate(answers.get(i), i == correctIndex));
+        String[] answers = {a1, a2, a3, a4};
+        for (int i = 0; i < answers.length; i++) {
+            QuizChoiceCreate choice = new QuizChoiceCreate(answers[i], i == correctIndex);
+            choice.setOption_id(optionIds[i]);
+            question.getChoices().add(choice);
         }
+
         return question;
     }
 

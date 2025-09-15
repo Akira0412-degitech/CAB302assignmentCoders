@@ -62,5 +62,20 @@ public class OptionDao {
         return options;
     }
 
+    public void updateOption(QuizChoiceCreate choice) {
+        String sql = "UPDATE question_options SET option_text = ?, is_correct = ? WHERE option_id = ?";
+        try (Connection conn = DBconnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, choice.getText());
+            pstmt.setBoolean(2, choice.isAnswer());
+            pstmt.setInt(3, choice.getOption_id());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
