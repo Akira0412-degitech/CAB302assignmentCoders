@@ -64,4 +64,20 @@ public class QuestionDao {
         }
         return -1;
     }
+
+    public void updateQuestion(QuizQuestionCreate q) {
+        String sql = "UPDATE questions SET statement = ?, explanation = ? WHERE question_id = ?";
+        try (Connection conn = DBconnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, q.getQuestionText());
+            pstmt.setString(2, q.getExplanation());
+            pstmt.setInt(3, q.getQuestionId());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
