@@ -20,7 +20,7 @@ public class QuizChoiceCreate {
     }
     public void setText(String text) { this.text = text; } //change text to settext
 
-
+    public int getOption_id() {return option_id;}
     public int getQuestion_id(){return question_id;}
     public String getText() { return text; } //extract selected text
     public boolean isAnswer() { return is_correct; } // T/F check

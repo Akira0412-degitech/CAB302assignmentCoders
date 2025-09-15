@@ -63,6 +63,7 @@ public class QuizResultController implements Initializable {
     private QuizResultData currentQuizResult;
     private AnswerReviewHandler answerReviewHandler;
     private HomeNavigationHandler homeNavigationHandler;
+    private QuizResultService quizResultService;
 
     /**
      * Interface for handling answer review navigation.
@@ -100,6 +101,9 @@ public class QuizResultController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Initialize database service
+        this.quizResultService = new QuizResultService();
+        
         // Initialize with default values
         setupDefaultDisplay();
         setupAccessibility();
@@ -307,6 +311,105 @@ public class QuizResultController implements Initializable {
     private void showPlaceholderMessage(String message) {
         System.out.println("PLACEHOLDER: " + message);
         // In a full implementation, this could show a dialog or toast notification
+    }
+
+    // ============================================
+    // Database Integration Methods (NEW)
+    // ============================================
+    
+    /**
+     * Sets quiz result data by fetching from database using AttemptDao.getScore().
+     * This method uses the quiz_id and user_id to fetch the actual score from database.
+     * 
+     * @param quizId The ID of the quiz
+     * @param userId The ID of the user
+     * @throws QuizResultService.QuizResultException if data cannot be fetched from database
+     */
+    public void setQuizResultFromDatabase(int quizId, int userId) throws QuizResultService.QuizResultException {
+        QuizResultData resultData = quizResultService.getQuizResult(quizId, userId);
+        setQuizResult(resultData);
+        System.out.println("Quiz result loaded from database: quiz_id=" + quizId + ", user_id=" + userId);
+    }
+    
+    /**
+     * Sets quiz result data for the currently logged-in user.
+     * Uses Session.getCurrentUser() to get the current user ID.
+     * 
+     * @param quizId The ID of the quiz
+     * @throws QuizResultService.QuizResultException if no user is logged in or data cannot be fetched
+     */
+    public void setQuizResultFromDatabaseForCurrentUser(int quizId) throws QuizResultService.QuizResultException {
+        QuizResultData resultData = quizResultService.getQuizResultForCurrentUser(quizId);
+        setQuizResult(resultData);
+        System.out.println("Quiz result loaded from database for current user: quiz_id=" + quizId);
+    }
+    
+    /**
+     * Static method for showing quiz results directly from database.
+     * Team members can use this method to navigate from their quiz completion logic.
+     * 
+     * @param stage The current stage
+     * @param quizId The ID of the quiz
+     * @param userId The ID of the user
+     * @throws IOException if the quiz result FXML cannot be loaded
+     * @throws QuizResultService.QuizResultException if database data cannot be fetched
+     */
+    public static void showQuizResultFromDatabase(Stage stage, int quizId, int userId) 
+            throws IOException, QuizResultService.QuizResultException {
+        
+        FXMLLoader fxmlLoader = new FXMLLoader(QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.fxml"));
+        Scene resultScene = new Scene(fxmlLoader.load(), 1200, 700);
+        
+        // Load CSS stylesheet
+        URL cssUrl = QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.css");
+        if (cssUrl != null) {
+            resultScene.getStylesheets().add(cssUrl.toExternalForm());
+        }
+        
+        // Get the controller and set the quiz result data from database
+        QuizResultController controller = fxmlLoader.getController();
+        controller.setQuizResultFromDatabase(quizId, userId);
+        
+        // Update the stage
+        stage.setTitle("Interactive Quiz Creator - Quiz Results");
+        stage.setScene(resultScene);
+        stage.setResizable(true);
+        stage.centerOnScreen();
+        
+        System.out.println("Quiz result page displayed with database data: quiz_id=" + quizId + ", user_id=" + userId);
+    }
+    
+    /**
+     * Static method for showing quiz results for the current user from database.
+     * 
+     * @param stage The current stage
+     * @param quizId The ID of the quiz
+     * @throws IOException if the quiz result FXML cannot be loaded
+     * @throws QuizResultService.QuizResultException if database data cannot be fetched
+     */
+    public static void showQuizResultFromDatabaseForCurrentUser(Stage stage, int quizId) 
+            throws IOException, QuizResultService.QuizResultException {
+        
+        FXMLLoader fxmlLoader = new FXMLLoader(QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.fxml"));
+        Scene resultScene = new Scene(fxmlLoader.load(), 1200, 700);
+        
+        // Load CSS stylesheet
+        URL cssUrl = QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.css");
+        if (cssUrl != null) {
+            resultScene.getStylesheets().add(cssUrl.toExternalForm());
+        }
+        
+        // Get the controller and set the quiz result data from database
+        QuizResultController controller = fxmlLoader.getController();
+        controller.setQuizResultFromDatabaseForCurrentUser(quizId);
+        
+        // Update the stage
+        stage.setTitle("Interactive Quiz Creator - Quiz Results");
+        stage.setScene(resultScene);
+        stage.setResizable(true);
+        stage.centerOnScreen();
+        
+        System.out.println("Quiz result page displayed with database data for current user: quiz_id=" + quizId);
     }
 
     // ============================================

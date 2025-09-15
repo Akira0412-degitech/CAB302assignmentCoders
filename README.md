@@ -93,6 +93,40 @@ Interactive Quiz Creator is a comprehensive educational tool that enables educat
 - **Mitchell Tran** - Review Page Development
 - **Akira Hasuo** - Backend Developer & Database Design
 
+## Database Setup
+
+To initialize the project database, use the provided `db/init.sql` script.
+
+### On Windows:
+  ```bash
+  Get-Content .\db\init.sql | mysql -u root -p
+  ```
+  or
+  ```bash
+  Get-Content .\db\init.sql -Raw | & "your-local-path-to-mysql.exe" -u root -p
+  ```
+  example:
+  ```bash
+  Get-Content .\db\init.sql -Raw | & "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p
+  ```
+
+### On macOS / Linux:
+  ```bash
+  mysql -u root -p < db/init.sql
+  ```
+
+This makes Database called ```cab302_quizapp``` where user ```appuser@localhost``` password ```AppPass#2025``` are used to login.
+
+## Component
+
+See more detail in [NavBar-README](docs/NavBar-README.md)
+
+## Quiz Result Page Integration Guide
+
+See more detail in [QuizResultIntegration-README](docs/QuizResultIntegration-README.md)
+
+---
+
 ## Current Development Status
 
 **Checkpoint 1 (Week 2 - 5) - Project Setup & Planning**
@@ -110,26 +144,15 @@ Interactive Quiz Creator is a comprehensive educational tool that enables educat
 - [X] Medium fidelity prototypes
 - [X] User Story Creation
 
----
-## Database Setup
-
-To initialize the project database, use the provided `db/init.sql` script.
-
-On Windows:
-  ```bash
-  Get-Content .\db\init.sql | mysql -u root -p
-  ```
-  or
-  ```bash
-  Get-Content .\db\init.sql -Raw | & "your-local-path-to-mysql.exe" -u root -p
-  ex:  Get-Content .\db\init.sql -Raw | & "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p    
-  ```
-On macOS / Linux:
-  ```bash
-  mysql -u root -p < db/init.sql
-  ```
-
-This makes Database called ```cab302_quizapp``` where user ```appuser@localhost``` password ```AppPass#2025``` are used to login.
+**Checkpoint 3 (Week 8 - 9) - Project Progress**
+- [x] DB design finalization
+- [x] Created Design Style Guide document
+- [x] Completed Make the final prototype
+- [x] Connect DB part to Teacher/Student Pagea
+- [x] Unit Testing
+- [x] Prepare script for video demo
+- [x] Added Fryway
+- [x] Implement page for quiz
 
 ---
 

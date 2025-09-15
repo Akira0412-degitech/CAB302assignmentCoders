@@ -27,7 +27,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/cab302a1/login/login-view.fxml"));
 
         // Set the scene dimensions to better fit the content and prevent resizing
-        Scene scene = new Scene(fxmlLoader.load(), 1040, 600);
+        Scene scene = new Scene(fxmlLoader.load(), 900, 600);
 
         // Apply a basic stylesheet for common styles
 //        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());

@@ -52,4 +52,22 @@ public class QuizDao {
         }
         return -1;
     }
+
+    public void updateQuiz(Quiz _quiz) {
+        String sql = "UPDATE quizzes SET title = ?, description = ? WHERE quiz_id = ?";
+        try (Connection conn = DBconnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, _quiz.getTitle());
+            pstmt.setString(2, _quiz.getDescription());
+            pstmt.setInt(3, _quiz.getQuizId());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }

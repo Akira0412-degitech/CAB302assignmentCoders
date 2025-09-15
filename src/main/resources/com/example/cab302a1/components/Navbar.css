@@ -140,6 +140,7 @@
 
 .navbar-button-exit:focused {
     -fx-background-color: #E03131;
+    -fx-text-fill: #FFFFFF; /* White text */
     -fx-border-color: #C92A2A;
     -fx-border-width: 3;
     -fx-effect: dropshadow(gaussian, rgba(224, 49, 49, 0.4), 8, 0.5, 0, 0);

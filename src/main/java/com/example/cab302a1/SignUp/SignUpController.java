@@ -22,21 +22,24 @@ public class SignUpController {
     private Parent root;
 
     @FXML
-    private TextField useremailField;   // Username input field
+    TextField useremailField;   // Username input field
 
     @FXML
-    private PasswordField passwordField;   // Password input field
+    PasswordField passwordField;   // Password input field
 
     @FXML
-    private ChoiceBox<String> roleBox;   // Dropdown for selecting role (Teacher/Student)
+    ChoiceBox<String> roleBox;   // Dropdown for selecting role (Teacher/Student)
 
     @FXML
     private Hyperlink loginLink;   // Link to go back to Login page
 
     @FXML
-    private Label errorsignup;
+    Label errorsignup;
 
     UserDao userdao = new UserDao();
+
+
+
 
     @FXML
     private void initialize() {
@@ -59,7 +62,7 @@ public class SignUpController {
     }
 
     @FXML
-    private void handleSignUpclick(ActionEvent event) throws IOException {
+    void handleSignUpclick(ActionEvent event) throws IOException {
         // Get values from input fields
         String useremail = useremailField.getText();
         String password = passwordField.getText();
@@ -75,23 +78,8 @@ public class SignUpController {
         if(currentUser != null){
             Session.setCurrentUser(currentUser);
             System.out.println("Signup successfully" + currentUser.getEmail());
-//            if(currentUser instanceof Student){
-//
-////                root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
-////                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-////                scene = new Scene(root, 1000, 450);
-////                stage.setTitle("Home");
-////                stage.setScene(scene);
-////                stage.show();
-//            } else if(currentUser instanceof Teacher){
-//
-////                root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
-////                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-////                scene = new Scene(root, 1000, 450);
-////                stage.setTitle("Home");
-////                stage.setScene(scene);
-////                stage.show();
-//            }
+
+
             root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root, 1000, 450);

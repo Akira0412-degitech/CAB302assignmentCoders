@@ -20,16 +20,16 @@ public class LoginController {
     private Parent root;
 
     @FXML
-    private TextField useremailField;   // Username input field
+    TextField useremailField;   // Username input field
 
     @FXML
-    private PasswordField passwordField;   // Password input field
+    PasswordField passwordField;   // Password input field
 
     @FXML
     private Hyperlink signupLink;  // Link to go to Sign Up page
 
     @FXML
-    private Label errorloginLabel;
+    Label errorloginLabel;
 
 
     UserDao userdao = new UserDao();
@@ -39,29 +39,29 @@ public class LoginController {
         String userEmail = useremailField.getText();
         String password = passwordField.getText();
 
+        if(userEmail == null || password == null){
+            errorloginLabel.setText("Please enter valid email and password");
+        }
+
         User currentUser = userdao.login(userEmail, password);
 
         if(currentUser != null){
             System.out.println("Login successfully" + currentUser.getEmail());
             Session.setCurrentUser(currentUser);
+            String title = "";
             if(currentUser instanceof Student){
-                root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
-                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                scene = new Scene(root, 1000, 450);
-                stage.setTitle("Student-Home");
-                stage.setScene(scene);
-                stage.show();
-
+                title = "Student";
             } else if(currentUser instanceof Teacher){
-                root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
-                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                scene = new Scene(root, 1000, 450);
-                stage.setTitle("Teacher-Home");
-                stage.setScene(scene);
-                stage.show();
+                title = "Teacher";
             }
+            root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root, 1000, 450);
+            stage.setTitle(title + "-Home");
+            stage.setScene(scene);
+            stage.show();
         }else{
-            errorloginLabel.setText("Invalid username or password");
+            errorloginLabel.setText("Please enter valid email and password");
         }
 
     }
