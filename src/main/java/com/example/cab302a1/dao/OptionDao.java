@@ -20,7 +20,7 @@ public class OptionDao {
 
             pstmt.setInt(1, choice.getQuestion_id());
             pstmt.setString(2, choice.getText());
-            pstmt.setBoolean(3, choice.isAnswer());
+            pstmt.setBoolean(3, choice.isCorrect());
 
             pstmt.executeUpdate();
 
@@ -68,7 +68,7 @@ public class OptionDao {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, choice.getText());
-            pstmt.setBoolean(2, choice.isAnswer());
+            pstmt.setBoolean(2, choice.isCorrect());
             pstmt.setInt(3, choice.getOption_id());
 
             pstmt.executeUpdate();

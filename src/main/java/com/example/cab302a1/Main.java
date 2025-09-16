@@ -1,5 +1,8 @@
 package com.example.cab302a1;
 
+import com.example.cab302a1.dao.AttemptDao;
+import com.example.cab302a1.dao.QuestionDao;
+import com.example.cab302a1.dao.ResponseDao;
 import com.example.cab302a1.dao.UserDao;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +15,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+
         // Db connection check
         DBconnection.migrate();
         try (var conn = DBconnection.getConnection()){

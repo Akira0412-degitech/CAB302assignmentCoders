@@ -307,7 +307,7 @@ public class QuizEditorController {
                 if (i < 4) {
                     texts[i] = ch.getText();
                     ids[i] = ch.getOption_id();
-                    if (ch.isAnswer()) correctIdx = i;
+                    if (ch.isCorrect()) correctIdx = i;
                 }
                 i++;
             }

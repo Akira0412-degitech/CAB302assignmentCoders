@@ -80,4 +80,25 @@ public class QuestionDao {
         }
     }
 
+    public int getNumQuestion(int _quiz_id){
+        String sql = "SELECT COUNT(question_id) cnt FROM questions WHERE quiz_id = ?";
+
+        try(Connection conn = DBconnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, _quiz_id);
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                if(rs.next()){
+                    int count_ques = rs.getInt("cnt");
+                    return count_ques;
+                }
+            }
+            
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
 }
