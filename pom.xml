@@ -52,7 +52,7 @@
             <version>10.15.0</version>
         </dependency>
 
-        <!-- ✅ JUnit 5 (unit testing framework) -->
+        <!-- Unit 5 (unit testing framework) -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -60,7 +60,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- ✅ Mockito (mocking framework for replacing DB dependencies) -->
+        <!--Mockito (mocking framework for replacing DB dependencies) -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>

@@ -1,9 +1,11 @@
 package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
+import com.example.cab302a1.model.QuestionResponse;
 import com.example.cab302a1.model.Quiz;
 
 import java.sql.*;
+import java.util.List;
 
 public class AttemptDao {
 
@@ -27,6 +29,12 @@ public class AttemptDao {
         }
         return -1;
     }
+
+    public void endAttempt(int _attempt_id, List<QuestionResponse> response){
+        String
+    }
+
+
 
     public Integer getScore(int _quiz_id, int _user_id){
         String sql =  "SELECT score from quiz_attempts WHERE is_completed = true AND quiz_id = ? AND answered_by = ? ORDER BY attempt_id DESC LIMIT 1";
