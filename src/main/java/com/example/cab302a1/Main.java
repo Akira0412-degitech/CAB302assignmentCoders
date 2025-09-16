@@ -44,7 +44,7 @@ public class Main extends Application {
         stage.setMinWidth(600);   // Set minimum width
         stage.setMinHeight(500);  // Set minimum height
         stage.centerOnScreen();   // Center the window
-        stage.show();
+            stage.show();
     }
 
     public static void main(String[] args) {
