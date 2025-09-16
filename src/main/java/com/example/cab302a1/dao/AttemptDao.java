@@ -30,8 +30,47 @@ public class AttemptDao {
         return -1;
     }
 
-    public void endAttempt(int _attempt_id, List<QuestionResponse> response){
+    public boolean attemptExist(int _attemptId){
+        String sql = "SELECT 1 FROM quiz_attempts WHERE attempt_id = ? LIMIT 1";
 
+        try(Connection conn = DBconnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setInt(1, _attemptId);
+            try(ResultSet rs = pstmt.executeQuery()){
+                if(rs.next()){
+                    return true;
+                }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void endAttempt(int _attempt_id){
+        ResponseDao responseDao = new ResponseDao();
+        boolean existing = attemptExist(_attempt_id);
+
+        if(!existing){
+            System.out.println("Attempt record does not exist");
+            return;
+        }
+
+        int score = responseDao.calculateScoreFromResponses(_attempt_id);
+
+        String sql = "UPDATE quiz_attempts SET score = ?, is_completed = True WHERE attempt_id = ?";
+
+        try(Connection conn = DBconnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setInt(1, score);
+            pstmt.setInt(2, _attempt_id);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
 
