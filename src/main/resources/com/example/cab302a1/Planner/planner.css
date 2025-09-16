@@ -113,3 +113,10 @@
    -fx-background-color: #99a3ba;
    -fx-border-color: #748cc2;
 }
+
+.events-list{
+    -fx-padding: 10;
+    -fx-pref-width: 200;
+    -fx-pref-height: 200;
+    -fx-background-radius: 15;
+}

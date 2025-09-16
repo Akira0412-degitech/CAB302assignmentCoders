@@ -58,7 +58,7 @@
                 <VBox styleClass="events-bg" alignment="TOP_CENTER">
                     <Label text="Events Today:" styleClass="events-title"/>
 
-                    <Label text="Nothing happening today..." alignment="CENTER"/>
+                    <ListView fx:id="eventsList" styleClass="events-list"/>
 
 
                     <Button text="Add Event" alignment="BOTTOM_CENTER" styleClass="event-button"/>

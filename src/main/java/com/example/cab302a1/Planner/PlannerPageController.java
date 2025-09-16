@@ -24,6 +24,7 @@ public class PlannerPageController {
     @FXML private Button nextButton;
     @FXML private Label monthTitle;
     @FXML private GridPane calendarGrid;
+
     @FXML private ListView<String> eventsList;
 
     private YearMonth displayed = YearMonth.now();
@@ -34,6 +35,7 @@ public class PlannerPageController {
     @FXML
     public void initialize() {
         updateCalendar();
+        updateEvents();
 
         prevButton.setOnAction(e -> { displayed = displayed.minusMonths(1); updateCalendar(); });
         nextButton.setOnAction(e -> { displayed = displayed.plusMonths(1); updateCalendar(); });
@@ -95,5 +97,9 @@ public class PlannerPageController {
         });
 
         return cell;
+    }
+
+    private void updateEvents(){
+        eventsList.getItems().add("No events happening today");
     }
 }
