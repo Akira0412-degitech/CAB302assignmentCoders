@@ -23,7 +23,7 @@ public class QuizChoiceCreate {
     public int getOption_id() {return option_id;}
     public int getQuestion_id(){return question_id;}
     public String getText() { return text; } //extract selected text
-    public boolean isAnswer() { return is_correct; } // T/F check
+    public boolean isCorrect() { return is_correct; } // T/F check
     public void setIs_correct(boolean is_correct) { this.is_correct = is_correct; }
 }
 

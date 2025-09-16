@@ -22,7 +22,7 @@ class OptionDaoTest {
         QuizChoiceCreate choice = mock(QuizChoiceCreate.class);
         when(choice.getQuestion_id()).thenReturn(42);
         when(choice.getText()).thenReturn("Option A");
-        when(choice.isAnswer()).thenReturn(true);
+        when(choice.isCorrect()).thenReturn(true);
 
         Connection conn = mock(Connection.class);
         PreparedStatement stmt = mock(PreparedStatement.class);
@@ -52,7 +52,7 @@ class OptionDaoTest {
         QuizChoiceCreate choice = mock(QuizChoiceCreate.class);
         when(choice.getQuestion_id()).thenReturn(1);
         when(choice.getText()).thenReturn("No Key");
-        when(choice.isAnswer()).thenReturn(false);
+        when(choice.isCorrect()).thenReturn(false);
 
         Connection conn = mock(Connection.class);
         PreparedStatement stmt = mock(PreparedStatement.class);
@@ -105,11 +105,11 @@ class OptionDaoTest {
         assertEquals(2, result.size());
         assertEquals(1001, result.get(0).getOption_id());
         assertEquals("Opt-1", result.get(0).getText());
-        assertTrue(result.get(0).isAnswer());  // is_correct = true
+        assertTrue(result.get(0).isCorrect());  // is_correct = true
 
         assertEquals(1002, result.get(1).getOption_id());
         assertEquals("Opt-2", result.get(1).getText());
-        assertFalse(result.get(1).isAnswer()); // is_correct = false
+        assertFalse(result.get(1).isCorrect()); // is_correct = false
     }
 
     @Test

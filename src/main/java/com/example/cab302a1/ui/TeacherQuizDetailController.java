@@ -95,7 +95,7 @@ public class TeacherQuizDetailController {
 
             int cIdx = 0;
             for (QuizChoiceCreate ch : q.getChoices()) {
-                String mark = ch.isAnswer() ? " (✓)" : "";
+                String mark = ch.isCorrect() ? " (✓)" : "";
                 String text = ch.getText() == null ? "" : ch.getText();
                 Label cLabel = new Label(" - " + (char)('A' + cIdx) + ". " + text + mark);
                 block.getChildren().add(cLabel);
