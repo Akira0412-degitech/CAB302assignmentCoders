@@ -181,16 +181,6 @@ public class QuizEditorController {
                 onSave.accept(built);
             }
 
-////                if (editing != null) {
-////                    editing.setTitle(built.getTitle());
-////                    editing.setDescription(built.getDescription());
-////                    editing.getQuestions().clear();
-////                    editing.getQuestions().addAll(built.getQuestions());
-////                    onSave.accept(editing);
-////                } else {
-////                    onSave.accept(built);
-////                }
-//            }
             if (myStage != null) myStage.close();
         } catch (IllegalStateException ex) {
             showAlert("Validation", ex.getMessage(), Alert.AlertType.WARNING);
