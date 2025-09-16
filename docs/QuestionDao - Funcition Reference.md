@@ -1,6 +1,6 @@
 # QuestionDao – Function Reference
 
-The `QuestionDao` class manages database operations related to **quiz questions**.  
+The `QuestionDao` class manages database operations related to **questions** table.  
 It works together with:
 - **`Quiz`** – Represents a quiz (used when fetching questions by quiz).
 - **`QuizQuestionCreate`** – A model used for creating and updating questions (holds question text, explanation, and IDs).

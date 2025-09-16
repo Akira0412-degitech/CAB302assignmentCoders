@@ -1,6 +1,6 @@
 # ResponseDao – Function Reference
 
-The `ResponseDao` class manages database operations for **student responses** in quizzes.  
+The `ResponseDao` class manages database operations for **question_responses** table.  
 It provides methods to save a list of responses for an attempt and to calculate the score (number of correct answers) for that attempt.
 
 ---

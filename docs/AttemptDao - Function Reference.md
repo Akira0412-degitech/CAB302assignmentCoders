@@ -1,6 +1,6 @@
 # AttemptDao – Function Reference
 
-The `AttemptDao` class manages database operations related to **quiz attempts**.  
+The `AttemptDao` class manages database operations related to **quiz_attempts** table.  
 It is responsible for creating attempts, checking existence, finalizing attempts, and retrieving scores.
 
 ---

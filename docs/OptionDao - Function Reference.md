@@ -1,6 +1,6 @@
 # OptionDao – Function Reference
 
-The `OptionDao` class manages database operations related to **question options**.  
+The `OptionDao` class manages database operations related to **question_options** table.  
 It is closely tied to the `QuizChoiceCreate` model class, which represents an option belonging to a quiz question.
 
 ---
