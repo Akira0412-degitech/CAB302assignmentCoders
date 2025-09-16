@@ -145,7 +145,7 @@ class UserDaoTest {
         // Mock existsByEmail → true
         doReturn(true).when(dao).existsByEmail("exists@example.com");
 
-        User result = dao.signUpUser("exists@example.com", "pass", "Student");
+        User result = dao.signUpUser("existsuser", "exists@example.com", "pass", "Student");
 
         assertNull(result, "If user already exists, should return null");
         verify(dao).existsByEmail("exists@example.com");
@@ -170,14 +170,14 @@ class UserDaoTest {
         when(generatedKeys.getInt(1)).thenReturn(3);
 
         // Mock getUserById to return a Student
-        User fakeUser = new Student(3, "new@example.com", "pass", "Student", null);
+        User fakeUser = new Student(3, "newuser", "new@example.com", "pass", "Student", null);
         doReturn(fakeUser).when(dao).getUserById(3);
 
         User result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
-            result = dao.signUpUser("new@example.com", "pass", "Student");
+            result = dao.signUpUser("newuser", "new@example.com", "pass", "Student");
         }
 
         assertNotNull(result);
@@ -201,7 +201,7 @@ class UserDaoTest {
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
-            result = dao.signUpUser("fail@example.com", "pass", "Student");
+            result = dao.signUpUser("failuser", "fail@example.com", "pass", "Student");
         }
 
         assertNull(result, "If no rows inserted, should return null");

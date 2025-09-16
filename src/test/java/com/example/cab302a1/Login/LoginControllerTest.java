@@ -35,7 +35,7 @@ class LoginControllerTest {
         loginController = new LoginController();
 
         // Inject fake UI controls
-        loginController.useremailField = new TextField();
+        loginController.emailField = new TextField();
         loginController.passwordField = new PasswordField();
         loginController.errorloginLabel = new Label();
 
@@ -50,7 +50,7 @@ class LoginControllerTest {
     @Test
     void testLoginSuccess() throws Exception {
         // Arrange: define behavior of mock DAO
-        User mockUser = new Student(1, "test@example.com", "pass", "Student", null);
+        User mockUser = new Student(1, "testuser", "test@example.com", "pass", "Student", null);
         when(mockDao.login("test@example.com", "pass")).thenReturn(mockUser);
 
         // Act: call login method
@@ -78,7 +78,7 @@ class LoginControllerTest {
     @Test
     void testLoginWithEmptyFields() throws Exception {
         // Arrange: set both email and password empty
-        loginController.useremailField.setText("");
+        loginController.emailField.setText("");
         loginController.passwordField.setText("");
 
         // Act: call the controller’s login method (instead of DAO directly)
