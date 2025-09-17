@@ -1,18 +1,23 @@
 package com.example.cab302a1.ui;
 
-// NEW: use full quiz model
+import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.model.Quiz;
-
+import com.example.cab302a1.result.QuizResultController;
+import com.example.cab302a1.result.QuizResultData;
+import com.example.cab302a1.service.QuizService;
 import com.example.cab302a1.util.Session;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.example.cab302a1.dao.QuizDao;
-import com.example.cab302a1.model.Quiz;
 
 /**
  * Shared controller for both Student and Teacher home.
@@ -20,9 +25,9 @@ import com.example.cab302a1.model.Quiz;
  */
 public class HomeController {
 
-    @FXML private TilePane grid;
-    // (Optional) If you added a title label in FXML:  <Label fx:id="titleLabel" .../>
-    // @FXML private Label titleLabel;
+    @FXML
+    private TilePane grid;
+
 
 
     // CHANGED: Store full Quiz objects instead of just titles
@@ -30,20 +35,9 @@ public class HomeController {
 
     @FXML
     public void initialize() {
-        // Seed with sample quizzes for preview; later this will come from DB.
-//        for (String t : List.of("Java Basics", "OOP Essentials", "Exceptions")) {
-//            Quiz q = new Quiz();
-//            q.setTitle(t);
-//            q.setDescription(""); // optional
-//            quizzes.add(q);
-//        }
         refresh();
     }
 
-//    // Sets whether this screen is for a STUDENT or a TEACHER
-//    public void setRole(UserRole role) {
-//        this.role = role;
-//    }
 
     /** Rebuild the grid according to the current role and quiz list. */
     public void refresh() {
@@ -61,22 +55,69 @@ public class HomeController {
         }
     }
 
-    /** Create a square 'quiz card' button with role-specific action. */
+//Create a square 'quiz card' button with role-specific action
     private Button createQuizCard(Quiz quiz) {
         Button card = new Button(quiz.getTitle());
-        card.getStyleClass().add("quiz-card"); // CSS: .quiz-card
-        card.setPrefSize(160, 160);            // square card
-        card.setWrapText(true);                // line wrap for long titles
+        card.getStyleClass().add("quiz-card");
+        card.setPrefSize(160, 160);
+        card.setWrapText(true);
 
         card.setOnAction(e -> {
-            if (Session.isStudent()) {
-                info("Start Quiz", "Selected: " + quiz.getTitle() + "\n(Next: navigate to attempt screen)");
-            }else {
-                Stage owner = (Stage) grid.getScene().getWindow();
-                TeacherQuizDetailController.open(owner, quiz, updated -> refresh());
-            }
+            Stage owner = (Stage) grid.getScene().getWindow();
+            handleQuizCardClick(owner, quiz);  // Click action connect sperate method
         });
         return card;
+    }
+
+    //When click - S or T using session
+    private void handleQuizCardClick(Stage owner, Quiz quiz) {
+        if (Session.isStudent()) {
+            // before Quiz take (fill quiz data)
+            QuizService quizService = new QuizService();
+            Quiz fullQuiz = quizService.loadQuizFully(quiz);
+
+            // take quiz - result
+            StudentTakeQuizController.open(owner, fullQuiz, selections -> {
+                try {
+                    int correct = 0;
+                    var qs = quiz.getQuestions();
+                    for (int i = 0; i < qs.size(); i++) {
+                        int selected = (i < selections.size() ? selections.get(i) : -1);
+                        int answerIdx = -1;
+                        var choices = qs.get(i).getChoices();
+                        for (int j = 0; j < choices.size(); j++) {
+                            if (choices.get(j).isAnswer()) { answerIdx = j; break; }
+                        }
+                        if (selected == answerIdx) correct++;
+                    }
+
+                    FXMLLoader fxml = new FXMLLoader(getClass().getResource(
+                            "/com/example/cab302a1/result/QuizResult.fxml"));
+                    Parent root = fxml.load();
+                    QuizResultController rc = fxml.getController();
+
+                    int quizId = quiz.getQuizId();
+                    int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
+
+                    rc.setQuizResult(new QuizResultData(
+                            correct, qs.size(), quiz.getTitle(), quizId, userId
+                    ));
+
+                    owner.setScene(new Scene(root, 1100, 680));
+                    owner.setTitle("Quiz Result");
+                    owner.show();
+
+                } catch (Exception ex) {
+                    new Alert(Alert.AlertType.ERROR,
+                            "Failed to open result page:\n" + ex.getMessage(),
+                            ButtonType.OK).showAndWait();
+                }
+            });
+
+        } else {
+            // Teacher quiz detail and edit
+            TeacherQuizDetailController.open(owner, quiz, updated -> refresh());
+        }
     }
 
     /** Teacher-only '+' card to open the quiz editor modal. */
@@ -98,8 +139,6 @@ public class HomeController {
         });
     }
 
-    // (REMOVED) Old title-only dialog method was here:
-    // private void onAddQuiz() { ... TextInputDialog ... }
 
     /** Convenience info dialog. */
     private void info(String header, String msg) {
