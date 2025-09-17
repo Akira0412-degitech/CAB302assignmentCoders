@@ -11,8 +11,6 @@ import javax.sound.sampled.Control;
 import java.sql.*;
 
 public class UserDao {
-    // Simple method: print all users from DB
-
 
     public User getUserById(int _userId) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
@@ -27,6 +25,7 @@ public class UserDao {
                     if ("Teacher".equals(role)) {
                         return new Teacher(
                                 rs.getInt("user_id"),
+                                rs.getString("username"),
                                 rs.getString("email"),
                                 rs.getString("password"),
                                 role,
@@ -35,6 +34,7 @@ public class UserDao {
                     } else {
                         return new Student(
                                 rs.getInt("user_id"),
+                                rs.getString("username"),
                                 rs.getString("email"),
                                 rs.getString("password"),
                                 role,
@@ -51,13 +51,14 @@ public class UserDao {
     }
 
     public void printAllUsers() {
-        String sql = "SELECT user_id, email, password, created_at, role FROM users";
+        String sql = "SELECT user_id, username, email, password, created_at, role FROM users";
         try (Connection conn = DBconnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 System.out.println(
                         rs.getInt("user_id") + " | " +
+                                rs.getString("username") + " | " +
                                 rs.getString("email") + " | " +
                                 rs.getTimestamp("created_at") + " | " +
                                 rs.getString("password") + " | " +
@@ -86,17 +87,18 @@ public class UserDao {
         return false;
     }
 
-    public User signUpUser(String _email, String _password, String _role){
+    public User signUpUser(String _username, String _email, String _password, String _role){
         if(existsByEmail(_email)){
             System.out.printf("User already exists: " + _email);
             return null;
         }
-        String sql = "INSERT INTO users(email, password, role) VALUES (? , ?, ?)";
+        String sql = "INSERT INTO users(username, email, password, role) VALUES (?, ?, ?, ?)";
         try(Connection conn = DBconnection.getConnection();
         PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, _email);
-            pstmt.setString(2, _password);
-            pstmt.setString(3, _role);
+            pstmt.setString(1, _username);
+            pstmt.setString(2, _email);
+            pstmt.setString(3, _password);
+            pstmt.setString(4, _role);
 
             int affectedRows = pstmt.executeUpdate();
 
@@ -112,7 +114,7 @@ public class UserDao {
                 System.out.println("Sign-up User failed.");
                 return null;
             }
-            System.out.printf("User: " + _email + " Password: " + _password + " Role: " + _role + " Added");
+            System.out.printf("User: " + _username + " Email: " + _email + " Password: " + _password + " Role: " + _role + " Added");
 
         } catch (SQLException e){
             e.printStackTrace();
@@ -137,6 +139,7 @@ public class UserDao {
                     if("Teacher".equals(role)){
                         return new Teacher(
                                 rs.getInt("user_id"),
+                                rs.getString("username"),
                                 rs.getString("email"),
                                 rs.getString("password"),
                                 role,
@@ -145,6 +148,7 @@ public class UserDao {
                     }else if("Student".equals(role)){
                         return new Student(
                                 rs.getInt("user_id"),
+                                rs.getString("username"),
                                 rs.getString("email"),
                                 rs.getString("password"),
                                 role,
@@ -160,22 +164,6 @@ public class UserDao {
         return null;
     }
 
-    public String getRoleByEmail(String _email){
-        String sql = "SELECT role FROM users WHERE email = ? LIMIT 1";
 
-        try(Connection conn = DBconnection.getConnection();
-        PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setString(1, _email);
-
-            try(ResultSet rs = pstmt.executeQuery()){
-                if(rs.next()){
-                    return rs.getString("role");
-                }
-            }
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
 
 }

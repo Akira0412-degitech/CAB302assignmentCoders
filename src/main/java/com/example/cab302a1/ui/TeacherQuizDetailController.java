@@ -1,5 +1,7 @@
 package com.example.cab302a1.ui;
 
+import com.example.cab302a1.dao.OptionDao;
+import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.model.QuizQuestionCreate;
@@ -13,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class TeacherQuizDetailController {
@@ -29,13 +32,13 @@ public class TeacherQuizDetailController {
     public static void open(Stage owner, Quiz quiz, Consumer<Quiz> onUpdated) {
         try {
             URL fxml = TeacherQuizDetailController.class.getResource(
-                    "/com/example/cab302a1/TeacherQuizDetail.fxml");      //
+                    "/com/example/cab302a1/TeacherQuizPage/TeacherQuizDetail.fxml");
             if (fxml == null) {
             }
 
             if (fxml == null) {
                 throw new IllegalStateException(
-                        "Detail FXML not found. Expected at /com/example/cab302a1/TeacherQuizDetail.fxml (or QuizDetail.fxml)");
+                        "Detail FXML not found. Expected at /com/example/cab302a1/TeacherQuizPage/TeacherQuizDetail.fxml");
             }
 
             FXMLLoader loader = new FXMLLoader(fxml);
@@ -47,6 +50,17 @@ public class TeacherQuizDetailController {
             c.stage.initModality(Modality.WINDOW_MODAL);
             c.stage.setTitle("Quiz Detail");
             c.stage.setScene(new Scene(root, 560, 480));
+
+
+            QuestionDao questionDao = new QuestionDao();
+            List<QuizQuestionCreate> loadedQuestions = questionDao.getAllQuestions(quiz);
+
+            OptionDao optionDao = new OptionDao();
+            for(QuizQuestionCreate q : loadedQuestions){
+                q.getChoices().addAll(optionDao.getOptionsByQuestionId(q.getQuestionId()));
+            }
+            quiz.setQuestions(loadedQuestions);
+
 
             c.setData(quiz, onUpdated);
             c.stage.show();
@@ -68,7 +82,7 @@ public class TeacherQuizDetailController {
 
     private void render() {
         titleLabel.setText(quiz.getTitle() == null ? "(Untitled)" : quiz.getTitle());
-        descLabel.setText(quiz.getDescription() == null ? "" : quiz.getDescription());
+        descLabel.setText(quiz.getDescription() == null ? "No Description" : quiz.getDescription());
 
         questionsBox.getChildren().clear();
         int qIdx = 1;

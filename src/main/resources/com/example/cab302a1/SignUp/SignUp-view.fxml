@@ -1,17 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.cab302a1.SignUp.SignUpController">
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.example.cab302a1.SignUp.SignUpController"
+            styleClass="signup-page">
+    
 
-    <Label text="Sign Up" />
-    <TextField fx:id="useremailField" promptText="Username" />
-    <ChoiceBox fx:id="roleBox" prefWidth="150" />
-    <PasswordField fx:id="passwordField" promptText="Password" />
-    <Button text="SignUp" onAction="#handleSignUpclick" />
-    <Label fx:id="errorsignup" text="" textFill="red" />
-    <Hyperlink fx:id="loginLink" text="Login?" onAction="#handleLoginClick"/>
-
-</VBox>
+    <center>
+        <VBox alignment="CENTER" spacing="24" styleClass="signup-container" maxWidth="400.0">
+            <padding>
+                <Insets bottom="48.0" left="48.0" right="48.0" top="48.0" />
+            </padding>
+            
+            <!-- Page Title -->
+            <Label text="SignUp" styleClass="page-title"/>
+            
+            <!-- Form Container -->
+            <VBox alignment="CENTER" spacing="16" maxWidth="300.0">
+                
+                <!-- Username Field -->
+                <TextField fx:id="usernameField" promptText="User Name" styleClass="input-field"/>
+                
+                <!-- Email Field (new field for prototype compliance) -->
+                <TextField fx:id="emailField" promptText="Email" styleClass="input-field"/>
+                
+                <!-- Role Dropdown -->
+                <ComboBox fx:id="roleBox" prefWidth="350.0" styleClass="dropdown-field"/>
+                
+                <!-- Password Field -->
+                <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field"/>
+                
+                <!-- Navigation Link Container -->
+                <HBox alignment="CENTER_RIGHT" maxWidth="300.0">
+                    <Hyperlink fx:id="loginLink" text="Login?" onAction="#handleLoginClick" styleClass="nav-link"/>
+                </HBox>
+                
+                <!-- SignUp Button -->
+                <Button text="SignUp" onAction="#handleSignUpclick" styleClass="primary-button"/>
+                
+                <!-- Error Label -->
+                <Label fx:id="errorsignup" text="" styleClass="error-label" visible="false" managed="false"/>
+                
+            </VBox>
+        </VBox>
+    </center>
+    
+</BorderPane>

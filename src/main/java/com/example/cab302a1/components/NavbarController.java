@@ -224,7 +224,7 @@ public class NavbarController implements Initializable {
     }
 
     /**
-     * Navigates to the logout confirmation page.
+     * Navigates to the logout confirmation page using the NavigationManager.
      * This method handles the scene transition when the EXIT button is clicked.
      *
      * @throws IOException if the logout confirmation FXML file cannot be loaded
@@ -233,28 +233,10 @@ public class NavbarController implements Initializable {
         // Get the current stage
         Stage currentStage = (Stage) exitBtn.getScene().getWindow();
         
-        // Load the logout confirmation page FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/cab302a1/logout/LogoutConfirmation.fxml"));
-        Scene logoutScene = new Scene(fxmlLoader.load(), 400, 300);
-        
-        // Add the logout confirmation CSS stylesheet
-        try {
-            URL cssUrl = getClass().getResource("/com/example/cab302a1/logout/LogoutConfirmation.css");
-            if (cssUrl != null) {
-                logoutScene.getStylesheets().add(cssUrl.toExternalForm());
-                System.out.println("Logout confirmation stylesheet loaded successfully");
-            } else {
-                System.out.println("Warning: LogoutConfirmation.css not found");
-            }
-        } catch (Exception e) {
-            System.err.println("Error loading logout confirmation stylesheet: " + e.getMessage());
-        }
-        
-        // Update the stage
-        currentStage.setTitle("Interactive Quiz Creator - Logout Confirmation");
-        currentStage.setScene(logoutScene);
-        currentStage.setResizable(false); // Make non-resizable for consistency
-        currentStage.centerOnScreen();
+        // Use NavigationManager to navigate to logout confirmation
+        // This will automatically save the current page to history
+        NavigationManager navigationManager = NavigationManager.getInstance();
+        navigationManager.navigateTo(currentStage, NavigationManager.Pages.LOGOUT_CONFIRMATION);
         
         System.out.println("Successfully navigated to logout confirmation page");
     }

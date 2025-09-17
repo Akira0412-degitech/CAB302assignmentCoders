@@ -1,0 +1,255 @@
+/* ============================================
+   Quiz Result Page Styles
+   Interactive Quiz Creator - CAB302
+   ============================================ */
+
+/* Import the design system font */
+.root {
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ============================================
+   Page Layout Styles
+   ============================================ */
+.quiz-result-page {
+    -fx-background-color: #DBEAFE; /* Background color */
+}
+
+.result-main-content {
+    -fx-background-color: #FFFFFF; /* White background for main content */
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.1), 12, 0.3, 0, 4);
+    -fx-padding: 32;
+}
+
+/* ============================================
+   Score Display Section Styles
+   ============================================ */
+.score-section {
+    -fx-alignment: center;
+    -fx-spacing: 16;
+    -fx-padding: 24;
+    -fx-background-color: #F5F3FF; /* Soft Blue background */
+    -fx-background-radius: 12;
+    -fx-border-color: #005BA1; /* Light Blue border */
+    -fx-border-width: 2;
+    -fx-border-radius: 12;
+}
+
+.score-header {
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 24px; /* H2 size */
+    -fx-font-weight: 600; /* Semibold */
+    -fx-text-fill: #005BA1; /* Deep Blue text */
+    -fx-alignment: center;
+}
+
+.score-display {
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 36px; /* Large display text */
+    -fx-font-weight: 700; /* Bold */
+    -fx-text-fill: #005BA1; /* Deep Blue text */
+    -fx-alignment: center;
+}
+
+.score-details {
+    -fx-alignment: center;
+    -fx-spacing: 8;
+}
+
+.score-percentage {
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #005BA1; /* Deep Blue text */
+    -fx-alignment: center;
+}
+
+.score-grade {
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #005BA1; /* Deep Blue text */
+    -fx-alignment: center;
+}
+
+/* ============================================
+   Action Buttons Section Styles
+   ============================================ */
+.action-buttons-section {
+    -fx-alignment: center;
+    -fx-spacing: 24; /* 24px between buttons */
+}
+
+/* Base button styles */
+.view-answer-button, .back-home-button {
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-padding: 16 12; /* 16px vertical, 12px horizontal */
+    -fx-alignment: center;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+    -fx-text-alignment: center;
+    -fx-wrap-text: false;
+    -fx-border-width: 2;
+}
+
+/* ============================================
+   View Answer Button (Success/Green Theme) Styles
+   ============================================ */
+.view-answer-button {
+    -fx-background-color: #B2F2BB; /* Success Green background */
+    -fx-border-color: #B2F2BB; /* Success Green border */
+    -fx-text-fill: #005BA1; /* Deep Blue text */
+    -fx-border-color: #005BA1; /* Deep Blue border */
+}
+
+.view-answer-button:hover {
+    -fx-background-color: #9AE6A8; /* Slightly darker green on hover */
+    -fx-effect: dropshadow(gaussian, rgba(178, 242, 187, 0.3), 8, 0.4, 0, 2);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.view-answer-button:pressed {
+    -fx-background-color: #7DD087; /* Darker green on press */
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+    -fx-translate-y: 1;
+}
+
+.view-answer-button:focused {
+    -fx-background-color: #B2F2BB;
+    -fx-border-color: #005BA1; /* Deep Blue focus border */
+    -fx-border-width: 3;
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.3), 8, 0.5, 0, 0);
+}
+
+/* ============================================
+   Back Home Button (Navigation/Blue Theme) Styles
+   ============================================ */
+.back-home-button {
+    -fx-background-color: #A5D8FF; /* Light Blue background */
+    -fx-border-color: #005BA1; /* Deep Blue border */
+    -fx-text-fill: #005BA1; /* Deep Blue text */
+}
+
+.back-home-button:hover {
+    -fx-background-color: #91CCF7; /* Slightly darker light blue on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.2), 8, 0.4, 0, 2);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.back-home-button:pressed {
+    -fx-background-color: #7DB8F0; /* Darker blue on press */
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+    -fx-translate-y: 1;
+}
+
+.back-home-button:focused {
+    -fx-background-color: #A5D8FF;
+    -fx-border-color: #005BA1;
+    -fx-border-width: 3;
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.3), 8, 0.5, 0, 0);
+}
+
+/* ============================================
+   Quiz Information Section Styles
+   ============================================ */
+.quiz-info-section {
+    -fx-alignment: center;
+    -fx-spacing: 8;
+    -fx-padding: 16;
+    -fx-background-color: #F5F3FF; /* Soft Blue background */
+    -fx-background-radius: 8;
+    -fx-border-color: #005BA1; /* Light Blue border */
+    -fx-border-width: 2;
+    -fx-border-radius: 8;
+}
+
+.quiz-title {
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #005BA1; /* Deep Blue text */
+    -fx-alignment: center;
+}
+
+.completion-time {
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 12px;
+    -fx-font-weight: 400;
+    -fx-text-fill: #000000; /* Black text */
+    -fx-alignment: center;
+}
+
+/* ============================================
+   Accessibility and Interaction Enhancements
+   ============================================ */
+
+/* Ensure proper contrast for accessibility */
+.view-answer-button:disabled, .back-home-button:disabled {
+    -fx-opacity: 0.6;
+    -fx-cursor: default;
+}
+
+/* Focus indicators for keyboard navigation */
+.view-answer-button:focused, .back-home-button:focused {
+    -fx-background-insets: 0, 1;
+}
+
+/* ============================================
+   Responsive Design Elements
+   ============================================ */
+
+/* Alternative layout for smaller screens */
+@media (max-width: 800px) {
+    .result-main-content {
+        -fx-padding: 16;
+        -fx-spacing: 32;
+    }
+    
+    .score-section {
+        -fx-padding: 16;
+    }
+    
+    .score-display {
+        -fx-font-size: 28px;
+    }
+    
+    .action-buttons-section {
+        -fx-spacing: 16;
+    }
+}
+
+/* ============================================
+   Animation and Visual Feedback
+   ============================================ */
+
+/* Smooth hover transitions */
+.view-answer-button:hover, .back-home-button:hover {
+    -fx-background-insets: 0;
+}
+
+/* Visual feedback for active states */
+.view-answer-button:armed, .back-home-button:armed {
+    -fx-background-insets: 1;
+}
+
+/* Score animation class (can be applied programmatically) */
+.score-highlight {
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.5), 12, 0.6, 0, 0);
+}
+
+/* Success score styling (for high scores) */
+.score-success .score-display {
+    -fx-text-fill: #2F7D32; /* Green for high scores */
+}
+
+/* Warning score styling (for low scores) */
+.score-warning .score-display {
+    -fx-text-fill: #E03131; /* Coral Red for low scores */
+}

@@ -1,5 +1,8 @@
 package com.example.cab302a1;
 
+import com.example.cab302a1.dao.AttemptDao;
+import com.example.cab302a1.dao.QuestionDao;
+import com.example.cab302a1.dao.ResponseDao;
 import com.example.cab302a1.dao.UserDao;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +15,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+
         // Db connection check
         DBconnection.migrate();
         try (var conn = DBconnection.getConnection()){
@@ -23,64 +27,31 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-        // Load the FXML file for the review page UI
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/cab302a1/login/login-view.fxml"));
+        // Load the FXML file for the login page UI
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/cab302a1/Login/Login-view.fxml"));
 
-        // Set the scene dimensions to better fit the content and prevent resizing
-        Scene scene = new Scene(fxmlLoader.load(), 1040, 600);
+        // Set the scene dimensions to fit the new login design
+        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+        
+        // Load CSS stylesheet for login page
+        try {
+            String cssPath = Main.class.getResource("/com/example/cab302a1/Login/Login.css").toExternalForm();
+            scene.getStylesheets().add(cssPath);
+            System.out.println("Login CSS loaded successfully: " + cssPath);
+        } catch (Exception e) {
+            System.err.println("Could not load Login.css: " + e.getMessage());
+        }
 
-        // Apply a basic stylesheet for common styles
-//        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-//
-//        stage.setTitle("Quiz App - Teacher Review Page"); // Updated title for clarity
-        stage.setTitle("Login");
+        stage.setTitle("Interactive Quiz Creator - Login");
         stage.setScene(scene);
-        stage.setResizable(false); // Make the window non-resizable
-        stage.show();
+        stage.setResizable(true); // Allow resizing for better user experience
+        stage.setMinWidth(600);   // Set minimum width
+        stage.setMinHeight(500);  // Set minimum height
+        stage.centerOnScreen();   // Center the window
+            stage.show();
     }
 
     public static void main(String[] args) {
         launch();
     }
-
-
-
-// =======================================
-// NavBar Demo
-//========================================
-
-
-//    @Override
-//    public void start(Stage stage) throws IOException {
-//        // Db connection check
-//        DBconnection.migrate();
-//        try (var conn = DBconnection.getConnection()){
-//            System.out.println(("Connected to DB: " + conn.getCatalog()));
-//            UserDao userdao = new UserDao();
-//            userdao.printAllUsers();
-//
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//
-//        // Load the FXML file for the navbar demo
-//        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("demo-navbar-integration.fxml"));
-//
-//        // Set the scene dimensions to accommodate the navbar demo
-//        Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
-//
-//        // Apply a basic stylesheet for common styles
-//        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-//
-//        stage.setTitle("Interactive Quiz Creator - Navbar Demo");
-//        stage.setScene(scene);
-//        stage.setResizable(true); // Allow resizing to test navbar responsiveness
-//        stage.setMinWidth(800); // Set minimum window size
-//        stage.setMinHeight(500);
-//        stage.show();
-//    }
-//
-//    public static void main(String[] args) {
-//        launch();
-//    }
 }

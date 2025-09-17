@@ -13,8 +13,12 @@ package com.example.cab302a1.ui;
  *  - Opened from HomeController (teacher '+' button) as a modal dialog.
  */
 
+import com.example.cab302a1.dao.OptionDao;
+import com.example.cab302a1.dao.QuestionDao;
+import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizQuestionCreate;
+import com.example.cab302a1.util.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -122,17 +126,61 @@ public class QuizEditorController {
     private void onDone() {
         try {
             Quiz built = buildQuizFromUI();
-            if (onSave != null) {
-                if (editing != null) {
-                    editing.setTitle(built.getTitle());
-                    editing.setDescription(built.getDescription());
-                    editing.getQuestions().clear();
-                    editing.getQuestions().addAll(built.getQuestions());
-                    onSave.accept(editing);
-                } else {
-                    onSave.accept(built);
+            built.setCreated_by(Session.getCurrentUser().getUser_id());
+
+            QuizDao quizDao = new QuizDao();
+            QuestionDao questionDao = new QuestionDao();
+            OptionDao optionDao = new OptionDao();
+
+            if(editing != null){
+                built.setQuizId(editing.getQuizId());
+                quizDao.updateQuiz(built);
+
+                for(QuizQuestionCreate q : built.getQuestions()){
+                    if(q.getQuestionId() > 0){
+                        questionDao.updateQuestion(q);
+                    }else{
+                        q.setQuiz_id(built.getQuizId());
+                        int newIdForQuestion = questionDao.insertQuestion(q);
+                        q.setQuestion_id(newIdForQuestion);
+                    }
+
+                    for (QuizChoiceCreate choice : q.getChoices()) {
+                        if (choice.getOption_id() > 0) {
+                            optionDao.updateOption(choice);
+                        } else {
+                            choice.setQuestion_id(q.getQuestionId());
+                            int newOid = optionDao.insertOption(choice);
+                            choice.setOption_id(newOid);
+                        }
+                    }
+
+                }
+            } else{
+                int quiz_id = quizDao.insertQuiz(built);
+                built.setQuizId(quiz_id);
+
+
+                for (QuizQuestionCreate q : built.getQuestions()) {
+                    q.setQuiz_id(quiz_id);
+                    int questionId = questionDao.insertQuestion(q);
+                    q.setQuestion_id(questionId);
+
+
+                    for (QuizChoiceCreate choice : q.getChoices()) {
+                        choice.setQuestion_id(questionId);
+                        int optionId = optionDao.insertOption(choice);
+                        choice.setOption_id(optionId);
+                    }
                 }
             }
+
+
+
+            if (onSave != null) {
+                onSave.accept(built);
+            }
+
             if (myStage != null) myStage.close();
         } catch (IllegalStateException ex) {
             showAlert("Validation", ex.getMessage(), Alert.AlertType.WARNING);
@@ -174,7 +222,7 @@ public class QuizEditorController {
     public static void open(Stage owner, Consumer<Quiz> onSave) {
         try {
             URL url = Objects.requireNonNull(
-                    QuizEditorController.class.getResource("/com/example/cab302a1/QuizEditor.fxml"));
+                    QuizEditorController.class.getResource("/com/example/cab302a1/TeacherQuizPage/TeacherQuizEditor.fxml"));
             FXMLLoader loader = new FXMLLoader(url);
             var root = loader.load();
 
@@ -245,17 +293,20 @@ public class QuizEditorController {
         for (QuizQuestionCreate q : quiz.getQuestions()) {
             addQuestion(); // Empty card
             QuestionItemController item = items.get(items.size() - 1); // 방금 추가된 마지막 카드
-
+            item.setQuestionId(q.getQuestionId());
 
             item.setQuestionText(q.getQuestionText());
 
 
+
             String[] texts = new String[4];
+            int[] ids = new int[4];
             int i = 0;
             int correctIdx = -1;
             for (QuizChoiceCreate ch : q.getChoices()) {
                 if (i < 4) {
                     texts[i] = ch.getText();
+                    ids[i] = ch.getOption_id();
                     if (ch.isCorrect()) correctIdx = i;
                 }
                 i++;
@@ -266,6 +317,7 @@ public class QuizEditorController {
             }
 
             item.setAnswerTexts(texts);
+            item.setOptionIds(ids);
             if (correctIdx >= 0) {
                 item.setCorrectIndex(correctIdx);
             }
