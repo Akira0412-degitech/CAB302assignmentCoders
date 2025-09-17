@@ -90,4 +90,25 @@ public class StudentReviewController {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.close();
     }
+
+    // ✅ Getters for unit testing
+    public TableView<QuizResult> getQuizTable() {
+        return quizTable;
+    }
+
+    public Button getDashboardBtn() {
+        return dashboardBtn;
+    }
+
+    public Button getReviewBtn() {
+        return reviewBtn;
+    }
+
+    public Button getTimetableBtn() {
+        return timetableBtn;
+    }
+
+    public Button getExitBtn() {
+        return exitBtn;
+    }
 }

@@ -11,7 +11,7 @@
 
 <HBox prefHeight="750.0" prefWidth="1100.0"
       styleClass="main-container"
-      stylesheets="@styles.css"
+      stylesheets="@../styles.css"
       xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.example.cab302a1.ui.TeacherReviewController">
