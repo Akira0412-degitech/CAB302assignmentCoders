@@ -32,13 +32,13 @@ public class TeacherQuizDetailController {
     public static void open(Stage owner, Quiz quiz, Consumer<Quiz> onUpdated) {
         try {
             URL fxml = TeacherQuizDetailController.class.getResource(
-                    "/com/example/cab302a1/TeacherQuizDetail.fxml");      //
+                    "/com/example/cab302a1/TeacherQuizPage/TeacherQuizDetail.fxml");
             if (fxml == null) {
             }
 
             if (fxml == null) {
                 throw new IllegalStateException(
-                        "Detail FXML not found. Expected at /com/example/cab302a1/TeacherQuizDetail.fxml (or QuizDetail.fxml)");
+                        "Detail FXML not found. Expected at /com/example/cab302a1/TeacherQuizPage/TeacherQuizDetail.fxml");
             }
 
             FXMLLoader loader = new FXMLLoader(fxml);
