@@ -22,7 +22,7 @@ public class PlannerPage extends Application {
         Scene scene = new Scene(loader.load(), 1000, 600);
 
         stage.setTitle("Quiz App");
-        stage.setScene(scene); //please work
+        stage.setScene(scene);
         stage.show();
     }
 

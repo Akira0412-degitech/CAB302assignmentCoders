@@ -15,4 +15,6 @@ module com.example.cab302a1 {
     exports com.example.cab302a1.Planner;
     opens com.example.cab302a1.Planner to javafx.fxml;
 
+    uses net.fortuna.ical4j.validate.CalendarValidatorFactory;
+
 }

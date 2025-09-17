@@ -8,14 +8,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
+import java.io.*;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.WeekFields;
 import java.util.*;
 
-import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.property.*;
+import net.fortuna.ical4j.data.CalendarOutputter;
+import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.validate.ValidationResult;
+import net.fortuna.ical4j.validate.ValidationException;
+import net.fortuna.ical4j.model.property.Uid;
 
 
 public class PlannerPageController {
@@ -36,6 +43,8 @@ public class PlannerPageController {
     public void initialize() {
         updateCalendar();
         updateEvents();
+
+        addEvent();
 
         prevButton.setOnAction(e -> { displayed = displayed.minusMonths(1); updateCalendar(); });
         nextButton.setOnAction(e -> { displayed = displayed.plusMonths(1); updateCalendar(); });
@@ -99,7 +108,46 @@ public class PlannerPageController {
         return cell;
     }
 
+
     private void updateEvents(){
         eventsList.getItems().add("No events happening today");
+    }
+
+    private void addEvent(){//String event){
+        DateTimeFormatter icalFormat = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
+
+        ZonedDateTime now = ZonedDateTime.now();
+        ZonedDateTime start = ZonedDateTime.now().withHour(10).withMinute(0).withSecond(0);
+        ZonedDateTime end = start.plusHours(1);
+
+        // Build ICS content
+        StringBuilder sb = new StringBuilder();
+        sb.append("BEGIN:VCALENDAR\n");
+        sb.append("VERSION:2.0\n");
+        sb.append("PRODID:-//My Simple App//EN\n");
+        sb.append("CALSCALE:GREGORIAN\n");
+        sb.append("BEGIN:VEVENT\n");
+        sb.append("UID:").append(UUID.randomUUID()).append("@example.com\n");
+        sb.append("DTSTAMP:").append(now.withZoneSameInstant(java.time.ZoneOffset.UTC).format(icalFormat)).append("\n");
+        sb.append("DTSTART:").append(start.withZoneSameInstant(java.time.ZoneOffset.UTC).format(icalFormat)).append("\n");
+        sb.append("DTEND:").append(end.withZoneSameInstant(java.time.ZoneOffset.UTC).format(icalFormat)).append("\n");
+        sb.append("SUMMARY:Team Meeting\n");
+        sb.append("DESCRIPTION:Discuss project status\n");
+        sb.append("LOCATION:Meeting Room 1\n");
+        sb.append("END:VEVENT\n");
+        sb.append("END:VCALENDAR\n");
+
+        // Write to file
+        try (FileWriter fw = new FileWriter("Events/simple_event.ics")) {
+            fw.write(sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("ICS file created");
+
+
+        //placeholder
+        //eventsList.getItems().add(event);
     }
 }
