@@ -86,7 +86,7 @@ public class HomeController {
                         int answerIdx = -1;
                         var choices = qs.get(i).getChoices();
                         for (int j = 0; j < choices.size(); j++) {
-                            if (choices.get(j).isAnswer()) { answerIdx = j; break; }
+                            if (choices.get(j).isCorrect()) { answerIdx = j; break; }
                         }
                         if (selected == answerIdx) correct++;
                     }

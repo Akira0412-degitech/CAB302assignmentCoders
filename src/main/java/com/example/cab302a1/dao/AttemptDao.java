@@ -9,6 +9,8 @@ import java.util.List;
 
 public class AttemptDao {
 
+
+
     public int startAttempt(int _quiz_id, int _user_id){
         String sql = "INSERT INTO quiz_attempts (quiz_id, answered_by, score, is_completed) VALUES(?, ?, 0, 0)";
 
