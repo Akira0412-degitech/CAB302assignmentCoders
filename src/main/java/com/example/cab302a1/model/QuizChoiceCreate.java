@@ -25,5 +25,9 @@ public class QuizChoiceCreate {
     public String getText() { return text; } //extract selected text
     public boolean isCorrect() { return is_correct; } // T/F check
     public void setIs_correct(boolean is_correct) { this.is_correct = is_correct; }
+
+    public boolean isAnswer() {
+        return false;
+    }
 }
 
