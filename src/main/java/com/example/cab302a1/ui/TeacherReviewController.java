@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -21,16 +22,21 @@ import java.io.IOException;
 public class TeacherReviewController {
 
     @FXML
-    private Button dashboardBtn;
+    public Button dashboardBtn;
 
     @FXML
-    private Button quizzesBtn;
+    public Button quizzesBtn;
+    public Button reviewBtn;
+    public TableColumn<Object, Object> studentNameCol;
+    public TableColumn<Object, Object> quizNameCol;
+    public TableColumn<Object, Object> scoreCol;
+    public TableColumn<Object, Object> viewBtnCol;
 
     @FXML
-    private Button reviewStudentsBtn;
+    public Button reviewStudentsBtn;
 
     @FXML
-    private Button exitBtn;
+    public Button exitBtn;
 
     @FXML
     private Button assignReviewBtn;
@@ -39,7 +45,7 @@ public class TeacherReviewController {
     private VBox studentListContainer;
 
     @FXML
-    private TableView<QuizResult> quizTable;
+    public TableView<QuizResult> quizTable;
 
     @FXML
     public void initialize() {

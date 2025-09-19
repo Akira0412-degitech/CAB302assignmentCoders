@@ -11,16 +11,25 @@ import javafx.stage.Stage;
 
 public class StudentReviewController {
 
-    @FXML private Button dashboardBtn;
-    @FXML private Button reviewBtn;
-    @FXML private Button timetableBtn;
-    @FXML private Button exitBtn;
+    @FXML
+    public Button dashboardBtn;
+    @FXML
+    public Button reviewBtn;
+    @FXML
+    public Button timetableBtn;
+    @FXML
+    public Button exitBtn;
 
-    @FXML private TableView<QuizResult> quizTable;
-    @FXML private TableColumn<QuizResult, String> quizNameCol;
-    @FXML private TableColumn<QuizResult, String> scoreCol;
-    @FXML private TableColumn<QuizResult, Void> viewResultCol;
-    @FXML private TableColumn<QuizResult, Void> feedbackCol;
+    @FXML
+    public TableView<QuizResult> quizTable;
+    @FXML
+    public TableColumn<QuizResult, String> quizNameCol;
+    @FXML
+    public TableColumn<QuizResult, String> scoreCol;
+    @FXML
+    public TableColumn<QuizResult, Void> viewResultCol;
+    @FXML
+    public TableColumn<QuizResult, Void> feedbackCol;
 
     private final ObservableList<QuizResult> quizData = FXCollections.observableArrayList();
 
