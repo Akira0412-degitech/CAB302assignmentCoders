@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import com.example.cab302a1.components.NavigationManager;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
@@ -16,7 +17,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-
+        String password = "secret";
+        String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+        System.out.println(hashed);
         // Db connection check
         DBconnection.migrate();
         try (var conn = DBconnection.getConnection()){
