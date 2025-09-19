@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.*?>
+<?import javafx.scene.layout.BorderPane?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.cab302a1.ui.HomeController"
             prefWidth="1000.0" prefHeight="640.0">
+
+    <left>
+        <fx:include source="components/Navbar.fxml"/>
+    </left>
 
     <top>
         <HBox spacing="12" alignment="CENTER"

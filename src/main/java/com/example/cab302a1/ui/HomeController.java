@@ -10,6 +10,7 @@ import com.example.cab302a1.service.QuizService;
 import com.example.cab302a1.util.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -20,9 +21,13 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
+
+import com.example.cab302a1.components.NavigationManager;
 
 
 import com.example.cab302a1.DBconnection;
@@ -31,7 +36,7 @@ import com.example.cab302a1.DBconnection;
  * Shared controller for both Student and Teacher home.
  * Behavior (read-only vs. editable) is toggled by UserRole.
  */
-public class HomeController {
+public class HomeController implements Initializable {
 
     @FXML
     private TilePane grid;
@@ -42,7 +47,7 @@ public class HomeController {
     private final List<Quiz> quizzes = new ArrayList<>();
 
     @FXML
-    public void initialize() {
+    public void initialize(URL location, ResourceBundle resources) {
         refresh();
     }
 

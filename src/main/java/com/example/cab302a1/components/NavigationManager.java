@@ -237,6 +237,14 @@ public class NavigationManager {
     
     // Predefined page constants for common pages
     public static class Pages {
+
+        public static final PageInfo HOME = new PageInfo(
+                "/com/example/cab302a1/HomePage.fxml",
+                "/com/example/cab302a1/HomePage.css",
+                "Interactive Quiz Creator - Quiz Home",
+                1100, 680, true
+        );
+
         public static final PageInfo NAVBAR_DEMO = new PageInfo(
             "/com/example/cab302a1/demo-navbar-integration.fxml",
             "/com/example/cab302a1/styles.css",

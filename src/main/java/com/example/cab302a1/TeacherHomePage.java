@@ -1,4 +1,5 @@
 package com.example.cab302a1;
+import com.example.cab302a1.components.NavigationManager;
 
 import com.example.cab302a1.ui.HomeController;
 import javafx.application.Application;

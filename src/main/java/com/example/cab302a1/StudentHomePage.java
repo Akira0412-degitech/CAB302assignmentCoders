@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.Objects;
+import com.example.cab302a1.components.NavigationManager;
 
 public class StudentHomePage extends Application {
     @Override
