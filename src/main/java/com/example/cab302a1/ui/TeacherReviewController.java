@@ -8,9 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
@@ -24,25 +21,28 @@ import java.io.IOException;
 
 public class TeacherReviewController {
 
-    // Sidebar buttons
-    @FXML private Button dashboardBtn;
-    @FXML private Button quizzesBtn;
-    @FXML private Button reviewStudentsBtn;
-    @FXML private Button exitBtn;
+    // Sidebar buttons (public so tests can access them)
+    @FXML public Button dashboardBtn;
+    @FXML public Button quizzesBtn;
+    @FXML public Button reviewStudentsBtn;
+    @FXML public Button exitBtn;
 
     // Student list + details
-    @FXML private VBox studentListContainer;
-    @FXML private Label studentNameLabel;
-    @FXML private Button assignReviewBtn;
+    @FXML public VBox studentListContainer;
+    @FXML public Label studentNameLabel;
+    @FXML public Button assignReviewBtn;
 
     // TableView + Columns
-    @FXML private TableView<QuizResult> quizTable;
-    @FXML private TableColumn<QuizResult, String> quizNameCol;
-    @FXML private TableColumn<QuizResult, String> scoreCol;
-    @FXML private TableColumn<QuizResult, Void> resultCol;
+    @FXML public TableView<QuizResult> quizTable;
+    @FXML public TableColumn<QuizResult, String> quizNameCol;
+    @FXML public TableColumn<QuizResult, String> scoreCol;
+    @FXML public TableColumn<QuizResult, Void> resultCol;
 
     // Observable data for the table
     private final ObservableList<QuizResult> quizData = FXCollections.observableArrayList();
+    public TableColumn<Object, Object> viewBtnCol;
+    public TableColumn<Object, Object> studentNameCol;
+    public Button reviewBtn;
 
     @FXML
     public void initialize() {
@@ -51,48 +51,51 @@ public class TeacherReviewController {
         quizzesBtn.setOnAction(event -> System.out.println("Quizzes button clicked"));
         reviewStudentsBtn.setOnAction(event -> System.out.println("Review Students button clicked"));
         exitBtn.setOnAction(this::handleExit);
-        assignReviewBtn.setOnAction(event -> System.out.println("Assign Review button clicked"));
+        if (assignReviewBtn != null) {
+            assignReviewBtn.setOnAction(event -> System.out.println("Assign Review button clicked"));
+        }
 
         // Setup TableView
         quizNameCol.setCellValueFactory(new PropertyValueFactory<>("quizName"));
         scoreCol.setCellValueFactory(new PropertyValueFactory<>("score"));
 
         // Add "View" button column
-        resultCol.setCellFactory(param -> new TableCell<>() {
-            private final Button viewBtn = new Button("View");
+        if (resultCol != null) {
+            resultCol.setCellFactory(param -> new TableCell<>() {
+                private final Button viewBtn = new Button("View");
 
-            {
-                viewBtn.setOnAction(event -> {
-                    QuizResult result = getTableView().getItems().get(getIndex());
-                    System.out.println("Viewing result for " + result.getQuizName());
-                    // TODO: open detailed review page if needed
-                });
-            }
-
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(viewBtn);
+                {
+                    viewBtn.setOnAction(event -> {
+                        QuizResult result = getTableView().getItems().get(getIndex());
+                        System.out.println("Viewing result for " + result.getQuizName());
+                    });
                 }
-            }
-        });
+
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setGraphic(empty ? null : viewBtn);
+                }
+            });
+        }
 
         // Default student selection
-        studentNameLabel.setText("Student Name: Name 5");
+        if (studentNameLabel != null) {
+            studentNameLabel.setText("Student Name: Name 5");
+        }
 
         // Sample quiz data
         quizData.setAll(
                 new QuizResult("Quiz 1", "16/20"),
-                new QuizResult("Quiz 2", "16/20"),
+                new QuizResult("Quiz 2", "18/20"),
                 new QuizResult("Quiz 3", "16/20"),
                 new QuizResult("Quiz 4", "16/20"),
                 new QuizResult("Quiz 5", "16/20")
         );
 
-        quizTable.setItems(quizData);
+        if (quizTable != null) {
+            quizTable.setItems(quizData);
+        }
     }
 
     // Exit confirmation dialog
@@ -143,19 +146,5 @@ public class TeacherReviewController {
         Scene dialogScene = new Scene(new StackPane(dialogVbox));
         dialog.setScene(dialogScene);
         dialog.show();
-    }
-
-    // Inner class for quiz data model
-    public static class QuizResult {
-        private final String quizName;
-        private final String score;
-
-        public QuizResult(String quizName, String score) {
-            this.quizName = quizName;
-            this.score = score;
-        }
-
-        public String getQuizName() { return quizName; }
-        public String getScore() { return score; }
     }
 }

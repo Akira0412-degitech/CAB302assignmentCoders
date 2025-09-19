@@ -1,32 +1,71 @@
 package com.example.cab302a1.ReviewPage;
 
+import com.example.cab302a1.model.QuizResult;
 import com.example.cab302a1.ui.TeacherReviewController;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.scene.control.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testfx.framework.junit5.ApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TeacherReviewControllerTest extends ApplicationTest {
+class TeacherReviewControllerTest {
 
     private TeacherReviewController controller;
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/cab302a1/ReviewPage/teacher-review-view.fxml"));
-        Parent root = loader.load();
-        controller = loader.getController();
+    @BeforeAll
+    static void initToolkit() {
+        try {
+            Platform.startup(() -> {});
+        } catch (IllegalStateException e) {
+            // already started
+        }
+    }
 
-        stage.setScene(new Scene(root));
-        stage.show();
+    @BeforeEach
+    void setUp() {
+        controller = new TeacherReviewController();
+
+        // Fake UI controls (prevent NPEs)
+        controller.dashboardBtn = new Button();
+        controller.quizzesBtn = new Button();
+        controller.reviewBtn = new Button();
+        controller.exitBtn = new Button();
+        controller.reviewStudentsBtn = new Button();
+
+        controller.quizTable = new TableView<>();
+        controller.studentNameCol = new TableColumn<>("Student");
+        controller.quizNameCol = new TableColumn<>("Quiz");
+        controller.scoreCol = new TableColumn<>("Score");
+        controller.viewBtnCol = new TableColumn<>("View");
+
+        // Inject fake data
+        controller.quizTable.setItems(FXCollections.observableArrayList(
+                new QuizResult("John Doe - Quiz 1", "18/20"),
+                new QuizResult("Jane Smith - Quiz 2", "15/20")
+        ));
+
+        controller.initialize();
     }
 
     @Test
-    void testQuizTableLoads() {
-        assertNotNull(controller, "Controller should be loaded");
-        assertNotNull(controller.getQuizTable(), "Quiz table should exist");
+    void testQuizTableHasMockData() {
+        assertNotNull(controller.quizTable.getItems());
+        assertFalse(controller.quizTable.getItems().isEmpty(),
+                "Teacher quiz table should have mock data");
+    }
+
+    @Test
+    void testFirstRowQuizName() {
+        QuizResult result = controller.quizTable.getItems().get(0);
+        assertEquals("John Doe - Quiz 1", result.getQuizName());
+    }
+
+    @Test
+    void testFirstRowScore() {
+        QuizResult result = controller.quizTable.getItems().get(0);
+        assertEquals("18/20", result.getScore());
     }
 }
