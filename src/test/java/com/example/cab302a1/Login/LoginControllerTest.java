@@ -50,16 +50,16 @@ class LoginControllerTest {
     @Test
     void testLoginSuccess() throws Exception {
         // Arrange: define behavior of mock DAO
-        User mockUser = new Student(1, "testuser", "test@example.com", "pass",null);
-        when(mockDao.login("test@example.com", "pass")).thenReturn(mockUser);
+        User mockUser = new Student(1, "testuser", "test@example.com", "Student",null);
+        when(mockDao.login("test@example.com", "secret")).thenReturn(mockUser);
 
         // Act: call login method
-        User result = mockDao.login("test@example.com", "pass");
+        User result = mockDao.login("test@example.com", "secret");
 
         // Assert: verify correct behavior
         assertNotNull(result);
         assertEquals("test@example.com", result.getEmail());
-        verify(mockDao).login("test@example.com", "pass");
+        verify(mockDao).login("test@example.com", "secret");
     }
 
     @Test
