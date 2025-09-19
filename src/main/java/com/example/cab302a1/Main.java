@@ -8,14 +8,15 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
-
+import java.lang.reflect.Array;
+import org.mindrot.jbcrypt.BCrypt;
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-
         // Db connection check
         DBconnection.migrate();
         try (var conn = DBconnection.getConnection()){
