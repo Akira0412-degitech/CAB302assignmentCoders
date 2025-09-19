@@ -8,6 +8,7 @@ module com.example.cab302a1 {
     requires mysql.connector.j;
     requires flyway.core;
     requires javafx.graphics;
+    requires jbcrypt;
     //requires com.example.cab302a;
 
     // FXML

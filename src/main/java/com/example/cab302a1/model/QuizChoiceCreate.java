@@ -27,7 +27,7 @@ public class QuizChoiceCreate {
     public void setIs_correct(boolean is_correct) { this.is_correct = is_correct; }
 
     public boolean isAnswer() {
-        return this.isCorrect(); // or whatever your boolean field is called
+        return false;
     }
 }
 

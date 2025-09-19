@@ -252,7 +252,7 @@ public class QuizEditorController {
     public static void openForEdit(Stage owner, Quiz quiz, Consumer<Quiz> onSave) {
         try {
             URL url = Objects.requireNonNull(
-                    QuizEditorController.class.getResource("/com/example/cab302a1/QuizEditor.fxml"));
+                    QuizEditorController.class.getResource("/com/example/cab302a1/TeacherQuizPage/TeacherQuizEditor.fxml"));
             FXMLLoader loader = new FXMLLoader(url);
             var root = loader.load();
 

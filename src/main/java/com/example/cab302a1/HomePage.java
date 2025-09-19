@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.util.Objects;
-
+import com.example.cab302a1.components.NavigationManager;
 public class HomePage extends Application {
     @Override
     public void start(Stage stage) throws Exception {
