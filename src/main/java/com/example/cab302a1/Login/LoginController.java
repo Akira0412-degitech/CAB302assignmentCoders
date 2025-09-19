@@ -93,7 +93,7 @@ public class LoginController {
     private void handleSignUpClick(ActionEvent event) throws IOException {
         // Load SignUp-view.fxml and switch to Sign Up scene
         root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/SignUp/SignUp-view.fxml"));
-        scene = new Scene(root, 800, 600);
+        scene = new Scene(root, 800, 720);
 
         // Load CSS for SignUp page
         try {

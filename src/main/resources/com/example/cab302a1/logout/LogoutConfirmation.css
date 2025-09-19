@@ -20,6 +20,14 @@
     -fx-spacing: 24; /* 24px between buttons */
 }
 
+/* Logo styling */
+.logout-container ImageView {
+    -fx-alignment: center;
+    -fx-smooth: true;
+    -fx-cache: true;
+    -fx-cache-hint: quality;
+}
+
 /* ============================================
    Base Button Styles
    ============================================ */
