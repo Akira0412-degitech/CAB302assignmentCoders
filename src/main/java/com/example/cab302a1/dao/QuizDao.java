@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuizDao {
+
+
     public List<Quiz> getAllQuizzes(){
         List<Quiz> quizzes = new ArrayList<>();
 
