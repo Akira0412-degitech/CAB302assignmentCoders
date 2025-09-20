@@ -16,11 +16,20 @@
     -fx-alignment: CENTER;
 }
 
+/* Logo Styling */
+.signup-container ImageView {
+    -fx-alignment: CENTER;
+    -fx-smooth: true;
+    -fx-cache: true;
+    -fx-cache-hint: quality;
+    -fx-image-border: none;
+}
+
 /* Page Title */
 .signup-container .page-title {
     -fx-font-size: 28px;
     -fx-font-weight: 700;
-    -fx-text-fill: #005BA1;
+    -fx-text-fill: #000000;
     -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
     -fx-alignment: CENTER;
 }
