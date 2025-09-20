@@ -90,7 +90,7 @@ public class AttemptDao {
                     return rs.getInt("score");
                 }
             }
-        }catch (SQLException e){
+        } catch (SQLException e){
             e.printStackTrace();
         }
         return null;
