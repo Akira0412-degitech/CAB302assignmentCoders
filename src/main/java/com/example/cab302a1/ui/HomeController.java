@@ -117,6 +117,7 @@ public class HomeController implements Initializable {
             // Quiz open
             StudentTakeQuizController.open(owner, fullQuiz, selections -> {
                 try {
+
                     saveResponsesBare(attemptId, fullQuiz, selections);
 
 
@@ -186,6 +187,7 @@ public class HomeController implements Initializable {
         a.showAndWait();
     }
 
+    //Need to fix.
     //Save result and sent to DB
     private void saveResponsesBare(int attemptId, Quiz quiz, List<Integer> selections) throws SQLException {
         String sql = "INSERT INTO question_responses (attempt_id, question_id, option_id, is_correct) VALUES (?,?,?,?)";
