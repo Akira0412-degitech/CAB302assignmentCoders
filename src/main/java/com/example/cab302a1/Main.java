@@ -17,9 +17,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        String password = "secret";
-        String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
-        System.out.println(hashed);
         // Db connection check
         DBconnection.migrate();
         try (var conn = DBconnection.getConnection()){
