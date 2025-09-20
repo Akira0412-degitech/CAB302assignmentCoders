@@ -14,7 +14,7 @@ Interactive Quiz Creator is a comprehensive educational tool that enables educat
 
 ## User Roles & Permissions
 
-### **Tutor/Educator**
+### **Teacher/Tutor/Educator**
 - Create, edit, and upload questions (text/images/math)
 - Build and publish quizzes with customizable settings
 - View student performance analytics
