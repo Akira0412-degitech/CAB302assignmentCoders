@@ -1,5 +1,7 @@
 package com.example.cab302a1.components;
 
+import com.example.cab302a1.util.Session;
+import com.example.cab302a1.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -118,7 +120,7 @@ public class NavbarController implements Initializable {
 
     /**
      * Handles the Home button click event.
-     * Navigates to the home page and updates the active button state.
+     * Navigates to the user's role-specific home page and updates the active button state.
      *
      * @param event The action event triggered by clicking the Home button
      */
@@ -127,9 +129,12 @@ public class NavbarController implements Initializable {
         System.out.println("Navigation: Home button clicked");
         setActiveButton(homeBtn);
         
-        // TODO: Implement actual navigation to Home page
-        // Example: SceneManager.switchToHome();
-        navigateToPage("Home");
+        try {
+            navigateToUserHome();
+        } catch (IOException e) {
+            System.err.println("Error navigating to home page: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -184,6 +189,35 @@ public class NavbarController implements Initializable {
         }
     }
 
+    /**
+     * Navigates to the user's role-specific home page.
+     * Uses NavigationManager to ensure proper navigation history and CSS loading.
+     *
+     * @throws IOException if the home page cannot be loaded
+     */
+    private void navigateToUserHome() throws IOException {
+        Stage currentStage = (Stage) homeBtn.getScene().getWindow();
+        NavigationManager navigationManager = NavigationManager.getInstance();
+        
+        // Check if user is logged in
+        if (Session.isLoggedaIn()) {
+            // Navigate to role-specific home page
+            navigationManager.navigateTo(currentStage, NavigationManager.Pages.HOME);
+            
+            // Update title based on user role
+            User currentUser = Session.getCurrentUser();
+            if (currentUser != null) {
+                String roleTitle = currentUser.getRole();
+                currentStage.setTitle("Interactive Quiz Creator - " + roleTitle + " Home");
+                System.out.println("Successfully navigated to " + roleTitle + " home page");
+            }
+        } else {
+            // No user logged in, redirect to login page
+            navigationManager.navigateTo(currentStage, NavigationManager.Pages.LOGIN);
+            System.out.println("No user logged in, redirected to login page");
+        }
+    }
+    
     /**
      * Helper method to simulate navigation to different pages.
      * In a full implementation, this would integrate with a scene manager or router.

@@ -369,7 +369,7 @@ public class QuizResultController implements Initializable {
             throws IOException, QuizResultService.QuizResultException {
         
         FXMLLoader fxmlLoader = new FXMLLoader(QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.fxml"));
-        Scene resultScene = new Scene(fxmlLoader.load(), 1200, 700);
+        Scene resultScene = new Scene(fxmlLoader.load(), 1000, 650);
         
         // Load CSS stylesheet
         URL cssUrl = QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.css");
@@ -405,7 +405,7 @@ public class QuizResultController implements Initializable {
             throws IOException, QuizResultService.QuizResultException {
         
         FXMLLoader fxmlLoader = new FXMLLoader(QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.fxml"));
-        Scene resultScene = new Scene(fxmlLoader.load(), 1200, 700);
+        Scene resultScene = new Scene(fxmlLoader.load(), 1000, 650);
         
         // Load CSS stylesheet
         URL cssUrl = QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.css");
@@ -465,7 +465,7 @@ public class QuizResultController implements Initializable {
      */
     public static void showQuizResult(Stage stage, QuizResultData quizResultData) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.fxml"));
-        Scene resultScene = new Scene(fxmlLoader.load(), 1200, 700);
+        Scene resultScene = new Scene(fxmlLoader.load(), 1000, 650);
         
         // Load CSS stylesheet using NavigationManager approach
         URL cssUrl = QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.css");
