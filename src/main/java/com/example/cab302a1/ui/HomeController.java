@@ -48,7 +48,12 @@ public class HomeController implements Initializable {
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+        // Register this page with NavigationManager for proper navigation history
+        NavigationManager.getInstance().setCurrentPage(NavigationManager.Pages.HOME);
+        
         refresh();
+        
+        System.out.println("Home page initialized and registered with NavigationManager");
     }
 
 
@@ -135,8 +140,19 @@ public class HomeController implements Initializable {
                             score != null ? score : 0, total, fullQuiz.getTitle(), quizId, userId
                     ));
 
-                    owner.setScene(new Scene(root, 1100, 680));
-                    owner.setTitle("Quiz Result");
+                    Scene resultScene = new Scene(root, 1200, 700);
+                    
+                    // Load QuizResult CSS
+                    try {
+                        String cssPath = getClass().getResource("/com/example/cab302a1/result/QuizResult.css").toExternalForm();
+                        resultScene.getStylesheets().add(cssPath);
+                        System.out.println("QuizResult CSS loaded successfully: " + cssPath);
+                    } catch (Exception e) {
+                        System.err.println("Could not load QuizResult.css: " + e.getMessage());
+                    }
+                    
+                    owner.setScene(resultScene);
+                    owner.setTitle("Interactive Quiz Creator - Quiz Results");
                     owner.show();
 
                 } catch (Exception ex) {
