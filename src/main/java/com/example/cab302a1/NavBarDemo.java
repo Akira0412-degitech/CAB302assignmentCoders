@@ -14,7 +14,7 @@ public class NavBarDemo extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(NavBarDemo.class.getResource("demo-navbar-integration.fxml"));
 
         // Set the scene dimensions to accommodate the navbar demo
-        Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
 
         // Apply a basic stylesheet for common styles
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());

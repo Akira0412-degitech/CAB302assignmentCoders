@@ -169,7 +169,7 @@ public class HomeController implements Initializable {
                             score != null ? score : 0, total, fullQuiz.getTitle(), quizId, userId
                     ));
 
-                    Scene resultScene = new Scene(root, 1200, 700);
+                    Scene resultScene = new Scene(root, 1000, 650);
                     
                     // Load QuizResult CSS
                     try {

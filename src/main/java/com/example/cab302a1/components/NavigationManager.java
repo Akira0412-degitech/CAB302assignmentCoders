@@ -269,14 +269,14 @@ public class NavigationManager {
             "/com/example/cab302a1/demo-navbar-integration.fxml",
             "/com/example/cab302a1/styles.css",
             "Interactive Quiz Creator - Navbar Demo",
-            1200, 700, true
+            1000, 650, true
         );
         
         public static final PageInfo QUIZ_RESULT = new PageInfo(
             "/com/example/cab302a1/result/QuizResult.fxml",
             "/com/example/cab302a1/result/QuizResult.css",
             "Interactive Quiz Creator - Quiz Results",
-            1200, 700, true
+            1000, 650, true
         );
         
         public static final PageInfo LOGIN = new PageInfo(
