@@ -11,12 +11,12 @@
         <fx:include source="components/Navbar.fxml"/>
     </left>
 
-    <top>
-        <HBox spacing="12" alignment="CENTER"
-              style="-fx-padding: 12 16; -fx-background-color: #f4f4f4; -fx-border-color: #e5e5e5; -fx-border-width: 0 0 1 0;">
-            <Label text="Title for Home Page" styleClass="page-title"/>
-        </HBox>
-    </top>
+<!--    <top>-->
+<!--        <HBox spacing="12" alignment="CENTER"-->
+<!--              style="-fx-padding: 12 16; -fx-background-color: #f4f4f4; -fx-border-color: #e5e5e5; -fx-border-width: 0 0 1 0;">-->
+<!--            <Label text="Title for Home Page" styleClass="page-title"/>-->
+<!--        </HBox>-->
+<!--    </top>-->
 
 <!--content-->
     <center>
