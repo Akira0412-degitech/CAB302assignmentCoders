@@ -1,5 +1,6 @@
-# Interactive Quiz Creator
+# Interactive Quiz Creator (QuizCraft)
 
+<img src="src/main/resources/com/example/cab302a1/images/QuizCraft_logo.png" alt="logo" width="100%"  style="object-fit: cover; border-radius: 10px;" />
 A JavaFX-based desktop application designed to support teaching and learning through interactive quiz creation, delivery, and performance tracking.
 
 ## Project Overview
