@@ -19,7 +19,7 @@ public class PlannerPage extends Application {
         FXMLLoader loader = new FXMLLoader (
                 Objects.requireNonNull(getClass().getResource("/com/example/cab302a1/Planner/Planner.fxml"))
         );
-        Scene scene = new Scene(loader.load(), 1000, 600);
+        Scene scene = new Scene(loader.load(), 1000, 700);
 
         stage.setTitle("Quiz App");
         stage.setScene(scene);

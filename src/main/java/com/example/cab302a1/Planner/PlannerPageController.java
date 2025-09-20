@@ -2,6 +2,7 @@ package com.example.cab302a1.Planner;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
@@ -33,6 +34,8 @@ public class PlannerPageController {
     @FXML private GridPane calendarGrid;
 
     @FXML private ListView<String> eventsList;
+    @FXML private ChoiceBox<String> priorityList;
+    @FXML private ChoiceBox<String> completionList;
 
     private YearMonth displayed = YearMonth.now();
     private final Locale locale = Locale.getDefault();
@@ -45,6 +48,9 @@ public class PlannerPageController {
         updateEvents();
 
         addEvent();
+
+        priorityList.getItems().addAll("Low", "Medium", "High", "Very High");
+        completionList.getItems().addAll("To Do", "In Progress", "Late", "Completed");
 
         prevButton.setOnAction(e -> { displayed = displayed.minusMonths(1); updateCalendar(); });
         nextButton.setOnAction(e -> { displayed = displayed.plusMonths(1); updateCalendar(); });
@@ -120,14 +126,13 @@ public class PlannerPageController {
         ZonedDateTime start = ZonedDateTime.now().withHour(10).withMinute(0).withSecond(0);
         ZonedDateTime end = start.plusHours(1);
 
-        // Build ICS content
         StringBuilder sb = new StringBuilder();
         sb.append("BEGIN:VCALENDAR\n");
         sb.append("VERSION:2.0\n");
         sb.append("PRODID:-//My Simple App//EN\n");
         sb.append("CALSCALE:GREGORIAN\n");
         sb.append("BEGIN:VEVENT\n");
-        sb.append("UID:").append(UUID.randomUUID()).append("@example.com\n");
+        sb.append("UID:").append("admin").append("@example.com\n");
         sb.append("DTSTAMP:").append(now.withZoneSameInstant(java.time.ZoneOffset.UTC).format(icalFormat)).append("\n");
         sb.append("DTSTART:").append(start.withZoneSameInstant(java.time.ZoneOffset.UTC).format(icalFormat)).append("\n");
         sb.append("DTEND:").append(end.withZoneSameInstant(java.time.ZoneOffset.UTC).format(icalFormat)).append("\n");

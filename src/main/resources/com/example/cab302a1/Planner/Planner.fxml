@@ -11,7 +11,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.cab302a1.Planner.PlannerPageController"
             stylesheets="@planner.css"
-            prefHeight="1000.0" prefWidth="640.0">
+            prefHeight="1000.0" prefWidth="700.0">
 
     <top>
         <VBox spacing="12" alignment="CENTER" styleClass="header-vbox">
@@ -60,6 +60,28 @@
 
                     <ListView fx:id="eventsList" styleClass="events-list"/>
 
+                    <Button text="Delete Event" alignment="BOTTOM_CENTER" styleClass="event-button"/>
+                </VBox>
+
+                <VBox styleClass="events-bg" alignment="TOP_CENTER">
+                    <Label text="Add Event:" styleClass="events-title"/>
+
+                    <Label text="Event Name:" />
+                    <TextField promptText="Sample Name"/>
+
+                    <Label text="Select Date:" />
+                    <DatePicker promptText="Enter or select a date" />
+
+                    <Label text="Start Time:" />
+                    <TextField promptText="HH:mm"/>
+
+                    <Label text="Event Priority:" />
+                    <ChoiceBox fx:id="priorityList">
+                    </ChoiceBox>
+
+                    <Label text="Completion:" />
+                    <ChoiceBox fx:id="completionList">
+                    </ChoiceBox>
 
                     <Button text="Add Event" alignment="BOTTOM_CENTER" styleClass="event-button"/>
                 </VBox>

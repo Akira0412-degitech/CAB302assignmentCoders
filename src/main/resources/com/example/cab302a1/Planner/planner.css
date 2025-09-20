@@ -74,6 +74,7 @@
     -fx-background-color: #ffffff;
     -fx-background-radius: 15;
     -fx-padding: 10;
+    -fx-spacing: 10;
 }
 
 .calendar-grid {
@@ -90,7 +91,7 @@
     -fx-background-color: #f3f3f3;
     -fx-background-radius: 15;
     -fx-padding: 20;
-    -fx-spacing: 20;
+    -fx-spacing: 5;
     -fx-pref-width: 300;
 }
 
