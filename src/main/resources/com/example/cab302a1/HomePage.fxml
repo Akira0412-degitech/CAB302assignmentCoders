@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.cab302a1.ui.HomeController"
+            styleClass="root-container"
             prefWidth="1000.0" prefHeight="640.0">
 
     <left>
         <fx:include source="components/Navbar.fxml"/>
     </left>
 
-<!--    <top>-->
-<!--        <HBox spacing="12" alignment="CENTER"-->
-<!--              style="-fx-padding: 12 16; -fx-background-color: #f4f4f4; -fx-border-color: #e5e5e5; -fx-border-width: 0 0 1 0;">-->
-<!--            <Label text="Title for Home Page" styleClass="page-title"/>-->
-<!--        </HBox>-->
-<!--    </top>-->
-
-<!--content-->
     <center>
-        <!-- SCroll Available when size changed -->
-        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
-            <content>
-                <VBox spacing="16" styleClass="page" alignment="CENTER">
-                    <!-- Grid width 4 -->
-                    <TilePane fx:id="grid" prefColumns="4" hgap="24" vgap="24"
-                              styleClass="grid" alignment="CENTER"/>
+        <VBox styleClass="main-content" alignment="TOP_CENTER" spacing="32">
+            <padding>
+                <Insets top="32" bottom="32" left="32" right="32"/>
+            </padding>
+
+                <!-- Page Title -->
+                <Label fx:id="pageTitle" styleClass="page-title" text="Build Your Next Quiz!"/>
+
+                <!-- Quiz Grid Container -->
+                <VBox alignment="CENTER">
+                    <TilePane fx:id="grid" prefColumns="3" hgap="24" vgap="20"
+                              styleClass="quiz-grid" alignment="CENTER"/>
                 </VBox>
-            </content>
-        </ScrollPane>
+        </VBox>
     </center>
 </BorderPane>

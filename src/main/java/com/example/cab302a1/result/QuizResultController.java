@@ -1,6 +1,8 @@
 package com.example.cab302a1.result;
 
 import com.example.cab302a1.components.NavigationManager;
+import com.example.cab302a1.util.Session;
+import com.example.cab302a1.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -108,6 +110,9 @@ public class QuizResultController implements Initializable {
         setupDefaultDisplay();
         setupAccessibility();
         loadStylesheet();
+        
+        // Register this page with NavigationManager to ensure proper CSS loading
+        NavigationManager.getInstance().setCurrentPage(NavigationManager.Pages.QUIZ_RESULT);
         
         System.out.println("Quiz result page initialized successfully");
     }
@@ -279,27 +284,33 @@ public class QuizResultController implements Initializable {
     }
 
     /**
-     * Default navigation to home page (navbar demo).
-     * Can be replaced by setting a custom home navigation handler.
+     * Default navigation to home page (role-specific home page).
+     * Navigates to the proper home page based on user role, or navbar demo if no user is logged in.
      *
      * @throws IOException if the home page cannot be loaded
      */
     private void navigateToDefaultHome() throws IOException {
         Stage currentStage = (Stage) backHomeBtn.getScene().getWindow();
         
-        // Load the navbar demo page as default home
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/cab302a1/demo-navbar-integration.fxml"));
-        Scene homeScene = new Scene(fxmlLoader.load(), 1200, 700);
-        
-        // Apply the styles
-        homeScene.getStylesheets().add(getClass().getResource("/com/example/cab302a1/styles.css").toExternalForm());
-        
-        // Update the stage
-        currentStage.setTitle("Interactive Quiz Creator - Home");
-        currentStage.setScene(homeScene);
-        currentStage.centerOnScreen();
-        
-        System.out.println("Successfully navigated to default home page");
+        // Check if user is logged in and navigate to appropriate home page
+        if (Session.isLoggedaIn()) {
+            // Navigate to role-specific home page using NavigationManager
+            NavigationManager navigationManager = NavigationManager.getInstance();
+            navigationManager.navigateToReplace(currentStage, NavigationManager.Pages.HOME);
+            
+            // Update title based on user role
+            User currentUser = Session.getCurrentUser();
+            String roleTitle = currentUser.getRole();
+            currentStage.setTitle("Interactive Quiz Creator - " + roleTitle + " Home");
+            
+            System.out.println("Successfully navigated to " + roleTitle + " home page");
+        } else {
+            // No user logged in, fallback to navbar demo
+            NavigationManager navigationManager = NavigationManager.getInstance();
+            navigationManager.navigateToReplace(currentStage, NavigationManager.Pages.NAVBAR_DEMO);
+            
+            System.out.println("No user logged in, navigated to navbar demo page");
+        }
     }
 
     /**
@@ -358,12 +369,15 @@ public class QuizResultController implements Initializable {
             throws IOException, QuizResultService.QuizResultException {
         
         FXMLLoader fxmlLoader = new FXMLLoader(QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.fxml"));
-        Scene resultScene = new Scene(fxmlLoader.load(), 1200, 700);
+        Scene resultScene = new Scene(fxmlLoader.load(), 1000, 650);
         
         // Load CSS stylesheet
         URL cssUrl = QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.css");
         if (cssUrl != null) {
             resultScene.getStylesheets().add(cssUrl.toExternalForm());
+            System.out.println("Quiz result CSS loaded successfully");
+        } else {
+            System.err.println("Warning: Quiz result CSS not found");
         }
         
         // Get the controller and set the quiz result data from database
@@ -391,12 +405,15 @@ public class QuizResultController implements Initializable {
             throws IOException, QuizResultService.QuizResultException {
         
         FXMLLoader fxmlLoader = new FXMLLoader(QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.fxml"));
-        Scene resultScene = new Scene(fxmlLoader.load(), 1200, 700);
+        Scene resultScene = new Scene(fxmlLoader.load(), 1000, 650);
         
         // Load CSS stylesheet
         URL cssUrl = QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.css");
         if (cssUrl != null) {
             resultScene.getStylesheets().add(cssUrl.toExternalForm());
+            System.out.println("Quiz result CSS loaded successfully");
+        } else {
+            System.err.println("Warning: Quiz result CSS not found");
         }
         
         // Get the controller and set the quiz result data from database
@@ -448,12 +465,15 @@ public class QuizResultController implements Initializable {
      */
     public static void showQuizResult(Stage stage, QuizResultData quizResultData) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.fxml"));
-        Scene resultScene = new Scene(fxmlLoader.load(), 1200, 700);
+        Scene resultScene = new Scene(fxmlLoader.load(), 1000, 650);
         
-        // Load CSS stylesheet
+        // Load CSS stylesheet using NavigationManager approach
         URL cssUrl = QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.css");
         if (cssUrl != null) {
             resultScene.getStylesheets().add(cssUrl.toExternalForm());
+            System.out.println("Quiz result CSS loaded successfully");
+        } else {
+            System.err.println("Warning: Quiz result CSS not found");
         }
         
         // Get the controller and set the quiz result data
