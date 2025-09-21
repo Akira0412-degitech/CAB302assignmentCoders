@@ -1,5 +1,6 @@
-# Interactive Quiz Creator
+# Interactive Quiz Creator (QuizCraft)
 
+<img src="src/main/resources/com/example/cab302a1/images/QuizCraft_logo.png" alt="logo" width="100%"  style="object-fit: cover; border-radius: 10px;" />
 A JavaFX-based desktop application designed to support teaching and learning through interactive quiz creation, delivery, and performance tracking.
 
 ## Project Overview
@@ -14,7 +15,7 @@ Interactive Quiz Creator is a comprehensive educational tool that enables educat
 
 ## User Roles & Permissions
 
-### **Tutor/Educator**
+### **Teacher/Tutor/Educator**
 - Create, edit, and upload questions (text/images/math)
 - Build and publish quizzes with customizable settings
 - View student performance analytics
@@ -93,17 +94,66 @@ Interactive Quiz Creator is a comprehensive educational tool that enables educat
 - **Mitchell Tran** - Review Page Development
 - **Akira Hasuo** - Backend Developer & Database Design
 
+## Database Setup
+
+To initialize the project database, use the provided `db/init.sql` script.
+
+### On Windows:
+  ```bash
+  Get-Content .\db\init.sql | mysql -u root -p
+  ```
+  or
+  ```bash
+  Get-Content .\db\init.sql -Raw | & "your-local-path-to-mysql.exe" -u root -p
+  ```
+  example:
+  ```bash
+  Get-Content .\db\init.sql -Raw | & "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p
+  ```
+
+### On macOS / Linux:
+  ```bash
+  mysql -u root -p < db/init.sql
+  ```
+
+This makes Database called ```cab302_quizapp``` where user ```appuser@localhost``` password ```AppPass#2025``` are used to login.
+
+## Component
+
+See more detail in [NavBar-README](docs/NavBar-README.md)
+
+## Quiz Result Page Integration Guide
+
+See more detail in [QuizResultIntegration-README](docs/QuizResultIntegration-README.md)
+
+---
+
 ## Current Development Status
 
-**Checkpoint 1 (Week 5) - Project Setup & Planning**
+**Checkpoint 1 (Week 2 - 5) - Project Setup & Planning**
 - [x] Team formation and role assignment
 - [x] Project concept finalization
 - [x] Initial UI/UX mockups created
 - [x] Technical requirements analysis
 - [x] Repository setup
-- [ ] Database design implementation
-- [ ] Core authentication system
-- [ ] Basic quiz creation functionality
+
+**Checkpoint 2 (Week 6 - 7) - Project Setup & Progress**
+- [x] Database design implementation
+- [x] Core authentication system
+- [x] Project Management Setup
+- [X] Feature Research
+- [X] Medium fidelity prototypes
+- [X] User Story Creation
+
+**Checkpoint 3 (Week 8 - 9) - Project Progress**
+- [x] DB design finalization
+- [x] Created Design Style Guide document
+- [x] Completed the final functional prototype
+- [x] Connect DB part to Teacher/Student Pagea
+- [x] Unit Testing
+- [x] Prepare script for video demo
+- [x] Added Fryway
+- [x] Implement page for quiz
 
 ---
 

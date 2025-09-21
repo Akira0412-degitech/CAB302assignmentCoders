@@ -1,0 +1,2 @@
+ALTER TABLE quizzes
+  MODIFY COLUMN description TEXT NULL;

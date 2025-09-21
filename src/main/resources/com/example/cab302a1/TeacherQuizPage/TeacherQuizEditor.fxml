@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.cab302a1.ui.QuizEditorController"
+            prefWidth="900.0" prefHeight="640.0">
+
+    <top>
+        <VBox spacing="8" style="-fx-padding: 16 16 8 16;">
+            <Label text="Create Quiz" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+            <TextField fx:id="titleField" promptText="Quiz Title"/>
+            <TextArea fx:id="descArea" promptText="Description..." prefRowCount="3"/>
+        </VBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+            <content>
+                <VBox fx:id="questionsBox" spacing="16" style="-fx-padding: 16;">
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+    <bottom>
+        <HBox spacing="12" alignment="CENTER_RIGHT" style="-fx-padding: 12 16;">
+            <Button fx:id="addQuestionBtn" text="ADD MORE" />
+            <Button fx:id="doneBtn" text="Done" defaultButton="true"/>
+        </HBox>
+    </bottom>
+</BorderPane>

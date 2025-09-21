@@ -1,20 +1,136 @@
-.page { -fx-padding: 24; }
-.page-title { -fx-font-size: 28px; -fx-font-weight: bold; }
+/* ================================================
+   INTERACTIVE QUIZ CREATOR - HOME PAGE STYLES
+   Matching exact prototypes with role-based views
+   ================================================ */
 
-.quiz-card {
-    -fx-background-insets: 0, 1;
-    -fx-background-color: #e8f3ff, white;
-    -fx-border-color: #9bbfe8;
-    -fx-border-width: 1;
-    -fx-background-radius: 24;
-    -fx-border-radius: 24;
-    -fx-font-size: 14px;
-    -fx-text-fill: #2b2b2b;
-    -fx-alignment: center;
-    -fx-padding: 8;
+/* Root Container */
+.root-container {
+    -fx-background-color: #DBEAFE; /* Light blue background */
 }
+
+/* Main Content Area */
+.main-content {
+    -fx-background-color: #DBEAFE;
+}
+
+/* Page Title Styling */
+.page-title {
+    -fx-text-fill: #005BA1; /* Deep blue */
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-line-spacing: 1.2em;
+}
+
+/* Quiz Grid Container */
+.quiz-grid {
+    -fx-alignment: center;
+}
+
+/* Quiz Card Styling (Normal/Active State) */
+.quiz-card {
+    -fx-background-color: #A5D8FF; /* Light blue */
+    -fx-border-color: #005BA1; /* Deep blue */
+    -fx-border-width: 2px;
+    -fx-border-radius: 16px;
+    -fx-background-radius: 16px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 150px;
+    -fx-alignment: center;
+    -fx-text-fill: #005BA1; /* Deep blue text */
+    -fx-font-size: 16px;
+    -fx-font-weight: 500;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+    -fx-padding: 16px;
+}
+
 .quiz-card:hover {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 12, 0.2, 0, 2);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.3, 0, 2);
     -fx-cursor: hand;
 }
-.quiz-card:pressed { -fx-translate-y: 1; }
+
+.quiz-card:pressed {
+    -fx-translate-y: 1;
+}
+
+
+/* Add Quiz Card (Teacher View) */
+.plus-card {
+    -fx-background-color: #A5D8FF; /* Light blue */
+    -fx-border-color: #005BA1; /* Deep blue */
+    -fx-border-width: 2px;
+    -fx-border-style: dashed;
+    -fx-border-radius: 16px;
+    -fx-background-radius: 16px;
+    -fx-pref-width: 200px;
+    -fx-pref-height: 150px;
+    -fx-alignment: center;
+    -fx-text-fill: #005BA1; /* Deep blue */
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+.plus-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0.3, 0, 2);
+    -fx-cursor: hand;
+}
+
+.plus-card:pressed {
+    -fx-translate-y: 1;
+}
+
+
+/* Navbar Styling Enhancements */
+.navbar-container {
+    -fx-background-color: #F5F3FF; /* Soft blue */
+    -fx-pref-width: 200px;
+    -fx-max-width: 200px;
+    -fx-min-width: 200px;
+}
+
+.navbar-logo {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0.2, 0, 1);
+}
+
+.navbar-button {
+    -fx-background-color: #FFFFFF; /* White */
+    -fx-border-color: #005BA1; /* Deep blue */
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #005BA1; /* Deep blue */
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-pref-width: 150px;
+    -fx-padding: 10px;
+    -fx-alignment: center;
+}
+
+.navbar-button:hover {
+    -fx-background-color: #F0F9FF;
+    -fx-cursor: hand;
+}
+
+.navbar-button-secondary.navbar-button-selected {
+    -fx-background-color: #A5D8FF; /* Light blue for selected */
+}
+
+.navbar-button-exit {
+    -fx-background-color: #E03131; /* Coral red */
+    -fx-text-fill: #FFFFFF; /* White */
+    -fx-border-color: #E03131;
+}
+
+.navbar-button-exit:hover {
+    -fx-background-color: #C92A2A;
+}
+
+/* Responsive Design for Different Screen Sizes */
+.quiz-grid .tile-pane {
+    -fx-pref-tile-width: 200px;
+    -fx-pref-tile-height: 150px;
+}

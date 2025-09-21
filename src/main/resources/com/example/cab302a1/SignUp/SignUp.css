@@ -1,0 +1,282 @@
+/* ========================================
+   SIGNUP PAGE STYLING
+   Following Design Style Guide Requirements
+   ======================================== */
+
+/* Page Background */
+.signup-page {
+    -fx-background-color: #FFFFFF;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Main Container */
+.signup-container {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 12, 0.3, 0, 2);
+    -fx-padding: 48px;
+    -fx-alignment: CENTER;
+}
+
+/* Logo Styling */
+.signup-container ImageView {
+    -fx-alignment: CENTER;
+    -fx-smooth: true;
+    -fx-cache: true;
+    -fx-cache-hint: quality;
+    -fx-image-border: none;
+}
+
+/* Page Title */
+.signup-container .page-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #000000;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-alignment: CENTER;
+}
+
+/* Input Fields */
+.signup-container .input-field {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+    -fx-border-radius: 25px;
+    -fx-background-radius: 25px;
+    -fx-padding: 12px 16px;
+    -fx-pref-width: 300px;
+    -fx-pref-height: 50px;
+    -fx-font-size: 14px;
+    -fx-font-weight: 400;
+    -fx-text-fill: #000000;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+.signup-container .input-field:focused {
+    -fx-border-color: #005BA1;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.3), 8, 0.3, 0, 0);
+}
+
+/* Dropdown Field (Role Selection) */
+.signup-container .dropdown-field {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+    -fx-border-radius: 25px;
+    -fx-background-radius: 25px;
+    -fx-padding: 12px 8px;
+    -fx-pref-width: 300px;
+    -fx-pref-height: 50px;
+    -fx-font-size: 14px;
+    -fx-font-weight: 400;
+    -fx-text-fill: #000000;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+.signup-container .dropdown-field:focused {
+    -fx-border-color: #005BA1;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.3), 8, 0.3, 0, 0);
+}
+
+.signup-container .dropdown-field .arrow {
+    -fx-background-color: #005BA1;
+}
+
+.signup-container .dropdown-field .arrow-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0 25px 25px 0;
+    -fx-border-color: transparent;
+}
+
+
+
+/* Dropdown popup styling */
+.signup-container .dropdown-field .context-menu {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0.3, 0, 2);
+}
+
+.signup-container .dropdown-field .menu-item {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+.signup-container .dropdown-field .menu-item:hover {
+    -fx-background-color: #DBEAFE;
+    -fx-text-fill: #005BA1;
+}
+
+/* Fix for ChoiceBox selection mark (tick) visibility */
+.signup-container .dropdown-field .list-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+.signup-container .dropdown-field .list-cell:hover {
+    -fx-background-color: #DBEAFE;
+    -fx-text-fill: #005BA1;
+}
+
+/* ComboBox styling to match design */
+/* The tick issue will be handled programmatically via cell factory */
+
+/* Style the ComboBox main field and dropdown list items */
+.combo-box .list-view .list-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #000000;
+    -fx-padding: 8px 16px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+.combo-box .list-view .list-cell:hover {
+    -fx-background-color: #DBEAFE;
+    -fx-text-fill: #005BA1;
+}
+
+.combo-box .list-view .list-cell:selected {
+    -fx-background-color: #A5D8FF;
+    -fx-text-fill: #005BA1;
+}
+
+/* Style the ComboBox button and arrow */
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0 25px 25px 0;
+    -fx-border-color: transparent;
+}
+
+.combo-box .arrow-button .arrow {
+    -fx-background-color: #005BA1;
+}
+
+.combo-box .arrow-button:hover {
+    -fx-background-color: rgba(0, 91, 161, 0.1);
+}
+
+/* Placeholder text styling */
+.signup-container .input-field .text,
+.signup-container .dropdown-field .text {
+    -fx-fill: #666666;
+}
+
+/* Primary Button (SignUp) */
+.signup-container .primary-button {
+    -fx-background-color: #A5D8FF;
+    -fx-text-fill: #005BA1;
+    -fx-border-color: #005BA1;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 16px;
+    -fx-pref-width: 150px;
+    -fx-pref-height: 48px;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-cursor: hand;
+}
+
+.signup-container .primary-button:hover {
+    -fx-background-color: #91cdfd;
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.2), 6, 0.3, 0, 1);
+}
+
+.signup-container .primary-button:pressed {
+    -fx-background-color: #7bb5f0;
+    -fx-border-color: #004b87;
+}
+
+/* Navigation Link (Login?) */
+.signup-container .nav-link {
+    -fx-text-fill: #005BA1;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
+.signup-container .nav-link:hover {
+    -fx-text-fill: #004b87;
+}
+
+.signup-container .nav-link:visited {
+    -fx-text-fill: #005BA1;
+}
+
+/* Error Label */
+.signup-container .error-label {
+    -fx-text-fill: #E03131;
+    -fx-font-size: 14px;
+    -fx-font-weight: 400;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-alignment: CENTER;
+    -fx-padding: 8px 0 0 0;
+}
+
+/* Show error label when needed */
+.signup-container .error-label:not(:empty) {
+    -fx-opacity: 1.0;
+}
+
+/* Focus management */
+.signup-container .input-field:focused,
+.signup-container .dropdown-field:focused {
+    -fx-background-color: #FFFFFF;
+}
+
+/* Form validation states */
+.signup-container .input-field.error {
+    -fx-border-color: #E03131;
+    -fx-border-width: 2px;
+}
+
+.signup-container .dropdown-field.error {
+    -fx-border-color: #E03131;
+    -fx-border-width: 2px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+    .signup-container {
+        -fx-padding: 32px;
+    }
+    
+    .signup-container .input-field,
+    .signup-container {
+        -fx-pref-width: 280px;
+    }
+}
+
+/* Accessibility improvements */
+.signup-container .input-field:focused,
+.signup-container .dropdown-field:focused,
+.signup-container .primary-button:focused,
+.signup-container .nav-link:focused {
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.4), 8, 0.5, 0, 0);
+}
+
+/* Animation for smooth transitions */
+.signup-container .primary-button,
+.signup-container .nav-link,
+.signup-container .input-field,
+.signup-container .dropdown-field {
+    -fx-transition: all 0.2s ease;
+}
+
+/* Special styling for the role dropdown when opened */
+.signup-container .dropdown-field:showing {
+    -fx-border-color: #005BA1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.3), 8, 0.3, 0, 0);
+}
