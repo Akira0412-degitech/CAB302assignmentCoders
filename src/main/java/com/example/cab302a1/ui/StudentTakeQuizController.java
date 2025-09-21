@@ -92,7 +92,7 @@ public class StudentTakeQuizController {
                 }
             }
         }
-
+        // This part needs to be fixed. this part is runninng when students finish the quiz. should make Object questionresponse.
         doneButton.setOnAction(ev -> {
             List<Integer> selections = itemControllers.stream()
                     .map(StudentQuestionItemController::getSelectedIndex)

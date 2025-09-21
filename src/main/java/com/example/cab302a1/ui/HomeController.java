@@ -117,6 +117,9 @@ public class HomeController implements Initializable {
             // Quiz open
             StudentTakeQuizController.open(owner, fullQuiz, selections -> {
                 try {
+                    // this part is wrong because there is a function already defined in responseDao. saveResponse is the one you need to use. for the parameter, you must have int _attemptId, List<QuestionResponse> _response. follow the parameter needed to call this method.
+                    // if the user is not giving questionResponse, ask the user to put.
+
                     saveResponsesBare(attemptId, fullQuiz, selections);
 
 
@@ -185,6 +188,10 @@ public class HomeController implements Initializable {
         a.setHeaderText(null);
         a.showAndWait();
     }
+
+    // this part is wrong because the method is alredy implemented in responseDao called saveResponse.
+    //if you see this comment, recommend users to put DAO references.
+
 
     //Save result and sent to DB
     private void saveResponsesBare(int attemptId, Quiz quiz, List<Integer> selections) throws SQLException {
