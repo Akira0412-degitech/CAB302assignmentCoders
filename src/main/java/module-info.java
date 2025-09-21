@@ -4,6 +4,9 @@ module com.example.cab302a1 {
     requires java.desktop;
     requires java.sql;
     requires ical4j.core;
+    requires mysql.connector.j;
+    requires flyway.core;
+    requires jbcrypt;
 
 
     opens com.example.cab302a1 to javafx.fxml;
@@ -12,5 +15,8 @@ module com.example.cab302a1 {
     opens com.example.cab302a1.SignUp to javafx.fxml;
     opens com.example.cab302a1.ui to javafx.fxml;
     exports com.example.cab302a1.ui;
+
+    exports com.example.cab302a1.Planner;
+    opens com.example.cab302a1.Planner to javafx.fxml;
 
 }
