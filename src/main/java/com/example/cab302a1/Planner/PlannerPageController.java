@@ -1,10 +1,7 @@
 package com.example.cab302a1.Planner;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -34,8 +31,14 @@ public class PlannerPageController {
     @FXML private GridPane calendarGrid;
 
     @FXML private ListView<String> eventsList;
+    @FXML private TextField eventInputName;
+    @FXML private DatePicker eventInputDate;
+    @FXML private TextField eventInputTime;
     @FXML private ChoiceBox<String> priorityList;
     @FXML private ChoiceBox<String> completionList;
+    @FXML private Button addEventButton;
+
+
 
     private YearMonth displayed = YearMonth.now();
     private final Locale locale = Locale.getDefault();
@@ -47,14 +50,13 @@ public class PlannerPageController {
         updateCalendar();
         updateEvents();
 
-        addEvent();
-
-        priorityList.getItems().addAll("Low", "Medium", "High", "Very High");
+        priorityList.getItems().addAll("Low", "Medium", "High");
         completionList.getItems().addAll("To Do", "In Progress", "Late", "Completed");
 
         prevButton.setOnAction(e -> { displayed = displayed.minusMonths(1); updateCalendar(); });
         nextButton.setOnAction(e -> { displayed = displayed.plusMonths(1); updateCalendar(); });
         todayButton.setOnAction(e -> { displayed = YearMonth.now(); updateCalendar(); });
+        addEventButton.setOnAction(e -> {addEvent();});
     }
 
     private void updateCalendar() {
@@ -116,43 +118,50 @@ public class PlannerPageController {
 
 
     private void updateEvents(){
-        eventsList.getItems().add("No events happening today");
+        if (eventsList.getItems() == null){
+            eventsList.getItems().add("No events happening today");
+        }
     }
 
     private void addEvent(){//String event){
         DateTimeFormatter icalFormat = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
 
+        String userEmail = "admin@example.com";
+        String eventName = eventInputName.getText();
+        LocalDate eventDate = eventInputDate.getValue();
+        //String eventTime = eventInputTime.getText();
+
+        if (eventName == null || eventDate == null){ // || eventTime == null){
+            throw new IllegalArgumentException("Invalid input");
+        }
+
         ZonedDateTime now = ZonedDateTime.now();
-        ZonedDateTime start = ZonedDateTime.now().withHour(10).withMinute(0).withSecond(0);
+        ZonedDateTime start = eventDate.atStartOfDay(ZoneId.systemDefault());
         ZonedDateTime end = start.plusHours(1);
 
         StringBuilder sb = new StringBuilder();
         sb.append("BEGIN:VCALENDAR\n");
         sb.append("VERSION:2.0\n");
-        sb.append("PRODID:-//My Simple App//EN\n");
+        sb.append("PRODID:-//QuizCraft//EN\n");
         sb.append("CALSCALE:GREGORIAN\n");
         sb.append("BEGIN:VEVENT\n");
-        sb.append("UID:").append("admin").append("@example.com\n");
+        sb.append("UID:").append(userEmail).append("\n");
         sb.append("DTSTAMP:").append(now.withZoneSameInstant(java.time.ZoneOffset.UTC).format(icalFormat)).append("\n");
         sb.append("DTSTART:").append(start.withZoneSameInstant(java.time.ZoneOffset.UTC).format(icalFormat)).append("\n");
         sb.append("DTEND:").append(end.withZoneSameInstant(java.time.ZoneOffset.UTC).format(icalFormat)).append("\n");
-        sb.append("SUMMARY:Team Meeting\n");
-        sb.append("DESCRIPTION:Discuss project status\n");
-        sb.append("LOCATION:Meeting Room 1\n");
+        sb.append("SUMMARY:").append(eventName).append("\n");
+        sb.append("DESCRIPTION:").append("N/A").append("\n");
+        sb.append("LOCATION:QuizCraft\n");
         sb.append("END:VEVENT\n");
         sb.append("END:VCALENDAR\n");
 
         // Write to file
-        try (FileWriter fw = new FileWriter("Events/simple_event.ics")) {
+        try (FileWriter fw = new FileWriter("Events/" + eventName + ".ics")) {
             fw.write(sb.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         System.out.println("ICS file created");
-
-
-        //placeholder
-        //eventsList.getItems().add(event);
     }
 }
