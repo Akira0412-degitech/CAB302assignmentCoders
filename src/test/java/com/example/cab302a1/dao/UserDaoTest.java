@@ -170,7 +170,7 @@ class UserDaoTest {
         when(generatedKeys.getInt(1)).thenReturn(3);
 
         // Mock getUserById to return a Student
-        User fakeUser = new Student(3, "newuser", "new@example.com", "pass", "Student", null);
+        User fakeUser = new Student(3, "newuser", "new@example.com", "Student", null);
         doReturn(fakeUser).when(dao).getUserById(3);
 
         User result;

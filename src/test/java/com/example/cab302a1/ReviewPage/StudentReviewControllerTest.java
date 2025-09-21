@@ -29,10 +29,6 @@ class StudentReviewControllerTest {
         controller = new StudentReviewController();
 
         // Fake sidebar buttons
-        controller.dashboardBtn = new Button();
-        controller.reviewBtn = new Button();
-        controller.timetableBtn = new Button();
-        controller.exitBtn = new Button();
 
         // Fake table + columns
         controller.quizTable = new TableView<>();
