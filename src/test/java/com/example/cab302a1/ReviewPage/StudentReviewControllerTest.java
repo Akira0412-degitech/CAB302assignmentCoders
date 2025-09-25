@@ -28,7 +28,6 @@ class StudentReviewControllerTest {
     void setUp() {
         controller = new StudentReviewController();
 
-        // Fake sidebar buttons
 
         // Fake table + columns
         controller.quizTable = new TableView<>();
