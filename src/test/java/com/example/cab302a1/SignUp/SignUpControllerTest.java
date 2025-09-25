@@ -71,10 +71,10 @@ class SignUpControllerTest {
 
         controller.usernameField.setText("testuser");
         controller.emailField.setText("test@example.com");
-        controller.passwordField.setText("password123");
+        controller.passwordField.setText("testpass");
 
 
-        User fakeUser = new User(1, "testuser", "test@example.com", "password123", "Student", null);
+        User fakeUser = new User(1, "testuser", "test@example.com", "Student", null);
         when(mockUserDao.signUpUser(anyString(), anyString(), anyString(), anyString()))
                 .thenReturn(fakeUser);
 
@@ -110,10 +110,10 @@ class SignUpControllerTest {
     void testSignUpDaoReturnsNullExplicit() throws Exception {
         controller.usernameField.setText("testuser");
         controller.emailField.setText("user@example.com");
-        controller.passwordField.setText("validpass");
+        controller.passwordField.setText("testpass");
 
 
-        when(mockUserDao.signUpUser(eq("testuser"), eq("user@example.com"), eq("validpass"), eq("Student"))).thenReturn(null);
+        when(mockUserDao.signUpUser(eq("testuser"), eq("user@example.com"), eq("testpass"), eq("Student"))).thenReturn(null);
 
         controller.handleSignUpclick(new ActionEvent());
 

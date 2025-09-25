@@ -5,6 +5,7 @@ import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.Teacher;
 import com.example.cab302a1.model.User;
 import com.example.cab302a1.util.Session;
+import com.example.cab302a1.components.NavigationManager;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -70,9 +71,23 @@ public class LoginController {
             }
             root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root, 1000, 450);
+            scene = new Scene(root, 1000, 640);
+            
+            // Load HomePage CSS
+            try {
+                String cssPath = getClass().getResource("/com/example/cab302a1/HomePage.css").toExternalForm();
+                scene.getStylesheets().add(cssPath);
+                System.out.println("HomePage CSS loaded successfully: " + cssPath);
+            } catch (Exception e) {
+                System.err.println("Could not load HomePage.css: " + e.getMessage());
+            }
+            
             stage.setTitle(title + "-Home");
             stage.setScene(scene);
+            
+            // Clear any existing navigation history since this is a fresh login
+            NavigationManager.getInstance().clearHistory();
+            
             stage.show();
         }else{
             showErrorMessage("Invalid username or password. Please try again.");
@@ -93,7 +108,7 @@ public class LoginController {
     private void handleSignUpClick(ActionEvent event) throws IOException {
         // Load SignUp-view.fxml and switch to Sign Up scene
         root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/SignUp/SignUp-view.fxml"));
-        scene = new Scene(root, 800, 600);
+        scene = new Scene(root, 800, 720);
 
         // Load CSS for SignUp page
         try {

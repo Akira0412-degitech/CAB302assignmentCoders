@@ -27,7 +27,7 @@ public class QuizResultDemo extends Application {
         
         // Load the Quiz Result FXML
         FXMLLoader fxmlLoader = new FXMLLoader(QuizResultDemo.class.getResource("/com/example/cab302a1/result/QuizResult.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
+        Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
         
         // Load the CSS stylesheet
         scene.getStylesheets().add(getClass().getResource("/com/example/cab302a1/result/QuizResult.css").toExternalForm());

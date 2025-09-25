@@ -69,6 +69,19 @@ public class NavigationManager {
         public String toString() {
             return String.format("PageInfo{title='%s', fxml='%s'}", title, fxmlPath);
         }
+        
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (obj == null || getClass() != obj.getClass()) return false;
+            PageInfo pageInfo = (PageInfo) obj;
+            return fxmlPath != null ? fxmlPath.equals(pageInfo.fxmlPath) : pageInfo.fxmlPath == null;
+        }
+        
+        @Override
+        public int hashCode() {
+            return fxmlPath != null ? fxmlPath.hashCode() : 0;
+        }
     }
     
     /**
@@ -228,11 +241,18 @@ public class NavigationManager {
     
     /**
      * Sets the current page without navigation (useful for initialization).
+     * This method is typically called during page initialization to register the page
+     * with NavigationManager for proper history tracking.
+     * 
      * @param pageInfo The page info to set as current
      */
     public void setCurrentPage(PageInfo pageInfo) {
-        this.currentPage = pageInfo;
-        System.out.println("Current page set to: " + pageInfo.toString());
+        // Only update if it's actually different to avoid unnecessary operations
+        if (this.currentPage == null || !this.currentPage.equals(pageInfo)) {
+            this.currentPage = pageInfo;
+            System.out.println("Current page set to: " + pageInfo.toString());
+            System.out.println("Navigation history size: " + navigationHistory.size());
+        }
     }
     
     // Predefined page constants for common pages
@@ -242,28 +262,28 @@ public class NavigationManager {
                 "/com/example/cab302a1/HomePage.fxml",
                 "/com/example/cab302a1/HomePage.css",
                 "Interactive Quiz Creator - Quiz Home",
-                1100, 680, true
+                1000, 640, true
         );
 
         public static final PageInfo NAVBAR_DEMO = new PageInfo(
             "/com/example/cab302a1/demo-navbar-integration.fxml",
             "/com/example/cab302a1/styles.css",
             "Interactive Quiz Creator - Navbar Demo",
-            1200, 700, true
+            1000, 650, true
         );
         
         public static final PageInfo QUIZ_RESULT = new PageInfo(
             "/com/example/cab302a1/result/QuizResult.fxml",
             "/com/example/cab302a1/result/QuizResult.css",
             "Interactive Quiz Creator - Quiz Results",
-            1200, 700, true
+            1000, 650, true
         );
         
         public static final PageInfo LOGIN = new PageInfo(
             "/com/example/cab302a1/Login/Login-view.fxml",
-            "/com/example/cab302a1/styles.css",
+            "/com/example/cab302a1/Login/Login.css",
             "Interactive Quiz Creator - Login",
-            1040, 600, false
+            800, 600, true
         );
         
         public static final PageInfo LOGOUT_CONFIRMATION = new PageInfo(

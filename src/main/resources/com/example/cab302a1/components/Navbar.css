@@ -21,7 +21,19 @@
 }
 
 /* ============================================
-   Navbar Title Styles
+   Navbar Logo Styles
+   ============================================ */
+.navbar-logo {
+    -fx-alignment: center;
+    -fx-padding: 8 0;
+    -fx-smooth: true;
+    -fx-cache: true;
+    -fx-cache-hint: quality;
+    -fx-image-border: none;
+}
+
+/* ============================================
+   Navbar Title Styles (legacy - keeping for compatibility)
    ============================================ */
 .navbar-title {
     -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
