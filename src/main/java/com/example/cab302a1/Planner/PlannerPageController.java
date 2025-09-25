@@ -118,7 +118,7 @@ public class PlannerPageController {
 
 
     private void updateEvents(){
-        eventsList.getItems().add("No events happening today");
+        eventsList.getItems().add("No events happening today"); // pre main merge 25/09/2025
     }
 
     private void addEvent(){//String event){
