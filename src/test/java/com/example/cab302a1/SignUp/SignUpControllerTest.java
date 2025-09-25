@@ -74,7 +74,7 @@ class SignUpControllerTest {
         controller.passwordField.setText("testpass");
 
 
-        User fakeUser = new User(1, "testuser", "test@example.com", "Student", null);
+        User fakeUser = new User(1, "testuser", "test@example.com", "password123", "Student", null);
         when(mockUserDao.signUpUser(anyString(), anyString(), anyString(), anyString()))
                 .thenReturn(fakeUser);
 
