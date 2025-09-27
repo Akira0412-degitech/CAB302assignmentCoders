@@ -1,11 +1,10 @@
-# .github/workflows/ci.yml
 name: Java CI with Maven
 
 on:
   push:
-    branches: [ "Akira_GithubActions" ]
+    branches: [ "integration" ]   # 最初は main ではなく integration で試す
   pull_request:
-    branches: [ "Akira_GithubActions" ]
+    branches: [ "integration" ]
 
 jobs:
   build:
@@ -15,12 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
           cache: maven
 
-      - name: Build and Test with Maven
+      - name: Build and Test with Maven Wrapper
         run: ./mvnw -B verify
