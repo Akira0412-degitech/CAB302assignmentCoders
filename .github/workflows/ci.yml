@@ -2,9 +2,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "integration" ]   # 最初は main ではなく integration で試す
+    branches: [ "Akira_GithubActions" ]
   pull_request:
-    branches: [ "integration" ]
+    branches: [ "Akira_GithubActions" ]
 
 jobs:
   build:
@@ -20,6 +20,9 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
+
+      - name: Give Maven Wrapper permission
+        run: chmod +x mvnw
 
       - name: Build and Test with Maven Wrapper
         run: ./mvnw -B verify
