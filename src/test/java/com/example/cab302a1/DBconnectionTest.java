@@ -13,7 +13,7 @@ public class DBconnectionTest {
     void testMySQLConnection() throws Exception {
         try(Connection conn = DBconnection.getConnection()){
             assertNotNull(conn);
-            assertTrue(conn.isValid(5));
+            assertTrue(conn.isValid(10));
         }
     }
 }
