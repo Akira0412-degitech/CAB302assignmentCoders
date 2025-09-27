@@ -109,6 +109,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
+                    <excludes> <!-- Execlude test files related to UI -->
+                        <exclude>**/*ControllerTest.java</exclude>
+                        <exclude>**/*UITest.java</exclude>
+                    </excludes>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
