@@ -267,7 +267,8 @@ public class QuizEditorController {
             dialog.setTitle("Edit Quiz");
             dialog.setScene(new Scene((Parent) root, 900, 640));
 
-
+            var css1 = QuizEditorController.class.getResource("/HomePage.css");
+            var css2 = QuizEditorController.class.getResource("/com/example/cab302a1/HomePage.css");
             if (css1 != null) dialog.getScene().getStylesheets().add(css1.toExternalForm());
             else if (css2 != null) dialog.getScene().getStylesheets().add(css2.toExternalForm());
 
