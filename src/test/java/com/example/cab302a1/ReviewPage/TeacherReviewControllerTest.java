@@ -6,23 +6,16 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import org.junit.jupiter.api.BeforeAll; // Keep for now, but not used below
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith; // Required import for @ExtendWith
-import org.testfx.framework.junit5.ApplicationExtension; // The core fix
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// KEY FIX: Use the TestFX extension to correctly manage the JavaFX environment
-@ExtendWith(ApplicationExtension.class)
 class TeacherReviewControllerTest {
 
     private TeacherReviewController controller;
 
-    // REMOVED: The manual initToolkit() method is no longer needed
-    //            and is replaced by the @ExtendWith annotation above.
-    /*
     @BeforeAll
     static void initToolkit() {
         try {
@@ -31,7 +24,6 @@ class TeacherReviewControllerTest {
             // already started
         }
     }
-    */
 
     @BeforeEach
     void setUp() {
@@ -56,7 +48,7 @@ class TeacherReviewControllerTest {
         // Table Columns (Must match the fields in TeacherReviewController.java)
         controller.quizNameCol = new TableColumn<>("Quiz");
         controller.scoreCol = new TableColumn<>("Score");
-        controller.resultCol = new TableColumn<>("View Result"); // Fix for previous NPE
+        controller.resultCol = new TableColumn<>("View Result"); // FIX for previous NPE
 
         // Add columns to the TableView to simulate FXML loading the structure
         controller.quizTable.getColumns().addAll(
@@ -64,6 +56,16 @@ class TeacherReviewControllerTest {
                 controller.scoreCol,
                 controller.resultCol
         );
+
+        // 🛑 REMOVED: Manual data injection is removed because it is immediately
+        //             overwritten by the controller.initialize() method.
+        /*
+        controller.quizTable.setItems(FXCollections.observableArrayList(
+                new QuizResult("John Doe - Quiz 1", "18/20"),
+                new QuizResult("Jane Smith - Quiz 2", "15/20")
+        ));
+        */
+
 
         // 2. Call initialize(). This method is now responsible for loading data.
         controller.initialize();
@@ -79,14 +81,14 @@ class TeacherReviewControllerTest {
     @Test
     void testFirstRowQuizName() {
         QuizResult result = controller.quizTable.getItems().get(0);
-        // Updated expectation from previous fix
+        // 🛑 FIX: Update expectation to match the actual data loaded by initialize()
         assertEquals("Quiz 1", result.getQuizName());
     }
 
     @Test
     void testFirstRowScore() {
         QuizResult result = controller.quizTable.getItems().get(0);
-        // Updated expectation from previous fix
+        // 🛑 FIX: Update expectation to match the actual data loaded by initialize()
         assertEquals("16/20", result.getScore());
     }
 }
