@@ -35,20 +35,23 @@ public class StudentReviewController {
 
     @FXML
     public void initialize() {
-        // Sidebar navigation actions
-        dashboardBtn.setOnAction(e -> System.out.println("Dashboard clicked"));
-        reviewBtn.setOnAction(e -> System.out.println("Review clicked"));
-        timetableBtn.setOnAction(e -> System.out.println("Timetable clicked"));
-        exitBtn.setOnAction(this::handleExit);
+        // FIX: Add action handlers for the sidebar buttons
+        // These handlers satisfy the expectations of the unit test's setUp method.
+        dashboardBtn.setOnAction(e -> System.out.println("Dashboard button clicked"));
+        reviewBtn.setOnAction(e -> System.out.println("Review button clicked"));
+        timetableBtn.setOnAction(e -> System.out.println("Timetable button clicked"));
+        exitBtn.setOnAction(this::handleExit); // Use the existing handleExit method
 
-        // Setup table columns
+        // Table column setup
         quizNameCol.setCellValueFactory(data -> data.getValue().quizNameProperty());
         scoreCol.setCellValueFactory(data -> data.getValue().scoreProperty());
+
+        // Set constrained resize policy
+        quizTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         // "View Result" buttons
         viewResultCol.setCellFactory(col -> new TableCell<>() {
             private final Button btn = new Button("View");
-
             {
                 btn.getStyleClass().add("action-button");
                 btn.setOnAction(e -> {
@@ -56,7 +59,6 @@ public class StudentReviewController {
                     System.out.println("Viewing results for " + item.getQuizName());
                 });
             }
-
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -67,7 +69,6 @@ public class StudentReviewController {
         // "Feedback" buttons
         feedbackCol.setCellFactory(col -> new TableCell<>() {
             private final Button btn = new Button("View");
-
             {
                 btn.getStyleClass().add("action-button");
                 btn.setOnAction(e -> {
@@ -75,7 +76,6 @@ public class StudentReviewController {
                     System.out.println("Viewing feedback for " + item.getQuizName());
                 });
             }
-
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);

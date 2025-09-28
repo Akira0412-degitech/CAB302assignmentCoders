@@ -265,6 +265,20 @@ public class NavigationManager {
                 1000, 640, true
         );
 
+        // --- ADDED NEW PAGE CONSTANTS FOR REVIEW PAGES ---
+        public static final PageInfo TEACHER_REVIEW = new PageInfo(
+                "/com/example/cab302a1/ReviewPage/teacher-review-view.fxml",
+                "/com/example/cab302a1/ReviewPage/ReviewPage.css",
+                "Interactive Quiz Creator - Teacher Review",
+                1100, 750, true
+        );
+        public static final PageInfo STUDENT_REVIEW = new PageInfo(
+                "/com/example/cab302a1/ReviewPage/student-review-view.fxml",
+                "/com/example/cab302a1/ReviewPage/ReviewPage.css",
+                "Interactive Quiz Creator - Student Review",
+                1100, 750, true
+        );
+
         public static final PageInfo NAVBAR_DEMO = new PageInfo(
             "/com/example/cab302a1/demo-navbar-integration.fxml",
             "/com/example/cab302a1/styles.css",
