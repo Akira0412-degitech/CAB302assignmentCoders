@@ -60,7 +60,7 @@ class StudentTakeQuizControllerTest {
 
         runFxAndWait(() -> {
             try {
-                // --- UI wiring on FX thread ---
+                // UI wiring on FX thread
                 set(c, "titleLabel", new Label());
                 set(c, "descriptionLabel", new Label());
                 set(c, "questionsBox", new VBox());
