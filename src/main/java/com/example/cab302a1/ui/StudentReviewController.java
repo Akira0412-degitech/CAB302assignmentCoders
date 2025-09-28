@@ -12,6 +12,15 @@ import javafx.stage.Stage;
 public class StudentReviewController {
 
     @FXML
+    public Button dashboardBtn;
+    @FXML
+    public Button reviewBtn;
+    @FXML
+    public Button timetableBtn;
+    @FXML
+    public Button exitBtn;
+
+    @FXML
     public TableView<QuizResult> quizTable;
     @FXML
     public TableColumn<QuizResult, String> quizNameCol;
@@ -26,6 +35,13 @@ public class StudentReviewController {
 
     @FXML
     public void initialize() {
+        // FIX: Add action handlers for the sidebar buttons
+        // These handlers satisfy the expectations of the unit test's setUp method.
+        dashboardBtn.setOnAction(e -> System.out.println("Dashboard button clicked"));
+        reviewBtn.setOnAction(e -> System.out.println("Review button clicked"));
+        timetableBtn.setOnAction(e -> System.out.println("Timetable button clicked"));
+        exitBtn.setOnAction(this::handleExit); // Use the existing handleExit method
+
         // Table column setup
         quizNameCol.setCellValueFactory(data -> data.getValue().quizNameProperty());
         scoreCol.setCellValueFactory(data -> data.getValue().scoreProperty());
