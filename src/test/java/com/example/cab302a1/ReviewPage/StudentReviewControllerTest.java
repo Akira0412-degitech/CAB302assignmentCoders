@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-// 🛑 KEY FIX: Use the TestFX extension to correctly manage the JavaFX environment
+// KEY FIX: Use the TestFX extension to correctly manage the JavaFX environment
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.framework.junit5.ApplicationExtension;
 
@@ -18,7 +18,7 @@ class StudentReviewControllerTest {
 
     private StudentReviewController controller;
 
-    // 🛑 REMOVED: The manual initToolkit() method is no longer needed.
+    // REMOVED: The manual initToolkit() method is no longer needed.
     //            @ExtendWith(ApplicationExtension.class) handles JavaFX initialization.
     /*
     @BeforeAll
