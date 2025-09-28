@@ -25,7 +25,7 @@ public class Main extends Application {
             userdao.printAllUsers();
 
         } catch (Exception e){
-            e.printStackTrace();
+            e.printStackTrace(); // fix??
         }
 
         // Load the FXML file for the login page UI
