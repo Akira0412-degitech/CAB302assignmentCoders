@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -142,15 +143,31 @@ public class NavbarController implements Initializable {
      * Navigates to the review page and updates the active button state.
      *
      * @param event The action event triggered by clicking the Review button
+     * @throws IOException if the FXML file cannot be loaded
      */
     @FXML
-    private void handleReviewAction(ActionEvent event) {
-        System.out.println("Navigation: Review button clicked");
+    private void handleReviewAction(ActionEvent event) throws IOException {
+        System.out.println("Review button clicked. Checking user role...");
+
+        // Determine which review page to navigate to based on user role
+        // This is now using the static method from the Session class
+        String userRole = Session.getCurrentUserRole();
+
+        if ("teacher".equals(userRole)) {
+            System.out.println("Navigating to Teacher Review Page...");
+            NavigationManager.getInstance().navigateTo(
+                    (Stage) ((Node) event.getSource()).getScene().getWindow(),
+                    NavigationManager.Pages.TEACHER_REVIEW
+            );
+        } else {
+            System.out.println("Navigating to Student Review Page...");
+            NavigationManager.getInstance().navigateTo(
+                    (Stage) ((Node) event.getSource()).getScene().getWindow(),
+                    NavigationManager.Pages.STUDENT_REVIEW
+            );
+        }
+
         setActiveButton(reviewBtn);
-        
-        // TODO: Implement actual navigation to Review page
-        // Example: SceneManager.switchToReview();
-        navigateToPage("Review");
     }
 
     /**

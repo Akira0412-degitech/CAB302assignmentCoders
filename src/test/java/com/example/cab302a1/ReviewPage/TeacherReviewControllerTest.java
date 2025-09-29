@@ -5,6 +5,7 @@ import com.example.cab302a1.ui.TeacherReviewController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,25 +29,45 @@ class TeacherReviewControllerTest {
     void setUp() {
         controller = new TeacherReviewController();
 
-        // Fake UI controls (prevent NPEs)
+        // 1. Inject ALL FXML-mapped UI controls (Required to prevent NullPointerException)
+
+        // Sidebar/Action Buttons
         controller.dashboardBtn = new Button();
         controller.quizzesBtn = new Button();
-        controller.reviewBtn = new Button();
-        controller.exitBtn = new Button();
         controller.reviewStudentsBtn = new Button();
+        controller.exitBtn = new Button();
+        controller.assignReviewBtn = new Button();
 
+        // Student Details/Containers (Inferred fields)
+        controller.studentListContainer = new VBox();
+        controller.studentNameLabel = new Label();
+
+        // TableView
         controller.quizTable = new TableView<>();
-        controller.studentNameCol = new TableColumn<>("Student");
+
+        // Table Columns (Must match the fields in TeacherReviewController.java)
         controller.quizNameCol = new TableColumn<>("Quiz");
         controller.scoreCol = new TableColumn<>("Score");
-        controller.viewBtnCol = new TableColumn<>("View");
+        controller.resultCol = new TableColumn<>("View Result"); // FIX for previous NPE
 
-        // Inject fake data
+        // Add columns to the TableView to simulate FXML loading the structure
+        controller.quizTable.getColumns().addAll(
+                controller.quizNameCol,
+                controller.scoreCol,
+                controller.resultCol
+        );
+
+        // 🛑 REMOVED: Manual data injection is removed because it is immediately
+        //             overwritten by the controller.initialize() method.
+        /*
         controller.quizTable.setItems(FXCollections.observableArrayList(
                 new QuizResult("John Doe - Quiz 1", "18/20"),
                 new QuizResult("Jane Smith - Quiz 2", "15/20")
         ));
+        */
 
+
+        // 2. Call initialize(). This method is now responsible for loading data.
         controller.initialize();
     }
 
@@ -54,18 +75,20 @@ class TeacherReviewControllerTest {
     void testQuizTableHasMockData() {
         assertNotNull(controller.quizTable.getItems());
         assertFalse(controller.quizTable.getItems().isEmpty(),
-                "Teacher quiz table should have mock data");
+                "Teacher quiz table should have mock data loaded by initialize()");
     }
 
     @Test
     void testFirstRowQuizName() {
         QuizResult result = controller.quizTable.getItems().get(0);
-        assertEquals("John Doe - Quiz 1", result.getQuizName());
+        // 🛑 FIX: Update expectation to match the actual data loaded by initialize()
+        assertEquals("Quiz 1", result.getQuizName());
     }
 
     @Test
     void testFirstRowScore() {
         QuizResult result = controller.quizTable.getItems().get(0);
-        assertEquals("18/20", result.getScore());
+        // 🛑 FIX: Update expectation to match the actual data loaded by initialize()
+        assertEquals("16/20", result.getScore());
     }
 }

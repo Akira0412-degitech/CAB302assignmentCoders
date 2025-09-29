@@ -25,4 +25,12 @@ public class Session {
     public static boolean isStudent(){
         return currentUser != null && currentUser.getRole().equals("Student");
     }
+
+    // New method to get the user's role
+    public static String getCurrentUserRole() {
+        if (currentUser != null) {
+            return currentUser.getRole();
+        }
+        return ""; // Return an empty string if no user is logged in
+    }
 }
