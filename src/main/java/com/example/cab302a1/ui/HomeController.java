@@ -161,7 +161,7 @@ public class HomeController implements Initializable {
 
                         com.example.cab302a1.model.QuizChoiceCreate chosen = choices.get(selectedIndex);
 
-                        // QuestionResponse 객체 구성
+
                         QuestionResponse r = new QuestionResponse();
                         r.setAttempt_id(attemptId);
                         r.setQuestion_id(q.getQuestionId());
