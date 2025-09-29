@@ -5,6 +5,7 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+  workflow_dispatch: {}
 
 jobs:
   build:
@@ -80,11 +81,11 @@ jobs:
           DISPLAY: ":99"
           MAVEN_OPTS: "-Dtestfx.headless=true -Djava.awt.headless=true -Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw -Dprism.text=t2k"
         run: |
-# Start a virtual X display
+          # Start a virtual X display
           Xvfb :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
           sleep 2
-# Run only the Student Quiz taking UI test
-          mvn -B -D failIfNoTests=false -Dtest=com.example.cab302a1.ui.StudentTakeQuizControllerTest test
+          # Run only the Student Quiz taking UI test
+          mvn -B -DfailIfNoTests=false -Dtest=com.example.cab302a1.ui.StudentTakeQuizControllerTest test
 
       - name: Upload surefire reports (ui - student quiz)
         if: always()
