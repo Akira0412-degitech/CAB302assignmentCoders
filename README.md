@@ -155,6 +155,15 @@ See more detail in [QuizResultIntegration-README](docs/QuizResultIntegration-REA
 - [x] Added Fryway
 - [x] Implement page for quiz
 
+**Checkpoint 4 (Week 10) - Project Progress**
+- [x] Review Page Demo
+- [x] Functional Prototype
+- [x] Password encryption
+- [x] Design app name and logo
+- [x] Improved Unit cases
+- [x] Debugging
+- [x] Github action
+
 ---
 
 **CAB302 - Software Development Project**  
