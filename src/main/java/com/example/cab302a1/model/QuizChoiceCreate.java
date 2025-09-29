@@ -26,8 +26,9 @@ public class QuizChoiceCreate {
     public boolean isCorrect() { return is_correct; } // T/F check
     public void setIs_correct(boolean is_correct) { this.is_correct = is_correct; }
 
+    // return actual correct answer
     public boolean isAnswer() {
-        return false;
+        return is_correct;
     }
 }
 

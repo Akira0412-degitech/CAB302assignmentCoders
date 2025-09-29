@@ -119,8 +119,8 @@
 .navbar-button-secondary:focused {
     -fx-background-color: #FFFFFF;
     -fx-border-color: #005BA1;
-    -fx-border-width: 2;
-    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.25), 6, 0.4, 0, 0);
+    -fx-border-width: 1; /* Changed from 2 to 1 to match normal state */
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.15), 4, 0.3, 0, 1); /* Reduced effect to match hover */
 }
 
 /* ============================================
