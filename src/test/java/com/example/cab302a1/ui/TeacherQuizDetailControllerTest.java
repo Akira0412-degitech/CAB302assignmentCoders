@@ -43,7 +43,7 @@ class TeacherQuizDetailControllerTest {
         QuizQuestionCreate q = new QuizQuestionCreate();
         q.setQuestionText("Q1");
         q.getChoices().add(new QuizChoiceCreate("A", false));
-        q.getChoices().add(new QuizChoiceCreate("B", true));   // 정답
+        q.getChoices().add(new QuizChoiceCreate("B", true));   // correct
         q.getChoices().add(new QuizChoiceCreate("C", false));
         q.getChoices().add(new QuizChoiceCreate("D", false));
         quiz.getQuestions().add(q);

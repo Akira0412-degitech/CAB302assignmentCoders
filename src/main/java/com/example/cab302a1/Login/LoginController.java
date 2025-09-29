@@ -89,6 +89,7 @@ public class LoginController {
             NavigationManager.getInstance().clearHistory();
             
             stage.show();
+
         }else{
             showErrorMessage("Invalid username or password. Please try again.");
         }
