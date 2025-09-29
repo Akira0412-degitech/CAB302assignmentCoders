@@ -260,7 +260,7 @@ public class NavbarController implements Initializable {
         setActiveButtonWithFocusClear(reviewBtn);
 
         // Determine which review page to navigate to based on user role
-        String userRole = Session.getCurrentUserRole();
+
 
         if (Session.isTeacher()) {
             System.out.println("Navigating to Teacher Review Page...");
