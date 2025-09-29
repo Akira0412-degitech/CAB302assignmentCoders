@@ -77,7 +77,7 @@ public class QuizResultDemo extends Application {
     private void setupMockUser() {
         if (!Session.isLoggedaIn()) {
             // Create a mock user for demo purposes
-            User mockUser = new User(1, "demo_user", "demo@example.com", "12345", "Student", new Timestamp(System.currentTimeMillis()));
+            User mockUser = new User(1, "demo_user", "demo@example.com", "Student", new Timestamp(System.currentTimeMillis()));
             Session.setCurrentUser(mockUser);
             System.out.println("Mock user session created for demo (ID: 1, Role: Student)");
             System.out.println("In real usage, user would be logged in through LoginController");

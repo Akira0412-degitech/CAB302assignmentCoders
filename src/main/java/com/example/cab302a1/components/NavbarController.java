@@ -153,13 +153,13 @@ public class NavbarController implements Initializable {
         // This is now using the static method from the Session class
         String userRole = Session.getCurrentUserRole();
 
-        if ("teacher".equals(userRole)) {
+        if (Session.isTeacher()) {
             System.out.println("Navigating to Teacher Review Page...");
             NavigationManager.getInstance().navigateTo(
                     (Stage) ((Node) event.getSource()).getScene().getWindow(),
                     NavigationManager.Pages.TEACHER_REVIEW
             );
-        } else {
+        } else if(Session.isStudent()){
             System.out.println("Navigating to Student Review Page...");
             NavigationManager.getInstance().navigateTo(
                     (Stage) ((Node) event.getSource()).getScene().getWindow(),
