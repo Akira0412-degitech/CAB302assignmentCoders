@@ -89,7 +89,6 @@ public class LoginController {
             NavigationManager.getInstance().clearHistory();
             
             stage.show();
-            System.out.println("Role = " + Session.getCurrentUser().getRole());
 
         }else{
             showErrorMessage("Invalid username or password. Please try again.");
