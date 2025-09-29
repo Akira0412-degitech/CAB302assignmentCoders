@@ -51,6 +51,7 @@ jobs:
     name: UI Tests (Student Quiz taking)
     runs-on: ubuntu-latest
     needs: build
+    if: ${{ always() }}
 
     steps:
       - name: Checkout code
