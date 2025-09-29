@@ -200,6 +200,16 @@ public class HomeController implements Initializable {
                     ));
 
                     Scene resultScene = new Scene(root, 1000, 650);
+                    
+                    // Load CSS stylesheet - this was missing and causing the styling issue
+                    java.net.URL cssUrl = getClass().getResource("/com/example/cab302a1/result/QuizResult.css");
+                    if (cssUrl != null) {
+                        resultScene.getStylesheets().add(cssUrl.toExternalForm());
+                        System.out.println("Quiz result CSS loaded successfully after quiz completion");
+                    } else {
+                        System.err.println("Warning: Quiz result CSS not found");
+                    }
+                    
                     owner.setScene(resultScene);
 
                 } catch (Exception ex) {
