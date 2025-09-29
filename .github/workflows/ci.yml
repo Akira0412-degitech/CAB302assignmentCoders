@@ -64,30 +64,6 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-#virtual X server
-#      - name: Install Xvfb & Linux deps for JavaFX
-#        run: |
-#          sudo apt-get update
-#          sudo apt-get install -y xvfb libgtk-3-0 libnss3 libasound2 libgl1-mesa-dri
-#
-#      - name: Enable UI tests (remove surefire excludes block in pom.xml)
-#        run: |
-#          # Remove lines between <excludes> and </excludes> (only for this job)
-#          sed -i '/<excludes>/,/<\/excludes>/d' pom.xml
-#          echo "After patching pom.xml:"
-#          grep -n "<excludes>" -n pom.xml || true
-#
-#      - name: Run ONLY StudentTakeQuizControllerTest (headless)
-#        env:
-#          DISPLAY: ":99"
-#          MAVEN_OPTS: "-Dtestfx.headless=true -Djava.awt.headless=true -Dglass.platform=Monocle -Dmonocle.platform=Headless -Dprism.order=sw -Dprism.text=t2k"
-#        run: |
-#          # Start a virtual X display
-#          Xvfb :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
-#          sleep 2
-#          # Run only the Student Quiz taking UI test
-#          mvn -B -DfailIfNoTests=false -Dtest=com.example.cab302a1.ui.StudentTakeQuizControllerTest test
-
       - name: Upload surefire reports (ui - student quiz)
         if: always()
         uses: actions/upload-artifact@v4
