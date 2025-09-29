@@ -118,13 +118,9 @@ To initialize the project database, use the provided `db/init.sql` script.
 
 This makes Database called ```cab302_quizapp``` where user ```appuser@localhost``` password ```AppPass#2025``` are used to login.
 
-## Component
+## Additional Documents
 
-See more detail in [NavBar-README](docs/NavBar-README.md)
-
-## Quiz Result Page Integration Guide
-
-See more detail in [QuizResultIntegration-README](docs/QuizResultIntegration-README.md)
+See more detail in [docs folder](docs)
 
 ---
 
