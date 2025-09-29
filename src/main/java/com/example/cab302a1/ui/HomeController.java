@@ -52,12 +52,15 @@ public class HomeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // Register this page with NavigationManager for proper navigation history
         NavigationManager.getInstance().setCurrentPage(NavigationManager.Pages.HOME);
-
+        
         // Set role-based page title
         setupPageTitle();
-
+        
+        // Update navbar to show Home as active
+        com.example.cab302a1.components.NavbarController.updateNavbarState("home");
+        
         refresh();
-
+        
         System.out.println("Home page initialized and registered with NavigationManager");
     }
 
