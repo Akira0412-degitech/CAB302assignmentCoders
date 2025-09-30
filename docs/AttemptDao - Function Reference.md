@@ -77,3 +77,20 @@ Checks whether a user has completed **at least one attempt** for a specific quiz
 **Returns**
 - `true` if at least one attempt has been completed.
 - `false` otherwise.  
+
+## `public void updateFeedback(int attemptId, String feedback)`
+
+**Purpose**  
+Updates the feedback text for a specific quiz attempt.
+
+**Parameters**
+- `attemptId` – The ID of the attempt to update.
+- `feedback` – The feedback text to store in the database.
+
+**Returns**
+- Nothing (`void`).
+- Executes an `UPDATE` query on the `quiz_attempts` table.
+
+**Notes**
+- If the attempt does not exist, no rows will be affected.
+- Typically used by teachers to provide or edit feedback after reviewing student attempts.
