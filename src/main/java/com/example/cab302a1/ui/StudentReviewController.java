@@ -34,7 +34,7 @@ public class StudentReviewController {
     public void initialize() {
         // Table column setup
         quizNameCol.setCellValueFactory(data -> data.getValue().quizNameProperty());
-        scoreCol.setCellValueFactory(data -> data.getValue().scoreProperty());
+        scoreCol.setCellValueFactory(data -> data.getValue().scoreSummaryProperty());
 
         // Set constrained resize policy
         quizTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

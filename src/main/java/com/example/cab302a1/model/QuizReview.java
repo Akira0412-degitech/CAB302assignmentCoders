@@ -11,46 +11,69 @@ public class QuizReview {
     private final StringProperty quizName;
     private final IntegerProperty score;
     private final IntegerProperty totalQuestion;
+    private final StringProperty feedback;
 
 
     // Constructor for teacher view (with student name)
-    public QuizReview(String studentName, String quizName, Integer score, Integer totalQuestion) {
+    public QuizReview(String studentName, String quizName, Integer score, int totalQuestion, String feedback) {
         this.studentName = new SimpleStringProperty(studentName);
         this.quizName = new SimpleStringProperty(quizName);
         this.score = new SimpleIntegerProperty(score);
         this.totalQuestion = new SimpleIntegerProperty(totalQuestion);
+        this.feedback = new SimpleStringProperty(feedback);
     }
 
     // Constructor for student view (no student name needed)
-    public QuizReview(String quizName, Integer score, Integer totalQuestion) {
+    public QuizReview(String quizName, Integer score, int totalQuestion, String feedback) {
         this.studentName = new SimpleStringProperty(""); // empty for students
         this.quizName = new SimpleStringProperty(quizName);
         this.score = new SimpleIntegerProperty(score);
         this.totalQuestion = new SimpleIntegerProperty(totalQuestion);
+        this.feedback = new SimpleStringProperty(feedback);
     }
 
     // Getters and properties
+
     public String getStudentName() {
         return studentName.get();
     }
+    public String getQuizName() {
+        return quizName.get();
+    }
+    public int getScore() {
+        return score.get();
+    }
+    public int getTotalQuestion() {
+        return totalQuestion.get();
+    }
+    public String getFeedback() {
+        return feedback.get();
+    }
+
 
     public StringProperty studentNameProperty() {
         return studentName;
-    }
-
-    public String getQuizName() {
-        return quizName.get();
     }
 
     public StringProperty quizNameProperty() {
         return quizName;
     }
 
-    public int getScore() {
-        return score.get();
-    }
-
     public IntegerProperty scoreProperty() {
         return score;
     }
+
+    public IntegerProperty totalQuestionProperty() {
+        return totalQuestion;
+    }
+
+    public StringProperty feedbackProperty() {
+        return feedback;
+    }
+
+    public StringProperty scoreSummaryProperty() {
+        return new SimpleStringProperty(getScore() + "/" + getTotalQuestion());
+    }
+
+
 }
