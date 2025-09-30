@@ -57,7 +57,12 @@ public class QuizReview {
         return feedback.get();
     }
 
-
+    public void setFeedback(String _feedbackText){
+        if(_feedbackText == null || _feedbackText.isEmpty()){
+            _feedbackText = "No feedback";
+        }
+        this.feedback.set(_feedbackText);
+    }
 //    public StringProperty studentNameProperty() {
 //        return studentName;
 //    }
