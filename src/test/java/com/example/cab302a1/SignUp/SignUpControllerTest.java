@@ -3,12 +3,11 @@ package com.example.cab302a1.SignUp;
 import com.example.cab302a1.dao.UserDao;
 import com.example.cab302a1.model.User;
 import com.example.cab302a1.util.Session;
-import javafx.embed.swing.JFXPanel;
+
 import javafx.event.ActionEvent;
-import javafx.scene.Scene;
+
 import javafx.scene.control.*;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,8 +15,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import java.util.concurrent.CountDownLatch;
+
 
 class SignUpControllerTest {
 
