@@ -55,7 +55,7 @@ public class TeacherReviewController {
 
         // Table column bindings
         quizNameCol.setCellValueFactory(data -> data.getValue().quizNameProperty());
-        scoreCol.setCellValueFactory(data -> data.getValue().scoreProperty());
+        scoreCol.setCellValueFactory(data -> data.getValue().scoreSummaryProperty());
 
         // "View Result" button column
         resultCol.setCellFactory(col -> new TableCell<>() {
@@ -78,11 +78,11 @@ public class TeacherReviewController {
 
         // Mock quiz data
         quizData.addAll(
-                new QuizReview("Quiz 1", "16/20"),
-                new QuizReview("Quiz 2", "18/20"),
-                new QuizReview("Quiz 3", "12/20"),
-                new QuizReview("Quiz 4", "20/20"),
-                new QuizReview("Quiz 5", "15/20")
+                new QuizReview("Quiz 1", 16, 20 , ""),
+                new QuizReview("Quiz 2", 18, 20, ""),
+                new QuizReview("Quiz 3", 12, 20, ""),
+                new QuizReview("Quiz 4", 20, 20, ""),
+                new QuizReview("Quiz 5", 15, 20, "")
         );
 
         if (quizTable != null) {

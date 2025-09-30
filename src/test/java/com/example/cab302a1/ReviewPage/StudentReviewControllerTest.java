@@ -43,8 +43,8 @@ class StudentReviewControllerTest {
 
         // Inject mock quiz data
         controller.quizTable.setItems(FXCollections.observableArrayList(
-                new QuizReview("Quiz 1", "16/20"),
-                new QuizReview("Quiz 2", "18/20")
+                new QuizReview("Quiz 1", 16, 20, ""),
+                new QuizReview("Quiz 2", 18, 20, "")
         ));
 
         controller.initialize();
