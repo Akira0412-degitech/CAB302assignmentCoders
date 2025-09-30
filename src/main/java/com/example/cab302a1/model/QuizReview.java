@@ -7,7 +7,7 @@ import javafx.beans.property.StringProperty;
 
 public class QuizReview {
 
-    private final StringProperty studentName;
+//    private final StringProperty studentName;
     private final StringProperty quizName;
     private final IntegerProperty score;
     private final IntegerProperty totalQuestion;
@@ -15,24 +15,24 @@ public class QuizReview {
 
 
 
-    // Constructor for teacher view (with student name)
-    public QuizReview(String studentName, String quizName, int score, int totalQuestion, String feedback) {
-        if(feedback == null || feedback.isEmpty()){
-            feedback = "No feedback";
-        }
-        this.studentName = new SimpleStringProperty(studentName);
-        this.quizName = new SimpleStringProperty(quizName);
-        this.score = new SimpleIntegerProperty(score);
-        this.totalQuestion = new SimpleIntegerProperty(totalQuestion);
-        this.feedback = new SimpleStringProperty(feedback);
-    }
+//    // Constructor for teacher view (with student name)
+//    public QuizReview(String studentName, String quizName, int score, int totalQuestion, String feedback) {
+//        if(feedback == null || feedback.isEmpty()){
+//            feedback = "No feedback";
+//        }
+//        this.studentName = new SimpleStringProperty(studentName);
+//        this.quizName = new SimpleStringProperty(quizName);
+//        this.score = new SimpleIntegerProperty(score);
+//        this.totalQuestion = new SimpleIntegerProperty(totalQuestion);
+//        this.feedback = new SimpleStringProperty(feedback);
+//    }
 
     // Constructor for student view (no student name needed)
     public QuizReview(String quizName, int score, int totalQuestion, String feedback) {
         if(feedback == null || feedback.isEmpty()){
             feedback = "No feedback";
         }
-        this.studentName = new SimpleStringProperty(""); // empty for students
+//        this.studentName = new SimpleStringProperty(""); // empty for students
         this.quizName = new SimpleStringProperty(quizName);
         this.score = new SimpleIntegerProperty(score);
         this.totalQuestion = new SimpleIntegerProperty(totalQuestion);
@@ -41,9 +41,9 @@ public class QuizReview {
 
     // Getters and properties
 
-    public String getStudentName() {
-        return studentName.get();
-    }
+//    public String getStudentName() {
+//        return studentName.get();
+//    }
     public String getQuizName() {
         return quizName.get();
     }
@@ -58,9 +58,9 @@ public class QuizReview {
     }
 
 
-    public StringProperty studentNameProperty() {
-        return studentName;
-    }
+//    public StringProperty studentNameProperty() {
+//        return studentName;
+//    }
 
     public StringProperty quizNameProperty() {
         return quizName;
