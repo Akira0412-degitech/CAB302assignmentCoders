@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewDao {
-    public List<QuizReview> getAllRecordForStudent(int _user_id){
+    public List<QuizReview> getAllAttemptsById(int _user_id){
         List<QuizReview> reviews =  new ArrayList<>();
         ResponseDao responseDao = new ResponseDao();
         String sql = "SELECT q.title, qa.score, qa.feedback, qa.attempt_id" +
@@ -42,4 +42,5 @@ public class ReviewDao {
         }
         return reviews;
     }
+
 }
