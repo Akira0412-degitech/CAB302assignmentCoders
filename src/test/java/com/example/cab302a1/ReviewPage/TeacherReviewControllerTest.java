@@ -1,9 +1,8 @@
 package com.example.cab302a1.ReviewPage;
 
-import com.example.cab302a1.model.QuizResult;
+import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.ui.TeacherReviewController;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import org.junit.jupiter.api.BeforeAll;
@@ -61,8 +60,8 @@ class TeacherReviewControllerTest {
         //             overwritten by the controller.initialize() method.
         /*
         controller.quizTable.setItems(FXCollections.observableArrayList(
-                new QuizResult("John Doe - Quiz 1", "18/20"),
-                new QuizResult("Jane Smith - Quiz 2", "15/20")
+                new QuizReview("John Doe - Quiz 1", "18/20"),
+                new QuizReview("Jane Smith - Quiz 2", "15/20")
         ));
         */
 
@@ -80,14 +79,14 @@ class TeacherReviewControllerTest {
 
     @Test
     void testFirstRowQuizName() {
-        QuizResult result = controller.quizTable.getItems().get(0);
+        QuizReview result = controller.quizTable.getItems().get(0);
         // 🛑 FIX: Update expectation to match the actual data loaded by initialize()
         assertEquals("Quiz 1", result.getQuizName());
     }
 
     @Test
     void testFirstRowScore() {
-        QuizResult result = controller.quizTable.getItems().get(0);
+        QuizReview result = controller.quizTable.getItems().get(0);
         // 🛑 FIX: Update expectation to match the actual data loaded by initialize()
         assertEquals("16/20", result.getScore());
     }

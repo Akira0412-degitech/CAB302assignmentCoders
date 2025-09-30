@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class QuizResult {
+public class QuizReview {
 
     private final StringProperty studentName;
     private final StringProperty quizName;
@@ -14,7 +14,7 @@ public class QuizResult {
 
 
     // Constructor for teacher view (with student name)
-    public QuizResult(String studentName, String quizName, Integer score, Integer totalQuestion) {
+    public QuizReview(String studentName, String quizName, Integer score, Integer totalQuestion) {
         this.studentName = new SimpleStringProperty(studentName);
         this.quizName = new SimpleStringProperty(quizName);
         this.score = new SimpleIntegerProperty(score);
@@ -22,7 +22,7 @@ public class QuizResult {
     }
 
     // Constructor for student view (no student name needed)
-    public QuizResult(String quizName, Integer score, Integer totalQuestion) {
+    public QuizReview(String quizName, Integer score, Integer totalQuestion) {
         this.studentName = new SimpleStringProperty(""); // empty for students
         this.quizName = new SimpleStringProperty(quizName);
         this.score = new SimpleIntegerProperty(score);

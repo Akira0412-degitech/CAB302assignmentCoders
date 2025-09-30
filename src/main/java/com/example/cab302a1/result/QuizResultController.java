@@ -127,7 +127,7 @@ public class QuizResultController implements Initializable {
                 // CSS will be loaded by the scene creator
                 System.out.println("Quiz result stylesheet path confirmed");
             } else {
-                System.out.println("Warning: QuizResult.css not found");
+                System.out.println("Warning: QuizReview.css not found");
             }
         } catch (Exception e) {
             System.err.println("Error locating quiz result stylesheet: " + e.getMessage());

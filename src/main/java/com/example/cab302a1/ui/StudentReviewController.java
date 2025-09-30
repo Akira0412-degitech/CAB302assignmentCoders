@@ -1,6 +1,6 @@
 package com.example.cab302a1.ui;
 
-import com.example.cab302a1.model.QuizResult;
+import com.example.cab302a1.model.QuizReview;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,17 +18,17 @@ public class StudentReviewController {
     @FXML public Button exitBtn;
 
     @FXML
-    public TableView<QuizResult> quizTable;
+    public TableView<QuizReview> quizTable;
     @FXML
-    public TableColumn<QuizResult, String> quizNameCol;
+    public TableColumn<QuizReview, String> quizNameCol;
     @FXML
-    public TableColumn<QuizResult, String> scoreCol;
+    public TableColumn<QuizReview, String> scoreCol;
     @FXML
-    public TableColumn<QuizResult, Void> viewResultCol;
+    public TableColumn<QuizReview, Void> viewResultCol;
     @FXML
-    public TableColumn<QuizResult, Void> feedbackCol;
+    public TableColumn<QuizReview, Void> feedbackCol;
 
-    private final ObservableList<QuizResult> quizData = FXCollections.observableArrayList();
+    private final ObservableList<QuizReview> quizData = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
@@ -45,7 +45,7 @@ public class StudentReviewController {
             {
                 btn.getStyleClass().add("action-button");
                 btn.setOnAction(e -> {
-                    QuizResult item = getTableView().getItems().get(getIndex());
+                    QuizReview item = getTableView().getItems().get(getIndex());
                     System.out.println("Viewing results for " + item.getQuizName());
                 });
             }
@@ -62,7 +62,7 @@ public class StudentReviewController {
             {
                 btn.getStyleClass().add("action-button");
                 btn.setOnAction(e -> {
-                    QuizResult item = getTableView().getItems().get(getIndex());
+                    QuizReview item = getTableView().getItems().get(getIndex());
                     System.out.println("Viewing feedback for " + item.getQuizName());
                 });
             }
@@ -75,11 +75,11 @@ public class StudentReviewController {
 
         // Mock data
         quizData.addAll(
-                new QuizResult("Quiz 1", "16/20"),
-                new QuizResult("Quiz 2", "18/20"),
-                new QuizResult("Quiz 3", "12/20"),
-                new QuizResult("Quiz 4", "20/20"),
-                new QuizResult("Quiz 5", "15/20")
+                new QuizReview("Quiz 1", "16/20"),
+                new QuizReview("Quiz 2", "18/20"),
+                new QuizReview("Quiz 3", "12/20"),
+                new QuizReview("Quiz 4", "20/20"),
+                new QuizReview("Quiz 5", "15/20")
         );
 
         quizTable.setItems(quizData);
