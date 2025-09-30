@@ -8,7 +8,11 @@ import com.example.cab302a1.model.User;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javax.sound.sampled.Control;
+import javax.xml.transform.Result;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 public class UserDao {
@@ -49,6 +53,8 @@ public class UserDao {
         return null;
     }
 
+
+    //for debugging
     public void printAllUsers() {
         String sql = "SELECT user_id, username, email, password, created_at, role FROM users";
         try (Connection conn = DBconnection.getConnection();
