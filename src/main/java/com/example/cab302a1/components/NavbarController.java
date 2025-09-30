@@ -1,9 +1,12 @@
 package com.example.cab302a1.components;
 
+import com.example.cab302a1.util.Session;
+import com.example.cab302a1.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -27,6 +30,9 @@ import java.util.ResourceBundle;
  * @version 1.0
  */
 public class NavbarController implements Initializable {
+
+    // Static reference to current navbar instance for external updates
+    private static NavbarController currentInstance;
 
     // FXML injected components
     @FXML
@@ -53,6 +59,9 @@ public class NavbarController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Set this as the current instance
+        currentInstance = this;
+        
         // Initialize the navbar component
         setupButtonStates();
         configureAccessibility();
@@ -80,11 +89,42 @@ public class NavbarController implements Initializable {
 
     /**
      * Sets up initial button states and visual indicators.
-     * Currently sets Home as the active/selected button by default.
+     * Sets Home as the default active button.
      */
     private void setupButtonStates() {
         // Set Home button as the default active button
         setActiveButton(homeBtn);
+    }
+    
+    /**
+     * Public method to update button states from external navigation.
+     * This can be called by NavigationManager or other components when navigation occurs.
+     */
+    public void updateButtonState(String pageType) {
+        switch (pageType.toLowerCase()) {
+            case "home":
+                setActiveButton(homeBtn);
+                break;
+            case "review":
+                setActiveButton(reviewBtn);
+                break;
+            case "timetable":
+                setActiveButton(timetableBtn);
+                break;
+            default:
+                setActiveButton(homeBtn);
+                break;
+        }
+    }
+    
+    /**
+     * Static method to update navbar button state from external controllers.
+     * This allows page controllers to update the navbar when they load.
+     */
+    public static void updateNavbarState(String pageType) {
+        if (currentInstance != null) {
+            currentInstance.updateButtonState(pageType);
+        }
     }
 
     /**
@@ -105,31 +145,104 @@ public class NavbarController implements Initializable {
      * @param activeButton The button to mark as active
      */
     private void setActiveButton(Button activeButton) {
-        // Remove active styling from all buttons
-        homeBtn.getStyleClass().removeAll("navbar-button-active");
-        reviewBtn.getStyleClass().removeAll("navbar-button-active");
-        timetableBtn.getStyleClass().removeAll("navbar-button-active");
+        // Reset all buttons to their default state
+        resetButtonToDefault(homeBtn);
+        resetButtonToDefault(reviewBtn);
+        resetButtonToDefault(timetableBtn);
         
         // Add active styling to the specified button
         if (activeButton != null && activeButton != exitBtn) {
             activeButton.getStyleClass().add("navbar-button-active");
         }
     }
+    
+    /**
+     * Sets the active button and clears focus (for user interactions, not initialization).
+     *
+     * @param activeButton The button to mark as active
+     */
+    private void setActiveButtonWithFocusClear(Button activeButton) {
+        // Reset all buttons to their default state
+        resetButtonToDefault(homeBtn);
+        resetButtonToDefault(reviewBtn);
+        resetButtonToDefault(timetableBtn);
+        
+        // Clear focus from all buttons to prevent :focused pseudo-class issues
+        clearFocusFromAllButtons();
+        
+        // Add active styling to the specified button
+        if (activeButton != null && activeButton != exitBtn) {
+            activeButton.getStyleClass().add("navbar-button-active");
+        }
+    }
+    
+    /**
+     * Resets a button to its default state by ensuring proper CSS classes.
+     */
+    private void resetButtonToDefault(Button button) {
+        // Remove active class
+        button.getStyleClass().removeAll("navbar-button-active");
+        
+        // Clear any inline styles that might be stuck
+        button.setStyle("");
+        
+        // Ensure base classes are present (in case they got removed somehow)
+        if (!button.getStyleClass().contains("navbar-button")) {
+            button.getStyleClass().add("navbar-button");
+        }
+        if (!button.getStyleClass().contains("navbar-button-secondary")) {
+            button.getStyleClass().add("navbar-button-secondary");
+        }
+        
+        // Force a complete style refresh by removing all classes and re-adding them
+        java.util.List<String> originalClasses = new java.util.ArrayList<>(button.getStyleClass());
+        button.getStyleClass().clear();
+        button.getStyleClass().addAll(originalClasses);
+    }
+    
+    /**
+     * Clears focus from navigation buttons to prevent :focused pseudo-class styling issues.
+     * The :focused state can cause buttons to appear active when they shouldn't be.
+     * Note: EXIT button is excluded to maintain its normal behavior.
+     */
+    private void clearFocusFromAllButtons() {
+        // Request focus on the navbar container instead of any button
+        if (navbarContainer != null) {
+            navbarContainer.requestFocus();
+        }
+        
+        // Only clear focus from navigation buttons (exclude EXIT button)
+        homeBtn.setFocusTraversable(false);
+        reviewBtn.setFocusTraversable(false);
+        timetableBtn.setFocusTraversable(false);
+        // Note: exitBtn is intentionally excluded to maintain its normal state
+        
+        // Re-enable focus traversal after a short delay
+        javafx.application.Platform.runLater(() -> {
+            homeBtn.setFocusTraversable(true);
+            reviewBtn.setFocusTraversable(true);
+            timetableBtn.setFocusTraversable(true);
+            // Note: exitBtn remains unaffected
+        });
+    }
 
     /**
      * Handles the Home button click event.
-     * Navigates to the home page and updates the active button state.
+     * Navigates to the user's role-specific home page and updates the active button state.
      *
      * @param event The action event triggered by clicking the Home button
      */
     @FXML
     private void handleHomeAction(ActionEvent event) {
         System.out.println("Navigation: Home button clicked");
-        setActiveButton(homeBtn);
+        setActiveButtonWithFocusClear(homeBtn);
         
-        // TODO: Implement actual navigation to Home page
-        // Example: SceneManager.switchToHome();
-        navigateToPage("Home");
+        try {
+            navigateToUserHome();
+        } catch (IOException e) {
+            System.err.println("Error navigating to home page: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -137,15 +250,31 @@ public class NavbarController implements Initializable {
      * Navigates to the review page and updates the active button state.
      *
      * @param event The action event triggered by clicking the Review button
+     * @throws IOException if the FXML file cannot be loaded
      */
     @FXML
-    private void handleReviewAction(ActionEvent event) {
-        System.out.println("Navigation: Review button clicked");
-        setActiveButton(reviewBtn);
+    private void handleReviewAction(ActionEvent event) throws IOException {
+        System.out.println("Review button clicked. Checking user role...");
         
-        // TODO: Implement actual navigation to Review page
-        // Example: SceneManager.switchToReview();
-        navigateToPage("Review");
+        // Set active button state first, before navigation (with focus clearing)
+        setActiveButtonWithFocusClear(reviewBtn);
+
+        // Determine which review page to navigate to based on user role
+
+
+        if (Session.isTeacher()) {
+            System.out.println("Navigating to Teacher Review Page...");
+            NavigationManager.getInstance().navigateTo(
+                    (Stage) ((Node) event.getSource()).getScene().getWindow(),
+                    NavigationManager.Pages.TEACHER_REVIEW
+            );
+        } else if(Session.isStudent()){
+            System.out.println("Navigating to Student Review Page...");
+            NavigationManager.getInstance().navigateTo(
+                    (Stage) ((Node) event.getSource()).getScene().getWindow(),
+                    NavigationManager.Pages.STUDENT_REVIEW
+            );
+        }
     }
 
     /**
@@ -157,7 +286,7 @@ public class NavbarController implements Initializable {
     @FXML
     private void handleTimetableAction(ActionEvent event) {
         System.out.println("Navigation: Timetable button clicked");
-        setActiveButton(timetableBtn);
+        setActiveButtonWithFocusClear(timetableBtn);
         
         // TODO: Implement actual navigation to Timetable page
         // Example: SceneManager.switchToTimetable();
@@ -184,6 +313,35 @@ public class NavbarController implements Initializable {
         }
     }
 
+    /**
+     * Navigates to the user's role-specific home page.
+     * Uses NavigationManager to ensure proper navigation history and CSS loading.
+     *
+     * @throws IOException if the home page cannot be loaded
+     */
+    private void navigateToUserHome() throws IOException {
+        Stage currentStage = (Stage) homeBtn.getScene().getWindow();
+        NavigationManager navigationManager = NavigationManager.getInstance();
+        
+        // Check if user is logged in
+        if (Session.isLoggedaIn()) {
+            // Navigate to role-specific home page
+            navigationManager.navigateTo(currentStage, NavigationManager.Pages.HOME);
+            
+            // Update title based on user role
+            User currentUser = Session.getCurrentUser();
+            if (currentUser != null) {
+                String roleTitle = currentUser.getRole();
+                currentStage.setTitle("Interactive Quiz Creator - " + roleTitle + " Home");
+                System.out.println("Successfully navigated to " + roleTitle + " home page");
+            }
+        } else {
+            // No user logged in, redirect to login page
+            navigationManager.navigateTo(currentStage, NavigationManager.Pages.LOGIN);
+            System.out.println("No user logged in, redirected to login page");
+        }
+    }
+    
     /**
      * Helper method to simulate navigation to different pages.
      * In a full implementation, this would integrate with a scene manager or router.

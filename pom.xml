@@ -70,11 +70,6 @@
 
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>21</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
             <version>21</version>
         </dependency>
@@ -99,12 +94,21 @@
         </dependency>
 
 
-
-
     </dependencies>
 
     <build>
         <plugins>
+            <plugin> <!-- to recognize jnit test version -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <excludes> <!-- Execlude test files related to UI -->
+                        <exclude>**/*ControllerTest.java</exclude>
+                        <exclude>**/*UITest.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

@@ -9,7 +9,7 @@ public class TeacherReviewPage extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/cab302a1/ReviewPage/teacher-review-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1100, 750);
+        Scene scene = new Scene(fxmlLoader.load(), 1200, 700);
         stage.setTitle("Interactive Quiz Creator");
         stage.setScene(scene);
         stage.show();

@@ -6,6 +6,7 @@ import com.example.cab302a1.model.Teacher;
 import com.example.cab302a1.model.User;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
 
@@ -54,7 +55,7 @@ class UserDaoTest {
         when(rs.getString("role")).thenReturn("Student");
         when(rs.getInt("user_id")).thenReturn(2);
         when(rs.getString("email")).thenReturn("student@example.com");
-        when(rs.getString("password")).thenReturn("$2a$10$niUCKydg/yI2DTf2X2SDlO9VlZB/J6Li/D3qk7wK.pRk1.zmIsfWK");
+        when(rs.getString("password")).thenReturn("secret");
         when(rs.getTimestamp("created_at")).thenReturn(new Timestamp(System.currentTimeMillis()));
 
         User result;
@@ -170,14 +171,14 @@ class UserDaoTest {
         when(generatedKeys.getInt(1)).thenReturn(3);
 
         // Mock getUserById to return a Student
-        User fakeUser = new Student(3, "newuser", "new@example.com", "Student",  null);
+        User fakeUser = new Student(3, "newuser", "new@example.com", "Student", null);
         doReturn(fakeUser).when(dao).getUserById(3);
 
         User result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
-            result = dao.signUpUser("newuser", "new@example.com", "secret", "Student");
+            result = dao.signUpUser("newuser", "new@example.com", "pass", "Student");
         }
 
         assertNotNull(result);
@@ -201,7 +202,7 @@ class UserDaoTest {
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
-            result = dao.signUpUser("failuser", "fail@example.com", "secret", "Student");
+            result = dao.signUpUser("failuser", "fail@example.com", "pass", "Student");
         }
 
         assertNull(result, "If no rows inserted, should return null");
@@ -212,7 +213,7 @@ class UserDaoTest {
         UserDao dao = spy(new UserDao());
         doReturn(false).when(dao).existsByEmail("nouser@example.com");
 
-        User result = dao.login("nouser@example.com", "secret");
+        User result = dao.login("nouser@example.com", "pass");
 
         assertNull(result, "If user does not exist, login should fail and return null");
     }
@@ -230,9 +231,12 @@ class UserDaoTest {
         when(conn.prepareStatement(anyString())).thenReturn(stmt);
         when(stmt.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
+
+        String validHash = BCrypt.hashpw("secret", BCrypt.gensalt());
+
         when(rs.getInt("user_id")).thenReturn(4);
         when(rs.getString("email")).thenReturn("teacher@example.com");
-        when(rs.getString("password")).thenReturn("$2a$10$niUCKydg/yI2DTf2X2SDlO9VlZB/J6Li/D3qk7wK.pRk1.zmIsfWK");
+        when(rs.getString("password")).thenReturn(validHash);
         when(rs.getString("role")).thenReturn("Teacher");
         when(rs.getTimestamp("created_at")).thenReturn(new Timestamp(System.currentTimeMillis()));
 
@@ -261,9 +265,12 @@ class UserDaoTest {
         when(conn.prepareStatement(anyString())).thenReturn(stmt);
         when(stmt.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
+
+        String validHash = BCrypt.hashpw("secret", BCrypt.gensalt());
+
         when(rs.getInt("user_id")).thenReturn(5);
         when(rs.getString("email")).thenReturn("student@example.com");
-        when(rs.getString("password")).thenReturn("$2a$10$niUCKydg/yI2DTf2X2SDlO9VlZB/J6Li/D3qk7wK.pRk1.zmIsfWK");
+        when(rs.getString("password")).thenReturn(validHash);
         when(rs.getString("role")).thenReturn("Student");
         when(rs.getTimestamp("created_at")).thenReturn(new Timestamp(System.currentTimeMillis()));
 

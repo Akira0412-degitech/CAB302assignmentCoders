@@ -2,6 +2,8 @@ package com.example.cab302a1.ui;
 
 import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.dao.AttemptDao;
+import com.example.cab302a1.dao.ResponseDao;
+import com.example.cab302a1.model.QuestionResponse;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.result.QuizResultController;
@@ -16,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
@@ -41,46 +44,82 @@ public class HomeController implements Initializable {
     @FXML
     private TilePane grid;
 
+    @FXML
+    private Label pageTitle;
 
-
-    // CHANGED: Store full Quiz objects instead of just titles
+    // Store full Quiz objects instead of just titles
     private final List<Quiz> quizzes = new ArrayList<>();
 
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
+        // Register this page with NavigationManager for proper navigation history
+        NavigationManager.getInstance().setCurrentPage(NavigationManager.Pages.HOME);
+        
+        // Set role-based page title
+        setupPageTitle();
+        
+        // Update navbar to show Home as active
+        com.example.cab302a1.components.NavbarController.updateNavbarState("home");
+        
         refresh();
+        
+        System.out.println("Home page initialized and registered with NavigationManager");
+    }
+
+    /**
+     * Set the page title based on user role
+     */
+    private void setupPageTitle() {
+        if (pageTitle != null) {
+            if (Session.isTeacher()) {
+                pageTitle.setText("Build Your Next Quiz!");
+            } else {
+                pageTitle.setText("Your Learning Journey!");
+            }
+        }
     }
 
 
     /** Rebuild the grid according to the current role and quiz list. */
     public void refresh() {
-        // if (titleLabel != null) titleLabel.setText("Home — " + role);
         grid.getChildren().clear();
         quizzes.clear();
         QuizDao quizDao = new QuizDao();
 
+        // Load all quizzes
         quizzes.addAll(quizDao.getAllQuizzes());
+
+        // Create quiz cards
         for (Quiz q : quizzes) {
             grid.getChildren().add(createQuizCard(q));
         }
+
+        // Add plus card for teachers
         if (Session.isTeacher()) {
             grid.getChildren().add(createPlusCard());
         }
+
+        // Update page title in case role changed
+        setupPageTitle();
     }
 
-//Create a square 'quiz card' button with role-specific action
+/**
+     * Create a quiz card with basic styling and functionality
+     */
     private Button createQuizCard(Quiz quiz) {
         Button card = new Button(quiz.getTitle());
         card.getStyleClass().add("quiz-card");
-        card.setPrefSize(160, 160);
+        card.setPrefSize(200, 150);  // Updated to prototype dimensions
         card.setWrapText(true);
 
         card.setOnAction(e -> {
             Stage owner = (Stage) grid.getScene().getWindow();
-            handleQuizCardClick(owner, quiz);  // Click action connect sperate method
+            handleQuizCardClick(owner, quiz);
         });
+
         return card;
     }
+
 
 
 
@@ -91,16 +130,6 @@ public class HomeController implements Initializable {
             QuizService quizService = new QuizService();
             Quiz fullQuiz = quizService.loadQuizFully(quiz);
 
-//            // Retake
-//            AttemptDao attemptDao = new AttemptDao();
-//            int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
-//            int quizId = fullQuiz.getQuizId();
-//            if (attemptDao.hasCompleted(quizId, userId)) { // :contentReference[oaicite:5]{index=5}
-//                Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
-//                        "You already completed this quiz. Retake?", ButtonType.YES, ButtonType.NO);
-//                confirm.showAndWait();
-//                if (confirm.getResult() == ButtonType.NO) return;
-//            }
 
             // Start attempt
             int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
@@ -117,13 +146,47 @@ public class HomeController implements Initializable {
             // Quiz open
             StudentTakeQuizController.open(owner, fullQuiz, selections -> {
                 try {
+                    java.util.List<QuestionResponse> responses = new java.util.ArrayList<>();
 
-                    saveResponsesBare(attemptId, fullQuiz, selections);
+                    java.util.List<com.example.cab302a1.model.QuizQuestionCreate> questions = fullQuiz.getQuestions();
+                    for (int i = 0; i < questions.size(); i++) {
+                        int selectedIndex = (i < selections.size() ? selections.get(i) : -1);
+                        if (selectedIndex < 0) {
+                            continue; // Not selected answer ignore
+                        }
+
+                        com.example.cab302a1.model.QuizQuestionCreate q = questions.get(i);
+                        java.util.List<com.example.cab302a1.model.QuizChoiceCreate> choices = q.getChoices();
+                        if (selectedIndex >= choices.size()) continue;
+
+                        com.example.cab302a1.model.QuizChoiceCreate chosen = choices.get(selectedIndex);
 
 
+                        QuestionResponse r = new QuestionResponse();
+                        r.setAttempt_id(attemptId);
+                        r.setQuestion_id(q.getQuestionId());
+                        r.setOption_id(chosen.getOption_id());
+                        r.setIs_correct(chosen.isCorrect());
+
+                        responses.add(r);
+                    }
+
+                    // not selected anything message -> need to imporve
+                    if (responses.isEmpty()) {
+                        new javafx.scene.control.Alert(
+                                javafx.scene.control.Alert.AlertType.WARNING,
+                                "Please select at least one answer before submitting."
+                        ).showAndWait();
+                        return;
+                    }
+
+                    //using DAO
+                    new ResponseDao().saveResponse(attemptId, responses);
+
+                    // end attempt
                     attemptDao.endAttempt(attemptId);
 
-                    // Check score
+                    //result page prep
                     Integer score = attemptDao.getScore(quizId, userId);
                     int total = fullQuiz.getQuestions().size();
 
@@ -132,20 +195,32 @@ public class HomeController implements Initializable {
                     Parent root = fxml.load();
                     QuizResultController rc = fxml.getController();
 
-                    rc.setQuizResult(new QuizResultData(
+                    rc.setQuizResult(new com.example.cab302a1.result.QuizResultData(
                             score != null ? score : 0, total, fullQuiz.getTitle(), quizId, userId
                     ));
 
-                    owner.setScene(new Scene(root, 1100, 680));
-                    owner.setTitle("Quiz Result");
-                    owner.show();
+                    Scene resultScene = new Scene(root, 1000, 650);
+                    
+                    // Load CSS stylesheet - this was missing and causing the styling issue
+                    java.net.URL cssUrl = getClass().getResource("/com/example/cab302a1/result/QuizResult.css");
+                    if (cssUrl != null) {
+                        resultScene.getStylesheets().add(cssUrl.toExternalForm());
+                        System.out.println("Quiz result CSS loaded successfully after quiz completion");
+                    } else {
+                        System.err.println("Warning: Quiz result CSS not found");
+                    }
+                    
+                    owner.setScene(resultScene);
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    new Alert(Alert.AlertType.ERROR,
-                            "Failed to submit attempt:\n" + ex.getMessage(), ButtonType.OK).showAndWait();
+                    new javafx.scene.control.Alert(
+                            javafx.scene.control.Alert.AlertType.ERROR,
+                            "Failed to submit quiz. " + ex.getMessage()
+                    ).showAndWait();
                 }
             });
+
 
         } else {
             TeacherQuizDetailController.open(owner, quiz, updated -> refresh());
@@ -156,8 +231,8 @@ public class HomeController implements Initializable {
     /** Teacher-only '+' card to open the quiz editor modal. */
     private Button createPlusCard() {
         Button plus = new Button("+");
-        plus.getStyleClass().add("plus-card"); // CSS: .plus-card
-        plus.setPrefSize(160, 160);
+        plus.getStyleClass().add("plus-card");
+        plus.setPrefSize(200, 150);  // Updated to prototype dimensions
         plus.setOnAction(e -> openCreateQuizEditor());
         return plus;
     }
@@ -185,43 +260,6 @@ public class HomeController implements Initializable {
         Alert a = new Alert(Alert.AlertType.WARNING, msg, ButtonType.OK);
         a.setHeaderText(null);
         a.showAndWait();
-    }
-
-    //Need to fix.
-    //Save result and sent to DB
-    private void saveResponsesBare(int attemptId, Quiz quiz, List<Integer> selections) throws SQLException {
-        String sql = "INSERT INTO question_responses (attempt_id, question_id, option_id, is_correct) VALUES (?,?,?,?)";
-
-        try (Connection conn = DBconnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            List<com.example.cab302a1.model.QuizQuestionCreate> questions = quiz.getQuestions();
-
-            for (int i = 0; i < questions.size(); i++) {
-                int selectedIndex = (i < selections.size() ? selections.get(i) : -1);
-                if (selectedIndex < 0) {
-                    continue;
-                }
-
-                com.example.cab302a1.model.QuizQuestionCreate q = questions.get(i);
-                List<QuizChoiceCreate> choices = q.getChoices();
-                if (selectedIndex >= choices.size()) continue;
-
-                QuizChoiceCreate chosen = choices.get(selectedIndex);
-
-                int questionId = q.getQuestionId();
-                int optionId   = chosen.getOption_id();
-                boolean isCorrect = chosen.isAnswer();
-
-                ps.setInt(1, attemptId);
-                ps.setInt(2, questionId);
-                ps.setInt(3, optionId);
-                ps.setBoolean(4, isCorrect);
-                ps.addBatch();
-            }
-
-            ps.executeBatch();
-        }
     }
 
 }

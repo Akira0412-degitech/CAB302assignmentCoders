@@ -1,5 +1,6 @@
-# Interactive Quiz Creator
+# Interactive Quiz Creator (QuizCraft)
 
+<img src="src/main/resources/com/example/cab302a1/images/QuizCraft_logo.png" alt="logo" width="100%"  style="object-fit: cover; border-radius: 10px;" />
 A JavaFX-based desktop application designed to support teaching and learning through interactive quiz creation, delivery, and performance tracking.
 
 ## Project Overview
@@ -14,7 +15,7 @@ Interactive Quiz Creator is a comprehensive educational tool that enables educat
 
 ## User Roles & Permissions
 
-### **Tutor/Educator**
+### **Teacher/Tutor/Educator**
 - Create, edit, and upload questions (text/images/math)
 - Build and publish quizzes with customizable settings
 - View student performance analytics
@@ -117,13 +118,9 @@ To initialize the project database, use the provided `db/init.sql` script.
 
 This makes Database called ```cab302_quizapp``` where user ```appuser@localhost``` password ```AppPass#2025``` are used to login.
 
-## Component
+## Additional Documents
 
-See more detail in [NavBar-README](docs/NavBar-README.md)
-
-## Quiz Result Page Integration Guide
-
-See more detail in [QuizResultIntegration-README](docs/QuizResultIntegration-README.md)
+See more detail in [docs folder](docs)
 
 ---
 
@@ -153,6 +150,15 @@ See more detail in [QuizResultIntegration-README](docs/QuizResultIntegration-REA
 - [x] Prepare script for video demo
 - [x] Added Fryway
 - [x] Implement page for quiz
+
+**Checkpoint 4 (Week 10) - Project Progress**
+- [x] Review Page Demo
+- [x] Functional Prototype
+- [x] Password encryption
+- [x] Design app name and logo
+- [x] Improved Unit cases
+- [x] Debugging
+- [x] Github action
 
 ---
 

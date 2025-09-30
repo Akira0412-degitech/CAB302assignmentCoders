@@ -6,7 +6,7 @@ public class User {
     protected int user_id;
     protected String username;
     protected String email;
-//    protected String password;
+    protected String password;
     protected String role;
     protected Timestamp created_at;
 
@@ -14,7 +14,6 @@ public class User {
         this.user_id = _user_id;
         this.username = _username;
         this.email = _email;
-//        this.password = _password;
         this.role = _role;
         this.created_at = _created_at;
     }

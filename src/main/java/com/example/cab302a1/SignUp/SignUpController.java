@@ -5,6 +5,7 @@ import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.Teacher;
 import com.example.cab302a1.model.User;
 import com.example.cab302a1.util.Session;
+import com.example.cab302a1.components.NavigationManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.Node;
@@ -211,9 +212,23 @@ public class SignUpController {
 
             root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            scene = new Scene(root, 1000, 450);
-            stage.setTitle(currentUser.getRole() + "- Page");
+            scene = new Scene(root, 1000, 640);
+            
+            // Load HomePage CSS
+            try {
+                String cssPath = getClass().getResource("/com/example/cab302a1/HomePage.css").toExternalForm();
+                scene.getStylesheets().add(cssPath);
+                System.out.println("HomePage CSS loaded successfully after signup: " + cssPath);
+            } catch (Exception e) {
+                System.err.println("Could not load HomePage.css after signup: " + e.getMessage());
+            }
+            
+            stage.setTitle(currentUser.getRole() + "-Home");
             stage.setScene(scene);
+            
+            // Clear any existing navigation history since this is a fresh signup
+            NavigationManager.getInstance().clearHistory();
+            
             stage.show();
         }else {
             showErrorMessage("Something went wrong, Try again later.");

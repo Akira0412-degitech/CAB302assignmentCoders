@@ -1,6 +1,8 @@
 package com.example.cab302a1.logout;
 
 import com.example.cab302a1.components.NavigationManager;
+import com.example.cab302a1.util.Session;
+import com.example.cab302a1.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -102,21 +104,26 @@ public class LogoutConfirmationController implements Initializable {
             
             // Use NavigationManager to go back to previous page
             NavigationManager navigationManager = NavigationManager.getInstance();
-            boolean navigationSuccessful = navigationManager.navigateBack(currentStage);
             
-            if (navigationSuccessful) {
-                System.out.println("Successfully returned to previous page via NavigationManager");
-            } else {
-                // Fallback to default page if no history available
-                System.out.println("No navigation history available, using fallback navigation");
-                returnToPreviousPageFallback();
+            // Check if we have navigation history and user is still logged in
+            if (navigationManager.hasHistory() && Session.isLoggedaIn()) {
+                boolean navigationSuccessful = navigationManager.navigateBack(currentStage);
+                
+                if (navigationSuccessful) {
+                    System.out.println("Successfully returned to previous page via NavigationManager");
+                    return; // Successfully navigated back
+                }
             }
+            
+            // If no history available or navigation failed, use intelligent fallback
+            System.out.println("No navigation history available or navigation failed, using intelligent fallback");
+            returnToPreviousPageFallback();
             
         } catch (Exception e) {
             System.err.println("Error returning to previous page: " + e.getMessage());
             e.printStackTrace();
             
-            // Try fallback navigation
+            // Try fallback navigation as last resort
             try {
                 returnToPreviousPageFallback();
             } catch (IOException fallbackError) {
@@ -146,35 +153,55 @@ public class LogoutConfirmationController implements Initializable {
     }
 
     /**
-     * Fallback method to return to a default page when NavigationManager history is empty.
-     * This provides a safety net for navigation.
+     * Intelligent fallback method to return to appropriate page based on user state.
+     * This provides a safety net for navigation - prioritizes role-specific home if user is logged in.
      *
-     * @throws IOException if the demo page FXML file cannot be loaded
+     * @throws IOException if the page cannot be loaded
      */
     private void returnToPreviousPageFallback() throws IOException {
-        // Get the current stage
         Stage currentStage = (Stage) cancelBtn.getScene().getWindow();
-        
-        // Use NavigationManager to navigate to default page (navbar demo)
         NavigationManager navigationManager = NavigationManager.getInstance();
-        navigationManager.navigateToReplace(currentStage, NavigationManager.Pages.NAVBAR_DEMO);
         
-        System.out.println("Used fallback navigation to navbar demo page");
+        // CRITICAL: Double-check that user is still logged in
+        // Sometimes session might be cleared unexpectedly
+        if (Session.isLoggedaIn()) {
+            User currentUser = Session.getCurrentUser();
+            if (currentUser != null) {
+                // Navigate to role-specific home page
+                navigationManager.navigateToReplace(currentStage, NavigationManager.Pages.HOME);
+                
+                String roleTitle = currentUser.getRole();
+                currentStage.setTitle("Interactive Quiz Creator - " + roleTitle + " Home");
+                
+                System.out.println("Used intelligent fallback navigation to " + roleTitle + " home page");
+                return;
+            }
+        }
+        
+        // If no user is logged in or session is invalid, go to login page instead of navbar demo
+        // This is safer than navbar demo and provides a clear path for the user
+        System.out.println("User session invalid or not logged in, redirecting to login page");
+        navigationManager.navigateToReplace(currentStage, NavigationManager.Pages.LOGIN);
+        
+        System.out.println("Used fallback navigation to login page (session invalid)");
     }
 
     /**
      * Clears any user session data during logout.
-     * This method should be expanded to handle actual session management.
+     * This method clears the current user session and any cached data.
      */
     private void clearUserSession() {
-        // TODO: Implement actual session clearing logic
+        // Clear the current user session
+        Session.clearUser();
+        
+        // TODO: Implement additional session clearing logic as needed
         // Examples:
         // - Clear user preferences
         // - Reset application state
         // - Clear cached data
         // - Invalidate authentication tokens
         
-        System.out.println("User session data cleared");
+        System.out.println("User session data cleared successfully");
     }
 
     /**
