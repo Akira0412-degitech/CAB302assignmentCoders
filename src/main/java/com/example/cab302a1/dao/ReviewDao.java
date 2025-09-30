@@ -29,6 +29,7 @@ public class ReviewDao {
                     int QuestionNum = responseDao.calculateScoreFromResponses(attemptId);
 
                     QuizReview review = new QuizReview(
+                            attemptId,
                             rs.getString("title"),
                             rs.getInt("score"),
                             QuestionNum,

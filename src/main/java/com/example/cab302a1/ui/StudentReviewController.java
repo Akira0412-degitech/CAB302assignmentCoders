@@ -75,11 +75,11 @@ public class StudentReviewController {
 
         // Mock data
         quizData.addAll(
-                new QuizReview("Quiz 1", 16, 20, ""),
-                new QuizReview("Quiz 2", 18, 20, ""),
-                new QuizReview("Quiz 3", 12, 20, ""),
-                new QuizReview("Quiz 4", 20, 20, ""),
-                new QuizReview("Quiz 5", 15, 20 , "")
+//                new QuizReview("Quiz 1", 16, 20, ""),
+//                new QuizReview("Quiz 2", 18, 20, ""),
+//                new QuizReview("Quiz 3", 12, 20, ""),
+//                new QuizReview("Quiz 4", 20, 20, ""),
+//                new QuizReview("Quiz 5", 15, 20 , "")
         );
 
         quizTable.setItems(quizData);
