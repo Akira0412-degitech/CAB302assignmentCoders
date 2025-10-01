@@ -23,7 +23,7 @@ Represents a question object.
 
 ---
 
-## `public List<QuizQuestionCreate> getAllQuestions(Quiz quiz)`
+## `public List<QuizQuestionCreate> getAllQuestions(int quiz_id)`
 
 **Purpose**  
 Fetches all questions that belong to a given quiz.
@@ -90,4 +90,22 @@ Counts how many questions exist for a given quiz.
 - The number of questions (`int`) for the quiz.
 - `-1` if the query fails.
 
+## `public List<QuizQuestionCreate> getQuestionsByQuizId(int quizId)`
 
+**Purpose**  
+Fetches all questions for a given quiz by its ID.  
+This method is similar to `getAllQuestions(Quiz quiz)`.
+
+**Parameters**
+- `quizId` – The ID of the quiz.
+
+**Returns**
+- A `List<QuizQuestionCreate>` containing each question’s:
+  - `question_id`
+  - `quiz_id`
+  - `statement` (question text)
+  - `explanation`
+- An empty list if no questions are found.
+
+**Notes**
+- Unlike `getAllQuestions(Quiz quiz)`, this method is more convenient if you only have the quiz’s ID without needing to construct a `Quiz` object first.
