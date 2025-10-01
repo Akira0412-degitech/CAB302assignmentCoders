@@ -19,11 +19,10 @@ public class QuizDao {
             ResultSet rs = pstmt.executeQuery()){
 
             while (rs.next()){
-                Quiz q = new Quiz();
-                q.setQuizId(rs.getInt("quiz_id"));
-                q.setTitle(rs.getString("title"));
-                q.setDescription(rs.getString("description"));
-                q.setCreated_by(rs.getInt("created_by"));
+                Quiz q = new Quiz(rs.getInt("quiz_id"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getInt("created_by"));
                 quizzes.add(q);
             }
 
@@ -70,5 +69,28 @@ public class QuizDao {
         }
     }
     
+    public Quiz getQuizById(int _quiz_id){
+        String sql = "SELECT * FROM quizzes WHERE quiz_id = ?";
 
+        try(Connection conn = DBconnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setInt(1, _quiz_id);
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                if(rs.next()){
+                    return new Quiz(
+                            rs.getInt("quiz_id"),
+                            rs.getString("title"),
+                            rs.getString("description"),
+                            rs.getInt("created_by")
+                    );
+
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

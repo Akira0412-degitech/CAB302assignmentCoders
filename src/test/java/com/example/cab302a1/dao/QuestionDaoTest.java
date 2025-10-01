@@ -38,7 +38,7 @@ class QuestionDaoTest {
         List<QuizQuestionCreate> result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new QuestionDao().getAllQuestions(quiz);
+            result = new QuestionDao().getAllQuestions(quiz.getQuizId());
         }
 
         assertEquals(2, result.size());
@@ -62,7 +62,7 @@ class QuestionDaoTest {
         List<QuizQuestionCreate> result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new QuestionDao().getAllQuestions(quiz);
+            result = new QuestionDao().getAllQuestions(quiz.getQuizId());
         }
 
         assertTrue(result.isEmpty());

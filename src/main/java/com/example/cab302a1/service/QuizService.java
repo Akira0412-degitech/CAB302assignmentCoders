@@ -14,7 +14,7 @@ public class QuizService {
 
 
     public Quiz loadQuizFully(Quiz quiz) {
-        List<QuizQuestionCreate> questions = questionDao.getAllQuestions(quiz);
+        List<QuizQuestionCreate> questions = questionDao.getAllQuestions(quiz.getQuizId());
         for (QuizQuestionCreate q : questions) {
             List<QuizChoiceCreate> options = optionDao.getOptionsByQuestionId(q.getQuestionId());
             q.getChoices().clear();
