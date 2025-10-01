@@ -11,4 +11,19 @@ public class ResultQuestion {
         this.chosenOption_id = _chosenOption_id;
     }
 
+   public QuizQuestionCreate getQuestion(){
+        return question;
+   }
+
+   public void setQuestion(QuizQuestionCreate question){
+        this.question = question;
+   }
+
+   public int getChosenOption_id(){
+        return chosenOption_id;
+   }
+   public void setChosenOption_id(int _chosenOption_id){
+        this.chosenOption_id = _chosenOption_id;
+   }
+
 }
