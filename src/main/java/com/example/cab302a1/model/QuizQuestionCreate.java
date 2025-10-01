@@ -8,7 +8,7 @@ public class QuizQuestionCreate {
     private int question_id;
     private int quiz_id;
     private String questionText;
-    private final List<QuizChoiceCreate> choices = new ArrayList<>();
+    private List<QuizChoiceCreate> choices = new ArrayList<>();
     private String explanation;
 
     public QuizQuestionCreate(int _question_id, int _quiz_id, String _questionText, String _explanation){
@@ -27,6 +27,9 @@ public class QuizQuestionCreate {
     }
     public void setExplanation(String _explanation){
         explanation = _explanation;
+    }
+    public void setOptions(List<QuizChoiceCreate> _choices){
+        this.choices = _choices;
     }
 
     public List<QuizChoiceCreate> getChoices() { return choices; }
