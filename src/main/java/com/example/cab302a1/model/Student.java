@@ -8,7 +8,5 @@ public class Student extends User{
        super(_user_id, _username, _email, _role, _created_at);
     }
 
-    public Object getName() {
-        return getName();
-    }
+
 }

@@ -1,6 +1,6 @@
 package com.example.cab302a1.ui;
 
-import com.example.cab302a1.model.QuizResult;
+import com.example.cab302a1.model.QuizReview;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,16 +27,16 @@ public class TeacherReviewController {
     @FXML public Button assignReviewBtn;
 
     // TableView + Columns
-    @FXML public TableView<QuizResult> quizTable;
-    @FXML public TableColumn<QuizResult, String> quizNameCol;
-    @FXML public TableColumn<QuizResult, String> scoreCol;
-    @FXML public TableColumn<QuizResult, Void> resultCol;
+    @FXML public TableView<QuizReview> quizTable;
+    @FXML public TableColumn<QuizReview, String> quizNameCol;
+    @FXML public TableColumn<QuizReview, String> scoreCol;
+    @FXML public TableColumn<QuizReview, Void> resultCol;
 
     @FXML public Button reviewBtn;            // for whatever “Review” button the test expects
     @FXML public TableColumn<?, ?> studentNameCol; // if your test wants a column showing student names
     @FXML public TableColumn<?, ?> viewBtnCol;     // if your test wants the “View” button column
 
-    private final ObservableList<QuizResult> quizData = FXCollections.observableArrayList();
+    private final ObservableList<QuizReview> quizData = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
@@ -55,7 +55,7 @@ public class TeacherReviewController {
 
         // Table column bindings
         quizNameCol.setCellValueFactory(data -> data.getValue().quizNameProperty());
-        scoreCol.setCellValueFactory(data -> data.getValue().scoreProperty());
+        scoreCol.setCellValueFactory(data -> data.getValue().scoreSummaryProperty());
 
         // "View Result" button column
         resultCol.setCellFactory(col -> new TableCell<>() {
@@ -64,7 +64,7 @@ public class TeacherReviewController {
             {
                 btn.getStyleClass().add("action-button");
                 btn.setOnAction(e -> {
-                    QuizResult item = getTableView().getItems().get(getIndex());
+                    QuizReview item = getTableView().getItems().get(getIndex());
                     System.out.println("Viewing result for " + item.getQuizName());
                 });
             }
@@ -78,11 +78,11 @@ public class TeacherReviewController {
 
         // Mock quiz data
         quizData.addAll(
-                new QuizResult("Quiz 1", "16/20"),
-                new QuizResult("Quiz 2", "18/20"),
-                new QuizResult("Quiz 3", "12/20"),
-                new QuizResult("Quiz 4", "20/20"),
-                new QuizResult("Quiz 5", "15/20")
+//                new QuizReview("Quiz 1", 16, 20 , ""),
+//                new QuizReview("Quiz 2", 18, 20, ""),
+//                new QuizReview("Quiz 3", 12, 20, ""),
+//                new QuizReview("Quiz 4", 20, 20, ""),
+//                new QuizReview("Quiz 5", 15, 20, "")
         );
 
         if (quizTable != null) {

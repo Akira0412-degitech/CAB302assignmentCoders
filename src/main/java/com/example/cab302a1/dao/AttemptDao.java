@@ -119,4 +119,19 @@ public class AttemptDao {
         return false;
     }
 
+    public void UpdateFeedback(int _attemptId, String _feedback){
+        String sql = "UPDATE quiz_attempts SET feedback = ? WHERE attempt_id = ?";
+
+        try(Connection conn = DBconnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setString(1, _feedback);
+            pstmt.setInt(2, _attemptId);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }

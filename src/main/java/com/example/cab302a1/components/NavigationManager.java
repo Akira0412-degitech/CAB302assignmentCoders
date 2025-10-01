@@ -198,6 +198,24 @@ public class NavigationManager {
             }
         }
         
+        // Update navbar active state based on destination page (no polling, event-driven)
+        try {
+            String fxml = pageInfo.getFxmlPath();
+            String pageType = "home";
+            if (fxml != null) {
+                String lower = fxml.toLowerCase();
+                if (lower.contains("teacher-review-view") || lower.contains("student-review-view")) {
+                    pageType = "review";
+                } else if (lower.contains("timetable")) {
+                    pageType = "timetable";
+                } else if (lower.contains("homepage.fxml")) {
+                    pageType = "home";
+                }
+            }
+            // Call after FXML load so the new NavbarController instance has initialized
+            com.example.cab302a1.components.NavbarController.updateNavbarState(pageType);
+        } catch (Exception ignore) { }
+        
         // Update stage
         stage.setTitle(pageInfo.getTitle());
         stage.setScene(scene);
