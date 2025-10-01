@@ -13,14 +13,14 @@ import java.util.List;
 
 public class QuestionDao {
 
-    public List<QuizQuestionCreate> getAllQuestions(Quiz _quiz) {
+    public List<QuizQuestionCreate> getAllQuestions(int  _quiz_id) {
         List<QuizQuestionCreate> questions = new ArrayList<>();
         String sql = "SELECT question_id, quiz_id, statement, explanation FROM questions WHERE quiz_id = ?";
 
         try (Connection conn = DBconnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, _quiz.getQuizId());
+            pstmt.setInt(1, _quiz_id);
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
