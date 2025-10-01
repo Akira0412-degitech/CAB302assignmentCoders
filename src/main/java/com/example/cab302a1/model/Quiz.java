@@ -19,6 +19,9 @@ public class Quiz {
         this.created_by = created_by;
     }
 
+    public Quiz(){
+
+    }
 
     public int getQuizId(){ return quiz_id ;}
     public String getTitle() { return title; }
