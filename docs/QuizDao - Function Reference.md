@@ -74,3 +74,23 @@ Updates the details of an existing quiz.
 - The database row is updated in place.
 
 ---
+
+## `public Quiz getQuizById(int quizId)`
+
+**Purpose**  
+Retrieves a single quiz from the database by its unique ID.
+
+**Expected Behavior**
+- Executes a query on the `quizzes` table using the provided `quizId`.
+- If a matching row exists, builds and returns a `Quiz` object containing:
+  - `quizId`
+  - `title`
+  - `description`
+  - `created_by`
+
+**Parameters**
+- `quizId` – The ID of the quiz to retrieve.
+
+**Returns**
+- A `Quiz` object populated with the quiz’s details if found.
+- `null` if no quiz exists with the given `quizId` or if an error occurs.
