@@ -21,7 +21,7 @@
 
             <Label styleClass="page-title" text="Review Page"/>
 
-            <HBox alignment="TOP_CENTER" spacing="20" HBox.hgrow="ALWAYS">
+            <HBox alignment="TOP_CENTER" spacing="20" HBox.hgrow="ALWAYS" stylesheets="@../styles.css">
 
                 <!-- Student List -->
                 <VBox prefWidth="300" spacing="10" style="-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-background-radius: 8;">
