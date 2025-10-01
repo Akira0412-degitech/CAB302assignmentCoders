@@ -101,4 +101,7 @@ public class QuestionDao {
         return -1;
     }
 
+    public List<QuizQuestionCreate> getQuestionsByQuizId(int _quiz_id){
+        String sql = "SELECT "
+    }
 }

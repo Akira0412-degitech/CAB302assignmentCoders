@@ -11,6 +11,13 @@ public class QuizQuestionCreate {
     private final List<QuizChoiceCreate> choices = new ArrayList<>();
     private String explanation;
 
+    public QuizQuestionCreate(int _question_id, int _quiz_id, String _questionText, String _explanation){
+        this.question_id = _question_id;
+        this.quiz_id = _quiz_id;
+        this.questionText = _questionText;
+        this.explanation = _explanation;
+    }
+
     public void setQuiz_id(int _quizId){
         quiz_id = _quizId;
     }
