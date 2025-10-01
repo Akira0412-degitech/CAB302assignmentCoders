@@ -19,11 +19,10 @@ public class QuizDao {
             ResultSet rs = pstmt.executeQuery()){
 
             while (rs.next()){
-                Quiz q = new Quiz();
-                q.setQuizId(rs.getInt("quiz_id"));
-                q.setTitle(rs.getString("title"));
-                q.setDescription(rs.getString("description"));
-                q.setCreated_by(rs.getInt("created_by"));
+                Quiz q = new Quiz(rs.getInt("quiz_id"),
+                        rs.getString("title"),
+                        rs.getString("description"),
+                        rs.getInt("created_by"));
                 quizzes.add(q);
             }
 
