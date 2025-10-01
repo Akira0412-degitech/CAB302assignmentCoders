@@ -70,5 +70,23 @@ public class QuizDao {
         }
     }
     
+    public Quiz getQuizById(int _quiz_id){
+        String sql = "SELECT * FROM quizzes WHERE quiz_id = ?";
 
+        try(Connection conn = DBconnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setInt(1, _quiz_id);
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                if(rs.next()){
+                    Quiz q = new Quiz(
+
+                    )
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
