@@ -80,13 +80,18 @@ public class QuizDao {
 
             try(ResultSet rs = pstmt.executeQuery()){
                 if(rs.next()){
-                    Quiz q = new Quiz(
+                    return new Quiz(
+                            rs.getInt("quiz_id"),
+                            rs.getString("title"),
+                            rs.getString("description"),
+                            rs.getInt("created_by")
+                    );
 
-                    )
                 }
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
+        return null;
     }
 }
