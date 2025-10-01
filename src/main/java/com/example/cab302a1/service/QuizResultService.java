@@ -7,7 +7,9 @@ import com.example.cab302a1.dao.ResponseDao;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizQuestionCreate;
 import com.example.cab302a1.result.ResultDetail;
+import com.example.cab302a1.result.ResultQuestion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuizResultService {
