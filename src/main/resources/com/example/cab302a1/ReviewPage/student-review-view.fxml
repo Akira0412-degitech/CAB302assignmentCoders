@@ -36,9 +36,10 @@
                 <!-- TableView must have VBox.vgrow="ALWAYS" -->
                 <TableView fx:id="studentQuizTable" VBox.vgrow="ALWAYS">
                     <columns>
-                        <TableColumn fx:id="quizNameCol" text="Quiz Name"/>
-                        <TableColumn fx:id="scoreCol" text="Score"/>
-                        <TableColumn fx:id="viewFeedbackCol" text="View Feedback"/>
+                        <TableColumn fx:id="quizNameCol" prefWidth="200.0" text="Quiz" />
+                        <TableColumn fx:id="scoreCol" prefWidth="100.0" text="Score" />
+                        <TableColumn fx:id="feedbackCol" prefWidth="150.0" text="Feedback" />
+                        <TableColumn fx:id="resultCol" prefWidth="150.0" text="Result" />
                     </columns>
                 </TableView>
 

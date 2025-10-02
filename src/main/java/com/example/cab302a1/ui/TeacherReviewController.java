@@ -70,7 +70,7 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
             Button studentBtn = new Button(student.getUsername());
 
             // Apply the CSS style: student-list-item
-            studentBtn.getStyleClass().add("student-list-item");
+            studentBtn.getStyleClass().add("action-button");
             studentBtn.setMaxWidth(Double.MAX_VALUE);
 
             studentBtn.setOnAction(e -> {
@@ -90,15 +90,39 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
         if (assignReviewBtn != null) {
             assignReviewBtn.setOnAction(e -> {
                 QuizReview selectedQuiz = quizTable.getSelectionModel().getSelectedItem();
-                if (selectedQuiz != null && currentSelectedStudentId != -1) {
-                    System.out.println("Assigning review to selected quiz: " + selectedQuiz.getQuizName() +
-                            " for student ID: " + currentSelectedStudentId);
-                    // Implement assignment logic
-                } else {
+
+                if (selectedQuiz == null || currentSelectedStudentId == -1) {
                     // Provide feedback if no selection is made
-                    Alert alert = new Alert(Alert.AlertType.WARNING, "Please select a student and a quiz attempt from the table to assign a review.");
+                    Alert alert = new Alert(Alert.AlertType.WARNING,
+                            "Please select a quiz attempt from the table to assign a review.");
                     alert.showAndWait();
+                    return;
                 }
+
+                // 1. Launch Input Dialog to get feedback
+                TextInputDialog dialog = new TextInputDialog(selectedQuiz.getFeedback() != null ? selectedQuiz.getFeedback() : "");
+                dialog.setTitle("Assign Review and Feedback");
+                dialog.setHeaderText("Provide feedback for: " + selectedQuiz.getQuizName());
+                dialog.setContentText("Enter feedback text:");
+
+                dialog.showAndWait().ifPresent(feedbackText -> {
+
+                    // 2. Call DAO to update the database
+                    int attemptId = selectedQuiz.getAttemptId();
+                    boolean success = reviewDao.assignFeedback(attemptId, feedbackText);
+
+                    if (success) {
+                        // 3. Update the UI and inform the user
+                        Alert successAlert = new Alert(Alert.AlertType.INFORMATION, "Feedback successfully assigned.");
+                        successAlert.showAndWait();
+
+                        // Reload the data to update the local QuizReview object with the new feedback
+                        loadReviewData();
+                    } else {
+                        Alert errorAlert = new Alert(Alert.AlertType.ERROR, "Failed to assign feedback. Please check database connection.");
+                        errorAlert.showAndWait();
+                    }
+                });
             });
         }
     }
@@ -150,8 +174,8 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
             private final Button btn = new Button();
             {
                 // Ensure correct CSS is applied here
-                btn.getStyleClass().add("view-answer-button");
-                btn.setMaxWidth(Double.MAX_VALUE);
+                btn.getStyleClass().add("action-button");
+                btn.setPrefWidth(120.0);
 
                 btn.setOnAction(e -> {
                     QuizReview item = getTableView().getItems().get(getIndex());

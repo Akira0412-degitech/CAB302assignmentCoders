@@ -13,6 +13,7 @@ public class QuizReview {
     private final IntegerProperty totalQuestion;
     private final StringProperty feedback;
     private final int attemptId;
+    public int getQuizID;
 
     // Constructor for student view (no student name needed)
     public QuizReview(int attemptId, String quizName, int score, int totalQuestion, String feedback) {
