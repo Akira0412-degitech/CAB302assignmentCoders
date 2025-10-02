@@ -55,6 +55,24 @@
     -fx-translate-y: 1;
 }
 
+/* Completed Quiz Card (Student View) */
+.quiz-card-completed {
+    -fx-background-color: #B2F2BB; /* Light green for completed */
+    -fx-border-color: #37B24D; /* Dark green border */
+    -fx-border-width: 2px;
+}
+
+.quiz-card-completed:hover {
+    -fx-background-color: #9AE6A8; /* Slightly darker green on hover */
+    -fx-effect: dropshadow(gaussian, rgba(55, 178, 77, 0.3), 8, 0.3, 0, 2);
+    -fx-cursor: hand;
+}
+
+.quiz-card-completed:pressed {
+    -fx-background-color: #7DD087; /* Even darker green on press */
+    -fx-translate-y: 1;
+}
+
 
 /* Add Quiz Card (Teacher View) */
 .plus-card {

@@ -103,7 +103,7 @@ public class QuestionDao {
     }
 
     public List<QuizQuestionCreate> getQuestionsByQuizId(int _quiz_id){
-        String sql = "SELECT question_id, quiz_id, statement, type, explanation" +
+        String sql = "SELECT question_id, quiz_id, statement, type, explanation " +
                 "FROM questions WHERE quiz_id = ?";
         List<QuizQuestionCreate> questions = new ArrayList<>();
 
@@ -113,7 +113,7 @@ public class QuestionDao {
             pstmt.setInt(1, _quiz_id);
 
             try(ResultSet rs = pstmt.executeQuery()){
-                if(rs.next()){
+                while(rs.next()){
                     QuizQuestionCreate q = new QuizQuestionCreate(
                             rs.getInt("question_id"),
                             rs.getInt("quiz_id"),

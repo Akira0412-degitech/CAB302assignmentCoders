@@ -1,0 +1,153 @@
+/* ================================================
+   STUDENT RESULT DETAIL PAGE STYLES
+   Displays quiz results with color-coded answers
+   ================================================ */
+
+/* Root Container */
+.result-detail-root {
+    -fx-background-color: #DBEAFE; /* Light blue background */
+}
+
+/* Main Content */
+.result-detail-content {
+    -fx-padding: 24;
+    -fx-background-color: #DBEAFE;
+}
+
+/* Quiz Title */
+.quiz-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #005BA1; /* Deep blue */
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Quiz Description */
+.quiz-description {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Questions Scroll Pane */
+.questions-scroll {
+    -fx-background-color: transparent;
+}
+
+.questions-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Questions Container */
+.questions-container {
+    -fx-padding: 8;
+}
+
+/* Individual Question Item */
+.result-question-item {
+    -fx-background-color: #E3F2FF; /* Slightly darker light blue */
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0.2, 0, 1);
+}
+
+/* Question Index */
+.question-index {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #005BA1;
+}
+
+/* Question Text Field */
+.question-text {
+    -fx-font-size: 14px;
+    -fx-background-color: white;
+    -fx-text-fill: #333333;
+}
+
+/* Answer Buttons Base Style */
+.answer-button {
+    -fx-font-size: 13px;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 12 16;
+    -fx-text-fill: #333333;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Correct Answer - Green */
+.answer-button.correct-answer {
+    -fx-background-color: #B2F2BB; /* Light green */
+    -fx-border-color: #37B24D; /* Dark green */
+    -fx-border-width: 2px;
+    -fx-text-fill: #2B8A3E; /* Dark green text */
+    -fx-font-weight: bold;
+}
+
+/* Wrong Answer - Red */
+.answer-button.wrong-answer {
+    -fx-background-color: #FFE0E0; /* Light red */
+    -fx-border-color: #E03131; /* Dark red */
+    -fx-border-width: 2px;
+    -fx-text-fill: #C92A2A; /* Dark red text */
+    -fx-font-weight: bold;
+}
+
+/* Not Selected Answer - Gray */
+.answer-button.not-selected {
+    -fx-background-color: #F1F3F5; /* Light gray */
+    -fx-border-color: #ADB5BD; /* Medium gray */
+    -fx-border-width: 1px;
+    -fx-text-fill: #495057; /* Dark gray text */
+    -fx-opacity: 0.7;
+}
+
+/* Explanation Box */
+.explanation-box {
+    -fx-background-color: #FFF9DB; /* Light yellow */
+    -fx-background-radius: 6;
+    -fx-border-color: #FFD43B; /* Yellow */
+    -fx-border-width: 1px;
+    -fx-border-radius: 6;
+}
+
+.explanation-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-text-fill: #F59F00; /* Orange */
+}
+
+.explanation-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #495057; /* Dark gray */
+    -fx-wrap-text: true;
+}
+
+/* Button Container */
+.button-container {
+    -fx-padding: 8 0 0 0;
+}
+
+/* Done Button */
+.done-button {
+    -fx-background-color: #A5D8FF; /* Light blue */
+    -fx-border-color: #005BA1; /* Deep blue */
+    -fx-border-width: 2px;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: #005BA1; /* Deep blue text */
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-padding: 12 24;
+    -fx-cursor: hand;
+}
+
+.done-button:hover {
+    -fx-background-color: #74C0FC; /* Slightly darker blue */
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.3), 8, 0.4, 0, 2);
+}
+
+.done-button:pressed {
+    -fx-background-color: #4DABF7; /* Even darker blue */
+    -fx-translate-y: 1;
+}
+

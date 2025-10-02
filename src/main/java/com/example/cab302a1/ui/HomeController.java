@@ -112,6 +112,18 @@ public class HomeController implements Initializable {
         card.setPrefSize(200, 150);  // Updated to prototype dimensions
         card.setWrapText(true);
 
+        // Check if this quiz is completed by the current student
+        if (Session.isStudent()) {
+            int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
+            AttemptDao attemptDao = new AttemptDao();
+            boolean isCompleted = attemptDao.hasCompleted(quiz.getQuizId(), userId);
+            
+            if (isCompleted) {
+                // Add a style class for completed quizzes
+                card.getStyleClass().add("quiz-card-completed");
+            }
+        }
+
         card.setOnAction(e -> {
             Stage owner = (Stage) grid.getScene().getWindow();
             handleQuizCardClick(owner, quiz);
@@ -126,16 +138,36 @@ public class HomeController implements Initializable {
     //When click - S or T using session
     private void handleQuizCardClick(Stage owner, Quiz quiz) {
         if (Session.isStudent()) {
+            int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
+            int quizId = quiz.getQuizId();
+            AttemptDao attemptDao = new AttemptDao();
+
+            // Check if the student has already completed this quiz
+            if (attemptDao.hasCompleted(quizId, userId)) {
+                // Show the quiz result page instead of allowing retake
+                try {
+                    Integer attemptId = attemptDao.getAttemptId(quizId, userId);
+                    if (attemptId != null) {
+                        // Navigate to result detail page
+                        StudentResultDetailController.open(owner, quizId, attemptId, () -> {
+                            // Refresh home page when done
+                            refresh();
+                        });
+                    } else {
+                        new Alert(Alert.AlertType.ERROR, "Failed to load quiz results.", ButtonType.OK).showAndWait();
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    new Alert(Alert.AlertType.ERROR, "Error loading quiz results: " + ex.getMessage(), ButtonType.OK).showAndWait();
+                }
+                return;
+            }
+
             // Quiz load
             QuizService quizService = new QuizService();
             Quiz fullQuiz = quizService.loadQuizFully(quiz);
 
-
             // Start attempt
-            int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
-            int quizId = fullQuiz.getQuizId();
-            AttemptDao attemptDao = new AttemptDao();
-
             int attemptId = attemptDao.startAttempt(quizId, userId);
             if (attemptId <= 0 /*|| !attemptDao.attemptExist(attemptId)*/) {
                 new Alert(Alert.AlertType.ERROR, "Failed to start attempt.", ButtonType.OK).showAndWait();

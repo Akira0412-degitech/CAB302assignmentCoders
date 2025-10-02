@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.cab302a1.ui.ResultQuestionItemController"
+      spacing="12" styleClass="result-question-item">
+    <padding>
+        <Insets top="16" right="16" bottom="16" left="16"/>
+    </padding>
+    
+    <!-- Question Index -->
+    <Label fx:id="indexLabel" text="01/02" styleClass="question-index"/>
+
+    <!-- Question Text (Read-only) -->
+    <TextField fx:id="questionField" text="Question ..."
+               editable="false" focusTraversable="false" mouseTransparent="true"
+               styleClass="question-text"/>
+
+    <!-- Answer Options Grid -->
+    <GridPane hgap="16" vgap="16">
+        <columnConstraints>
+            <ColumnConstraints percentWidth="50"/>
+            <ColumnConstraints percentWidth="50"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
+
+        <children>
+            <ToggleButton fx:id="btnA" text="Answer 1" GridPane.columnIndex="0" GridPane.rowIndex="0" 
+                         maxWidth="Infinity" styleClass="answer-button"/>
+            <ToggleButton fx:id="btnB" text="Answer 2" GridPane.columnIndex="1" GridPane.rowIndex="0" 
+                         maxWidth="Infinity" styleClass="answer-button"/>
+            <ToggleButton fx:id="btnC" text="Answer 3" GridPane.columnIndex="0" GridPane.rowIndex="1" 
+                         maxWidth="Infinity" styleClass="answer-button"/>
+            <ToggleButton fx:id="btnD" text="Answer 4" GridPane.columnIndex="1" GridPane.rowIndex="1" 
+                         maxWidth="Infinity" styleClass="answer-button"/>
+        </children>
+    </GridPane>
+    
+    <!-- Explanation Section (Hidden if no explanation) -->
+    <VBox fx:id="explanationBox" spacing="8" styleClass="explanation-box" visible="false" managed="false">
+        <padding>
+            <Insets top="8" right="8" bottom="8" left="8"/>
+        </padding>
+        <Label text="Explanation:" styleClass="explanation-title"/>
+        <Label fx:id="explanationLabel" text="" wrapText="true" styleClass="explanation-text"/>
+    </VBox>
+</VBox>
+
