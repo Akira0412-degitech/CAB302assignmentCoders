@@ -12,13 +12,13 @@ import com.example.cab302a1.result.ResultQuestion;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuizResultService {
+public class QuizResultDetailService {
     private final QuizDao quizDao;
     private final QuestionDao questionDao;
     private final OptionDao optionDao;
     private final ResponseDao responseDao;
 
-    public QuizResultService(QuizDao quizDao, QuestionDao questionDao, OptionDao optionDao, ResponseDao responseDao) {
+    public QuizResultDetailService(QuizDao quizDao, QuestionDao questionDao, OptionDao optionDao, ResponseDao responseDao) {
         this.quizDao = quizDao;
         this.questionDao = questionDao;
         this.optionDao = optionDao;
