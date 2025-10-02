@@ -1,0 +1,2 @@
+ALTER TABLE quiz_attempts
+ADD COLUMN feedback VARCHAR(500) NULL;

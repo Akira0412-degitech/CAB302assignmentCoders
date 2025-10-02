@@ -53,7 +53,7 @@ public class TeacherQuizDetailController {
 
 
             QuestionDao questionDao = new QuestionDao();
-            List<QuizQuestionCreate> loadedQuestions = questionDao.getAllQuestions(quiz);
+            List<QuizQuestionCreate> loadedQuestions = questionDao.getAllQuestions(quiz.getQuizId());
 
             OptionDao optionDao = new OptionDao();
             for(QuizQuestionCreate q : loadedQuestions){

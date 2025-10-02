@@ -12,6 +12,17 @@ public class Quiz {
     private  int created_by;
     private final List<QuizQuestionCreate> questions = new ArrayList<>();
 
+    public Quiz(int quiz_id, String title, String description, int created_by) {
+        this.quiz_id = quiz_id;
+        this.title = title;
+        this.description = description;
+        this.created_by = created_by;
+    }
+
+    public Quiz(){
+
+    }
+
     public int getQuizId(){ return quiz_id ;}
     public String getTitle() { return title; }
     public String getDescription() { return description; }
