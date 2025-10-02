@@ -107,7 +107,7 @@ public class StudentReviewController implements Initializable, ReviewPageControl
 
                     // Navigation Logic to the Quiz Result Page
                     try {
-                        int quizId = item.getQuizID;
+                        int quizId = item.getQuizId();
 
                         if (quizId <= 0) {
                             throw new IllegalArgumentException("Invalid Quiz ID for result viewing. Data integrity issue.");

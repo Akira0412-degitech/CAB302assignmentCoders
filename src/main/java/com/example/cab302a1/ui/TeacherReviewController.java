@@ -149,7 +149,7 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
         if (reviewData.isEmpty()) {
             // Show placeholder data if no attempts are found for the selected student
             System.out.println("No quiz attempts found or selected student ID is invalid.");
-            reviewData.add(new QuizReview(-1, "No attempts available", 0, 0, "Select a student from the list."));
+            reviewData.add(new QuizReview("No attempts available", 0, 0, "Select a student from the list.", -1));
         }
 
         if (quizTable != null) {

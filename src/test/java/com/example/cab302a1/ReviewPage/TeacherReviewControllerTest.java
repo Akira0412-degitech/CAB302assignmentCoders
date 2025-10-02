@@ -60,8 +60,8 @@ class TeacherReviewControllerTest {
 
         // Mock data to be returned when Alice is selected
         mockQuizzes = List.of(
-                new QuizReview(101, "Intro to Java", 15, 20, "Good attempt."),
-                new QuizReview(102, "Adv Databases", 8, 10, null)
+                new QuizReview("Intro to Java", 15, 20, "Good attempt.", 101),
+                new QuizReview("Adv Databases", 8, 10, null, 102)
         );
 
         // 2. Setup DAO Mocks (Mockito)
