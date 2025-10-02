@@ -51,4 +51,25 @@ public class ResponseDao {
         }
         return -1;
     }
+
+    public int getChosenOptionId(int _attempt_id, int _question_id){
+        String sql = "SELECT option_id FROM question_responses WHERE attempt_id = ? AND question_id = ?";
+
+        try(Connection conn = DBconnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+            pstmt.setInt(1, _attempt_id);
+            pstmt.setInt(2, _question_id);
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                if(rs.next()){
+                    return rs.getInt("option_id");
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
 }

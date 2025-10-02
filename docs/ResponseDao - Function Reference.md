@@ -62,3 +62,23 @@ Calculates the score for a given attempt based on stored responses.
     - This value is typically passed into `AttemptDao.endAttempt` to finalize the attempt with a score.
 
 ---
+
+## `public int getChosenOptionId(int attemptId, int questionId)`
+
+**Purpose**  
+Retrieves the option selected by a student for a specific question within a quiz attempt.
+
+**Expected Behavior**
+- Looks up the `question_responses` table using both:
+   - `attempt_id` (the quiz attempt ID)
+   - `question_id` (the specific question ID).
+- Returns the `option_id` that the student chose.
+
+**Parameters**
+- `attemptId` – The ID of the quiz attempt.
+- `questionId` – The ID of the question.
+
+**Returns**
+- The `option_id` of the chosen answer if found.
+- `-1` if no response is recorded or if an error occurs.
+

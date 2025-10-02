@@ -8,8 +8,19 @@ public class QuizQuestionCreate {
     private int question_id;
     private int quiz_id;
     private String questionText;
-    private final List<QuizChoiceCreate> choices = new ArrayList<>();
+    private List<QuizChoiceCreate> choices = new ArrayList<>();
     private String explanation;
+
+    public QuizQuestionCreate(){
+
+    }
+
+    public QuizQuestionCreate(int _question_id, int _quiz_id, String _questionText, String _explanation){
+        this.question_id = _question_id;
+        this.quiz_id = _quiz_id;
+        this.questionText = _questionText;
+        this.explanation = _explanation;
+    }
 
     public void setQuiz_id(int _quizId){
         quiz_id = _quizId;
@@ -20,6 +31,9 @@ public class QuizQuestionCreate {
     }
     public void setExplanation(String _explanation){
         explanation = _explanation;
+    }
+    public void setOptions(List<QuizChoiceCreate> _choices){
+        this.choices = _choices;
     }
 
     public List<QuizChoiceCreate> getChoices() { return choices; }

@@ -175,12 +175,12 @@ public class QuizResultService {
      */
     private int getQuestionCountForQuiz(int quizId) {
         try {
-            // Create a dummy quiz object to pass to QuestionDao
-            Quiz dummyQuiz = new Quiz();
-            dummyQuiz.setQuizId(quizId);
+//            // Create a dummy quiz object to pass to QuestionDao
+//            Quiz dummyQuiz = new Quiz();
+//            dummyQuiz.setQuizId(quizId);
             
             // Get all questions for this quiz
-            List<?> questions = questionDao.getAllQuestions(dummyQuiz);
+            List<?> questions = questionDao.getAllQuestions(quizId);
             return questions != null ? questions.size() : 0;
         } catch (Exception e) {
             System.err.println("Error getting question count for quiz " + quizId + ": " + e.getMessage());
