@@ -1,55 +1,49 @@
 package com.example.cab302a1.ui;
 
-import com.example.cab302a1.model.QuizResult;
-import com.example.cab302a1.result.QuizResultController;
-import com.example.cab302a1.result.QuizResultData;
+import com.example.cab302a1.dao.ReviewDao;
+import com.example.cab302a1.model.SessionManager;
+import com.example.cab302a1.model.QuizReview;
+import com.example.cab302a1.model.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-// IMPLEMENTS ReviewPageController
+/**
+ * Controller for the Student Review Page.
+ * Displays a list of the student's past quiz attempts.
+ */
 public class StudentReviewController implements Initializable, ReviewPageController {
 
-    // Sidebar button fields required for testing/navigation
-    /* @FXML public Button dashboardBtn;
-    @FXML public Button reviewBtn;
-    @FXML public Button timetableBtn;
-    @FXML public Button exitBtn;
-     */
+    // FXML fields must now use QuizReview
+    @FXML public TableView<QuizReview> studentQuizTable;
+    @FXML public TableColumn<QuizReview, String> quizNameCol;
+    @FXML public TableColumn<QuizReview, String> scoreCol;
+    @FXML public TableColumn<QuizReview, Void> viewFeedbackCol; // Button Column
 
-    // Existing FXML components
-    @FXML public TableView<QuizResult> quizTable;
-    @FXML public TableColumn<QuizResult, String> quizNameCol;
-    @FXML public TableColumn<QuizResult, String> scoreCol;
-    @FXML public TableColumn<QuizResult, Void> viewResultCol;
-    @FXML public TableColumn<QuizResult, Void> feedbackCol;
+    // NOTE: Ensure your FXML has matching fx:id's
 
-    private final ObservableList<QuizResult> quizData = FXCollections.observableArrayList();
-    private Stage stage; // to store the stage
+    private final ObservableList<QuizReview> reviewData = FXCollections.observableArrayList();
+    private Stage stage;
 
-    // ============================================
-    // Interface Implementation: Initializable
-    // ============================================
+    // Data Access Object for fetching real data
+    private final ReviewDao reviewDao = new ReviewDao();
+
+    // IMPORTANT: Replace this with the actual logged-in user's ID
+    private static final int CURRENT_STUDENT_ID = 42;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupTableColumns();
-        // setupActionButtons();
-        // Load data immediately or delegate to loadReviewData() after external setup
         loadReviewData();
     }
-
-    // ============================================
-    // Interface Implementation: ReviewPageController
-    // ============================================
 
     @Override
     public void setStage(Stage stage) {
@@ -59,95 +53,87 @@ public class StudentReviewController implements Initializable, ReviewPageControl
 
     @Override
     public void loadReviewData() {
-        // Mock data loading (replace with actual database/service call)
-        quizData.clear();
-        quizData.addAll(
-                new QuizResult("Quiz 1", "16/20"),
-                new QuizResult("Quiz 2", "18/20"),
-                new QuizResult("Quiz 3", "12/20"),
-                new QuizResult("Quiz 4", "20/20"),
-                new QuizResult("Quiz 5", "15/20")
-        );
-        quizTable.setItems(quizData);
-        System.out.println("Student review data loaded/refreshed.");
+        reviewData.clear();
+
+        // CRITICAL FIX: Get the ID of the logged-in user from the session
+        User currentUser = SessionManager.getCurrentUser();
+
+        if (currentUser != null) {
+            int studentId = currentUser.getUser_id(); // Use the corrected getter
+
+            try {
+                // Load quizzes specifically for the logged-in student ID
+                reviewData.addAll(reviewDao.getAllAttemptsById(studentId));
+                System.out.println("Student ID " + studentId + " loaded " + reviewData.size() + " attempts.");
+            } catch (Exception e) {
+                System.err.println("Error fetching quiz attempts for current user: " + e.getMessage());
+            }
+        } else {
+            // Handle case where no user is logged in (e.g., during testing or if login failed)
+            System.err.println("Load data failed: No current user found in SessionManager.");
+        }
+
+        if (reviewData.isEmpty() && studentQuizTable != null) {
+            // Display a message if no attempts exist or user is null
+            reviewData.add(new QuizReview(-1, "No quiz attempts found.", 0, 0, "N/A"));
+        }
+
+        if (studentQuizTable != null) {
+            studentQuizTable.setItems(reviewData);
+        }
     }
 
-    // ============================================
-    // Private Setup Methods
-    // ============================================
-
+    /**
+     * Configures the TableView columns, including styling the action buttons.
+     */
     private void setupTableColumns() {
-        // Table column setup
+        if (studentQuizTable == null) return;
+
+        // Ensure the table columns fills the width of the container
+        studentQuizTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+
+        // 1. Quiz Name Column
         quizNameCol.setCellValueFactory(data -> data.getValue().quizNameProperty());
-        scoreCol.setCellValueFactory(data -> data.getValue().scoreProperty());
 
-        // Set constrained resize policy
-        quizTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        // 2. Score Column (Displays Score/Total)
+        scoreCol.setCellValueFactory(data -> data.getValue().scoreSummaryProperty());
 
-        // "View Result" buttons (Logic from previous step)
-        viewResultCol.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("View");
+        // 3. View Feedback Column (Button)
+        viewFeedbackCol.setCellFactory(col -> new TableCell<QuizReview, Void>() {
+            private final Button btn = new Button("View Feedback");
+
             {
                 btn.getStyleClass().add("action-button");
+                btn.setPrefWidth(120.0);
+
                 btn.setOnAction(e -> {
-                    QuizResult item = getTableView().getItems().get(getIndex());
-                    try {
-                        // 1. Parse score string
-                        String scoreString = item.getScore();
-                        String[] parts = scoreString.split("/");
-                        int correctAnswers = Integer.parseInt(parts[0].trim());
-                        int totalQuestions = Integer.parseInt(parts[1].trim());
+                    QuizReview item = getTableView().getItems().get(getIndex());
 
-                        // 2. Create QuizResultData (using placeholder IDs 0, 0)
-                        QuizResultData resultData = new QuizResultData(
-                                correctAnswers,
-                                totalQuestions,
-                                item.getQuizName(),
-                                0, 0
-                        );
+                    // TODO: Implement logic to open a detailed feedback view or model
 
-                        // 3. Get the current Stage and navigate
-                        Stage currentStage = (Stage) ((Node)btn).getScene().getWindow();
-                        QuizResultController.showQuizResult(currentStage, resultData);
-
-                    } catch (Exception ex) {
-                        System.err.println("Error navigating to quiz results: " + ex.getMessage());
-                        // Consider showing an error dialog
+                    if (item.getFeedback() != null && !item.getFeedback().isEmpty()) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                                "Feedback for " + item.getQuizName() + ":\n\n" + item.getFeedback());
+                        alert.setTitle("Teacher Feedback");
+                        alert.setHeaderText(item.getQuizName() + " Result Summary");
+                        alert.showAndWait();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                                "No specific feedback has been assigned yet.");
+                        alert.setTitle("Teacher Feedback");
+                        alert.setHeaderText("Feedback Pending");
+                        alert.showAndWait();
                     }
                 });
             }
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty ? null : new HBox(btn));
-            }
-        });
 
-        // "Feedback" buttons
-        feedbackCol.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("View");
-            {
-                btn.getStyleClass().add("action-button");
-                btn.setOnAction(e -> {
-                    QuizResult item = getTableView().getItems().get(getIndex());
-                    System.out.println("Viewing feedback for " + item.getQuizName());
-                });
-            }
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                setGraphic(empty ? null : new HBox(btn));
+                setGraphic(empty ? null : btn);
             }
         });
     }
-
-    /*private void setupActionButtons() {
-        // Setup sidebar button actions
-        dashboardBtn.setOnAction(e -> System.out.println("Dashboard button clicked"));
-        reviewBtn.setOnAction(e -> System.out.println("Review button clicked"));
-        timetableBtn.setOnAction(e -> System.out.println("Timetable button clicked"));
-        exitBtn.setOnAction(this::handleExit);
-    }*/
 
     private void handleExit(javafx.event.ActionEvent event) {
         Stage currentStage = (Stage)((Node)event.getSource()).getScene().getWindow();

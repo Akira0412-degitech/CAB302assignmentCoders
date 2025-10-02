@@ -15,10 +15,12 @@ public class ReviewDao {
     public List<QuizReview> getAllAttemptsById(int _user_id){
         List<QuizReview> reviews =  new ArrayList<>();
         ResponseDao responseDao = new ResponseDao();
-        String sql = "SELECT q.title, qa.score, qa.feedback, qa.attempt_id" +
-                        "FROM quiz_attempts qa " +
-                        "JOIN quizzes q ON qa.quiz_id = q.quiz_id " +
-                        "WHERE qa.answered_by = ?";
+
+        String sql = "SELECT q.title, qa.score, qa.feedback, qa.attempt_id " +
+                "FROM quiz_attempts qa " +
+                "JOIN quizzes q ON qa.quiz_id = q.quiz_id " +
+                "WHERE qa.answered_by = ?";
+
         try(Connection conn = DBconnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setInt(1, _user_id);
