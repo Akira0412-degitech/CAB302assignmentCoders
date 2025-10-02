@@ -1,7 +1,7 @@
 package com.example.cab302a1.ui;
 
+import com.example.cab302a1.util.Session;
 import com.example.cab302a1.dao.ReviewDao;
-import com.example.cab302a1.model.SessionManager;
 import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.User;
 import javafx.collections.FXCollections;
@@ -55,8 +55,8 @@ public class StudentReviewController implements Initializable, ReviewPageControl
     public void loadReviewData() {
         reviewData.clear();
 
-        // CRITICAL FIX: Get the ID of the logged-in user from the session
-        User currentUser = SessionManager.getCurrentUser();
+        // Get the ID of the logged-in user from the session
+        User currentUser = Session.getCurrentUser();
 
         if (currentUser != null) {
             int studentId = currentUser.getUser_id(); // Use the corrected getter
@@ -70,7 +70,7 @@ public class StudentReviewController implements Initializable, ReviewPageControl
             }
         } else {
             // Handle case where no user is logged in (e.g., during testing or if login failed)
-            System.err.println("Load data failed: No current user found in SessionManager.");
+            System.err.println("Load data failed: No current user found in Session.");
         }
 
         if (reviewData.isEmpty() && studentQuizTable != null) {

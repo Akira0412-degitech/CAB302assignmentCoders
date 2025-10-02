@@ -14,19 +14,6 @@ public class QuizReview {
     private final StringProperty feedback;
     private final int attemptId;
 
-
-//    // Constructor for teacher view (with student name)
-//    public QuizReview(String studentName, String quizName, int score, int totalQuestion, String feedback) {
-//        if(feedback == null || feedback.isEmpty()){
-//            feedback = "No feedback";
-//        }
-//        this.studentName = new SimpleStringProperty(studentName);
-//        this.quizName = new SimpleStringProperty(quizName);
-//        this.score = new SimpleIntegerProperty(score);
-//        this.totalQuestion = new SimpleIntegerProperty(totalQuestion);
-//        this.feedback = new SimpleStringProperty(feedback);
-//    }
-
     // Constructor for student view (no student name needed)
     public QuizReview(int attemptId, String quizName, int score, int totalQuestion, String feedback) {
         if(feedback == null || feedback.isEmpty()){
@@ -42,9 +29,6 @@ public class QuizReview {
 
     // Getters and properties
 
-//    public String getStudentName() {
-//        return studentName.get();
-//    }
     public int getAttemptId(){
         return attemptId;
     }

@@ -2,7 +2,6 @@ package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
 import com.example.cab302a1.model.QuizReview;
-import com.example.cab302a1.model.Student;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
