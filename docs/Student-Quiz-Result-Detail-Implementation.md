@@ -163,6 +163,7 @@ Handles quiz card clicks - opens quiz or results based on completion status.
 ### Java Classes
 1. `src/main/java/com/example/cab302a1/ui/StudentResultDetailController.java`
 2. `src/main/java/com/example/cab302a1/ui/ResultQuestionItemController.java`
+3. Rename `src\main\java\com\example\cab302a1\service\QuizResultService.java` to `src\main\java\com\example\cab302a1\service\QuizResultDetailService.java` to avoid the name overlap issue
 
 ### FXML Files
 1. `src/main/resources/com/example/cab302a1/result/StudentResultDetailPage.fxml`
@@ -208,7 +209,7 @@ Handles quiz card clicks - opens quiz or results based on completion status.
    - Return to home page
    - Verify the completed quiz now has a green background
    - Click on the completed quiz
-   - Verify it opens directly to the result detail page (no retake)
+   - Verify it opens directly to the result page (no retake)
    - Verify all data displays correctly
 
 3. **Quiz History**
@@ -228,12 +229,11 @@ Handles quiz card clicks - opens quiz or results based on completion status.
 ## Future Enhancements
 
 Potential improvements that could be added:
-1. Add timestamp showing when quiz was completed
-2. Allow teachers to enable quiz retakes (feature flag)
-3. Show score comparison across multiple attempts (if retakes enabled)
-4. Export quiz results to PDF
-5. Add statistics showing question difficulty based on student performance
-6. Allow students to add notes/comments on explanations
+1. Allow teachers to enable quiz retakes (feature flag)
+2. Show score comparison across multiple attempts (if retakes enabled)
+3. Export quiz results to PDF
+4. Add statistics showing question difficulty based on student performance
+5. Allow students to add notes/comments on explanations
 
 ## Integration Notes
 

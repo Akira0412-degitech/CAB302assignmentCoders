@@ -144,18 +144,31 @@ public class HomeController implements Initializable {
 
             // Check if the student has already completed this quiz
             if (attemptDao.hasCompleted(quizId, userId)) {
-                // Show the quiz result page instead of allowing retake
+                // Show the quiz result summary page instead of allowing retake
                 try {
-                    Integer attemptId = attemptDao.getAttemptId(quizId, userId);
-                    if (attemptId != null) {
-                        // Navigate to result detail page
-                        StudentResultDetailController.open(owner, quizId, attemptId, () -> {
-                            // Refresh home page when done
-                            refresh();
-                        });
-                    } else {
-                        new Alert(Alert.AlertType.ERROR, "Failed to load quiz results.", ButtonType.OK).showAndWait();
+                    Integer score = attemptDao.getScore(quizId, userId);
+                    QuizService quizService = new QuizService();
+                    Quiz fullQuiz = quizService.loadQuizFully(quiz);
+                    int total = fullQuiz.getQuestions().size();
+
+                    FXMLLoader fxml = new FXMLLoader(getClass().getResource(
+                            "/com/example/cab302a1/result/QuizResult.fxml"));
+                    Parent root = fxml.load();
+                    QuizResultController rc = fxml.getController();
+
+                    rc.setQuizResult(new QuizResultData(
+                            score != null ? score : 0, total, fullQuiz.getTitle(), quizId, userId
+                    ));
+
+                    Scene resultScene = new Scene(root, 1000, 650);
+                    
+                    // Load CSS stylesheet
+                    java.net.URL cssUrl = getClass().getResource("/com/example/cab302a1/result/QuizResult.css");
+                    if (cssUrl != null) {
+                        resultScene.getStylesheets().add(cssUrl.toExternalForm());
                     }
+                    
+                    owner.setScene(resultScene);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     new Alert(Alert.AlertType.ERROR, "Error loading quiz results: " + ex.getMessage(), ButtonType.OK).showAndWait();
