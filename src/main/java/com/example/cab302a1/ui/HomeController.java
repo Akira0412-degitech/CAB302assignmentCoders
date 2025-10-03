@@ -9,6 +9,7 @@ import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.result.QuizResultController;
 import com.example.cab302a1.result.QuizResultData;
 import com.example.cab302a1.service.QuizService;
+import com.example.cab302a1.shared.HiddenQuizRegistry;
 import com.example.cab302a1.util.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +30,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
+import java.util.Optional;
 
 import com.example.cab302a1.components.NavigationManager;
 
@@ -91,6 +97,7 @@ public class HomeController implements Initializable {
 
         // Create quiz cards
         for (Quiz q : quizzes) {
+            if (HiddenQuizRegistry.isHidden(q.getQuizId())) continue; //Hidden quiz not appear
             grid.getChildren().add(createQuizCard(q));
         }
 
@@ -106,37 +113,74 @@ public class HomeController implements Initializable {
 /**
      * Create a quiz card with basic styling and functionality
      */
-    private Button createQuizCard(Quiz quiz) {
-        Button card = new Button(quiz.getTitle());
-        card.getStyleClass().add("quiz-card");
-        card.setPrefSize(200, 150);  // Updated to prototype dimensions
-        card.setWrapText(true);
+    private javafx.scene.Node createQuizCard(Quiz quiz) {
+        Button cardBtn = new Button(quiz.getTitle());
+        cardBtn.getStyleClass().add("quiz-card");
+        cardBtn.setPrefSize(200, 150);  // Updated to prototype dimensions
+        cardBtn.setWrapText(true);
 
         // Check if this quiz is completed by the current student
         if (Session.isStudent()) {
             int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
             AttemptDao attemptDao = new AttemptDao();
             boolean isCompleted = attemptDao.hasCompleted(quiz.getQuizId(), userId);
-            
+
             if (isCompleted) {
                 // Add a style class for completed quizzes
-                card.getStyleClass().add("quiz-card-completed");
+                cardBtn.getStyleClass().add("quiz-card-completed");
             }
         }
 
-        card.setOnAction(e -> {
+        cardBtn.setOnAction(e -> {
             Stage owner = (Stage) grid.getScene().getWindow();
             handleQuizCardClick(owner, quiz);
         });
 
-        return card;
+        // StackPane - X button overlay
+        StackPane cardPane = new StackPane(cardBtn);
+        StackPane.setAlignment(cardBtn, Pos.CENTER);
+
+        if (Session.isTeacher()) {
+            Button closeBtn = new Button("×");
+            closeBtn.getStyleClass().add("delete-btn");
+            StackPane.setAlignment(closeBtn, Pos.TOP_LEFT);
+            StackPane.setMargin(closeBtn, new Insets(6, 0, 0, 6));
+            closeBtn.setOnAction(ev -> {
+                ev.consume();
+                onHideClicked(quiz, cardPane);
+            });
+            cardPane.getChildren().add(closeBtn);
+        }
+
+        return cardPane;
     }
 
+    private void onHideClicked(Quiz quiz, Node cardNode) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Hide this quiz?");
+        alert.setHeaderText("This quiz will disappear in this app session.");
+        alert.setContentText("It won't be deleted from the database.(test)");
+        ButtonType ok = new ButtonType("Hide", ButtonType.OK.getButtonData());
+        ButtonType cancel = ButtonType.CANCEL;
+        alert.getButtonTypes().setAll(ok, cancel);
 
+        Optional<ButtonType> res = alert.showAndWait();
+        if (res.isPresent() && res.get() == ok) {
+            HiddenQuizRegistry.hide(quiz.getQuizId());
+            grid.getChildren().remove(cardNode); // delete only in UI
+        }
+    }
 
 
     //When click - S or T using session
     private void handleQuizCardClick(Stage owner, Quiz quiz) {
+        if (HiddenQuizRegistry.isHidden(quiz.getQuizId())) {
+            new Alert(Alert.AlertType.INFORMATION,
+                    "This quiz is not available. Please choose another quiz.",
+                    ButtonType.OK).showAndWait();
+            return;
+        }
+
         if (Session.isStudent()) {
             int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
             int quizId = quiz.getQuizId();
