@@ -5,6 +5,7 @@ import com.example.cab302a1.dao.UserDao;
 import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.User;
+import com.example.cab302a1.result.QuizResultController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -218,6 +219,18 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
                     btn.setOnAction(e -> {
                         QuizReview item = getTableView().getItems().get(getIndex());
                         System.out.println("Showing full result for Attempt ID: " + item.getAttemptId());
+
+                        try {
+                            Stage currentStage = (Stage) quizTable.getScene().getWindow();
+                            // Use the factory method in QuizResultController to show the result
+                            QuizResultController.showQuizResultFromDatabase(currentStage, item.getQuizId(), currentSelectedStudentId);
+                        } catch (Exception ex) {
+                            System.err.println("Error opening quiz result page: " + ex.getMessage());
+                            ex.printStackTrace();
+                            Alert alert = new Alert(Alert.AlertType.ERROR,
+                                    "Unable to load quiz result page. Please try again.");
+                            alert.showAndWait();
+                        }
                     });
                 }
 

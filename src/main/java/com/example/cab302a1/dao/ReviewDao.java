@@ -15,27 +15,35 @@ public class ReviewDao {
         List<QuizReview> reviews =  new ArrayList<>();
         ResponseDao responseDao = new ResponseDao();
 
-        String sql = "SELECT q.title, qa.score, qa.feedback, qa.attempt_id " +
-                "FROM quiz_attempts qa " +
-                "JOIN quizzes q ON qa.quiz_id = q.quiz_id " +
-                "WHERE qa.answered_by = ?";
+        String sql = "SELECT qa.attempt_id, qa.quiz_id, qa.answered_by, q.title, qa.score, qa.feedback\n" +
+                "FROM quiz_attempts qa\n" +
+                "JOIN quizzes q ON qa.quiz_id = q.quiz_id\n" +
+                "WHERE qa.answered_by = ?\n";
 
         try(Connection conn = DBconnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
             pstmt.setInt(1, _user_id);
 
             try(ResultSet rs = pstmt.executeQuery()){
-                while(rs.next()){
+                while (rs.next()) {
                     int attemptId = rs.getInt("attempt_id");
-                    int QuestionNum = responseDao.calculateScoreFromResponses(attemptId);
+                    int quizId = rs.getInt("quiz_id");
+                    int score = rs.getInt("score");
+                    String feedback = rs.getString("feedback");
+                    String title = rs.getString("title");
+
+                    int totalQuestions = responseDao.calculateScoreFromResponses(attemptId);
 
                     QuizReview review = new QuizReview(
-                            rs.getString("title"),
-                            rs.getInt("score"),
-                            QuestionNum,
-                            rs.getString("feedback"),
-                            attemptId
-                                        );
+                            attemptId,
+                            quizId,
+                            _user_id,
+                            title,
+                            score,
+                            totalQuestions,
+                            feedback
+                    );
+
                     reviews.add(review);
                 }
             }

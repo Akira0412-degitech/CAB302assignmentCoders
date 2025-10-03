@@ -2,7 +2,6 @@ package com.example.cab302a1.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.property.SimpleIntegerProperty; // Not used for score/total, but good to know
 
 /**
  * Data model for displaying quiz review information in TableViews.
@@ -18,9 +17,11 @@ public class QuizReview {
     private final String feedback; // Stored as a primitive String
 
     /**
-     * FULL Constructor used by ReviewDao to load data (Primary constructor).
+     * Primary constructor for real database rows.
+     * Used by ReviewDao to load actual quiz attempts.
      */
-    public QuizReview(int attemptId, int quizId, int userId, String quizName, int score, int total, String feedback) {
+    public QuizReview(int attemptId, int quizId, int userId,
+                      String quizName, int score, int total, String feedback) {
         this.attemptId = attemptId;
         this.quizId = quizId;
         this.userId = userId;
@@ -31,14 +32,10 @@ public class QuizReview {
     }
 
     /**
-     * Convenience Constructor for simpler mock data (5 parameters).
-     * Chains to the primary constructor using default values (0) for missing IDs.
-     * * NOTE: Parameters must match what your test or calling code is using.
-     * Assuming 5 parameters are: (quizName, score, total, feedback, quizId)
+     * Constructor for mock/demo data (no attemptId or userId).
+     * Prevents confusion between quizId and attemptId.
      */
     public QuizReview(String quizName, int score, int total, String feedback, int quizId) {
-        // Calls the 7-parameter constructor: attemptId=0, quizId=passed_quizId, userId=0
-        // We pass the 5 available values, and 0 for the two missing IDs (attemptId, userId).
         this(0, quizId, 0, quizName, score, total, feedback);
     }
 
@@ -72,7 +69,7 @@ public class QuizReview {
     }
 
     public StringProperty scoreSummaryProperty() {
-        return new SimpleStringProperty(score + "/" + total);
+        return new SimpleStringProperty(getScoreSummary());
     }
 
     public int getScore() {
