@@ -60,6 +60,8 @@ public class HomeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // Register this page with NavigationManager for proper navigation history
         NavigationManager.getInstance().setCurrentPage(NavigationManager.Pages.HOME);
+
+
         
         // Set role-based page title
         setupPageTitle();
@@ -157,10 +159,9 @@ public class HomeController implements Initializable {
 
     private void onHideClicked(Quiz quiz, Node cardNode) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Hide this quiz?");
-        alert.setHeaderText("This quiz will disappear in this app session.");
-        alert.setContentText("It won't be deleted from the database.(test)");
-        ButtonType ok = new ButtonType("Hide", ButtonType.OK.getButtonData());
+        alert.setTitle("Delete this quiz?");
+        alert.setHeaderText("This quiz will be delete.");
+        ButtonType ok = new ButtonType("Delete", ButtonType.OK.getButtonData());
         ButtonType cancel = ButtonType.CANCEL;
         alert.getButtonTypes().setAll(ok, cancel);
 

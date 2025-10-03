@@ -3,6 +3,7 @@ module com.example.cab302a1 {
     requires javafx.fxml;
     requires java.desktop;
     requires java.sql;
+    requires java.prefs;
 
     // JDBC & Flyway
     requires mysql.connector.j;
