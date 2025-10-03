@@ -34,6 +34,7 @@
         <Label text="Tip: Select the radio to mark the correct answer." styleClass="tip"/>
 
         <Label text="Explanation (optional)"/>
+
         <TextArea fx:id="explanationArea"
                   promptText="Why is this answer correct? (Shown after submission)"
                   prefRowCount="3"/>

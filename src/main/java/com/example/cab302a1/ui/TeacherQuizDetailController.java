@@ -83,6 +83,8 @@ public class TeacherQuizDetailController {
     private void render() {
         titleLabel.setText(quiz.getTitle() == null ? "(Untitled)" : quiz.getTitle());
         descLabel.setText(quiz.getDescription() == null ? "No Description" : quiz.getDescription());
+        titleLabel.setWrapText(true);
+        descLabel.setWrapText(true);
 
         questionsBox.getChildren().clear();
         int qIdx = 1;
@@ -102,6 +104,15 @@ public class TeacherQuizDetailController {
                 cIdx++;
             }
 
+            //explanation (if there is)
+            String exp = q.getExplanation();
+            if (exp != null && !exp.isBlank()) {
+                Label expLabel = new Label(" * Explanation: " + exp);
+                expLabel.setWrapText(true);
+                expLabel.maxWidthProperty().bind(questionsBox.widthProperty().subtract(28));
+                block.getChildren().add(expLabel);
+            }
+
             HBox sep = new HBox();
             sep.setStyle("-fx-border-color: #e0e0e0; -fx-border-width: 0 0 1 0; -fx-padding: 6 0 0 0;");
             questionsBox.getChildren().addAll(block, sep);
@@ -114,8 +125,8 @@ public class TeacherQuizDetailController {
         Stage owner = (Stage) questionsBox.getScene().getWindow();
         QuizEditorController.openForEdit(owner, quiz, updated -> {
             this.quiz = updated;
-            render(); // 상세 갱신
-            if (onUpdated != null) onUpdated.accept(updated); // 홈 갱신
+            render();
+            if (onUpdated != null) onUpdated.accept(updated);
         });
     }
 

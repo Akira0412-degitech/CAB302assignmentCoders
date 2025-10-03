@@ -9,16 +9,18 @@ import java.util.function.Consumer;
 
 public class QuestionItemController {
 
+
     @FXML private Label indexLabel;
     @FXML private TextField questionField;
     @FXML private TextField answer1;
     @FXML private TextField answer2;
     @FXML private TextField answer3;
     @FXML private TextField answer4;
+    @FXML private TextArea explanationArea;
 
     private int[] optionIds = new int[4];
 
-    // ★ New: Radio buttons for explicit correct selection
+
     @FXML private RadioButton rb1, rb2, rb3, rb4;
     private final ToggleGroup correctGroup = new ToggleGroup();
 
@@ -51,19 +53,21 @@ public class QuestionItemController {
         // Basic fx:id sanity checks
         assert indexLabel != null : "fx:id 'indexLabel' not injected";
         assert questionField != null : "fx:id 'questionField' not injected";
+        assert explanationArea != null : "fx:id 'explanationArea' not injected";
         assert answer1 != null : "fx:id 'answer1' not injected";
         assert answer2 != null : "fx:id 'answer2' not injected";
         assert answer3 != null : "fx:id 'answer3' not injected";
         assert answer4 != null : "fx:id 'answer4' not injected";
         assert rb1 != null && rb2 != null && rb3 != null && rb4 != null : "RadioButtons not injected";
 
-        // ★ ToggleGroup wiring
+
+        // ToggleGroup wiring
         rb1.setToggleGroup(correctGroup);
         rb2.setToggleGroup(correctGroup);
         rb3.setToggleGroup(correctGroup);
         rb4.setToggleGroup(correctGroup);
 
-        // ★ When radio selection changes, update correctIndex and highlight the chosen TextField
+        //  When radio selection changes, update correctIndex and highlight the chosen TextField
         correctGroup.selectedToggleProperty().addListener((obs, oldT, newT) -> {
             if (newT == rb1) correctIndex = 0;
             else if (newT == rb2) correctIndex = 1;
@@ -118,6 +122,16 @@ public class QuestionItemController {
         updateCorrectHighlight();
     }
 
+
+    public void setExplanationText(String text) {
+        if (explanationArea != null) {
+            explanationArea.setText(text == null ? "" : text);
+        }
+    }
+    public String getExplanationText() {
+        return explanationArea == null ? "" : safe(explanationArea.getText());
+    }
+
     /** Build model from current UI (validates). */
     public QuizQuestionCreate toQuestion() {
         String q = safe(questionField.getText());
@@ -134,6 +148,9 @@ public class QuestionItemController {
         QuizQuestionCreate question = new QuizQuestionCreate();
         question.setQuestion_id(this.questionId);
         question.setQuestionText(q);
+        //UI to explanation model
+        question.setExplanation(getExplanationText());
+
         String[] answers = {a1, a2, a3, a4};
         for (int i = 0; i < answers.length; i++) {
             QuizChoiceCreate choice = new QuizChoiceCreate(answers[i], i == correctIndex);

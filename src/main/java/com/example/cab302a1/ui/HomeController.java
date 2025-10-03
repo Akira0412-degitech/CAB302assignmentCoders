@@ -9,6 +9,7 @@ import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.result.QuizResultController;
 import com.example.cab302a1.result.QuizResultData;
 import com.example.cab302a1.service.QuizService;
+import com.example.cab302a1.shared.HiddenQuizRegistry;
 import com.example.cab302a1.util.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +30,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.layout.StackPane;
+import java.util.Optional;
 
 import com.example.cab302a1.components.NavigationManager;
 
@@ -54,6 +60,8 @@ public class HomeController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         // Register this page with NavigationManager for proper navigation history
         NavigationManager.getInstance().setCurrentPage(NavigationManager.Pages.HOME);
+
+
         
         // Set role-based page title
         setupPageTitle();
@@ -91,6 +99,7 @@ public class HomeController implements Initializable {
 
         // Create quiz cards
         for (Quiz q : quizzes) {
+            if (HiddenQuizRegistry.isHidden(q.getQuizId())) continue; //Hidden quiz not appear
             grid.getChildren().add(createQuizCard(q));
         }
 
@@ -106,36 +115,117 @@ public class HomeController implements Initializable {
 /**
      * Create a quiz card with basic styling and functionality
      */
-    private Button createQuizCard(Quiz quiz) {
-        Button card = new Button(quiz.getTitle());
-        card.getStyleClass().add("quiz-card");
-        card.setPrefSize(200, 150);  // Updated to prototype dimensions
-        card.setWrapText(true);
+    private javafx.scene.Node createQuizCard(Quiz quiz) {
+        Button cardBtn = new Button(quiz.getTitle());
+        cardBtn.getStyleClass().add("quiz-card");
+        cardBtn.setPrefSize(200, 150);  // Updated to prototype dimensions
+        cardBtn.setWrapText(true);
 
-        card.setOnAction(e -> {
+        // Check if this quiz is completed by the current student
+        if (Session.isStudent()) {
+            int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
+            AttemptDao attemptDao = new AttemptDao();
+            boolean isCompleted = attemptDao.hasCompleted(quiz.getQuizId(), userId);
+
+            if (isCompleted) {
+                // Add a style class for completed quizzes
+                cardBtn.getStyleClass().add("quiz-card-completed");
+            }
+        }
+
+        cardBtn.setOnAction(e -> {
             Stage owner = (Stage) grid.getScene().getWindow();
             handleQuizCardClick(owner, quiz);
         });
 
-        return card;
+        // StackPane - X button overlay
+        StackPane cardPane = new StackPane(cardBtn);
+        StackPane.setAlignment(cardBtn, Pos.CENTER);
+
+        if (Session.isTeacher()) {
+            Button closeBtn = new Button("×");
+            closeBtn.getStyleClass().add("delete-btn");
+            StackPane.setAlignment(closeBtn, Pos.TOP_LEFT);
+            StackPane.setMargin(closeBtn, new Insets(6, 0, 0, 6));
+            closeBtn.setOnAction(ev -> {
+                ev.consume();
+                onHideClicked(quiz, cardPane);
+            });
+            cardPane.getChildren().add(closeBtn);
+        }
+
+        return cardPane;
     }
 
+    private void onHideClicked(Quiz quiz, Node cardNode) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete this quiz?");
+        alert.setHeaderText("This quiz will be delete.");
+        ButtonType ok = new ButtonType("Delete", ButtonType.OK.getButtonData());
+        ButtonType cancel = ButtonType.CANCEL;
+        alert.getButtonTypes().setAll(ok, cancel);
 
+        Optional<ButtonType> res = alert.showAndWait();
+        if (res.isPresent() && res.get() == ok) {
+            HiddenQuizRegistry.hide(quiz.getQuizId());
+            grid.getChildren().remove(cardNode); // delete only in UI
+        }
+    }
 
 
     //When click - S or T using session
     private void handleQuizCardClick(Stage owner, Quiz quiz) {
+        if (HiddenQuizRegistry.isHidden(quiz.getQuizId())) {
+            new Alert(Alert.AlertType.INFORMATION,
+                    "This quiz is not available. Please choose another quiz.",
+                    ButtonType.OK).showAndWait();
+            return;
+        }
+
         if (Session.isStudent()) {
+            int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
+            int quizId = quiz.getQuizId();
+            AttemptDao attemptDao = new AttemptDao();
+
+            // Check if the student has already completed this quiz
+            if (attemptDao.hasCompleted(quizId, userId)) {
+                // Show the quiz result summary page instead of allowing retake
+                try {
+                    Integer score = attemptDao.getScore(quizId, userId);
+                    QuizService quizService = new QuizService();
+                    Quiz fullQuiz = quizService.loadQuizFully(quiz);
+                    int total = fullQuiz.getQuestions().size();
+
+                    FXMLLoader fxml = new FXMLLoader(getClass().getResource(
+                            "/com/example/cab302a1/result/QuizResult.fxml"));
+                    Parent root = fxml.load();
+                    QuizResultController rc = fxml.getController();
+
+                    rc.setQuizResult(new QuizResultData(
+                            score != null ? score : 0, total, fullQuiz.getTitle(), quizId, userId
+                    ));
+
+                    Scene resultScene = new Scene(root, 1000, 650);
+                    
+                    // Load CSS stylesheet
+                    java.net.URL cssUrl = getClass().getResource("/com/example/cab302a1/result/QuizResult.css");
+                    if (cssUrl != null) {
+                        resultScene.getStylesheets().add(cssUrl.toExternalForm());
+                    }
+                    
+                    owner.setScene(resultScene);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    new Alert(Alert.AlertType.ERROR, "Error loading quiz results: " + ex.getMessage(), ButtonType.OK).showAndWait();
+                }
+                return;
+            }
+
             // Quiz load
             QuizService quizService = new QuizService();
             Quiz fullQuiz = quizService.loadQuizFully(quiz);
 
-
             // Start attempt
-            int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
-            int quizId = fullQuiz.getQuizId();
-            AttemptDao attemptDao = new AttemptDao();
-
             int attemptId = attemptDao.startAttempt(quizId, userId);
             if (attemptId <= 0 /*|| !attemptDao.attemptExist(attemptId)*/) {
                 new Alert(Alert.AlertType.ERROR, "Failed to start attempt.", ButtonType.OK).showAndWait();

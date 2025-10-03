@@ -292,7 +292,7 @@ public class QuizEditorController {
         // Question to UI
         for (QuizQuestionCreate q : quiz.getQuestions()) {
             addQuestion(); // Empty card
-            QuestionItemController item = items.get(items.size() - 1); // 방금 추가된 마지막 카드
+            QuestionItemController item = items.get(items.size() - 1);
             item.setQuestionId(q.getQuestionId());
 
             item.setQuestionText(q.getQuestionText());
@@ -316,11 +316,16 @@ public class QuizEditorController {
                 if (texts[k] == null) texts[k] = "";
             }
 
+            //prefill
+            item.setExplanationText(q.getExplanation());
+
             item.setAnswerTexts(texts);
             item.setOptionIds(ids);
             if (correctIdx >= 0) {
                 item.setCorrectIndex(correctIdx);
             }
+            System.out.println("[prefill] qid=" + q.getQuestionId() + " exp=" + q.getExplanation());
+
         }
 
         refreshIndices();

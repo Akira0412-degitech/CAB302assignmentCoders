@@ -134,4 +134,23 @@ public class AttemptDao {
             e.printStackTrace();
         }
     }
+
+    public Integer getAttemptId(int _quiz_id, int _user_id){
+        String sql = "SELECT attempt_id FROM quiz_attempts WHERE is_completed = true AND quiz_id = ? AND answered_by = ? ORDER BY attempt_id DESC LIMIT 1";
+
+        try(Connection conn = DBconnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setInt(1, _quiz_id);
+            pstmt.setInt(2, _user_id);
+
+            try(ResultSet rs = pstmt.executeQuery()){
+                if(rs.next()){
+                    return rs.getInt("attempt_id");
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

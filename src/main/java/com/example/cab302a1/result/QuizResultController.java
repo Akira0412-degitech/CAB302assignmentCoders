@@ -1,6 +1,8 @@
 package com.example.cab302a1.result;
 
 import com.example.cab302a1.components.NavigationManager;
+import com.example.cab302a1.dao.AttemptDao;
+import com.example.cab302a1.ui.StudentResultDetailController;
 import com.example.cab302a1.util.Session;
 import com.example.cab302a1.model.User;
 import javafx.event.ActionEvent;
@@ -225,7 +227,7 @@ public class QuizResultController implements Initializable {
 
     /**
      * Handles the "View the answer" button click event.
-     * Delegates to the answer review handler if set, otherwise provides default behavior.
+     * Delegates to the answer review handler if set, otherwise opens the result detail page.
      *
      * @param event The action event triggered by clicking the button
      */
@@ -242,14 +244,31 @@ public class QuizResultController implements Initializable {
                 System.err.println("Error in answer review handler: " + e.getMessage());
                 e.printStackTrace();
             }
+        } else if (currentQuizResult != null) {
+            // Default behavior - open the result detail page
+            try {
+                Stage currentStage = (Stage) viewAnswerBtn.getScene().getWindow();
+                int quizId = currentQuizResult.getQuizId();
+                int userId = currentQuizResult.getUserId();
+                
+                // Get the attempt ID
+                AttemptDao attemptDao = new AttemptDao();
+                Integer attemptId = attemptDao.getAttemptId(quizId, userId);
+                
+                if (attemptId != null) {
+                    StudentResultDetailController.open(currentStage, quizId, attemptId, null);
+                    System.out.println("Opened result detail page for quiz " + quizId);
+                } else {
+                    System.err.println("No attempt found for quiz " + quizId + " and user " + userId);
+                    showPlaceholderMessage("No quiz attempt found");
+                }
+            } catch (Exception e) {
+                System.err.println("Error opening result detail page: " + e.getMessage());
+                e.printStackTrace();
+            }
         } else {
-            // Default behavior - placeholder for team integration
-            System.out.println("Answer review functionality not yet implemented");
-            System.out.println("Quiz data available: " + 
-                (currentQuizResult != null ? currentQuizResult.toJsonString() : "None"));
-            
-            // TODO: Replace with actual answer review navigation
-            showPlaceholderMessage("Answer review page will be connected here by team member");
+            System.out.println("No quiz result data available");
+            showPlaceholderMessage("No quiz data available");
         }
     }
 
