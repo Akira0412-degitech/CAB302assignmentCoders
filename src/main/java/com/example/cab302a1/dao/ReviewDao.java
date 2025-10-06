@@ -2,7 +2,6 @@ package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
 import com.example.cab302a1.model.QuizReview;
-import com.example.cab302a1.model.Student;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,36 +11,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewDao {
-    public List<QuizReview> getAllAttemptsById(int _user_id){
-        List<QuizReview> reviews =  new ArrayList<>();
+    public List<QuizReview> getAllAttemptsById(int _user_id) {
+        List<QuizReview> reviews = new ArrayList<>();
         ResponseDao responseDao = new ResponseDao();
-        String sql = "SELECT q.title, qa.score, qa.feedback, qa.attempt_id" +
-                        "FROM quiz_attempts qa " +
-                        "JOIN quizzes q ON qa.quiz_id = q.quiz_id " +
-                        "WHERE qa.answered_by = ?";
-        try(Connection conn = DBconnection.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
+
+        String sql = "SELECT qa.attempt_id, qa.quiz_id, qa.answered_by, q.title, qa.score, qa.feedback\n" +
+                "FROM quiz_attempts qa\n" +
+                "JOIN quizzes q ON qa.quiz_id = q.quiz_id\n" +
+                "WHERE qa.answered_by = ?\n";
+
+        try (Connection conn = DBconnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, _user_id);
 
-            try(ResultSet rs = pstmt.executeQuery()){
-                while(rs.next()){
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
                     int attemptId = rs.getInt("attempt_id");
-                    int QuestionNum = responseDao.calculateScoreFromResponses(attemptId);
+                    int quizId = rs.getInt("quiz_id");
+                    int score = rs.getInt("score");
+                    String feedback = rs.getString("feedback");
+                    String title = rs.getString("title");
+
+                    int totalQuestions = responseDao.calculateScoreFromResponses(attemptId);
 
                     QuizReview review = new QuizReview(
                             attemptId,
-                            rs.getString("title"),
-                            rs.getInt("score"),
-                            QuestionNum,
-                            rs.getString("feedback")
+                            quizId,
+                            _user_id,
+                            title,
+                            score,
+                            totalQuestions,
+                            feedback
                     );
+
                     reviews.add(review);
                 }
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return reviews;
     }
-
 }
