@@ -1,6 +1,7 @@
 package com.example.cab302a1.ui;
 
 import com.example.cab302a1.dao.ReviewDao;
+import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.UserDao;
 import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.Student;
@@ -40,6 +41,7 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
     private Stage stage;
 
     private final ReviewDao reviewDao = new ReviewDao();
+    private final AttemptDao attemptDao = new AttemptDao();
     private final UserDao userDao = new UserDao();
 
     private int currentSelectedStudentId = -1; // Tracks the ID of the student whose quizzes are displayed
@@ -110,17 +112,23 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
 
                     // 2. Call DAO to update the database
                     int attemptId = selectedQuiz.getAttemptId();
-                    boolean success = reviewDao.assignFeedback(attemptId, feedbackText);
 
-                    if (success) {
+                    try {
+                        // SWAP METHOD CALL: Use the AttemptDao and the team's method
+                        attemptDao.UpdateFeedback(attemptId, feedbackText);
+
                         // 3. Update the UI and inform the user
                         Alert successAlert = new Alert(Alert.AlertType.INFORMATION, "Feedback successfully assigned.");
                         successAlert.showAndWait();
 
                         // Reload the data to update the local QuizReview object with the new feedback
                         loadReviewData();
-                    } else {
-                        Alert errorAlert = new Alert(Alert.AlertType.ERROR, "Failed to assign feedback. Please check database connection.");
+                    } catch (Exception ex) {
+                        // Handle SQLException from UpdateFeedback
+                        System.err.println("Failed to assign feedback: " + ex.getMessage());
+                        ex.printStackTrace();
+                        Alert errorAlert = new Alert(Alert.AlertType.ERROR,
+                                "Failed to assign feedback. Error: " + ex.getMessage());
                         errorAlert.showAndWait();
                     }
                 });
