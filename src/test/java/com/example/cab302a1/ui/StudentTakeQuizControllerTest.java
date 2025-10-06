@@ -1,6 +1,8 @@
 package com.example.cab302a1.ui;
 
 import com.example.cab302a1.model.Quiz;
+import com.example.cab302a1.ui.Student.StudentQuestionItemController;
+import com.example.cab302a1.ui.Student.StudentTakeQuizController;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

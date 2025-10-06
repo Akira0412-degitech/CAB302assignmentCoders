@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TextField?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.cab302a1.ui.StudentQuestionItemController"
+      fx:controller="com.example.cab302a1.ui.Student.StudentQuestionItemController"
       spacing="12" style="-fx-padding: 16; -fx-background-color: #e3f2ff; -fx-background-radius: 10;">
     <!-- 01/02 -->
     <Label fx:id="indexLabel" text="01/02" style="-fx-font-weight: bold;"/>

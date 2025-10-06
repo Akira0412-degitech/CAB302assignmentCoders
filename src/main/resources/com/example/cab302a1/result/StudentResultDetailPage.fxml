@@ -8,7 +8,7 @@
 <?import javafx.scene.control.Separator?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.cab302a1.ui.StudentResultDetailController"
+            fx:controller="com.example.cab302a1.ui.Student.StudentResultDetailController"
             prefWidth="900.0" prefHeight="680.0" styleClass="result-detail-root">
 
     <center>

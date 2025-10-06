@@ -5,11 +5,13 @@ import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.ResponseDao;
 import com.example.cab302a1.model.QuestionResponse;
 import com.example.cab302a1.model.Quiz;
-import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.result.QuizResultController;
 import com.example.cab302a1.result.QuizResultData;
 import com.example.cab302a1.service.QuizService;
 import com.example.cab302a1.shared.HiddenQuizRegistry;
+import com.example.cab302a1.ui.Student.StudentTakeQuizController;
+import com.example.cab302a1.ui.Teacher.TeacherQuizDetailController;
+import com.example.cab302a1.ui.Teacher.TeacherQuizEditorController;
 import com.example.cab302a1.util.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,9 +28,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -37,9 +36,6 @@ import javafx.scene.layout.StackPane;
 import java.util.Optional;
 
 import com.example.cab302a1.components.NavigationManager;
-
-
-import com.example.cab302a1.DBconnection;
 
 /**
  * Shared controller for both Student and Teacher home.
@@ -330,7 +326,7 @@ public class HomeController implements Initializable {
     /** Open QuizEditor as a modal dialog; when saved, append to list and refresh UI. */
     private void openCreateQuizEditor() {
         Stage owner = (Stage) grid.getScene().getWindow();
-        QuizEditorController.open(owner, quiz -> {
+        TeacherQuizEditorController.open(owner, quiz -> {
             // Receive the created Quiz from the editor via callback
             quizzes.add(quiz);
             refresh(); // re-render grid with the new card

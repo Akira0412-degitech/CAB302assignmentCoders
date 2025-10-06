@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 
 <VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.cab302a1.ui.TeacherQuizDetailController"
+      fx:controller="com.example.cab302a1.ui.Teacher.TeacherQuizDetailController"
       spacing="10" prefWidth="560" prefHeight="480" style="-fx-padding: 14;">
     <Label text="Quiz Detail" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
 

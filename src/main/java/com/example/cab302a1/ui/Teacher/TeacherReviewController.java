@@ -1,4 +1,4 @@
-package com.example.cab302a1.ui;
+package com.example.cab302a1.ui.Teacher;
 
 import com.example.cab302a1.model.QuizReview;
 import javafx.collections.FXCollections;

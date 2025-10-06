@@ -1,7 +1,7 @@
 package com.example.cab302a1.ReviewPage;
 
 import com.example.cab302a1.model.QuizReview;
-import com.example.cab302a1.ui.TeacherReviewController;
+import com.example.cab302a1.ui.Teacher.TeacherReviewController;
 import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;

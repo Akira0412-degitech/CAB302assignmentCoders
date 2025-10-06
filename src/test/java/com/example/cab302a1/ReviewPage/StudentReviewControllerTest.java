@@ -1,9 +1,8 @@
 package com.example.cab302a1.ReviewPage;
 
 import com.example.cab302a1.model.QuizReview;
-import com.example.cab302a1.ui.StudentReviewController;
+import com.example.cab302a1.ui.Student.StudentReviewController;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
