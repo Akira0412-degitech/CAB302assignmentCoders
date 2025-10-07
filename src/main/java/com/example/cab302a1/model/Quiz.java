@@ -14,12 +14,12 @@ public class Quiz {
 
     private final List<QuizQuestionCreate> questions = new ArrayList<>();
 
-    public Quiz(int quiz_id, String title, String description, int created_by) {
+    public Quiz(int quiz_id, String title, String description, int created_by, boolean is_Hidden) {
         this.quiz_id = quiz_id;
         this.title = title;
         this.description = description;
         this.created_by = created_by;
-        this.is_Hidden = false;
+        this.is_Hidden = is_Hidden;
     }
 
     public Quiz(){
