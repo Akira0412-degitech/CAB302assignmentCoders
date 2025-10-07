@@ -94,3 +94,34 @@ Retrieves a single quiz from the database by its unique ID.
 **Returns**
 - A `Quiz` object populated with the quiz’s details if found.
 - `null` if no quiz exists with the given `quizId` or if an error occurs.
+
+## ⚙️ `public void updateQuizStatus(int quizId, boolean isHidden)`
+
+**Purpose**  
+Updates the visibility status (`is_Hidden`) of a quiz in the database.
+
+**Behavior**
+- Executes an `UPDATE` statement on the `quizzes` table to change the `is_Hidden` column.
+- When `isHidden = true`, the quiz becomes hidden from users.
+- When `isHidden = false`, the quiz becomes visible again.
+- This operation does **not** modify other fields such as `title`, `description`, or `created_by`.
+
+**Parameters**  
+
+- `quizId` - `int` The unique ID of the quiz to update. 
+- `isHidden` - `boolean`   
+`true` to hide the quiz,  
+`false` to unhide it.  
+
+**Returns**
+- Nothing (`void`).
+
+**Example Usage**
+```java
+QuizDao dao = new QuizDao();
+
+// Hide a quiz
+dao.updateQuizStatus(5, true);
+
+// Unhide a quiz
+dao.updateQuizStatus(5, false);

@@ -96,7 +96,8 @@ public class QuizDao {
         return null;
     }
 
-    public void UpdateQuizHidden(int _quizId, boolean _IsHidden){
+
+    public void UpdateQuizStatus(int _quizId, boolean _IsHidden){
         String sql = "UPDATE quizzes SET is_Hidden = ? WHERE quiz_id = ?";
 
         try(Connection conn = DBconnection.getConnection();
