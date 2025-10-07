@@ -12,7 +12,7 @@ public class QuizDao {
     public List<Quiz> getAllQuizzes(){
         List<Quiz> quizzes = new ArrayList<>();
 
-        String sql = "SELECT quiz_id, title, description, created_by FROM quizzes";
+        String sql = "SELECT quiz_id, title, description, created_by, is_Hidden FROM quizzes";
 
         try(Connection conn = DBconnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -22,7 +22,8 @@ public class QuizDao {
                 Quiz q = new Quiz(rs.getInt("quiz_id"),
                         rs.getString("title"),
                         rs.getString("description"),
-                        rs.getInt("created_by"));
+                        rs.getInt("created_by"),
+                        rs.getBoolean("is_Hidden"));
                 quizzes.add(q);
             }
 
@@ -83,7 +84,8 @@ public class QuizDao {
                             rs.getInt("quiz_id"),
                             rs.getString("title"),
                             rs.getString("description"),
-                            rs.getInt("created_by")
+                            rs.getInt("created_by"),
+                            rs.getBoolean("is_Hidden")
                     );
 
                 }
