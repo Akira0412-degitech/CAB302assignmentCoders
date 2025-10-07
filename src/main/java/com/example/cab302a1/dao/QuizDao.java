@@ -34,7 +34,7 @@ public class QuizDao {
     }
 
     public int insertQuiz(Quiz _quiz){
-        String sql = "INSERT INTO quizzes (title, description, created_by) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO quizzes (title, description, created_by, is_Hidden) VALUES (?, ?, ?, False)";
 
         try(Connection conn =DBconnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
@@ -94,5 +94,20 @@ public class QuizDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void UpdateQuizHidden(int _quizId, boolean _IsHidden){
+        String sql = "UPDATE quizzes SET is_Hidden = ? WHERE quiz_id = ?";
+
+        try(Connection conn = DBconnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+            {
+                pstmt.setBoolean(1, _IsHidden);
+                pstmt.setInt(2, _quizId);
+                pstmt.executeUpdate();
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 }
