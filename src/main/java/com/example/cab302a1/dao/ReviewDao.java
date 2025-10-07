@@ -14,6 +14,7 @@ public class ReviewDao {
     public List<QuizReview> getAllAttemptsById(int _user_id) {
         List<QuizReview> reviews = new ArrayList<>();
         ResponseDao responseDao = new ResponseDao();
+        QuestionDao questionDao = new QuestionDao();
 
         String sql = "SELECT qa.attempt_id, qa.quiz_id, qa.answered_by, q.title, qa.score, qa.feedback\n" +
                 "FROM quiz_attempts qa\n" +
@@ -32,7 +33,7 @@ public class ReviewDao {
                     String feedback = rs.getString("feedback");
                     String title = rs.getString("title");
 
-                    int totalQuestions = responseDao.calculateScoreFromResponses(attemptId);
+                    int totalQuestions = questionDao.getNumQuestion(quizId);
 
                     QuizReview review = new QuizReview(
                             attemptId,
