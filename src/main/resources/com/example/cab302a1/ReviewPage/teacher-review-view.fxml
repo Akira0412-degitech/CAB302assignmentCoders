@@ -6,7 +6,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.cab302a1.ui.TeacherReviewController"
+            fx:controller="com.example.cab302a1.ui.Teacher.TeacherReviewController"
             prefWidth="1200" prefHeight="700"
             stylesheets="@../styles.css">
 
