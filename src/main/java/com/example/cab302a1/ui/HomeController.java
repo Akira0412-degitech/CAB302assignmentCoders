@@ -245,28 +245,10 @@ public class HomeController implements Initializable {
                     Integer score = attemptDao.getScore(quizId, userId);
                     int total = fullQuiz.getQuestions().size();
 
-                    FXMLLoader fxml = new FXMLLoader(getClass().getResource(
-                            "/com/example/cab302a1/result/QuizResult.fxml"));
-                    Parent root = fxml.load();
-                    QuizResultController rc = fxml.getController();
-
-                    rc.setQuizResult(new com.example.cab302a1.result.QuizResultData(
-                            score != null ? score : 0, total, fullQuiz.getTitle(), quizId, userId
-                    ));
-
-                    Scene resultScene = new Scene(root, 1000, 650);
-                    
-                    // Load CSS stylesheet - this was missing and causing the styling issue
-                    java.net.URL cssUrl = getClass().getResource("/com/example/cab302a1/result/QuizResult.css");
-                    if (cssUrl != null) {
-                        resultScene.getStylesheets().add(cssUrl.toExternalForm());
-                        System.out.println("Quiz result CSS loaded successfully after quiz completion");
-                    } else {
-                        System.err.println("Warning: Quiz result CSS not found");
-                    }
-                    
-                    owner.setScene(resultScene);
-
+                    ServiceRegistry.nav().toQuizResult(owner,
+                            new com.example.cab302a1.result.QuizResultData(
+                                    score != null ? score : 0, total, fullQuiz.getTitle(), quizId, userId
+                            ));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     new Alert(Alert.AlertType.ERROR, "Failed to submit quiz. " + ex.getMessage(), ButtonType.OK).showAndWait();
