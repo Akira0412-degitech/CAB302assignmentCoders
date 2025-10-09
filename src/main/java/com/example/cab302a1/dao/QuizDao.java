@@ -12,7 +12,7 @@ public class QuizDao {
     public List<Quiz> getAllQuizzes(){
         List<Quiz> quizzes = new ArrayList<>();
 
-        String sql = "SELECT quiz_id, title, description, created_by FROM quizzes";
+        String sql = "SELECT quiz_id, title, description, created_by, is_Hidden FROM quizzes";
 
         try(Connection conn = DBconnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -22,7 +22,8 @@ public class QuizDao {
                 Quiz q = new Quiz(rs.getInt("quiz_id"),
                         rs.getString("title"),
                         rs.getString("description"),
-                        rs.getInt("created_by"));
+                        rs.getInt("created_by"),
+                        rs.getBoolean("is_Hidden"));
                 quizzes.add(q);
             }
 
@@ -33,7 +34,7 @@ public class QuizDao {
     }
 
     public int insertQuiz(Quiz _quiz){
-        String sql = "INSERT INTO quizzes (title, description, created_by) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO quizzes (title, description, created_by, is_Hidden) VALUES (?, ?, ?, False)";
 
         try(Connection conn =DBconnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
@@ -83,7 +84,8 @@ public class QuizDao {
                             rs.getInt("quiz_id"),
                             rs.getString("title"),
                             rs.getString("description"),
-                            rs.getInt("created_by")
+                            rs.getInt("created_by"),
+                            rs.getBoolean("is_Hidden")
                     );
 
                 }
@@ -92,5 +94,21 @@ public class QuizDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public void UpdateQuizStatus(int _quizId, boolean _IsHidden){
+        String sql = "UPDATE quizzes SET is_Hidden = ? WHERE quiz_id = ?";
+
+        try(Connection conn = DBconnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)){
+            {
+                pstmt.setBoolean(1, _IsHidden);
+                pstmt.setInt(2, _quizId);
+                pstmt.executeUpdate();
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 }
