@@ -38,10 +38,7 @@ import java.util.Optional;
 
 import com.example.cab302a1.components.NavigationManager;
 
-/**
- * Shared controller for both Student and Teacher home.
- * Behavior (read-only vs. editable) is toggled by UserRole.
- */
+//Shared controller for both Student and Teacher home. Behavior (read-only vs. editable) is toggled by UserRole.
 public class HomeController implements Initializable {
 
     @FXML
@@ -170,7 +167,7 @@ public class HomeController implements Initializable {
     }
 
 
-    //When click - S or T using session
+    //When click - S or T using session (Refactoring Completed)
     private void handleQuizCardClick(Stage owner, Quiz quiz) {
         if (HiddenQuizRegistry.isHidden(quiz.getQuizId())) {
             new Alert(Alert.AlertType.INFORMATION,
