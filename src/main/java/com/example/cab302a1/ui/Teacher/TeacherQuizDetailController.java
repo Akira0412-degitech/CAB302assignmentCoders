@@ -1,4 +1,4 @@
-package com.example.cab302a1.ui;
+package com.example.cab302a1.ui.Teacher;
 
 import com.example.cab302a1.dao.OptionDao;
 import com.example.cab302a1.dao.QuestionDao;
@@ -123,7 +123,7 @@ public class TeacherQuizDetailController {
     @FXML
     private void onEdit() {
         Stage owner = (Stage) questionsBox.getScene().getWindow();
-        QuizEditorController.openForEdit(owner, quiz, updated -> {
+        TeacherQuizEditorController.openForEdit(owner, quiz, updated -> {
             this.quiz = updated;
             render();
             if (onUpdated != null) onUpdated.accept(updated);

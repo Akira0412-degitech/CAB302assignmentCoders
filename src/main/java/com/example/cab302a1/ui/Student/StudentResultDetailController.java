@@ -1,6 +1,5 @@
-package com.example.cab302a1.ui;
+package com.example.cab302a1.ui.Student;
 
-import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.OptionDao;
 import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.QuizDao;
@@ -9,6 +8,7 @@ import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.result.ResultDetail;
 import com.example.cab302a1.result.ResultQuestion;
 import com.example.cab302a1.service.QuizResultDetailService;
+import com.example.cab302a1.ui.ResultQuestionItemController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -22,7 +22,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -3,6 +3,7 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.model.QuizQuestionCreate;
+import com.example.cab302a1.ui.Teacher.TeacherQuizEditorController;
 import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -14,7 +15,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class QuizEditorControllerTest {
+class TeacherQuizEditorControllerTest {
 
     @BeforeAll
     static void initToolkit() {
@@ -34,7 +35,7 @@ class QuizEditorControllerTest {
 
     @Test
     void buildQuiz_throws_whenTitleEmpty() throws Exception {
-        QuizEditorController c = new QuizEditorController();
+        TeacherQuizEditorController c = new TeacherQuizEditorController();
         set(c, "titleField", new TextField(""));
         set(c, "descArea", new TextArea("desc"));
         // empty items list
@@ -44,7 +45,7 @@ class QuizEditorControllerTest {
 
     @Test
     void buildQuiz_throws_whenNoQuestions() throws Exception {
-        QuizEditorController c = new QuizEditorController();
+        TeacherQuizEditorController c = new TeacherQuizEditorController();
         set(c, "titleField", new TextField("T"));
         set(c, "descArea", new TextArea("D"));
 
@@ -59,7 +60,7 @@ class QuizEditorControllerTest {
 
     @Test
     void buildQuiz_success_withStubItem() throws Exception {
-        QuizEditorController c = new QuizEditorController();
+        TeacherQuizEditorController c = new TeacherQuizEditorController();
         set(c, "titleField", new TextField("My Quiz"));
         set(c, "descArea", new TextArea("About..."));
 
@@ -75,9 +76,9 @@ class QuizEditorControllerTest {
         assertEquals(4, q.getQuestions().get(0).getChoices().size());
     }
 
-    private static Quiz invokeBuild(QuizEditorController c) {
+    private static Quiz invokeBuild(TeacherQuizEditorController c) {
         try {
-            Method m = QuizEditorController.class.getDeclaredMethod("buildQuizFromUI");
+            Method m = TeacherQuizEditorController.class.getDeclaredMethod("buildQuizFromUI");
             m.setAccessible(true);
             return (Quiz) m.invoke(c);
         } catch (java.lang.reflect.InvocationTargetException e) {

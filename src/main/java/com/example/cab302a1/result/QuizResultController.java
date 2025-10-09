@@ -2,7 +2,7 @@ package com.example.cab302a1.result;
 
 import com.example.cab302a1.components.NavigationManager;
 import com.example.cab302a1.dao.AttemptDao;
-import com.example.cab302a1.ui.StudentResultDetailController;
+import com.example.cab302a1.ui.Student.StudentResultDetailController;
 import com.example.cab302a1.util.Session;
 import com.example.cab302a1.model.User;
 import javafx.event.ActionEvent;

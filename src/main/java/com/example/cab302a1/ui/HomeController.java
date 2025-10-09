@@ -5,11 +5,14 @@ import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.ResponseDao;
 import com.example.cab302a1.model.QuestionResponse;
 import com.example.cab302a1.model.Quiz;
-import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.result.QuizResultController;
 import com.example.cab302a1.result.QuizResultData;
 import com.example.cab302a1.service.QuizService;
 import com.example.cab302a1.shared.HiddenQuizRegistry;
+import com.example.cab302a1.shared.ServiceRegistry;
+import com.example.cab302a1.ui.Student.StudentTakeQuizController;
+import com.example.cab302a1.ui.Teacher.TeacherQuizDetailController;
+import com.example.cab302a1.ui.Teacher.TeacherQuizEditorController;
 import com.example.cab302a1.util.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -187,96 +190,58 @@ public class HomeController implements Initializable {
             int quizId = quiz.getQuizId();
             AttemptDao attemptDao = new AttemptDao();
 
-            // Check if the student has already completed this quiz
+            // If already completed the quiz, go to the results page
             if (attemptDao.hasCompleted(quizId, userId)) {
-                // Show the quiz result summary page instead of allowing retake
-                try {
-                    Integer score = attemptDao.getScore(quizId, userId);
-                    QuizService quizService = new QuizService();
-                    Quiz fullQuiz = quizService.loadQuizFully(quiz);
-                    int total = fullQuiz.getQuestions().size();
+                Integer score = attemptDao.getScore(quizId, userId);
+                QuizService quizService = new QuizService();
+                Quiz fullQuiz = quizService.loadQuizFully(quiz);
+                int total = fullQuiz.getQuestions().size();
 
-                    FXMLLoader fxml = new FXMLLoader(getClass().getResource(
-                            "/com/example/cab302a1/result/QuizResult.fxml"));
-                    Parent root = fxml.load();
-                    QuizResultController rc = fxml.getController();
-
-                    rc.setQuizResult(new QuizResultData(
-                            score != null ? score : 0, total, fullQuiz.getTitle(), quizId, userId
-                    ));
-
-                    Scene resultScene = new Scene(root, 1000, 650);
-                    
-                    // Load CSS stylesheet
-                    java.net.URL cssUrl = getClass().getResource("/com/example/cab302a1/result/QuizResult.css");
-                    if (cssUrl != null) {
-                        resultScene.getStylesheets().add(cssUrl.toExternalForm());
-                    }
-                    
-                    owner.setScene(resultScene);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    new Alert(Alert.AlertType.ERROR, "Error loading quiz results: " + ex.getMessage(), ButtonType.OK).showAndWait();
-                }
+                ServiceRegistry.nav().toQuizResult(owner,
+                        new com.example.cab302a1.result.QuizResultData(
+                                score != null ? score : 0, total, fullQuiz.getTitle(), quizId, userId
+                        ));
                 return;
             }
 
-            // Quiz load
-            QuizService quizService = new QuizService();
-            Quiz fullQuiz = quizService.loadQuizFully(quiz);
-
-            // Start attempt
+            // If incomplete, start attempt → Open quiz screen
             int attemptId = attemptDao.startAttempt(quizId, userId);
-            if (attemptId <= 0 /*|| !attemptDao.attemptExist(attemptId)*/) {
+            if (attemptId <= 0) {
                 new Alert(Alert.AlertType.ERROR, "Failed to start attempt.", ButtonType.OK).showAndWait();
                 return;
             }
 
+            QuizService quizService = new QuizService();
+            Quiz fullQuiz = quizService.loadQuizFully(quiz);
 
-            // Quiz open
-            StudentTakeQuizController.open(owner, fullQuiz, selections -> {
+            ServiceRegistry.nav().toStudentTakeQuiz(owner, fullQuiz, selections -> {
                 try {
-                    java.util.List<QuestionResponse> responses = new java.util.ArrayList<>();
-
-                    java.util.List<com.example.cab302a1.model.QuizQuestionCreate> questions = fullQuiz.getQuestions();
+                    List<QuestionResponse> responses = new ArrayList<>();
+                    var questions = fullQuiz.getQuestions();
                     for (int i = 0; i < questions.size(); i++) {
-                        int selectedIndex = (i < selections.size() ? selections.get(i) : -1);
-                        if (selectedIndex < 0) {
-                            continue; // Not selected answer ignore
-                        }
+                        int idx = (i < selections.size()) ? selections.get(i) : -1;
+                        if (idx < 0) continue;
 
-                        com.example.cab302a1.model.QuizQuestionCreate q = questions.get(i);
-                        java.util.List<com.example.cab302a1.model.QuizChoiceCreate> choices = q.getChoices();
-                        if (selectedIndex >= choices.size()) continue;
+                        var q = questions.get(i);
+                        var choices = q.getChoices();
+                        if (idx >= choices.size()) continue;
 
-                        com.example.cab302a1.model.QuizChoiceCreate chosen = choices.get(selectedIndex);
-
-
+                        var chosen = choices.get(idx);
                         QuestionResponse r = new QuestionResponse();
                         r.setAttempt_id(attemptId);
                         r.setQuestion_id(q.getQuestionId());
                         r.setOption_id(chosen.getOption_id());
                         r.setIs_correct(chosen.isCorrect());
-
                         responses.add(r);
                     }
-
-                    // not selected anything message -> need to imporve
                     if (responses.isEmpty()) {
-                        new javafx.scene.control.Alert(
-                                javafx.scene.control.Alert.AlertType.WARNING,
-                                "Please select at least one answer before submitting."
-                        ).showAndWait();
+                        new Alert(Alert.AlertType.WARNING, "Please select at least one answer.").showAndWait();
                         return;
                     }
 
-                    //using DAO
                     new ResponseDao().saveResponse(attemptId, responses);
-
-                    // end attempt
                     attemptDao.endAttempt(attemptId);
 
-                    //result page prep
                     Integer score = attemptDao.getScore(quizId, userId);
                     int total = fullQuiz.getQuestions().size();
 
@@ -304,17 +269,13 @@ public class HomeController implements Initializable {
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    new javafx.scene.control.Alert(
-                            javafx.scene.control.Alert.AlertType.ERROR,
-                            "Failed to submit quiz. " + ex.getMessage()
-                    ).showAndWait();
+                    new Alert(Alert.AlertType.ERROR, "Failed to submit quiz. " + ex.getMessage(), ButtonType.OK).showAndWait();
                 }
             });
-
-
-        } else {
-            TeacherQuizDetailController.open(owner, quiz, updated -> refresh());
+            return;
         }
+
+        TeacherQuizDetailController.open(owner, quiz, updated -> refresh());
     }
 
 
@@ -330,7 +291,7 @@ public class HomeController implements Initializable {
     /** Open QuizEditor as a modal dialog; when saved, append to list and refresh UI. */
     private void openCreateQuizEditor() {
         Stage owner = (Stage) grid.getScene().getWindow();
-        QuizEditorController.open(owner, quiz -> {
+        TeacherQuizEditorController.open(owner, quiz -> {
             // Receive the created Quiz from the editor via callback
             quizzes.add(quiz);
             refresh(); // re-render grid with the new card

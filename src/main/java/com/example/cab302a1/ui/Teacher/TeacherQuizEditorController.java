@@ -1,4 +1,4 @@
-package com.example.cab302a1.ui;
+package com.example.cab302a1.ui.Teacher;
 
 /*
  * Purpose:
@@ -18,6 +18,7 @@ import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizQuestionCreate;
+import com.example.cab302a1.ui.QuestionItemController;
 import com.example.cab302a1.util.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,7 +37,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import com.example.cab302a1.model.QuizChoiceCreate;
 
-public class QuizEditorController {
+public class TeacherQuizEditorController {
 
     @FXML private TextField titleField;
     @FXML private TextArea descArea;
@@ -222,11 +223,11 @@ public class QuizEditorController {
     public static void open(Stage owner, Consumer<Quiz> onSave) {
         try {
             URL url = Objects.requireNonNull(
-                    QuizEditorController.class.getResource("/com/example/cab302a1/TeacherQuizPage/TeacherQuizEditor.fxml"));
+                    TeacherQuizEditorController.class.getResource("/com/example/cab302a1/TeacherQuizPage/TeacherQuizEditor.fxml"));
             FXMLLoader loader = new FXMLLoader(url);
             var root = loader.load();
 
-            QuizEditorController c = loader.getController();
+            TeacherQuizEditorController c = loader.getController();
             c.setOnSave(onSave);
 
             Stage dialog = new Stage();
@@ -236,8 +237,8 @@ public class QuizEditorController {
             dialog.setScene(new Scene((Parent) root, 900, 640));
 
             // Attach shared CSS if present
-            var css1 = QuizEditorController.class.getResource("/HomePage.css");
-            var css2 = QuizEditorController.class.getResource("/com/example/cab302a1/HomePage.css");
+            var css1 = TeacherQuizEditorController.class.getResource("/HomePage.css");
+            var css2 = TeacherQuizEditorController.class.getResource("/com/example/cab302a1/HomePage.css");
             if (css1 != null) dialog.getScene().getStylesheets().add(css1.toExternalForm());
             else if (css2 != null) dialog.getScene().getStylesheets().add(css2.toExternalForm());
 
@@ -252,11 +253,11 @@ public class QuizEditorController {
     public static void openForEdit(Stage owner, Quiz quiz, Consumer<Quiz> onSave) {
         try {
             URL url = Objects.requireNonNull(
-                    QuizEditorController.class.getResource("/com/example/cab302a1/TeacherQuizPage/TeacherQuizEditor.fxml"));
+                    TeacherQuizEditorController.class.getResource("/com/example/cab302a1/TeacherQuizPage/TeacherQuizEditor.fxml"));
             FXMLLoader loader = new FXMLLoader(url);
             var root = loader.load();
 
-            QuizEditorController c = loader.getController();
+            TeacherQuizEditorController c = loader.getController();
             c.setOnSave(onSave);
             c.editing = quiz;
             c.setStage(new Stage());
@@ -267,8 +268,8 @@ public class QuizEditorController {
             dialog.setTitle("Edit Quiz");
             dialog.setScene(new Scene((Parent) root, 900, 640));
 
-            var css1 = QuizEditorController.class.getResource("/HomePage.css");
-            var css2 = QuizEditorController.class.getResource("/com/example/cab302a1/HomePage.css");
+            var css1 = TeacherQuizEditorController.class.getResource("/HomePage.css");
+            var css2 = TeacherQuizEditorController.class.getResource("/com/example/cab302a1/HomePage.css");
             if (css1 != null) dialog.getScene().getStylesheets().add(css1.toExternalForm());
             else if (css2 != null) dialog.getScene().getStylesheets().add(css2.toExternalForm());
 

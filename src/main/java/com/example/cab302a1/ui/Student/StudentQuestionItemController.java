@@ -1,4 +1,4 @@
-package com.example.cab302a1.ui;
+package com.example.cab302a1.ui.Student;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
