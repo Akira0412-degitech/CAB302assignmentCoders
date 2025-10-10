@@ -5,7 +5,6 @@ import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.ResponseDao;
 import com.example.cab302a1.model.QuestionResponse;
 import com.example.cab302a1.model.Quiz;
-import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.result.QuizResultController;
 import com.example.cab302a1.result.QuizResultData;
 import com.example.cab302a1.service.QuizService;
@@ -26,21 +25,13 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import java.util.Optional;
-import java.sql.ResultSet;
-
 import com.example.cab302a1.components.NavigationManager;
 
-
-import com.example.cab302a1.DBconnection;
 
 /**
  * Shared controller for both Student and Teacher home.
@@ -113,6 +104,8 @@ public class HomeController implements Initializable {
 /**
      * Create a quiz card with basic styling and functionality
      */
+
+    //Refactoring needs? cuz Code title weired
     private javafx.scene.Node createQuizCard(Quiz quiz) {
         Button cardBtn = new Button(quiz.getTitle());
         cardBtn.getStyleClass().add("quiz-card");
@@ -131,6 +124,7 @@ public class HomeController implements Initializable {
             }
         }
 
+
         cardBtn.setOnAction(e -> {
             Stage owner = (Stage) grid.getScene().getWindow();
             handleQuizCardClick(owner, quiz);
@@ -139,6 +133,15 @@ public class HomeController implements Initializable {
         // StackPane - X button overlay
         StackPane cardPane = new StackPane(cardBtn);
         StackPane.setAlignment(cardBtn, Pos.CENTER);
+
+
+        if (Session.isStudent()) {
+            HoverInfoButton infoBtn = HoverInfoButton.of(() -> buildQuizInfoText(quiz));
+
+            StackPane.setAlignment(infoBtn, Pos.TOP_RIGHT);
+            StackPane.setMargin(infoBtn, new Insets(6, 6, 0, 0));
+            cardPane.getChildren().add(infoBtn);
+        }
 
         if (Session.isTeacher()) {
             Button closeBtn = new Button("×");
@@ -351,6 +354,36 @@ public class HomeController implements Initializable {
         Alert a = new Alert(Alert.AlertType.WARNING, msg, ButtonType.OK);
         a.setHeaderText(null);
         a.showAndWait();
+    }
+
+
+    //QuizInfoText
+    private String buildQuizInfoText(Quiz quiz) {
+        // 1) Tutor username
+        String teacher = (quiz.getAuthorUsername() != null && !quiz.getAuthorUsername().isBlank())
+                ? quiz.getAuthorUsername()
+                : "Unknown";
+
+        // 2) Q Number
+        int questionCount = 0;
+        try {
+            QuizService qs = new QuizService();
+            Quiz full = qs.loadQuizFully(quiz);
+            if (full.getQuestions() != null) {
+                questionCount = full.getQuestions().size();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // 3) description
+        String desc = (quiz.getDescription() == null || quiz.getDescription().isBlank())
+                ? "(No description)"
+                : quiz.getDescription();
+
+        return "Tutor: " + teacher + "\n" +
+                "Questions: " + questionCount + "\n" +
+                "Description: " + desc;
     }
 
 }

@@ -12,7 +12,11 @@ public class QuizDao {
     public List<Quiz> getAllQuizzes(){
         List<Quiz> quizzes = new ArrayList<>();
 
-        String sql = "SELECT quiz_id, title, description, created_by, is_Hidden FROM quizzes";
+        // add for info (need to double check)
+        String sql = "SELECT quiz_id, title, description, created_by, is_Hidden, " +
+                "username AS author_username " +
+                "FROM quizzes " +
+                "LEFT JOIN users ON users.user_id = quizzes.created_by";
 
         try(Connection conn = DBconnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -24,6 +28,7 @@ public class QuizDao {
                         rs.getString("description"),
                         rs.getInt("created_by"),
                         rs.getBoolean("is_Hidden"));
+                q.setAuthorUsername(rs.getString("author_username"));
                 quizzes.add(q);
             }
 
