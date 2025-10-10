@@ -30,26 +30,26 @@ public interface QuizDao {
      * @param quiz the Quiz object to insert
      * @return the generated quiz ID, or -1 if failed
      */
-     int insertQuiz(Quiz _quiz);
+     int insertQuiz(Quiz quiz);
 
     /**
      * Update an existing quiz’s title and description.
      * @param quiz the Quiz object with updated data
      */
-     void updateQuiz(Quiz _quiz);
+     void updateQuiz(Quiz quiz);
 
     /**
      * Find a specific quiz by its ID.
-     * @param quizId the unique ID of the quiz
+     * @param quiz_id the unique ID of the quiz
      * @return the Quiz object, or null if not found
      */
-    Quiz getQuizById(int _quiz_id);
+    Quiz getQuizById(int quiz_id);
 
     /**
      * Update the “is_Hidden” flag of a quiz.
      * @param quizId the ID of the quiz
-     * @param isHidden true if the quiz should be hidden
+     * @param IsHidden true if the quiz should be hidden
      */
-    public void updateQuizStatus(int _quizId, boolean _IsHidden);
+    public void updateQuizStatus(int quizId, boolean IsHidden);
 
 }

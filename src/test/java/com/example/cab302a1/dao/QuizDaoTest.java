@@ -33,7 +33,7 @@ public class QuizDaoTest {
         List<Quiz> result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new QuizDao().getAllQuizzes();
+            result = new JdbcQuizDao().getAllQuizzes();
         }
 
         // Assert
@@ -55,7 +55,7 @@ public class QuizDaoTest {
         List<Quiz> result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new QuizDao().getAllQuizzes();
+            result = new JdbcQuizDao().getAllQuizzes();
         }
 
         assertTrue(result.isEmpty());

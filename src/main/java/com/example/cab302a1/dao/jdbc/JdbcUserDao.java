@@ -189,7 +189,6 @@ public class JdbcUserDao implements UserDao {
                         }
                     }
                 }
-
             }
         }catch (SQLException e){
             e.printStackTrace();
