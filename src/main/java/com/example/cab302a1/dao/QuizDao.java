@@ -2,113 +2,54 @@ package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
 import com.example.cab302a1.model.Quiz;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuizDao {
+/**
+ * QuizDao defines the common data access operations
+ * that all Quiz DAO implementations must provide.
+ *
+ * It acts as a contract between the service layer and
+ * the actual database implementation (e.g. JdbcQuizDao).
+ */
+
+public interface QuizDao {
 
 
-    public List<Quiz> getAllQuizzes(){
-        List<Quiz> quizzes = new ArrayList<>();
+    /**
+     * Retrieve all quizzes from the database.
+     * @return a list of all quizzes
+     */
 
-        String sql = "SELECT quiz_id, title, description, created_by, is_Hidden FROM quizzes";
+    List<Quiz> getAllQuizzes();
 
-        try(Connection conn = DBconnection.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery()){
+    /**
+     * Insert a new quiz record into the database.
+     * @param quiz the Quiz object to insert
+     * @return the generated quiz ID, or -1 if failed
+     */
+     int insertQuiz(Quiz _quiz);
 
-            while (rs.next()){
-                Quiz q = new Quiz(rs.getInt("quiz_id"),
-                        rs.getString("title"),
-                        rs.getString("description"),
-                        rs.getInt("created_by"),
-                        rs.getBoolean("is_Hidden"));
-                quizzes.add(q);
-            }
+    /**
+     * Update an existing quiz’s title and description.
+     * @param quiz the Quiz object with updated data
+     */
+     void updateQuiz(Quiz _quiz);
 
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return quizzes;
-    }
+    /**
+     * Find a specific quiz by its ID.
+     * @param quizId the unique ID of the quiz
+     * @return the Quiz object, or null if not found
+     */
+    Quiz getQuizById(int _quiz_id);
 
-    public int insertQuiz(Quiz _quiz){
-        String sql = "INSERT INTO quizzes (title, description, created_by, is_Hidden) VALUES (?, ?, ?, False)";
+    /**
+     * Update the “is_Hidden” flag of a quiz.
+     * @param quizId the ID of the quiz
+     * @param isHidden true if the quiz should be hidden
+     */
+    public void updateQuizStatus(int _quizId, boolean _IsHidden);
 
-        try(Connection conn =DBconnection.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
-            pstmt.setString(1, _quiz.getTitle());
-            pstmt.setString(2, _quiz.getDescription());
-            pstmt.setInt(3, _quiz.getCreated_by());
-            pstmt.executeUpdate();
-
-            try(ResultSet rs = pstmt.getGeneratedKeys()){
-                if(rs.next()){
-                    return rs.getInt(1);
-                }
-            }
-
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return -1;
-    }
-
-    public void updateQuiz(Quiz _quiz) {
-        String sql = "UPDATE quizzes SET title = ?, description = ? WHERE quiz_id = ?";
-        try (Connection conn = DBconnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, _quiz.getTitle());
-            pstmt.setString(2, _quiz.getDescription());
-            pstmt.setInt(3, _quiz.getQuizId());
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public Quiz getQuizById(int _quiz_id){
-        String sql = "SELECT * FROM quizzes WHERE quiz_id = ?";
-
-        try(Connection conn = DBconnection.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
-
-            pstmt.setInt(1, _quiz_id);
-
-            try(ResultSet rs = pstmt.executeQuery()){
-                if(rs.next()){
-                    return new Quiz(
-                            rs.getInt("quiz_id"),
-                            rs.getString("title"),
-                            rs.getString("description"),
-                            rs.getInt("created_by"),
-                            rs.getBoolean("is_Hidden")
-                    );
-
-                }
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-
-    public void UpdateQuizStatus(int _quizId, boolean _IsHidden){
-        String sql = "UPDATE quizzes SET is_Hidden = ? WHERE quiz_id = ?";
-
-        try(Connection conn = DBconnection.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
-            {
-                pstmt.setBoolean(1, _IsHidden);
-                pstmt.setInt(2, _quizId);
-                pstmt.executeUpdate();
-            }
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
 }

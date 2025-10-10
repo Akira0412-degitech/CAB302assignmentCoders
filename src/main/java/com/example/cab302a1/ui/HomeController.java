@@ -3,6 +3,7 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.ResponseDao;
+import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
 import com.example.cab302a1.model.QuestionResponse;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizChoiceCreate;
@@ -93,7 +94,7 @@ public class HomeController implements Initializable {
     public void refresh() {
         grid.getChildren().clear();
         quizzes.clear();
-        QuizDao quizDao = new QuizDao();
+        QuizDao quizDao = new JdbcQuizDao();
 
         // Load all quizzes (only Visible)
         List<Quiz> all = quizDao.getAllQuizzes();
@@ -165,8 +166,8 @@ public class HomeController implements Initializable {
 
         Optional<ButtonType> res = alert.showAndWait();
         if (res.isPresent() && res.get() == ok) {
-            QuizDao dao = new QuizDao();
-            dao.UpdateQuizStatus(quiz.getQuizId(), true);
+            QuizDao dao = new JdbcQuizDao();
+            dao.updateQuizStatus(quiz.getQuizId(), true);
             grid.getChildren().remove(cardNode);
         }
     }
@@ -174,7 +175,7 @@ public class HomeController implements Initializable {
 
     //When click - S or T using session
     private void handleQuizCardClick(Stage owner, Quiz quiz) {
-        QuizDao dao = new QuizDao();
+        QuizDao dao = new JdbcQuizDao();
         Quiz latest = dao.getQuizById(quiz.getQuizId());
         if (latest != null && latest.getIsHidden()) {
             new Alert(Alert.AlertType.INFORMATION,

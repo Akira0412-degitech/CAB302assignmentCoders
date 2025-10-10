@@ -1,6 +1,7 @@
 package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
+import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
 import com.example.cab302a1.model.Quiz;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -62,7 +63,7 @@ public class QuizDaoTest {
 
     @Test
     void testInsertQuizSuccess() throws Exception {
-        QuizDao dao = new QuizDao();
+        QuizDao dao = new JdbcQuizDao();
         Quiz quiz = new Quiz();
         quiz.setTitle("New Quiz");
         quiz.setDescription("New Desc");
@@ -89,7 +90,7 @@ public class QuizDaoTest {
 
     @Test
     void testInsertQuizNoKeyReturned() throws Exception {
-        QuizDao dao = new QuizDao();
+        QuizDao dao = new JdbcQuizDao();
         Quiz quiz = new Quiz();
         quiz.setTitle("No Key Quiz");
         quiz.setDescription("Desc");
