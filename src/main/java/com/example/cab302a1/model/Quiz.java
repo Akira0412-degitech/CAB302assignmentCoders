@@ -31,6 +31,8 @@ public class Quiz {
     public String getDescription() { return description; }
     public int getCreated_by(){ return created_by;}
     public boolean getIsHidden(){return is_Hidden;}
+
+
     public List<QuizQuestionCreate> getQuestions() { return questions; }
 
     public void setQuizId(Integer _quizId){this.quiz_id = _quizId;}

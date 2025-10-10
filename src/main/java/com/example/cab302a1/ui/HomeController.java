@@ -9,7 +9,7 @@ import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.result.QuizResultController;
 import com.example.cab302a1.result.QuizResultData;
 import com.example.cab302a1.service.QuizService;
-import com.example.cab302a1.shared.HiddenQuizRegistry;
+
 import com.example.cab302a1.util.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +35,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import java.util.Optional;
+import java.sql.ResultSet;
 
 import com.example.cab302a1.components.NavigationManager;
 
@@ -94,21 +95,18 @@ public class HomeController implements Initializable {
         quizzes.clear();
         QuizDao quizDao = new QuizDao();
 
-        // Load all quizzes
-        quizzes.addAll(quizDao.getAllQuizzes());
-
-        // Create quiz cards
-        for (Quiz q : quizzes) {
-            if (HiddenQuizRegistry.isHidden(q.getQuizId())) continue; //Hidden quiz not appear
-            grid.getChildren().add(createQuizCard(q));
+        // Load all quizzes (only Visible)
+        List<Quiz> all = quizDao.getAllQuizzes();
+        for (Quiz q : all) {
+            if (!q.getIsHidden()) {           // IsHidden filtering
+                quizzes.add(q);
+                grid.getChildren().add(createQuizCard(q));
+            }
         }
 
-        // Add plus card for teachers
         if (Session.isTeacher()) {
             grid.getChildren().add(createPlusCard());
         }
-
-        // Update page title in case role changed
         setupPageTitle();
     }
 
@@ -157,7 +155,7 @@ public class HomeController implements Initializable {
         return cardPane;
     }
 
-    private void onHideClicked(Quiz quiz, Node cardNode) {
+    private void onHideClicked(Quiz quiz, javafx.scene.Node cardNode) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete this quiz?");
         alert.setHeaderText("This quiz will be delete.");
@@ -167,15 +165,18 @@ public class HomeController implements Initializable {
 
         Optional<ButtonType> res = alert.showAndWait();
         if (res.isPresent() && res.get() == ok) {
-            HiddenQuizRegistry.hide(quiz.getQuizId());
-            grid.getChildren().remove(cardNode); // delete only in UI
+            QuizDao dao = new QuizDao();
+            dao.UpdateQuizStatus(quiz.getQuizId(), true);
+            grid.getChildren().remove(cardNode);
         }
     }
 
 
     //When click - S or T using session
     private void handleQuizCardClick(Stage owner, Quiz quiz) {
-        if (HiddenQuizRegistry.isHidden(quiz.getQuizId())) {
+        QuizDao dao = new QuizDao();
+        Quiz latest = dao.getQuizById(quiz.getQuizId());
+        if (latest != null && latest.getIsHidden()) {
             new Alert(Alert.AlertType.INFORMATION,
                     "This quiz is not available. Please choose another quiz.",
                     ButtonType.OK).showAndWait();
