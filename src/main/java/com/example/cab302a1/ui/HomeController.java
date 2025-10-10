@@ -3,6 +3,7 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.ResponseDao;
+import com.example.cab302a1.dao.jdbc.JdbcAttemptDao;
 import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
 import com.example.cab302a1.model.QuestionResponse;
 import com.example.cab302a1.model.Quiz;
@@ -123,7 +124,7 @@ public class HomeController implements Initializable {
         // Check if this quiz is completed by the current student
         if (Session.isStudent()) {
             int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
-            AttemptDao attemptDao = new AttemptDao();
+            AttemptDao attemptDao = new JdbcAttemptDao();
             boolean isCompleted = attemptDao.hasCompleted(quiz.getQuizId(), userId);
 
             if (isCompleted) {
@@ -187,7 +188,7 @@ public class HomeController implements Initializable {
         if (Session.isStudent()) {
             int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
             int quizId = quiz.getQuizId();
-            AttemptDao attemptDao = new AttemptDao();
+            AttemptDao attemptDao = new JdbcAttemptDao();
 
             // Check if the student has already completed this quiz
             if (attemptDao.hasCompleted(quizId, userId)) {

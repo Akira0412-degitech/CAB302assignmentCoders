@@ -2,6 +2,7 @@ package com.example.cab302a1.result;
 
 import com.example.cab302a1.components.NavigationManager;
 import com.example.cab302a1.dao.AttemptDao;
+import com.example.cab302a1.dao.jdbc.JdbcAttemptDao;
 import com.example.cab302a1.ui.StudentResultDetailController;
 import com.example.cab302a1.util.Session;
 import com.example.cab302a1.model.User;
@@ -252,7 +253,7 @@ public class QuizResultController implements Initializable {
                 int userId = currentQuizResult.getUserId();
                 
                 // Get the attempt ID
-                AttemptDao attemptDao = new AttemptDao();
+                AttemptDao attemptDao = new JdbcAttemptDao();
                 Integer attemptId = attemptDao.getAttemptId(quizId, userId);
                 
                 if (attemptId != null) {

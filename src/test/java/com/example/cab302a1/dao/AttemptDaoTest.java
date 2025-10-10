@@ -1,6 +1,7 @@
 package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
+import com.example.cab302a1.dao.jdbc.JdbcAttemptDao;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
@@ -26,7 +27,7 @@ class AttemptDaoTest {
         int result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new AttemptDao().startAttempt(1, 10);
+            result = new JdbcAttemptDao().startAttempt(1, 10);
         }
 
         assertEquals(101, result);
@@ -46,7 +47,7 @@ class AttemptDaoTest {
         int result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new AttemptDao().startAttempt(1, 10);
+            result = new JdbcAttemptDao().startAttempt(1, 10);
         }
 
         assertEquals(-1, result);
@@ -66,7 +67,7 @@ class AttemptDaoTest {
         Integer result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new AttemptDao().getScore(1, 10);
+            result = new JdbcAttemptDao().getScore(1, 10);
         }
 
         assertNotNull(result);
@@ -86,7 +87,7 @@ class AttemptDaoTest {
         Integer result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new AttemptDao().getScore(1, 10);
+            result = new JdbcAttemptDao().getScore(1, 10);
         }
 
         assertNull(result);
@@ -107,7 +108,7 @@ class AttemptDaoTest {
         boolean result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new AttemptDao().hasCompleted(1, 10);
+            result = new JdbcAttemptDao().hasCompleted(1, 10);
         }
 
         assertTrue(result);
@@ -127,7 +128,7 @@ class AttemptDaoTest {
         boolean result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new AttemptDao().hasCompleted(1, 10);
+            result = new JdbcAttemptDao().hasCompleted(1, 10);
         }
 
         assertFalse(result);

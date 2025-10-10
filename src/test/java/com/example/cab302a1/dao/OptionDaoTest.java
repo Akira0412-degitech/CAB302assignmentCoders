@@ -1,6 +1,7 @@
 package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
+import com.example.cab302a1.dao.jdbc.JdbcOptionDao;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
@@ -39,7 +40,7 @@ class OptionDaoTest {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
             // Act
-            newId = new OptionDao().insertOption(choice);
+            newId = new JdbcOptionDao().insertOption(choice);
         }
 
         // Assert
@@ -66,7 +67,7 @@ class OptionDaoTest {
         int newId;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            newId = new OptionDao().insertOption(choice);
+            newId = JdbcOptionDao().insertOption(choice);
         }
 
         assertEquals(-1, newId);
@@ -98,7 +99,7 @@ class OptionDaoTest {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
             // Act
-            result = new OptionDao().getOptionsByQuestionId(questionId);
+            result = JdbcOptionDao().getOptionsByQuestionId(questionId);
         }
 
         // Assert
@@ -128,7 +129,7 @@ class OptionDaoTest {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
             // Act
-            result = new OptionDao().getOptionsByQuestionId(999);
+            result = JdbcOptionDao().getOptionsByQuestionId(999);
         }
 
         // Assert
