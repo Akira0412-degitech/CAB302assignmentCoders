@@ -1,6 +1,7 @@
 package com.example.cab302a1.dao.jdbc;
 
 import com.example.cab302a1.DBconnection;
+import com.example.cab302a1.dao.OptionDao;
 import com.example.cab302a1.model.QuizChoiceCreate;
 
 import java.sql.Connection;
@@ -10,7 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JdbcOptionDao {
+
+public class JdbcOptionDao implements OptionDao {
 
     // 1. Insert option and return generated option_id
     public int insertOption(QuizChoiceCreate choice) {

@@ -67,7 +67,7 @@ class OptionDaoTest {
         int newId;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            newId = JdbcOptionDao().insertOption(choice);
+            newId = new JdbcOptionDao().insertOption(choice);
         }
 
         assertEquals(-1, newId);
@@ -99,7 +99,7 @@ class OptionDaoTest {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
             // Act
-            result = JdbcOptionDao().getOptionsByQuestionId(questionId);
+            result = new JdbcOptionDao().getOptionsByQuestionId(questionId);
         }
 
         // Assert
@@ -129,7 +129,7 @@ class OptionDaoTest {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
             // Act
-            result = JdbcOptionDao().getOptionsByQuestionId(999);
+            result = new JdbcOptionDao().getOptionsByQuestionId(999);
         }
 
         // Assert
