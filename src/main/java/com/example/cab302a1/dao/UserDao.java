@@ -26,6 +26,7 @@ public interface UserDao {
      */
     List<User> getAllStudents();
 
+    void printAllUsers();
     /**
      * Check if a user exists by email.
      * @param email the email address to check

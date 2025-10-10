@@ -1,6 +1,7 @@
 package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
+import com.example.cab302a1.dao.jdbc.JdbcUserDao;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.Teacher;
 import com.example.cab302a1.model.User;
@@ -86,7 +87,7 @@ class UserDaoTest {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
             // Act
-            UserDao dao = new UserDao();
+            UserDao dao = new JdbcUserDao();
             result = dao.existsByEmail("test@example.com");
         }
 
@@ -110,7 +111,7 @@ class UserDaoTest {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
             // Act
-            UserDao dao = new UserDao();
+            UserDao dao = new JdbcUserDao();
             result = dao.existsByEmail("test@example.com");
         }
 
@@ -131,7 +132,7 @@ class UserDaoTest {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
             // Act
-            UserDao dao = new UserDao();
+            UserDao dao = new JdbcUserDao();
             result = dao.existsByEmail("error@example.com");
         }
 

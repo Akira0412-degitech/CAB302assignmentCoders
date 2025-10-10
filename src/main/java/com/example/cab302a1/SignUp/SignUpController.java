@@ -1,6 +1,7 @@
 package com.example.cab302a1.SignUp;
 
 import com.example.cab302a1.dao.UserDao;
+import com.example.cab302a1.dao.jdbc.JdbcUserDao;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.Teacher;
 import com.example.cab302a1.model.User;
@@ -40,7 +41,7 @@ public class SignUpController {
     @FXML
     Label errorsignup;
 
-    UserDao userdao = new UserDao();
+    UserDao userdao = new JdbcUserDao();
 
 
 
