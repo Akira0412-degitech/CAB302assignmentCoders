@@ -58,7 +58,7 @@ jobs:
           rm -rf docs/javadoc
           mkdir -p docs/javadoc
           echo "📄 Copying new files..."
-          cp -r target/site/apidocs/* docs/javadoc/
+          cp -r target/reports/apidocs/* docs/javadoc/
 
       - name: Commit and push updated Javadoc
         run: |
