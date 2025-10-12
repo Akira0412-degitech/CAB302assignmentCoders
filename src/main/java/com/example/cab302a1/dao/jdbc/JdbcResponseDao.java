@@ -35,6 +35,9 @@ public class JdbcResponseDao implements ResponseDao {
      */
     @Override
     public void saveResponse(int _attemptId, List<QuestionResponse> _response){
+        if (_response == null || _response.isEmpty()) {
+            return; // 👈 Skip DB access if nothing to save
+        }
         String sql = "INSERT INTO question_responses (attempt_id, question_id, option_id, is_correct) VALUES (?, ?, ?,?)";
 
         try(Connection conn = DBconnection.getConnection();

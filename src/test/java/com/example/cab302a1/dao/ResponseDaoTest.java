@@ -34,7 +34,7 @@ public class ResponseDaoTest {
         when(conn.prepareStatement(anyString())).thenReturn(stmt);
         when(stmt.executeBatch()).thenReturn(new int[]{1, 1});
 
-        // Prepare responses
+        // Prepare mock responses
         QuestionResponse r1 = new QuestionResponse();
         r1.setQuestion_id(2);
         r1.setOption_id(3);
@@ -45,19 +45,23 @@ public class ResponseDaoTest {
         r2.setOption_id(6);
         r2.setIs_correct(false);
 
-
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
             JdbcResponseDao dao = new JdbcResponseDao();
             dao.saveResponse(10, List.of(r1, r2));
 
-            verify(stmt, times(2)).addBatch();
-            verify(stmt, times(2)).setInt(anyInt(), anyInt());
+            // ✅ Each response triggers:
+            // 3 x setInt + 1 x setBoolean + 1 x addBatch
+            verify(stmt, times(6)).setInt(anyInt(), anyInt());
             verify(stmt, times(2)).setBoolean(anyInt(), anyBoolean());
-            verify(stmt).executeBatch();
+            verify(stmt, times(2)).addBatch();
+
+            // ✅ executeBatch called once overall
+            verify(stmt, times(1)).executeBatch();
         }
     }
+
 
     /** ❌ saveResponse(): should handle empty response list gracefully */
     @Test
@@ -139,15 +143,18 @@ public class ResponseDaoTest {
     /** 💥 calculateScoreFromResponses(): should handle SQLException gracefully */
     @Test
     void calculateScoreFromResponses_SQLExceptionHandled() throws Exception {
-        when(DBconnection.getConnection()).thenThrow(new SQLException("Broken"));
-
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
-            mocked.when(DBconnection::getConnection).thenThrow(new SQLException("DB failure"));
+            // ✅ Correctly mock static method call
+            mocked.when(DBconnection::getConnection)
+                    .thenThrow(new SQLException("DB failure"));
+
             JdbcResponseDao dao = new JdbcResponseDao();
             int result = dao.calculateScoreFromResponses(55);
+
             assertEquals(-1, result);
         }
     }
+
 
     // --- getChosenOptionId() -----------------------------------------------
 
@@ -199,7 +206,6 @@ public class ResponseDaoTest {
     /** 💥 getChosenOptionId(): should handle SQLException gracefully */
     @Test
     void getChosenOptionId_SQLExceptionHandled() throws Exception {
-        when(DBconnection.getConnection()).thenThrow(new SQLException("DB down"));
 
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenThrow(new SQLException("DB failure"));
