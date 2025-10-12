@@ -11,7 +11,7 @@ public class Quiz {
     private String description;
     private  int created_by;
     private boolean is_Hidden;
-
+    private String authorUsername;
     private final List<QuizQuestionCreate> questions = new ArrayList<>();
 
     public Quiz(int quiz_id, String title, String description, int created_by, boolean is_Hidden) {
@@ -39,9 +39,11 @@ public class Quiz {
     public void setTitle(String title) { this.title = title; }
     public void setDescription(String description) { this.description = description; }
     public void setCreated_by(Integer _created_by){this.created_by = _created_by;}
-    public void setIsHidden(boolean _is_Hidden){
-        this.is_Hidden = _is_Hidden;
-    }
+
+    //for info button
+    public String getAuthorUsername() { return authorUsername; }
+    public void setAuthorUsername(String authorUsername) { this.authorUsername = authorUsername; }
+
 
     public void setQuestions(List<QuizQuestionCreate> qs) {
         this.questions.clear();
