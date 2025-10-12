@@ -1,8 +1,10 @@
 package com.example.cab302a1.ui;
 
+import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.ReviewDao;
 import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.UserDao;
+import com.example.cab302a1.dao.jdbc.*;
 import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.User;
@@ -40,9 +42,10 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
     private final ObservableList<QuizReview> reviewData = FXCollections.observableArrayList();
     private Stage stage;
 
-    private final ReviewDao reviewDao = new ReviewDao();
-    private final AttemptDao attemptDao = new AttemptDao();
-    private final UserDao userDao = new UserDao();
+
+    private final ReviewDao reviewDao = DaoFactory.getReviewDao();
+    private final AttemptDao attemptDao = DaoFactory.getAttemptDao();
+    private final UserDao userDao = DaoFactory.getUserDao();
 
     private int currentSelectedStudentId = -1; // Tracks the ID of the student whose quizzes are displayed
 
@@ -115,7 +118,7 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
 
                     try {
                         // SWAP METHOD CALL: Use the AttemptDao and the team's method
-                        attemptDao.UpdateFeedback(attemptId, feedbackText);
+                        attemptDao.updateFeedback(attemptId, feedbackText);
 
                         // 3. Update the UI and inform the user
                         Alert successAlert = new Alert(Alert.AlertType.INFORMATION, "Feedback successfully assigned.");

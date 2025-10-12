@@ -1,81 +1,45 @@
 package com.example.cab302a1.dao;
 
-import com.example.cab302a1.DBconnection;
 import com.example.cab302a1.model.QuizChoiceCreate;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class OptionDao {
+/**
+ * {@code OptionDao} defines the contract for managing quiz question options.
+ * It provides methods for inserting, retrieving, and updating option records
+ * associated with quiz questions.
+ *
+ * <p>This interface abstracts the persistence logic for question options,
+ * allowing different database implementations (e.g., JDBC, ORM frameworks)
+ * to be used interchangeably.</p>
+ */
+public interface OptionDao {
 
-    // 1. Insert option and return generated option_id
-    public int insertOption(QuizChoiceCreate choice) {
-        String sql = "INSERT INTO question_options (question_id, option_text, is_correct) VALUES (?, ?, ?)";
-        try (Connection conn = DBconnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+    /**
+     * Inserts a new option record into the database and returns
+     * the generated {@code option_id}.
+     *
+     * @param choice A {@link QuizChoiceCreate} object containing
+     *               the question ID, option text, and correctness flag
+     * @return The generated option ID, or {@code -1} if insertion fails
+     */
+    int insertOption(QuizChoiceCreate choice);
 
-            pstmt.setInt(1, choice.getQuestion_id());
-            pstmt.setString(2, choice.getText());
-            pstmt.setBoolean(3, choice.isCorrect());
+    /**
+     * Retrieves all options belonging to a specific question.
+     *
+     * @param questionId The unique ID of the question
+     * @return A {@link List} of {@link QuizChoiceCreate} objects
+     *         representing all available options for that question
+     */
+    List<QuizChoiceCreate> getOptionsByQuestionId(int questionId);
 
-            pstmt.executeUpdate();
-
-            try (ResultSet rs = pstmt.getGeneratedKeys()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1; //Return -1 when failing
-    }
-
-    // 2. Get all options by question_id
-    public List<QuizChoiceCreate> getOptionsByQuestionId(int questionId) {
-        List<QuizChoiceCreate> options = new ArrayList<>();
-        String sql = "SELECT option_id, question_id, option_text, is_correct FROM question_options WHERE question_id = ?";
-
-        try (Connection conn = DBconnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, questionId);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    QuizChoiceCreate choice = new QuizChoiceCreate();
-                    choice.setOption_id(rs.getInt("option_id"));
-                    choice.setQuestion_id(rs.getInt("question_id"));
-                    choice.setText(rs.getString("option_text"));
-                    choice.setIs_correct(rs.getBoolean("is_correct"));
-                    options.add(choice);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return options;
-    }
-
-    public void updateOption(QuizChoiceCreate choice) {
-        String sql = "UPDATE question_options SET option_text = ?, is_correct = ? WHERE option_id = ?";
-        try (Connection conn = DBconnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, choice.getText());
-            pstmt.setBoolean(2, choice.isCorrect());
-            pstmt.setInt(3, choice.getOption_id());
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
+    /**
+     * Updates an existing option record in the database.
+     * This method modifies the option text and correctness flag
+     * based on the given {@link QuizChoiceCreate} object.
+     *
+     * @param choice A {@link QuizChoiceCreate} object containing
+     *               the updated text, correctness flag, and option ID
+     */
+    void updateOption(QuizChoiceCreate choice);
 }

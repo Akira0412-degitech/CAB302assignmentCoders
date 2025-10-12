@@ -1,5 +1,8 @@
 package com.example.cab302a1.ui;
 
+import com.example.cab302a1.dao.QuestionDao;
+import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
+import com.example.cab302a1.dao.jdbc.JdbcReviewDao;
 import com.example.cab302a1.result.QuizResultData;
 import com.example.cab302a1.dao.ReviewDao;
 import com.example.cab302a1.model.QuizReview;
@@ -38,7 +41,8 @@ public class StudentReviewController implements Initializable, ReviewPageControl
     @FXML public Button exitBtn;
 
     private final ObservableList<QuizReview> reviewData = FXCollections.observableArrayList();
-    private final ReviewDao reviewDao = new ReviewDao();
+    private final QuestionDao questionDao = new JdbcQuestionDao();
+    private final ReviewDao reviewDao = new JdbcReviewDao(questionDao);
 
     // Stage field (if needed by interface)
     private Stage stage;

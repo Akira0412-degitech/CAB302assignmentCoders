@@ -1,311 +1,356 @@
 package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
+import com.example.cab302a1.dao.jdbc.DaoFactory;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.Teacher;
 import com.example.cab302a1.model.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
 import org.mindrot.jbcrypt.BCrypt;
+import org.mockito.MockedStatic;
 
 import java.sql.*;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UserDaoTest {
 
-    @Test
-    void testGetUserByIdReturnsTeacher() throws Exception {
-        // Arrange: mock JDBC
-        Connection conn = mock(Connection.class);
-        PreparedStatement stmt = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
+    private Connection conn;
+    private PreparedStatement stmt;
+    private ResultSet rs;
+    private ResultSet keys;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        conn = mock(Connection.class);
+        stmt = mock(PreparedStatement.class);
+        rs = mock(ResultSet.class);
+        keys = mock(ResultSet.class);
 
         when(conn.prepareStatement(anyString())).thenReturn(stmt);
+        when(conn.prepareStatement(anyString(), anyInt())).thenReturn(stmt);
+    }
+
+    /** ✅ getUserById(): should return Teacher when role=Teacher */
+    @Test
+    void getUserById_ReturnsTeacher() throws Exception {
         when(stmt.executeQuery()).thenReturn(rs);
-        when(rs.next()).thenReturn(true).thenReturn(false);
+        when(rs.next()).thenReturn(true);
         when(rs.getString("role")).thenReturn("Teacher");
         when(rs.getInt("user_id")).thenReturn(1);
-        when(rs.getString("email")).thenReturn("teacher@example.com");
-        when(rs.getString("password")).thenReturn("secret");
+        when(rs.getString("username")).thenReturn("Alice");
+        when(rs.getString("email")).thenReturn("a@x.com");
         when(rs.getTimestamp("created_at")).thenReturn(new Timestamp(System.currentTimeMillis()));
 
         User result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new UserDao().getUserById(1);
+            result = DaoFactory.getUserDao().getUserById(1);
         }
 
-        // Assert: just check the mapping logic
-        assertNotNull(result);
         assertTrue(result instanceof Teacher);
-        assertEquals("teacher@example.com", result.getEmail());
-
+        assertEquals("Alice", result.getUsername());
     }
 
+    /** ✅ getUserById(): should return Student when role=Student */
     @Test
-    void testGetUserByIdReturnsStudent() throws Exception{
-        Connection conn = mock(Connection.class);
-        PreparedStatement stmt = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
-        when(conn.prepareStatement(anyString())).thenReturn(stmt);
+    void getUserById_ReturnsStudent() throws Exception {
         when(stmt.executeQuery()).thenReturn(rs);
-        when(rs.next()).thenReturn(true).thenReturn(false);
+        when(rs.next()).thenReturn(true);
         when(rs.getString("role")).thenReturn("Student");
         when(rs.getInt("user_id")).thenReturn(2);
-        when(rs.getString("email")).thenReturn("student@example.com");
-        when(rs.getString("password")).thenReturn("secret");
+        when(rs.getString("username")).thenReturn("Bob");
+        when(rs.getString("email")).thenReturn("b@x.com");
         when(rs.getTimestamp("created_at")).thenReturn(new Timestamp(System.currentTimeMillis()));
 
         User result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new UserDao().getUserById(2);
+            result = DaoFactory.getUserDao().getUserById(2);
         }
 
-        // Assert: just check the mapping logic
-        assertNotNull(result);
         assertTrue(result instanceof Student);
-        assertEquals("student@example.com", result.getEmail());
-
+        assertEquals("Bob", result.getUsername());
     }
-    @Test
-    void testExistsByEmailReturnsTrue() throws Exception {
-        // Arrange
-        Connection conn = mock(Connection.class);
-        PreparedStatement stmt = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
 
-        when(conn.prepareStatement(anyString())).thenReturn(stmt);
+    /** ❌ getUserById(): should return null when user ID does not exist */
+    @Test
+    void getUserById_ReturnsNullWhenNotFound() throws Exception {
         when(stmt.executeQuery()).thenReturn(rs);
-        when(rs.next()).thenReturn(true); // simulate row exists
+        when(rs.next()).thenReturn(false); // No rows returned
+
+        User result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getUserDao().getUserById(999);
+        }
+
+        assertNull(result);
+    }
+
+    /** 🌀 getAllStudents(): should return list of Student objects */
+    @Test
+    void getAllStudents_ReturnsList() throws Exception {
+        when(stmt.executeQuery()).thenReturn(rs);
+        when(rs.next()).thenReturn(true, true, false);
+        when(rs.getInt("user_id")).thenReturn(1, 2);
+        when(rs.getString("username")).thenReturn("Tom", "Jerry");
+        when(rs.getString("email")).thenReturn("t@x.com", "j@x.com");
+        when(rs.getString("role")).thenReturn("Student", "Student");
+        when(rs.getTimestamp("created_at")).thenReturn(new Timestamp(System.currentTimeMillis()));
+
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            var list = DaoFactory.getUserDao().getAllStudents();
+            assertEquals(2, list.size());
+        }
+    }
+    /** ❌ getAllStudents(): should handle SQLException and return empty list */
+    @Test
+    void getAllStudents_HandlesSQLExceptionGracefully() throws Exception {
+        // Simulate connection.prepareStatement() throwing SQLException
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("boom"));
+
+        List<User> result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getUserDao().getAllStudents();
+        }
+
+        // It should not crash, and instead return an empty list
+        assertNotNull(result);
+        assertTrue(result.isEmpty(), "Expected empty list when SQL fails");
+    }
+
+
+    /** ✅ existsByEmail(): should return true if record exists */
+    @Test
+    void existsByEmail_ReturnsTrue() throws Exception {
+        when(stmt.executeQuery()).thenReturn(rs);
+        when(rs.next()).thenReturn(true);
 
         boolean result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-
-            // Act
-            UserDao dao = new UserDao();
-            result = dao.existsByEmail("test@example.com");
+            result = DaoFactory.getUserDao().existsByEmail("test@x.com");
         }
 
-        // Assert
         assertTrue(result);
     }
 
+    /** ❌ existsByEmail(): should return false if not found */
     @Test
-    void testExistsByEmailReturnsFalse() throws Exception {
-        // Arrange
-        Connection conn = mock(Connection.class);
-        PreparedStatement stmt = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
-
-        when(conn.prepareStatement(anyString())).thenReturn(stmt);
+    void existsByEmail_ReturnsFalse() throws Exception {
         when(stmt.executeQuery()).thenReturn(rs);
-        when(rs.next()).thenReturn(false); // simulate row exists
+        when(rs.next()).thenReturn(false);
 
         boolean result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-
-            // Act
-            UserDao dao = new UserDao();
-            result = dao.existsByEmail("test@example.com");
+            result = DaoFactory.getUserDao().existsByEmail("no@x.com");
         }
 
-        // Assert
         assertFalse(result);
     }
 
+    /** 💥 getAttemptId(): should handle SQLException gracefully */
     @Test
-    void testExistsByEmailThrowsSQLException() throws Exception {
-        // Arrange
-        Connection conn = mock(Connection.class);
+    void testGetAttemptIdHandlesSQLException() throws Exception {
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("boom"));
 
-        // Make prepareStatement throw SQLException
-        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("DB error"));
-
-        boolean result;
+        Integer id;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-
-            // Act
-            UserDao dao = new UserDao();
-            result = dao.existsByEmail("error@example.com");
+            id = DaoFactory.getAttemptDao().getAttemptId(4, 20);
         }
 
-        // Assert
-        assertFalse(result, "When SQLException occurs, should return false");
+        assertNull(id, "Expected null when SQLException occurs");
     }
 
+
+    /** ✅ signUpUser(): should create and return Student when signing up as Student */
     @Test
-    void testSignUpUserAlreadyExists() {
-        UserDao dao = spy(new UserDao());
+    void signUpUser_SuccessStudent() throws Exception {
+        UserDao userDao = spy(DaoFactory.getUserDao());
+        // Simulate: email does not exist yet
+        doReturn(false).when(userDao).existsByEmail(anyString());
+        // Simulate getUserById() returning a Student
+        doReturn(new Student(1, "StuUser", "stu@x.com", "Student", new Timestamp(System.currentTimeMillis())))
+                .when(userDao).getUserById(anyInt());
 
-        // Mock existsByEmail → true
-        doReturn(true).when(dao).existsByEmail("exists@example.com");
+        when(stmt.executeUpdate()).thenReturn(1);
+        when(stmt.getGeneratedKeys()).thenReturn(keys);
+        when(keys.next()).thenReturn(true);
+        when(keys.getInt(1)).thenReturn(101);
 
-        User result = dao.signUpUser("existsuser", "exists@example.com", "pass", "Student");
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            User user = userDao.signUpUser("StuUser", "stu@x.com", "mypw", "Student");
 
-        assertNull(result, "If user already exists, should return null");
-        verify(dao).existsByEmail("exists@example.com");
+            assertNotNull(user);
+            assertTrue(user instanceof Student);
+            assertEquals("StuUser", user.getUsername());
+            assertEquals("stu@x.com", user.getEmail());
+        }
     }
 
+    /** ✅ signUpUser(): should create and return Teacher when signing up as Teacher */
     @Test
-    void testSignUpUserSuccess() throws Exception {
-        UserDao dao = spy(new UserDao());
+    void signUpUser_SuccessTeacher() throws Exception {
+        UserDao userDao = spy(DaoFactory.getUserDao());
+        // Simulate: email does not exist yet
+        doReturn(false).when(userDao).existsByEmail(anyString());
+        // Simulate getUserById() returning a Teacher
+        doReturn(new Teacher(2, "TeachUser", "teach@x.com", "Teacher", new Timestamp(System.currentTimeMillis())))
+                .when(userDao).getUserById(anyInt());
 
-        // Mock existsByEmail → false
-        doReturn(false).when(dao).existsByEmail("new@example.com");
+        when(stmt.executeUpdate()).thenReturn(1);
+        when(stmt.getGeneratedKeys()).thenReturn(keys);
+        when(keys.next()).thenReturn(true);
+        when(keys.getInt(1)).thenReturn(202);
 
-        // Mock JDBC chain
-        Connection conn = mock(Connection.class);
-        PreparedStatement stmt = mock(PreparedStatement.class);
-        ResultSet generatedKeys = mock(ResultSet.class);
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            User user = userDao.signUpUser("TeachUser", "teach@x.com", "securepw", "Teacher");
 
-        when(conn.prepareStatement(anyString(), eq(Statement.RETURN_GENERATED_KEYS))).thenReturn(stmt);
-        when(stmt.executeUpdate()).thenReturn(1); // 1 row affected
-        when(stmt.getGeneratedKeys()).thenReturn(generatedKeys);
-        when(generatedKeys.next()).thenReturn(true);
-        when(generatedKeys.getInt(1)).thenReturn(3);
+            assertNotNull(user);
+            assertTrue(user instanceof Teacher);
+            assertEquals("TeachUser", user.getUsername());
+            assertEquals("teach@x.com", user.getEmail());
+        }
+    }
 
-        // Mock getUserById to return a Student
-        User fakeUser = new Student(3, "newuser", "new@example.com", "Student", null);
-        doReturn(fakeUser).when(dao).getUserById(3);
+
+    /** ⚠️ signUpUser(): should return null if email exists */
+    @Test
+    void signUpUser_AlreadyExists() throws Exception {
+        UserDao userDao = spy(DaoFactory.getUserDao());
+        doReturn(true).when(userDao).existsByEmail("dup@x.com");
+
+        User result = userDao.signUpUser("Dup", "dup@x.com", "pw", "Teacher");
+        assertNull(result);
+    }
+
+    /** ❌ signUpUser(): should handle SQLException gracefully */
+    @Test
+    void signUpUser_HandlesSQLException() throws Exception {
+        UserDao dao = spy(DaoFactory.getUserDao());
+        doReturn(false).when(dao).existsByEmail(anyString());
+
+        when(conn.prepareStatement(anyString(), anyInt())).thenThrow(new SQLException("boom"));
 
         User result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-
-            result = dao.signUpUser("newuser", "new@example.com", "pass", "Student");
+            result = dao.signUpUser("CrashUser", "x@x.com", "pw", "Student");
         }
 
-        assertNotNull(result);
-        assertEquals("new@example.com", result.getEmail());
-
+        assertNull(result);
     }
 
+    /** ❌ signUpUser(): should return null when no rows are inserted */
     @Test
-    void testSignUpUserInsertFails() throws Exception {
-        UserDao dao = spy(new UserDao());
+    void signUpUser_NoRowsInserted() throws Exception {
+        UserDao dao = spy(DaoFactory.getUserDao());
+        doReturn(false).when(dao).existsByEmail(anyString());
 
-        doReturn(false).when(dao).existsByEmail("fail@example.com");
+        when(stmt.executeUpdate()).thenReturn(0);
 
-        Connection conn = mock(Connection.class);
-        PreparedStatement stmt = mock(PreparedStatement.class);
-
-        when(conn.prepareStatement(anyString(), eq(Statement.RETURN_GENERATED_KEYS))).thenReturn(stmt);
-        when(stmt.executeUpdate()).thenReturn(0); // no rows inserted
-
-        User result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-
-            result = dao.signUpUser("failuser", "fail@example.com", "pass", "Student");
+            User result = dao.signUpUser("NoInsert", "no@x.com", "pw", "Teacher");
+            assertNull(result);
         }
-
-        assertNull(result, "If no rows inserted, should return null");
     }
 
+
+
+    /** ✅ login(): should return Teacher when password matches */
     @Test
-    void testLoginUserNotExists(){
-        UserDao dao = spy(new UserDao());
-        doReturn(false).when(dao).existsByEmail("nouser@example.com");
+    void login_SuccessTeacher() throws Exception {
+        UserDao dao = spy(DaoFactory.getUserDao());
+        doReturn(true).when(dao).existsByEmail(anyString());
 
-        User result = dao.login("nouser@example.com", "pass");
-
-        assertNull(result, "If user does not exist, login should fail and return null");
-    }
-
-    @Test
-    void testLoginTeacherSuccess() throws Exception{
-        UserDao dao = spy(new UserDao());
-        doReturn(true).when(dao).existsByEmail("teacher@example.com");
-
-        //Mock JDBC
-        Connection conn = mock(Connection.class);
-        PreparedStatement stmt = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
-
-        when(conn.prepareStatement(anyString())).thenReturn(stmt);
+        String hash = BCrypt.hashpw("secret", BCrypt.gensalt());
         when(stmt.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
-
-        String validHash = BCrypt.hashpw("secret", BCrypt.gensalt());
-
-        when(rs.getInt("user_id")).thenReturn(4);
-        when(rs.getString("email")).thenReturn("teacher@example.com");
-        when(rs.getString("password")).thenReturn(validHash);
+        when(rs.getString("password")).thenReturn(hash);
         when(rs.getString("role")).thenReturn("Teacher");
+        when(rs.getInt("user_id")).thenReturn(5);
+        when(rs.getString("username")).thenReturn("T");
+        when(rs.getString("email")).thenReturn("t@x.com");
         when(rs.getTimestamp("created_at")).thenReturn(new Timestamp(System.currentTimeMillis()));
 
-        User result;
-        try(MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)){
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = dao.login("teacher@example.com", "secret");
+            User result = dao.login("t@x.com", "secret");
+            assertTrue(result instanceof Teacher);
         }
-
-        assertNotNull(result);
-        assertTrue(result instanceof Teacher);
-        assertEquals("teacher@example.com", result.getEmail());
-
     }
 
+    /** ✅ login(): should return Student when password matches */
     @Test
-    void testLoginStudentSuccess() throws Exception {
-        UserDao dao = spy(new UserDao());
-        doReturn(true).when(dao).existsByEmail("student@example.com");
+    void login_SuccessStudent() throws Exception {
+        UserDao dao = spy(DaoFactory.getUserDao());
+        doReturn(true).when(dao).existsByEmail(anyString());
 
-        // Mock JDBC
-        Connection conn = mock(Connection.class);
-        PreparedStatement stmt = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
-
-        when(conn.prepareStatement(anyString())).thenReturn(stmt);
+        // Create a valid BCrypt hash for the test password
+        String hash = BCrypt.hashpw("mypassword", BCrypt.gensalt());
         when(stmt.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true);
-
-        String validHash = BCrypt.hashpw("secret", BCrypt.gensalt());
-
-        when(rs.getInt("user_id")).thenReturn(5);
-        when(rs.getString("email")).thenReturn("student@example.com");
-        when(rs.getString("password")).thenReturn(validHash);
+        when(rs.getString("password")).thenReturn(hash);
         when(rs.getString("role")).thenReturn("Student");
+        when(rs.getInt("user_id")).thenReturn(8);
+        when(rs.getString("username")).thenReturn("S");
+        when(rs.getString("email")).thenReturn("s@x.com");
         when(rs.getTimestamp("created_at")).thenReturn(new Timestamp(System.currentTimeMillis()));
 
-        User result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = dao.login("student@example.com", "secret");
+            User result = dao.login("s@x.com", "mypassword");
+
+            // Verify correct subclass and properties
+            assertTrue(result instanceof Student);
+            assertEquals("S", result.getUsername());
+            assertEquals("s@x.com", result.getEmail());
         }
-
-        assertNotNull(result);
-        assertTrue(result instanceof Student);
-        assertEquals("student@example.com", result.getEmail());
-
     }
 
+
+    /** ❌ login(): should return null if wrong password */
     @Test
-    void testLoginPasswordMismatch() throws Exception {
-        UserDao dao = spy(new UserDao());
-        doReturn(true).when(dao).existsByEmail("wrongpass@example.com");
+    void login_WrongPassword() throws Exception {
+        UserDao dao = spy(DaoFactory.getUserDao());
+        doReturn(true).when(dao).existsByEmail(anyString());
 
-        Connection conn = mock(Connection.class);
-        PreparedStatement stmt = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
-
-        when(conn.prepareStatement(anyString())).thenReturn(stmt);
+        String hash = BCrypt.hashpw("rightpw", BCrypt.gensalt());
         when(stmt.executeQuery()).thenReturn(rs);
-        when(rs.next()).thenReturn(false); // no row → password mismatch
+        when(rs.next()).thenReturn(true);
+        when(rs.getString("password")).thenReturn(hash);
 
-        User result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = dao.login("wrongpass@example.com", "badpass");
+            User result = dao.login("user@x.com", "wrongpw");
+            assertNull(result);
         }
+    }
 
-        assertNull(result, "If password does not match, login should return null");
+    /** 💥 login(): should handle SQLException gracefully */
+    @Test
+    void login_HandlesSQLException() throws Exception {
+        UserDao dao = spy(DaoFactory.getUserDao());
+        doReturn(true).when(dao).existsByEmail(anyString());
+
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("boom"));
+
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            User result = dao.login("error@x.com", "pw");
+            assertNull(result, "Should return null on SQL exception");
+        }
     }
 
 }

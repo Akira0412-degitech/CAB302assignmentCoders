@@ -1,8 +1,9 @@
 package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
-import com.example.cab302a1.model.Quiz;
+import com.example.cab302a1.dao.jdbc.DaoFactory;
 import com.example.cab302a1.model.QuizQuestionCreate;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
@@ -10,113 +11,270 @@ import java.sql.*;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class QuestionDaoTest {
 
-    @Test
-    void testGetAllQuestionsReturnsList() throws Exception {
-        Quiz quiz = new Quiz();
-        quiz.setQuizId(1);
+    private Connection conn;
+    private PreparedStatement stmt;
+    private ResultSet rs;
+    private ResultSet keys;
 
-        Connection conn = mock(Connection.class);
-        PreparedStatement stmt = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
+    @BeforeEach
+    void setUp() throws Exception {
+        conn = mock(Connection.class);
+        stmt = mock(PreparedStatement.class);
+        rs = mock(ResultSet.class);
+        keys = mock(ResultSet.class);
 
         when(conn.prepareStatement(anyString())).thenReturn(stmt);
-        when(stmt.executeQuery()).thenReturn(rs);
+        when(conn.prepareStatement(anyString(), anyInt())).thenReturn(stmt);
+    }
 
-        // simulate 2 rows
+    /** ✅ getAllQuestions(): returns valid list */
+    @Test
+    void testGetAllQuestions_ReturnsList() throws Exception {
+        when(stmt.executeQuery()).thenReturn(rs);
         when(rs.next()).thenReturn(true, true, false);
-        when(rs.getInt("question_id")).thenReturn(101, 102);
+        when(rs.getInt("question_id")).thenReturn(1, 2);
         when(rs.getInt("quiz_id")).thenReturn(1, 1);
-        when(rs.getString("statement")).thenReturn("Q1 text", "Q2 text");
+        when(rs.getString("statement")).thenReturn("Q1", "Q2");
         when(rs.getString("explanation")).thenReturn("E1", "E2");
 
         List<QuizQuestionCreate> result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new QuestionDao().getAllQuestions(quiz.getQuizId());
+            result = DaoFactory.getQuestionDao().getAllQuestions(1);
         }
 
         assertEquals(2, result.size());
-        assertEquals("Q1 text", result.get(0).getQuestionText());
-        assertEquals("Q2 text", result.get(1).getQuestionText());
+        assertEquals("Q1", result.get(0).getQuestionText());
+        assertEquals("Q2", result.get(1).getQuestionText());
     }
 
+    /** 🌀 getAllQuestions(): empty list */
     @Test
-    void testGetAllQuestionsReturnsEmptyList() throws Exception {
-        Quiz quiz = new Quiz();
-        quiz.setQuizId(99);
-
-        Connection conn = mock(Connection.class);
-        PreparedStatement stmt = mock(PreparedStatement.class);
-        ResultSet rs = mock(ResultSet.class);
-
-        when(conn.prepareStatement(anyString())).thenReturn(stmt);
+    void testGetAllQuestions_EmptyList() throws Exception {
         when(stmt.executeQuery()).thenReturn(rs);
-        when(rs.next()).thenReturn(false); // no rows
+        when(rs.next()).thenReturn(false);
 
         List<QuizQuestionCreate> result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new QuestionDao().getAllQuestions(quiz.getQuizId());
+            result = DaoFactory.getQuestionDao().getAllQuestions(99);
         }
 
         assertTrue(result.isEmpty());
     }
 
+    /** ⚠️ getAllQuestions(): SQL exception handled */
     @Test
-    void testInsertQuestionSuccess() throws Exception {
-        QuizQuestionCreate question = new QuizQuestionCreate();
-        question.setQuiz_id(2);
-        question.setQuestionText("New Question?");
-        question.setExplanation("Explain it");
+    void testGetAllQuestions_SQLException() throws Exception {
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("DB error"));
 
-        Connection conn = mock(Connection.class);
-        PreparedStatement stmt = mock(PreparedStatement.class);
-        ResultSet keys = mock(ResultSet.class);
+        List<QuizQuestionCreate> result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getQuestionDao().getAllQuestions(1);
+        }
 
-        when(conn.prepareStatement(anyString(), eq(PreparedStatement.RETURN_GENERATED_KEYS))).thenReturn(stmt);
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    /** ✅ insertQuestion(): success */
+    @Test
+    void testInsertQuestion_Success() throws Exception {
+        QuizQuestionCreate q = new QuizQuestionCreate();
+        q.setQuizId(1);
+        q.setQuestionText("New Question");
+        q.setExplanation("Explain");
+
         when(stmt.executeUpdate()).thenReturn(1);
         when(stmt.getGeneratedKeys()).thenReturn(keys);
         when(keys.next()).thenReturn(true);
-        when(keys.getInt(1)).thenReturn(500);
+        when(keys.getInt(1)).thenReturn(10);
 
-        int newId;
+        int result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            newId = new QuestionDao().insertQuestion(question);
+            result = DaoFactory.getQuestionDao().insertQuestion(q);
         }
 
-        assertEquals(500, newId);
+        assertEquals(10, result);
     }
 
+    /** ❌ insertQuestion(): no key returned */
     @Test
-    void testInsertQuestionNoKeyReturned() throws Exception {
-        QuizQuestionCreate question = new QuizQuestionCreate();
-        question.setQuiz_id(2);
-        question.setQuestionText("Q?");
-        question.setExplanation("E");
+    void testInsertQuestion_NoKeyReturned() throws Exception {
+        QuizQuestionCreate q = new QuizQuestionCreate();
+        q.setQuizId(2);
+        q.setQuestionText("NoKey");
+        q.setExplanation("Exp");
 
-        Connection conn = mock(Connection.class);
-        PreparedStatement stmt = mock(PreparedStatement.class);
-        ResultSet keys = mock(ResultSet.class);
-
-        when(conn.prepareStatement(anyString(), eq(PreparedStatement.RETURN_GENERATED_KEYS))).thenReturn(stmt);
         when(stmt.executeUpdate()).thenReturn(1);
         when(stmt.getGeneratedKeys()).thenReturn(keys);
-        when(keys.next()).thenReturn(false); // no key
+        when(keys.next()).thenReturn(false);
 
-        int newId;
+        int result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            newId = new QuestionDao().insertQuestion(question);
+            result = DaoFactory.getQuestionDao().insertQuestion(q);
         }
 
-        assertEquals(-1, newId);
+        assertEquals(-1, result);
     }
 
+    /** ⚠️ insertQuestion(): SQL exception */
+    @Test
+    void testInsertQuestion_SQLException() throws Exception {
+        QuizQuestionCreate q = new QuizQuestionCreate();
+        q.setQuizId(1);
+        q.setQuestionText("Error");
+        q.setExplanation("E");
+
+        when(conn.prepareStatement(anyString(), anyInt())).thenThrow(new SQLException("DB error"));
+
+        int result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getQuestionDao().insertQuestion(q);
+        }
+
+        assertEquals(-1, result);
+    }
+
+    /** ✅ updateQuestion(): success */
+    @Test
+    void testUpdateQuestion_Success() throws Exception {
+        QuizQuestionCreate q = new QuizQuestionCreate();
+        q.setQuestionId(5);
+        q.setQuestionText("Updated text");
+        q.setExplanation("Updated exp");
+
+        when(stmt.executeUpdate()).thenReturn(1);
+
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            DaoFactory.getQuestionDao().updateQuestion(q);
+        }
+
+        verify(stmt).setString(1, "Updated text");
+        verify(stmt).setString(2, "Updated exp");
+        verify(stmt).setInt(3, 5);
+        verify(stmt).executeUpdate();
+    }
+
+    /** ⚠️ updateQuestion(): SQL exception handled */
+    @Test
+    void testUpdateQuestion_SQLException() throws Exception {
+        QuizQuestionCreate q = new QuizQuestionCreate();
+        q.setQuestionId(10);
+        q.setQuestionText("Fail");
+        q.setExplanation("Oops");
+
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("DB error"));
+
+        assertDoesNotThrow(() -> {
+            try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+                mocked.when(DBconnection::getConnection).thenReturn(conn);
+                DaoFactory.getQuestionDao().updateQuestion(q);
+            }
+        });
+    }
+
+    /** ✅ getNumQuestion(): success */
+    @Test
+    void testGetNumQuestion_Success() throws Exception {
+        when(stmt.executeQuery()).thenReturn(rs);
+        when(rs.next()).thenReturn(true);
+        when(rs.getInt("cnt")).thenReturn(3);
+
+        int result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getQuestionDao().getNumQuestion(1);
+        }
+
+        assertEquals(3, result);
+    }
+
+    /** ❌ getNumQuestion(): no rows */
+    @Test
+    void testGetNumQuestion_NoResult() throws Exception {
+        when(stmt.executeQuery()).thenReturn(rs);
+        when(rs.next()).thenReturn(false);
+
+        int result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getQuestionDao().getNumQuestion(2);
+        }
+
+        assertEquals(-1, result);
+    }
+
+    /** ⚠️ getNumQuestion(): SQL exception */
+    @Test
+    void testGetNumQuestion_SQLException() throws Exception {
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("DB error"));
+
+        int result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getQuestionDao().getNumQuestion(1);
+        }
+
+        assertEquals(-1, result);
+    }
+
+    /** ✅ getQuestionsByQuizId(): returns valid list */
+    @Test
+    void testGetQuestionsByQuizId_ReturnsList() throws Exception {
+        when(stmt.executeQuery()).thenReturn(rs);
+        when(rs.next()).thenReturn(true, true, false);
+        when(rs.getInt("question_id")).thenReturn(1, 2);
+        when(rs.getInt("quiz_id")).thenReturn(1, 1);
+        when(rs.getString("statement")).thenReturn("Q1", "Q2");
+        when(rs.getString("explanation")).thenReturn("E1", "E2");
+
+        List<QuizQuestionCreate> result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getQuestionDao().getQuestionsByQuizId(1);
+        }
+
+        assertEquals(2, result.size());
+        assertEquals("Q1", result.get(0).getQuestionText());
+    }
+
+    /** 🌀 getQuestionsByQuizId(): empty result */
+    @Test
+    void testGetQuestionsByQuizId_EmptyList() throws Exception {
+        when(stmt.executeQuery()).thenReturn(rs);
+        when(rs.next()).thenReturn(false);
+
+        List<QuizQuestionCreate> result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getQuestionDao().getQuestionsByQuizId(1);
+        }
+
+        assertTrue(result.isEmpty());
+    }
+
+    /** ⚠️ getQuestionsByQuizId(): SQL exception */
+    @Test
+    void testGetQuestionsByQuizId_SQLException() throws Exception {
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("DB error"));
+
+        List<QuizQuestionCreate> result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getQuestionDao().getQuestionsByQuizId(1);
+        }
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
 }

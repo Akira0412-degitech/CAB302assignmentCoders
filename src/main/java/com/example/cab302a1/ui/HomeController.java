@@ -3,6 +3,10 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.ResponseDao;
+import com.example.cab302a1.dao.jdbc.DaoFactory;
+import com.example.cab302a1.dao.jdbc.JdbcAttemptDao;
+import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
+import com.example.cab302a1.dao.jdbc.JdbcResponseDao;
 import com.example.cab302a1.model.QuestionResponse;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.result.QuizResultController;
@@ -84,7 +88,7 @@ public class HomeController implements Initializable {
     public void refresh() {
         grid.getChildren().clear();
         quizzes.clear();
-        QuizDao quizDao = new QuizDao();
+        QuizDao quizDao = DaoFactory.getQuizDao();
 
         // Load all quizzes (only Visible)
         List<Quiz> all = quizDao.getAllQuizzes();
@@ -115,7 +119,7 @@ public class HomeController implements Initializable {
         // Check if this quiz is completed by the current student
         if (Session.isStudent()) {
             int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
-            AttemptDao attemptDao = new AttemptDao();
+            AttemptDao attemptDao = DaoFactory.getAttemptDao();
             boolean isCompleted = attemptDao.hasCompleted(quiz.getQuizId(), userId);
 
             if (isCompleted) {
@@ -168,8 +172,8 @@ public class HomeController implements Initializable {
 
         Optional<ButtonType> res = alert.showAndWait();
         if (res.isPresent() && res.get() == ok) {
-            QuizDao dao = new QuizDao();
-            dao.UpdateQuizStatus(quiz.getQuizId(), true);
+            QuizDao dao = new JdbcQuizDao();
+            dao.updateQuizStatus(quiz.getQuizId(), true);
             grid.getChildren().remove(cardNode);
         }
     }
@@ -177,7 +181,7 @@ public class HomeController implements Initializable {
 
     //When click - S or T using session
     private void handleQuizCardClick(Stage owner, Quiz quiz) {
-        QuizDao dao = new QuizDao();
+        QuizDao dao = new JdbcQuizDao();
         Quiz latest = dao.getQuizById(quiz.getQuizId());
         if (latest != null && latest.getIsHidden()) {
             new Alert(Alert.AlertType.INFORMATION,
@@ -189,7 +193,7 @@ public class HomeController implements Initializable {
         if (Session.isStudent()) {
             int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
             int quizId = quiz.getQuizId();
-            AttemptDao attemptDao = new AttemptDao();
+            AttemptDao attemptDao = DaoFactory.getAttemptDao();
 
             // Check if the student has already completed this quiz
             if (attemptDao.hasCompleted(quizId, userId)) {
@@ -275,7 +279,7 @@ public class HomeController implements Initializable {
                     }
 
                     //using DAO
-                    new ResponseDao().saveResponse(attemptId, responses);
+                    new JdbcResponseDao().saveResponse(attemptId, responses);
 
                     // end attempt
                     attemptDao.endAttempt(attemptId);

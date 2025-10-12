@@ -146,7 +146,7 @@ public class QuestionItemController {
         if (correctIndex < 0) throw new IllegalStateException("Please choose a correct answer.");
 
         QuizQuestionCreate question = new QuizQuestionCreate();
-        question.setQuestion_id(this.questionId);
+        question.setQuestionId(this.questionId);
         question.setQuestionText(q);
         //UI to explanation model
         question.setExplanation(getExplanationText());
