@@ -12,9 +12,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * {@code JdbcOptionDao} provides a JDBC-based implementation of the {@link OptionDao} interface.
+ * <p>
+ * This class manages CRUD operations for quiz question options in the database.
+ * It performs SQL operations on the {@code question_options} table using
+ * the {@link DBconnection} utility for database connectivity.
+ * </p>
+ * <p>
+ * Each method uses a try-with-resources block to ensure proper resource management,
+ * automatically closing JDBC connections, statements, and result sets.
+ * </p>
+ */
 public class JdbcOptionDao implements OptionDao {
 
-    // 1. Insert option and return generated option_id
+    /**
+     * {@inheritDoc}
+     * <p>
+     * This implementation executes an {@code INSERT} statement on the {@code question_options} table
+     * and retrieves the generated {@code option_id}.
+     * Returns {@code -1} if the insertion fails or no key is generated.
+     * </p>
+     */
+    @Override
     public int insertOption(QuizChoiceCreate choice) {
         String sql = "INSERT INTO question_options (question_id, option_text, is_correct) VALUES (?, ?, ?)";
         try (Connection conn = DBconnection.getConnection();
@@ -37,7 +57,14 @@ public class JdbcOptionDao implements OptionDao {
         return -1; //Return -1 when failing
     }
 
-    // 2. Get all options by question_id
+    /**
+     * {@inheritDoc}
+     * <p>
+     * This implementation retrieves all option records associated with a specific question
+     * by executing a {@code SELECT} query on the {@code question_options} table.
+     * </p>
+     */
+    @Override
     public List<QuizChoiceCreate> getOptionsByQuestionId(int questionId) {
         List<QuizChoiceCreate> options = new ArrayList<>();
         String sql = "SELECT option_id, question_id, option_text, is_correct FROM question_options WHERE question_id = ?";
@@ -64,6 +91,14 @@ public class JdbcOptionDao implements OptionDao {
         return options;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Executes an {@code UPDATE} statement on the {@code question_options} table
+     * to modify the text and correctness flag of an existing option record.
+     * </p>
+     */
+    @Override
     public void updateOption(QuizChoiceCreate choice) {
         String sql = "UPDATE question_options SET option_text = ?, is_correct = ? WHERE option_id = ?";
         try (Connection conn = DBconnection.getConnection();
