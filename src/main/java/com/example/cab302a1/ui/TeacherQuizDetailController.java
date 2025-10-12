@@ -2,6 +2,7 @@ package com.example.cab302a1.ui;
 
 import com.example.cab302a1.dao.OptionDao;
 import com.example.cab302a1.dao.QuestionDao;
+import com.example.cab302a1.dao.jdbc.DaoFactory;
 import com.example.cab302a1.dao.jdbc.JdbcOptionDao;
 import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
 import com.example.cab302a1.model.Quiz;
@@ -54,10 +55,10 @@ public class TeacherQuizDetailController {
             c.stage.setScene(new Scene(root, 560, 480));
 
 
-            QuestionDao questionDao = new JdbcQuestionDao();
+            QuestionDao questionDao = DaoFactory.getQuestionDao();
             List<QuizQuestionCreate> loadedQuestions = questionDao.getAllQuestions(quiz.getQuizId());
 
-            OptionDao optionDao = new JdbcOptionDao();
+            OptionDao optionDao = DaoFactory.getOptionDao();
             for(QuizQuestionCreate q : loadedQuestions){
                 q.getChoices().addAll(optionDao.getOptionsByQuestionId(q.getQuestionId()));
             }

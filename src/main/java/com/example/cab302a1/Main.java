@@ -4,6 +4,7 @@ import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.ResponseDao;
 import com.example.cab302a1.dao.UserDao;
+import com.example.cab302a1.dao.jdbc.DaoFactory;
 import com.example.cab302a1.dao.jdbc.JdbcUserDao;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +23,7 @@ public class Main extends Application {
         DBconnection.migrate();
         try (var conn = DBconnection.getConnection()){
             System.out.println(("Connected to DB: " + conn.getCatalog()));
-            UserDao userdao = new JdbcUserDao();
+            UserDao userdao = DaoFactory.getUserDao();
             userdao.printAllUsers();
 
         } catch (Exception e){

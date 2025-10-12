@@ -16,6 +16,7 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.dao.OptionDao;
 import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.QuizDao;
+import com.example.cab302a1.dao.jdbc.DaoFactory;
 import com.example.cab302a1.dao.jdbc.JdbcOptionDao;
 import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
 import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
@@ -131,9 +132,9 @@ public class QuizEditorController {
             Quiz built = buildQuizFromUI();
             built.setCreated_by(Session.getCurrentUser().getUser_id());
 
-            QuizDao quizDao = new JdbcQuizDao();
-            QuestionDao questionDao = new JdbcQuestionDao();
-            OptionDao optionDao = new JdbcOptionDao();
+            QuizDao quizDao = DaoFactory.getQuizDao();
+            QuestionDao questionDao = DaoFactory.getQuestionDao();
+            OptionDao optionDao =DaoFactory.getOptionDao();
 
             if(editing != null){
                 built.setQuizId(editing.getQuizId());

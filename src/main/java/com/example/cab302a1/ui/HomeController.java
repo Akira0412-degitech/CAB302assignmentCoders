@@ -3,6 +3,7 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.ResponseDao;
+import com.example.cab302a1.dao.jdbc.DaoFactory;
 import com.example.cab302a1.dao.jdbc.JdbcAttemptDao;
 import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
 import com.example.cab302a1.dao.jdbc.JdbcResponseDao;
@@ -96,7 +97,7 @@ public class HomeController implements Initializable {
     public void refresh() {
         grid.getChildren().clear();
         quizzes.clear();
-        QuizDao quizDao = new JdbcQuizDao();
+        QuizDao quizDao = DaoFactory.getQuizDao();
 
         // Load all quizzes (only Visible)
         List<Quiz> all = quizDao.getAllQuizzes();
@@ -125,7 +126,7 @@ public class HomeController implements Initializable {
         // Check if this quiz is completed by the current student
         if (Session.isStudent()) {
             int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
-            AttemptDao attemptDao = new JdbcAttemptDao();
+            AttemptDao attemptDao = DaoFactory.getAttemptDao();
             boolean isCompleted = attemptDao.hasCompleted(quiz.getQuizId(), userId);
 
             if (isCompleted) {
