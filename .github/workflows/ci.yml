@@ -5,7 +5,8 @@ on:
     branches: [ "Akira_Refactoring" ]
   pull_request:
     branches: [ "master" ]
-
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -45,22 +46,22 @@ jobs:
           DB_USER: root
           DB_PASS: root
         run: mvn -B verify
-      # --------------------------
-      # 📘 Generate and Publish Javadoc
-      # --------------------------
+      # ----------------------------
+      # 📘 Javadoc Generation Section
+      # ----------------------------
       - name: Generate Javadoc
         run: ./mvnw clean compile javadoc:javadoc
 
+      - name: Update docs/javadoc directory
+        run: |
+          echo "🧹 Removing old Javadoc..."
+          rm -rf docs/javadoc
+          mkdir -p docs/javadoc
+          echo "📄 Copying new files..."
+          cp -r target/site/apidocs/* docs/javadoc/
+
       - name: Commit and push updated Javadoc
         run: |
-          if [ -d "docs/javadoc" ]; then
-            echo "🧾 Cleaning old Javadoc directory..."
-            rm -rf docs/javadoc
-          fi
-          mkdir -p docs/javadoc
-          cp -r docs/javadoc/* docs/javadoc/ || true
-          cp -r target/site/apidocs/* docs/javadoc/ || true
-
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/javadoc
@@ -69,7 +70,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Javadoc as artifact (for debugging)
+      - name: Upload Javadoc artifact (for backup)
         uses: actions/upload-artifact@v4
         with:
           name: javadoc
