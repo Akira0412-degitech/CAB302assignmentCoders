@@ -74,6 +74,22 @@ class AttemptDaoTest {
         assertEquals(-1, result);
     }
 
+    /** ❌ startAttempt(): should handle SQLException and return -1 */
+    @Test
+    void testStartAttemptHandlesSQLException() throws Exception {
+        // Simulate DB error when preparing statement
+        when(conn.prepareStatement(anyString(), anyInt())).thenThrow(new SQLException("boom"));
+
+        int result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getAttemptDao().startAttempt(1, 10);
+        }
+
+        assertEquals(-1, result, "Expected -1 when SQLException occurs");
+    }
+
+
     /** ✅ attemptExist(): should return true if a row exists */
     @Test
     void testAttemptExistTrue() throws Exception {
@@ -103,6 +119,76 @@ class AttemptDaoTest {
 
         assertFalse(exists);
     }
+
+    /** ❌ attemptExist(): should handle SQLException and return false */
+    @Test
+    void testAttemptExist_HandlesSQLException() throws Exception {
+        // Simulate DB failure when preparing statement
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("boom"));
+
+        boolean result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getAttemptDao().attemptExist(999);
+        }
+
+        assertFalse(result, "Expected false when SQLException occurs");
+    }
+    /** ⚙️ endAttempt(): should skip update if attempt does not exist */
+    @Test
+    void testEndAttemptWhenNotExist() throws Exception {
+        AttemptDao dao = spy(DaoFactory.getAttemptDao());
+        doReturn(false).when(dao).attemptExist(anyInt());
+
+        dao.endAttempt(10);
+
+        // Should not execute DB update since attempt does not exist
+        verify(dao, times(1)).attemptExist(10);
+    }
+
+    /** ✅ endAttempt(): should update score when attempt exists */
+    @Test
+    void testEndAttemptSuccess() throws Exception {
+        ResponseDao mockResponseDao = mock(ResponseDao.class);
+        JdbcAttemptDao dao = spy(new JdbcAttemptDao(mockResponseDao));
+
+        // Mock existence check and score calculation
+        doReturn(true).when(dao).attemptExist(anyInt());
+        when(mockResponseDao.calculateScoreFromResponses(anyInt())).thenReturn(95);
+
+        when(stmt.executeUpdate()).thenReturn(1);
+        when(conn.prepareStatement(anyString())).thenReturn(stmt);
+
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            dao.endAttempt(20);
+        }
+
+        verify(stmt).executeUpdate();
+    }
+
+    /** ❌ endAttempt(): should handle SQLException gracefully */
+    @Test
+    void testEndAttemptHandlesSQLException() throws Exception {
+        ResponseDao mockResponseDao = mock(ResponseDao.class);
+        JdbcAttemptDao dao = spy(new JdbcAttemptDao(mockResponseDao));
+
+        // Mock attempt exists and a valid score
+        doReturn(true).when(dao).attemptExist(anyInt());
+        when(mockResponseDao.calculateScoreFromResponses(anyInt())).thenReturn(80);
+
+        // Simulate SQL failure when preparing the statement
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("boom"));
+
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            assertDoesNotThrow(() -> dao.endAttempt(10));
+        }
+
+        // Optional verification: ensure we never reached executeUpdate()
+        verify(mockResponseDao, times(1)).calculateScoreFromResponses(10);
+    }
+
 
     /** ✅ getScore(): should return valid score when row exists */
     @Test
@@ -134,6 +220,22 @@ class AttemptDaoTest {
 
         assertNull(score);
     }
+
+    /** 💥 getScore(): should handle SQLException gracefully and return null */
+    @Test
+    void testGetScoreHandlesSQLException() throws Exception {
+        // Simulate DB failure
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("boom"));
+
+        Integer score;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            score = DaoFactory.getAttemptDao().getScore(2, 12);
+        }
+
+        assertNull(score, "Expected null when SQLException occurs");
+    }
+
 
     /** ✅ hasCompleted(): should return true when count > 0 */
     @Test
@@ -167,6 +269,22 @@ class AttemptDaoTest {
         assertFalse(result);
     }
 
+    /** 💥 hasCompleted(): should handle SQLException and return false */
+    @Test
+    void testHasCompleted_HandlesSQLException() throws Exception {
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("boom"));
+
+        boolean result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getAttemptDao().hasCompleted(1, 5);
+        }
+
+        assertFalse(result, "Expected false when SQLException occurs");
+    }
+
+
+
     /** ✅ updateFeedback(): should execute SQL with correct parameters */
     @Test
     void testUpdateFeedbackExecutes() throws Exception {
@@ -181,6 +299,18 @@ class AttemptDaoTest {
         verify(stmt).setInt(2, 10);
         verify(stmt).executeUpdate();
     }
+
+    /** 💥 updateFeedback(): should handle SQLException gracefully */
+    @Test
+    void testUpdateFeedbackHandlesSQLException() throws Exception {
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("boom"));
+
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            assertDoesNotThrow(() -> DaoFactory.getAttemptDao().updateFeedback(5, "Nice work"));
+        }
+    }
+
 
     /** ✅ getAttemptId(): should return ID if a record exists */
     @Test
@@ -213,36 +343,19 @@ class AttemptDaoTest {
         assertNull(id);
     }
 
-    /** ⚙️ endAttempt(): should skip update if attempt does not exist */
+    /** 💥 getAttemptId(): should handle SQLException gracefully */
     @Test
-    void testEndAttemptWhenNotExist() throws Exception {
-        AttemptDao dao = spy(DaoFactory.getAttemptDao());
-        doReturn(false).when(dao).attemptExist(anyInt());
+    void testGetAttemptIdHandlesSQLException() throws Exception {
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("boom"));
 
-        dao.endAttempt(10);
-
-        // Should not execute DB update since attempt does not exist
-        verify(dao, times(1)).attemptExist(10);
-    }
-
-    /** ✅ endAttempt(): should update score when attempt exists */
-    @Test
-    void testEndAttemptSuccess() throws Exception {
-        ResponseDao mockResponseDao = mock(ResponseDao.class);
-        JdbcAttemptDao dao = spy(new JdbcAttemptDao(mockResponseDao));
-
-        // Mock existence check and score calculation
-        doReturn(true).when(dao).attemptExist(anyInt());
-        when(mockResponseDao.calculateScoreFromResponses(anyInt())).thenReturn(95);
-
-        when(stmt.executeUpdate()).thenReturn(1);
-        when(conn.prepareStatement(anyString())).thenReturn(stmt);
-
+        Integer id;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            dao.endAttempt(20);
+            id = DaoFactory.getAttemptDao().getAttemptId(4, 20);
         }
 
-        verify(stmt).executeUpdate();
+        assertNull(id, "Expected null when SQLException occurs");
     }
+
+
 }
