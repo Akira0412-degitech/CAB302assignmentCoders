@@ -11,6 +11,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.mockito.MockedStatic;
 
 import java.sql.*;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -107,6 +108,23 @@ class UserDaoTest {
             assertEquals(2, list.size());
         }
     }
+    /** ❌ getAllStudents(): should handle SQLException and return empty list */
+    @Test
+    void getAllStudents_HandlesSQLExceptionGracefully() throws Exception {
+        // Simulate connection.prepareStatement() throwing SQLException
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("boom"));
+
+        List<User> result;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            result = DaoFactory.getUserDao().getAllStudents();
+        }
+
+        // It should not crash, and instead return an empty list
+        assertNotNull(result);
+        assertTrue(result.isEmpty(), "Expected empty list when SQL fails");
+    }
+
 
     /** ✅ existsByEmail(): should return true if record exists */
     @Test
