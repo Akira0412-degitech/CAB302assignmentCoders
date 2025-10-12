@@ -1,6 +1,7 @@
 package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
+import com.example.cab302a1.dao.jdbc.DaoFactory;
 import com.example.cab302a1.dao.jdbc.JdbcUserDao;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.Teacher;
@@ -35,7 +36,7 @@ class UserDaoTest {
         User result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new UserDao().getUserById(1);
+            result = DaoFactory.getUserDao().getUserById(1);
         }
 
         // Assert: just check the mapping logic
@@ -62,7 +63,7 @@ class UserDaoTest {
         User result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
-            result = new UserDao().getUserById(2);
+            result = DaoFactory.getUserDao().getUserById(2);
         }
 
         // Assert: just check the mapping logic
@@ -87,7 +88,7 @@ class UserDaoTest {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
             // Act
-            UserDao dao = new JdbcUserDao();
+            UserDao dao = DaoFactory.getUserDao();
             result = dao.existsByEmail("test@example.com");
         }
 
@@ -111,7 +112,7 @@ class UserDaoTest {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
             // Act
-            UserDao dao = new JdbcUserDao();
+            UserDao dao = DaoFactory.getUserDao();
             result = dao.existsByEmail("test@example.com");
         }
 
@@ -132,7 +133,7 @@ class UserDaoTest {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
 
             // Act
-            UserDao dao = new JdbcUserDao();
+            UserDao dao = DaoFactory.getUserDao();
             result = dao.existsByEmail("error@example.com");
         }
 
@@ -142,7 +143,7 @@ class UserDaoTest {
 
     @Test
     void testSignUpUserAlreadyExists() {
-        UserDao dao = spy(new UserDao());
+        UserDao dao = spy(DaoFactory.getUserDao());
 
         // Mock existsByEmail → true
         doReturn(true).when(dao).existsByEmail("exists@example.com");
@@ -155,7 +156,7 @@ class UserDaoTest {
 
     @Test
     void testSignUpUserSuccess() throws Exception {
-        UserDao dao = spy(new UserDao());
+        UserDao dao = spy(DaoFactory.getUserDao());
 
         // Mock existsByEmail → false
         doReturn(false).when(dao).existsByEmail("new@example.com");
@@ -189,7 +190,7 @@ class UserDaoTest {
 
     @Test
     void testSignUpUserInsertFails() throws Exception {
-        UserDao dao = spy(new UserDao());
+        UserDao dao = spy(DaoFactory.getUserDao());
 
         doReturn(false).when(dao).existsByEmail("fail@example.com");
 
@@ -211,7 +212,7 @@ class UserDaoTest {
 
     @Test
     void testLoginUserNotExists(){
-        UserDao dao = spy(new UserDao());
+        UserDao dao = spy(DaoFactory.getUserDao());
         doReturn(false).when(dao).existsByEmail("nouser@example.com");
 
         User result = dao.login("nouser@example.com", "pass");
@@ -221,7 +222,7 @@ class UserDaoTest {
 
     @Test
     void testLoginTeacherSuccess() throws Exception{
-        UserDao dao = spy(new UserDao());
+        UserDao dao = spy(DaoFactory.getUserDao());
         doReturn(true).when(dao).existsByEmail("teacher@example.com");
 
         //Mock JDBC
@@ -255,7 +256,7 @@ class UserDaoTest {
 
     @Test
     void testLoginStudentSuccess() throws Exception {
-        UserDao dao = spy(new UserDao());
+        UserDao dao = spy(DaoFactory.getUserDao());
         doReturn(true).when(dao).existsByEmail("student@example.com");
 
         // Mock JDBC
@@ -289,7 +290,7 @@ class UserDaoTest {
 
     @Test
     void testLoginPasswordMismatch() throws Exception {
-        UserDao dao = spy(new UserDao());
+        UserDao dao = spy(DaoFactory.getUserDao());
         doReturn(true).when(dao).existsByEmail("wrongpass@example.com");
 
         Connection conn = mock(Connection.class);

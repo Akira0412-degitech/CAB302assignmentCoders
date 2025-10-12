@@ -4,10 +4,7 @@ import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.dao.UserDao;
 import com.example.cab302a1.dao.QuestionDao;
-import com.example.cab302a1.dao.jdbc.JdbcAttemptDao;
-import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
-import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
-import com.example.cab302a1.dao.jdbc.JdbcUserDao;
+import com.example.cab302a1.dao.jdbc.*;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.User;
 import com.example.cab302a1.util.Session;
@@ -50,7 +47,7 @@ public class QuizResultService {
      * Convenient for quick usage without dependency injection.
      */
     public QuizResultService() {
-        this.attemptDao = new JdbcAttemptDao();
+        this.attemptDao = DaoFactory.getAttemptDao();
         this.quizDao = new JdbcQuizDao();
         this.userDao = new JdbcUserDao();
         this.questionDao = new JdbcQuestionDao();

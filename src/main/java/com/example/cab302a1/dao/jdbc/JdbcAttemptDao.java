@@ -24,6 +24,11 @@ import java.sql.SQLException;
 
 public class JdbcAttemptDao implements AttemptDao {
 
+    private final ResponseDao responseDao;
+
+    public JdbcAttemptDao(ResponseDao responseDao) {
+        this.responseDao = responseDao;
+    }
     /**
      * {@inheritDoc}
      * <p>
@@ -88,7 +93,7 @@ public class JdbcAttemptDao implements AttemptDao {
 
     @Override
     public void endAttempt(int _attempt_id){
-        ResponseDao responseDao = new JdbcResponseDao();
+
         boolean existing = attemptExist(_attempt_id);
 
         if(!existing){

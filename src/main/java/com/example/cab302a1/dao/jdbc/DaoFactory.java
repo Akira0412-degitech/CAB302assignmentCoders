@@ -34,11 +34,12 @@ public final class DaoFactory {
     private static final QuestionDao questionDao = new JdbcQuestionDao();
     private static final ResponseDao responseDao = new JdbcResponseDao();
     private static final OptionDao optionDao = new JdbcOptionDao();
-    private static final AttemptDao attemptDao = new JdbcAttemptDao();
+
 
     // === Dependent DAOs ===
     // ReviewDao depends on QuestionDao for calculating total question count
     private static final ReviewDao reviewDao = new JdbcReviewDao(questionDao);
+    private static final AttemptDao attemptDao = new JdbcAttemptDao(responseDao);
 
     // === Factory Getters ===
     public static UserDao getUserDao() {

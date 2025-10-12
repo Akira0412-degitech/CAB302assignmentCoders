@@ -4,10 +4,7 @@ import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.ReviewDao;
 import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.UserDao;
-import com.example.cab302a1.dao.jdbc.JdbcAttemptDao;
-import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
-import com.example.cab302a1.dao.jdbc.JdbcReviewDao;
-import com.example.cab302a1.dao.jdbc.JdbcUserDao;
+import com.example.cab302a1.dao.jdbc.*;
 import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.User;
@@ -45,10 +42,10 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
     private final ObservableList<QuizReview> reviewData = FXCollections.observableArrayList();
     private Stage stage;
 
-    private final QuestionDao questionDao = new JdbcQuestionDao();
-    private final ReviewDao reviewDao = new JdbcReviewDao(questionDao);
-    private final AttemptDao attemptDao = new JdbcAttemptDao();
-    private final UserDao userDao = new JdbcUserDao();
+
+    private final ReviewDao reviewDao = DaoFactory.getReviewDao();
+    private final AttemptDao attemptDao = DaoFactory.getAttemptDao();
+    private final UserDao userDao = DaoFactory.getUserDao();
 
     private int currentSelectedStudentId = -1; // Tracks the ID of the student whose quizzes are displayed
 
