@@ -5,6 +5,7 @@ import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.dao.UserDao;
 import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.jdbc.JdbcAttemptDao;
+import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
 import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
 import com.example.cab302a1.dao.jdbc.JdbcUserDao;
 import com.example.cab302a1.model.Quiz;
@@ -52,7 +53,7 @@ public class QuizResultService {
         this.attemptDao = new JdbcAttemptDao();
         this.quizDao = new JdbcQuizDao();
         this.userDao = new JdbcUserDao();
-        this.questionDao = new QuestionDao();
+        this.questionDao = new JdbcQuestionDao();
     }
     
     /**

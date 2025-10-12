@@ -1,6 +1,7 @@
 package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
+import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
 import com.example.cab302a1.model.QuizReview;
 
 import java.sql.Connection;
@@ -14,7 +15,7 @@ public class ReviewDao {
     public List<QuizReview> getAllAttemptsById(int _user_id) {
         List<QuizReview> reviews = new ArrayList<>();
         ResponseDao responseDao = new ResponseDao();
-        QuestionDao questionDao = new QuestionDao();
+        QuestionDao questionDao = new JdbcQuestionDao();
 
         String sql = "SELECT qa.attempt_id, qa.quiz_id, qa.answered_by, q.title, qa.score, qa.feedback\n" +
                 "FROM quiz_attempts qa\n" +

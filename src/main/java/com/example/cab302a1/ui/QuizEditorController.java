@@ -17,6 +17,7 @@ import com.example.cab302a1.dao.OptionDao;
 import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.dao.jdbc.JdbcOptionDao;
+import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
 import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizQuestionCreate;
@@ -131,7 +132,7 @@ public class QuizEditorController {
             built.setCreated_by(Session.getCurrentUser().getUser_id());
 
             QuizDao quizDao = new JdbcQuizDao();
-            QuestionDao questionDao = new QuestionDao();
+            QuestionDao questionDao = new JdbcQuestionDao();
             OptionDao optionDao = new JdbcOptionDao();
 
             if(editing != null){

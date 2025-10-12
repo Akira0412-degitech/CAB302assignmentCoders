@@ -6,6 +6,7 @@ import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.dao.ResponseDao;
 import com.example.cab302a1.dao.jdbc.JdbcOptionDao;
+import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
 import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.result.ResultDetail;
@@ -86,7 +87,7 @@ public class StudentResultDetailController {
         try {
             // Use QuizResultDetailService to get the data
             QuizResultDetailService service = new QuizResultDetailService(
-                    new JdbcQuizDao(), new QuestionDao(), new JdbcOptionDao(), new ResponseDao()
+                    new JdbcQuizDao(), new JdbcQuestionDao(), new JdbcOptionDao(), new ResponseDao()
             );
             
             ResultDetail resultDetail = service.getResultDetail(attemptId, quizId);

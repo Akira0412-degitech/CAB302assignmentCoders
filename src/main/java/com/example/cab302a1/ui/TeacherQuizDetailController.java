@@ -3,6 +3,7 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.dao.OptionDao;
 import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.jdbc.JdbcOptionDao;
+import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.model.QuizQuestionCreate;
@@ -53,7 +54,7 @@ public class TeacherQuizDetailController {
             c.stage.setScene(new Scene(root, 560, 480));
 
 
-            QuestionDao questionDao = new QuestionDao();
+            QuestionDao questionDao = new JdbcQuestionDao();
             List<QuizQuestionCreate> loadedQuestions = questionDao.getAllQuestions(quiz.getQuizId());
 
             OptionDao optionDao = new JdbcOptionDao();
