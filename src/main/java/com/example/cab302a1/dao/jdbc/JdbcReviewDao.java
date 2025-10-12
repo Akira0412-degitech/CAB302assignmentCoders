@@ -14,11 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * JdbcReviewDao provides a JDBC-based implementation of the {@link ReviewDao} interface.
+ * {@code JdbcReviewDao} provides a JDBC-based implementation of the {@link ReviewDao} interface.
  * <p>
- * It retrieves quiz attempt data, including quiz title, score, and feedback,
- * for a specific user by joining the {@code quiz_attempts} and {@code quizzes} tables.
- * It also uses {@link QuestionDao} to count total quiz questions.
+ * This class retrieves quiz attempt data, including quiz titles, scores, and feedback,
+ * for a specific user by joining the {@code quiz_attempts} and {@code quizzes} tables
+ * on their shared {@code quiz_id} column.
+ * </p>
+ * <p>
+ * It also leverages {@link QuestionDao} to compute the total number of questions
+ * in each quiz, ensuring that reviews include both raw score and quiz context.
+ * </p>
  */
 public class JdbcReviewDao implements ReviewDao {
 

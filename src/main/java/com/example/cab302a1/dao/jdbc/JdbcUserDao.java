@@ -11,8 +11,22 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * {@code JdbcUserDao} provides a JDBC-based implementation of the {@link UserDao} interface.
+ * <p>
+ * This class handles CRUD and authentication operations for user records
+ * stored in the {@code users} table, including registration, login,
+ * and retrieval of users by ID or role.
+ * </p>
+ * <p>
+ * Passwords are securely hashed using the {@link BCrypt} algorithm
+ * before being stored in the database.
+ * </p>
+ */
+
 public class JdbcUserDao implements UserDao {
 
+    @Override
     public User getUserById(int _userId) {
         String sql = "SELECT * FROM users WHERE user_id = ?";
         try (Connection conn = DBconnection.getConnection();
@@ -50,9 +64,14 @@ public class JdbcUserDao implements UserDao {
     }
 
     /**
-     * Retrieves a list of all users with the role 'Student'.
-     * This is used by the Teacher Review Controller to populate the student list.
+     * {@inheritDoc}
+     * <p>
+     * Retrieves all users whose {@code role} is {@code 'Student'}.
+     * This method is typically used by teachers to display
+     * student lists in review or grading interfaces.
+     * </p>
      */
+    @Override
     public List<User> getAllStudents() {
         List<User> students = new ArrayList<>();
         // Select all fields needed by the Student constructor
@@ -79,6 +98,13 @@ public class JdbcUserDao implements UserDao {
     }
 
     //for debugging
+    /**
+     * Prints all users for debugging or administrative inspection.
+     * <p>
+     * This method is not intended for production use.
+     * </p>
+     */
+    @Override
     public void printAllUsers() {
         String sql = "SELECT user_id, username, email, password, created_at, role FROM users";
         try (Connection conn = DBconnection.getConnection();
@@ -99,6 +125,14 @@ public class JdbcUserDao implements UserDao {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Checks if a user record exists with the given email.
+     * Executes a {@code SELECT 1} query with a limit for performance.
+     * </p>
+     */
+    @Override
     public boolean existsByEmail(String _email){
         String sql = "SELECT 1 FROM users where email = ? LIMIT 1";
 
@@ -116,6 +150,14 @@ public class JdbcUserDao implements UserDao {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Registers a new user with a hashed password using {@link BCrypt}.
+     * Returns the created {@link User} object after successful insertion.
+     * </p>
+     */
+    @Override
     public User signUpUser(String _username, String _email, String _password, String _role){
         if(existsByEmail(_email)){
             System.out.printf("User already exists: " + _email);
@@ -153,6 +195,15 @@ public class JdbcUserDao implements UserDao {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Authenticates a user by verifying the entered password against the
+     * hashed password stored in the database using {@link BCrypt#checkpw(String, String)}.
+     * Returns a {@link Teacher} or {@link Student} object based on role.
+     * </p>
+     */
+    @Override
     public User login(String _email, String _password){
         if(!existsByEmail(_email)){
             System.out.printf("User not found: " + _email);
