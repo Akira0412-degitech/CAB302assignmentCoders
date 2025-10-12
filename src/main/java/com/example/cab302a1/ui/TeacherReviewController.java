@@ -1,9 +1,12 @@
 package com.example.cab302a1.ui;
 
+import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.ReviewDao;
 import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.UserDao;
 import com.example.cab302a1.dao.jdbc.JdbcAttemptDao;
+import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
+import com.example.cab302a1.dao.jdbc.JdbcReviewDao;
 import com.example.cab302a1.dao.jdbc.JdbcUserDao;
 import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.Student;
@@ -42,7 +45,8 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
     private final ObservableList<QuizReview> reviewData = FXCollections.observableArrayList();
     private Stage stage;
 
-    private final ReviewDao reviewDao = new ReviewDao();
+    private final QuestionDao questionDao = new JdbcQuestionDao();
+    private final ReviewDao reviewDao = new JdbcReviewDao(questionDao);
     private final AttemptDao attemptDao = new JdbcAttemptDao();
     private final UserDao userDao = new JdbcUserDao();
 

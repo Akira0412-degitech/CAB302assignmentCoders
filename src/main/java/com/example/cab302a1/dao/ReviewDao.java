@@ -1,58 +1,25 @@
 package com.example.cab302a1.dao;
 
-import com.example.cab302a1.DBconnection;
-import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
-import com.example.cab302a1.dao.jdbc.JdbcResponseDao;
 import com.example.cab302a1.model.QuizReview;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewDao {
-    public List<QuizReview> getAllAttemptsById(int _user_id) {
-        List<QuizReview> reviews = new ArrayList<>();
-        ResponseDao responseDao = new JdbcResponseDao();
-        QuestionDao questionDao = new JdbcQuestionDao();
+/**
+ * ReviewDao defines the contract for retrieving
+ * quiz attempt review information for users.
+ * <p>
+ * Implementations of this interface handle the
+ * retrieval of quiz attempt summaries, scores,
+ * feedback, and related quiz metadata.
+ */
+public interface ReviewDao {
 
-        String sql = "SELECT qa.attempt_id, qa.quiz_id, qa.answered_by, q.title, qa.score, qa.feedback\n" +
-                "FROM quiz_attempts qa\n" +
-                "JOIN quizzes q ON qa.quiz_id = q.quiz_id\n" +
-                "WHERE qa.answered_by = ?\n";
-
-        try (Connection conn = DBconnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, _user_id);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    int attemptId = rs.getInt("attempt_id");
-                    int quizId = rs.getInt("quiz_id");
-                    int score = rs.getInt("score");
-                    String feedback = rs.getString("feedback");
-                    String title = rs.getString("title");
-
-                    int totalQuestions = questionDao.getNumQuestion(quizId);
-
-                    QuizReview review = new QuizReview(
-                            attemptId,
-                            quizId,
-                            _user_id,
-                            title,
-                            score,
-                            totalQuestions,
-                            feedback
-                    );
-
-                    reviews.add(review);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return reviews;
-    }
+    /**
+     * Retrieve all quiz attempts and their associated review details
+     * for a specific user.
+     *
+     * @param userId The unique ID of the user whose attempts are to be retrieved.
+     * @return A list of {@link QuizReview} objects, each representing a quiz attempt
+     *         with its score, feedback, and quiz title. Returns an empty list if none are found.
+     */
+    List<QuizReview> getAllAttemptsById(int userId);
 }
