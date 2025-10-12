@@ -10,8 +10,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * {@code JdbcResponseDao} provides a JDBC-based implementation of the {@link ResponseDao} interface.
+ * <p>
+ * This class manages persistence of quiz attempt responses, including saving
+ * chosen options, calculating scores, and retrieving selected options for each question.
+ * </p>
+ * <p>
+ * All operations are performed on the {@code question_responses} table using
+ * SQL queries executed through the {@link DBconnection} utility.
+ * </p>
+ */
+
 public class JdbcResponseDao implements ResponseDao {
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * This implementation performs a batch {@code INSERT} operation into the
+     * {@code question_responses} table for improved performance.
+     * Each response includes the attempt ID, question ID, chosen option ID,
+     * and correctness flag.
+     * </p>
+     */
+    @Override
     public void saveResponse(int _attemptId, List<QuestionResponse> _response){
         String sql = "INSERT INTO question_responses (attempt_id, question_id, option_id, is_correct) VALUES (?, ?, ?,?)";
 
@@ -34,6 +56,15 @@ public class JdbcResponseDao implements ResponseDao {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Executes a {@code SELECT COUNT()} query to determine how many responses
+     * were marked as correct for a given quiz attempt.
+     * Returns the total score or {@code -1} if an error occurs.
+     * </p>
+     */
+    @Override
     public int calculateScoreFromResponses(int _attemptId){
         String sql = "SELECT COUNT(response_id) AS score FROM question_responses WHERE is_correct = True AND attempt_id = ?";
 
@@ -52,6 +83,15 @@ public class JdbcResponseDao implements ResponseDao {
         return -1;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Executes a {@code SELECT} query to retrieve the chosen option ID
+     * for a specific question within a quiz attempt.
+     * Returns {@code -1} if no record is found.
+     * </p>
+     */
+    @Override
     public int getChosenOptionId(int _attempt_id, int _question_id){
         String sql = "SELECT option_id FROM question_responses WHERE attempt_id = ? AND question_id = ?";
 
