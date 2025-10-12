@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "master" ]
 permissions:
-  contents: write
+  contents: write #give the bot permission to write
 
 jobs:
   build:
