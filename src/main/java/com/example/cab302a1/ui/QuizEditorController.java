@@ -17,9 +17,6 @@ import com.example.cab302a1.dao.OptionDao;
 import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.dao.jdbc.DaoFactory;
-import com.example.cab302a1.dao.jdbc.JdbcOptionDao;
-import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
-import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizQuestionCreate;
 import com.example.cab302a1.util.Session;
@@ -144,9 +141,9 @@ public class QuizEditorController {
                     if(q.getQuestionId() > 0){
                         questionDao.updateQuestion(q);
                     }else{
-                        q.setQuiz_id(built.getQuizId());
+                        q.setQuizId(built.getQuizId());
                         int newIdForQuestion = questionDao.insertQuestion(q);
-                        q.setQuestion_id(newIdForQuestion);
+                        q.setQuestionId(newIdForQuestion);
                     }
 
                     for (QuizChoiceCreate choice : q.getChoices()) {
@@ -166,9 +163,9 @@ public class QuizEditorController {
 
 
                 for (QuizQuestionCreate q : built.getQuestions()) {
-                    q.setQuiz_id(quiz_id);
+                    q.setQuizId(quiz_id);
                     int questionId = questionDao.insertQuestion(q);
-                    q.setQuestion_id(questionId);
+                    q.setQuestionId(questionId);
 
 
                     for (QuizChoiceCreate choice : q.getChoices()) {
