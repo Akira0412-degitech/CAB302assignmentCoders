@@ -31,6 +31,8 @@ module com.example.cab302a1 {
     exports com.example.cab302a1.logout;
     exports com.example.cab302a1.result;
     exports com.example.cab302a1.demo;
+    exports com.example.cab302a1.ui.view.components;
+    opens com.example.cab302a1.ui.view.components to javafx.fxml;
 
 
 }
