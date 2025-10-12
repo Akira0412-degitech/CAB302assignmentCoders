@@ -65,7 +65,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/javadoc
           git commit -m "🧾 Auto-update Javadoc [skip ci]" || echo "No changes to commit"
-          git push origin master
+          git push origin Akira_Refactoring
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
