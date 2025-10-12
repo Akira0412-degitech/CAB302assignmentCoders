@@ -156,6 +156,21 @@ class UserDaoTest {
         assertFalse(result);
     }
 
+    /** 💥 getAttemptId(): should handle SQLException gracefully */
+    @Test
+    void testGetAttemptIdHandlesSQLException() throws Exception {
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("boom"));
+
+        Integer id;
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            id = DaoFactory.getAttemptDao().getAttemptId(4, 20);
+        }
+
+        assertNull(id, "Expected null when SQLException occurs");
+    }
+
+
     /** ✅ signUpUser(): should create and return Student when signing up as Student */
     @Test
     void signUpUser_SuccessStudent() throws Exception {
@@ -322,4 +337,20 @@ class UserDaoTest {
             assertNull(result);
         }
     }
+
+    /** 💥 login(): should handle SQLException gracefully */
+    @Test
+    void login_HandlesSQLException() throws Exception {
+        UserDao dao = spy(DaoFactory.getUserDao());
+        doReturn(true).when(dao).existsByEmail(anyString());
+
+        when(conn.prepareStatement(anyString())).thenThrow(new SQLException("boom"));
+
+        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
+            mocked.when(DBconnection::getConnection).thenReturn(conn);
+            User result = dao.login("error@x.com", "pw");
+            assertNull(result, "Should return null on SQL exception");
+        }
+    }
+
 }
