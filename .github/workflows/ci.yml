@@ -50,7 +50,7 @@ jobs:
       # 📘 Javadoc Generation Section
       # ----------------------------
       - name: Generate Javadoc
-        run: ./mvnw clean compile javadoc:javadoc
+        run: mvn clean compile javadoc:javadoc
 
       - name: Update docs/javadoc directory
         run: |
