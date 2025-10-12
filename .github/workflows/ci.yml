@@ -50,7 +50,13 @@ jobs:
       # 📘 Javadoc Generation Section
       # ----------------------------
       - name: Generate Javadoc
-        run: mvn clean compile javadoc:javadoc
+        run: ./mvnw -B compile javadoc:javadoc
+
+      - name: Wait for Javadoc output (safety delay)
+        run: |
+          echo "⏳ Waiting for Javadoc to be written..."
+          sleep 5
+          ls -R target/reports/apidocs || echo "⚠️ apidocs not found!"
 
       - name: Update docs/javadoc directory
         run: |
@@ -59,6 +65,8 @@ jobs:
           mkdir -p docs/javadoc
           echo "📄 Copying new files..."
           cp -r target/reports/apidocs/* docs/javadoc/
+          echo "✅ Copy complete: $(ls docs/javadoc | wc -l) files"
+
 
       - name: Commit and push updated Javadoc
         run: |
