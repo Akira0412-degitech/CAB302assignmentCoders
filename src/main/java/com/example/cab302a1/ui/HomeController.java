@@ -1,7 +1,6 @@
 package com.example.cab302a1.ui;
 import com.example.cab302a1.ui.action.HideQuizAction;
 import com.example.cab302a1.ui.info.QuizInfoProvider;
-import com.example.cab302a1.ui.view.components.HoverInfoButton;
 import javafx.scene.control.Tooltip;
 import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.dao.AttemptDao;
@@ -12,6 +11,7 @@ import com.example.cab302a1.result.QuizResultController;
 import com.example.cab302a1.result.QuizResultData;
 import com.example.cab302a1.service.QuizService;
 import com.example.cab302a1.ui.view.card.QuizCardFactory;
+import com.example.cab302a1.ui.action.CreateQuizAction;
 
 
 
@@ -60,6 +60,7 @@ public class HomeController implements Initializable {
 
     private final HideQuizAction hideAction = new HideQuizAction(new QuizDao());
     private final QuizInfoProvider infoProvider = new QuizInfoProvider(new QuizService());
+    private CreateQuizAction createAction; // '+' 카드 액션
 
 
     @FXML
@@ -69,7 +70,17 @@ public class HomeController implements Initializable {
 
         // Set role-based page title
         setupPageTitle();
-        
+
+        // '+' 카드 액션 초기화: 에디터 열고 저장 시 refresh
+        this.createAction = new CreateQuizAction(e -> {
+            // 클릭 시점의 Stage 안전 획득
+            Stage owner = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            QuizEditorController.open(owner, createdQuiz -> {
+                quizzes.add(createdQuiz); // 내부 캐시에도 추가(선택)
+                refresh();                // 화면 재구성
+            });
+        });
+
         // Update navbar to show Home as active
         com.example.cab302a1.components.NavbarController.updateNavbarState("home");
 
@@ -110,8 +121,9 @@ public class HomeController implements Initializable {
         }
 
         if (Session.isTeacher()) {
-            grid.getChildren().add(createPlusCard());
+            grid.getChildren().add(createAction.buildPlusCard());
         }
+
         setupPageTitle();
     }
 
@@ -358,25 +370,6 @@ public class HomeController implements Initializable {
         }
     }
 
-
-    /** Teacher-only '+' card to open the quiz editor modal. */
-    private Button createPlusCard() {
-        Button plus = new Button("+");
-        plus.getStyleClass().add("plus-card");
-        plus.setPrefSize(200, 150);  // Updated to prototype dimensions
-        plus.setOnAction(e -> openCreateQuizEditor());
-        return plus;
-    }
-
-    /** Open QuizEditor as a modal dialog; when saved, append to list and refresh UI. */
-    private void openCreateQuizEditor() {
-        Stage owner = (Stage) grid.getScene().getWindow();
-        QuizEditorController.open(owner, quiz -> {
-            // Receive the created Quiz from the editor via callback
-            quizzes.add(quiz);
-            refresh(); // re-render grid with the new card
-        });
-    }
 
 
     /** Convenience info dialog. */
