@@ -53,7 +53,7 @@ public class JdbcAttemptDao implements AttemptDao {
 
     @Override
     public void endAttempt(int _attempt_id){
-        ResponseDao responseDao = new ResponseDao();
+        ResponseDao responseDao = new JdbcResponseDao();
         boolean existing = attemptExist(_attempt_id);
 
         if(!existing){

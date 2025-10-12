@@ -5,6 +5,7 @@ import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.ResponseDao;
 import com.example.cab302a1.dao.jdbc.JdbcAttemptDao;
 import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
+import com.example.cab302a1.dao.jdbc.JdbcResponseDao;
 import com.example.cab302a1.model.QuestionResponse;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizChoiceCreate;
@@ -274,7 +275,7 @@ public class HomeController implements Initializable {
                     }
 
                     //using DAO
-                    new ResponseDao().saveResponse(attemptId, responses);
+                    new JdbcResponseDao().saveResponse(attemptId, responses);
 
                     // end attempt
                     attemptDao.endAttempt(attemptId);
