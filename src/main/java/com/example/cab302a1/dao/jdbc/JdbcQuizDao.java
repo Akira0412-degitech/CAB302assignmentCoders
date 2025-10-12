@@ -10,9 +10,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * {@code JdbcQuizDao} provides a JDBC-based implementation of the {@link QuizDao} interface.
+ * <p>
+ * This class handles CRUD operations for quizzes stored in the {@code quizzes} table,
+ * including creation, retrieval, updates, and visibility changes.
+ * </p>
+ * <p>
+ * All database connections are obtained via the {@link DBconnection} utility class,
+ * and resources are automatically closed using try-with-resources statements.
+ * </p>
+ */
 
 public class JdbcQuizDao implements QuizDao {
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Executes a {@code SELECT} query on the {@code quizzes} table
+     * to retrieve all quiz records, including their titles, descriptions,
+     * creators, and visibility status.
+     * </p>
+     */
     @Override
     public List<Quiz> getAllQuizzes(){
         List<Quiz> quizzes = new ArrayList<>();
@@ -38,6 +57,14 @@ public class JdbcQuizDao implements QuizDao {
         return quizzes;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Executes an {@code INSERT} statement to add a new quiz record into the
+     * {@code quizzes} table. The {@code is_Hidden} flag defaults to {@code false}.
+     * Returns the generated quiz ID or {@code -1} if insertion fails.
+     * </p>
+     */
     @Override
     public int insertQuiz(Quiz _quiz){
         String sql = "INSERT INTO quizzes (title, description, created_by, is_Hidden) VALUES (?, ?, ?, False)";
@@ -60,7 +87,13 @@ public class JdbcQuizDao implements QuizDao {
         }
         return -1;
     }
-
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Executes an {@code UPDATE} statement to modify the title and description
+     * of an existing quiz record identified by its quiz ID.
+     * </p>
+     */
     @Override
     public void updateQuiz(Quiz _quiz) {
         String sql = "UPDATE quizzes SET title = ?, description = ? WHERE quiz_id = ?";
@@ -77,6 +110,13 @@ public class JdbcQuizDao implements QuizDao {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Executes a {@code SELECT} query to find a quiz by its unique ID.
+     * Returns a {@link Quiz} object if found, or {@code null} if no record exists.
+     * </p>
+     */
     @Override
     public Quiz getQuizById(int _quiz_id){
         String sql = "SELECT * FROM quizzes WHERE quiz_id = ?";
@@ -104,7 +144,13 @@ public class JdbcQuizDao implements QuizDao {
         return null;
     }
 
-
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Updates the {@code is_Hidden} flag of a quiz to control its visibility
+     * within the application.
+     * </p>
+     */
     @Override
     public void updateQuizStatus(int _quizId, boolean _IsHidden){
         String sql = "UPDATE quizzes SET is_Hidden = ? WHERE quiz_id = ?";

@@ -50,6 +50,6 @@ public interface QuizDao {
      * @param quizId the ID of the quiz
      * @param IsHidden true if the quiz should be hidden
      */
-    public void updateQuizStatus(int quizId, boolean IsHidden);
+    void updateQuizStatus(int quizId, boolean IsHidden);
 
 }
