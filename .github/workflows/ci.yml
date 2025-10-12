@@ -41,12 +41,13 @@ jobs:
 
       - name: Build and Test
         env:
-          DB_URL: jdbc:mysql://localhost:3306/cab302_test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+          DB_URL: jdbc:mysql://127.0.0.1:3306/cab302_test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
           DB_USER: root
           DB_PASS: root
-        run: ./mvnw -B verify
+        run: mvn -B verify
 
-#jb
+
+  #jb
   ui-student-quiz-tests:
     name: UI Tests (Student Quiz taking)
     runs-on: ubuntu-latest
