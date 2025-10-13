@@ -29,6 +29,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: Akira_Refactoring
+          persist-credentials: false
 
       - name: Set up JDK 21
         uses: actions/setup-java@v3
