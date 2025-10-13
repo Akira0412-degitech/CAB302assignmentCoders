@@ -8,7 +8,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.StackPane;
 
 
@@ -19,9 +18,10 @@ import java.util.function.Supplier;
 
 /**
  * QuizCardFactory
+ * Button Attachment + Position
  * View-only factory that assembles quiz cards for Student/Teacher roles.
- * - No DAO/Service calls here.
- * - All business decisions (tooltip content, click behaviors) are passed in from Controller.
+ * No DAO/Service calls here.
+ * All business decisions (tooltip content, click behaviors) are passed in from Controller.
  */
 public class QuizCardFactory {
 

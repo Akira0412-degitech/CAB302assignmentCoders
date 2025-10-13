@@ -28,7 +28,7 @@ public class HideQuizAction {
     public boolean confirmAndHide(Quiz quiz, Node cardNode, TilePane grid) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete this quiz?");
-        alert.setHeaderText("This quiz will be hidden from the list.");
+        alert.setHeaderText("This quiz will be hidden from the list.//test comment");
         ButtonType ok = new ButtonType("Delete", ButtonType.OK.getButtonData());
         ButtonType cancel = ButtonType.CANCEL;
         alert.getButtonTypes().setAll(ok, cancel);

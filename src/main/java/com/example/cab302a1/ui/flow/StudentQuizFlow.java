@@ -21,7 +21,6 @@ import java.util.List;
 
 /**
  * Handles: completed → result, not-completed → take quiz → submit → result.
- * (기존 HomeController.handleQuizCardClick 학생 분기 그대로 이동)
  */
 public class StudentQuizFlow implements QuizFlow {
 
@@ -41,7 +40,7 @@ public class StudentQuizFlow implements QuizFlow {
             int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
             int quizId = quiz.getQuizId();
 
-            // 이미 완료했으면 결과로 직행
+            // If user already completed it, go straight to the results
             if (attemptDao.hasCompleted(quizId, userId)) {
                 Integer score = attemptDao.getScore(quizId, userId);
                 Quiz fullQuiz = quizService.loadQuizFully(quiz);
@@ -64,7 +63,7 @@ public class StudentQuizFlow implements QuizFlow {
                 return;
             }
 
-            // 미완료 → 시도 시작
+            // Incomplete → Start attempt
             Quiz fullQuiz = quizService.loadQuizFully(quiz);
             int attemptId = attemptDao.startAttempt(quizId, userId);
             if (attemptId <= 0) {
@@ -72,7 +71,7 @@ public class StudentQuizFlow implements QuizFlow {
                 return;
             }
 
-            // 풀이 화면 오픈
+            // Open the quiz screen
             StudentTakeQuizController.open(owner, fullQuiz, selections -> {
                 try {
                     List<QuestionResponse> responses = new ArrayList<>();

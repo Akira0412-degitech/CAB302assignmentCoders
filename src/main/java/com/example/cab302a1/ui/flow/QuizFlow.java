@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 
 /**
  * QuizFlow (Strategy)
- * - Role-specific navigation/logic when a quiz card is clicked.
+ * Role-specific navigation/logic when a quiz card is clicked.
  */
 public interface QuizFlow {
     void open(Stage owner, Quiz quiz, Runnable onAfterClose);
