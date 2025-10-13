@@ -13,7 +13,7 @@
     -fx-background-color: #FFFFFF;
     -fx-border-color: #005BA1;
     -fx-border-width: 0 0 2px 0;
-    -fx-padding: 16px;
+    -fx-padding: 12px;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
 }
 
@@ -301,7 +301,7 @@
     -fx-border-width: 2px;
     -fx-border-radius: 12px;
     -fx-background-radius: 12px;
-    -fx-padding: 24px;
+    -fx-padding: 16px;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
 }
 

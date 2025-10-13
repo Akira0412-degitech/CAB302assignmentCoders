@@ -59,7 +59,7 @@ public class StudentResultDetailController {
             stage.initModality(Modality.WINDOW_MODAL);
             stage.setTitle("Quiz Results - Detailed Review");
             
-            Scene scene = new Scene(root, 900, 680);
+            Scene scene = new Scene(root, 920, 720);
             
             // Load CSS
             java.net.URL cssUrl = StudentResultDetailController.class.getResource(
