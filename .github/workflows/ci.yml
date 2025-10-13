@@ -54,37 +54,19 @@ jobs:
       - name: Generate Javadoc
         run: ./mvnw -B compile javadoc:javadoc
 
-      - name: Wait for Javadoc output (safety delay)
+
+      - name: Verify Javadoc Output
         run: |
-          echo "⏳ Waiting for Javadoc to be written..."
-          sleep 5
-          ls -R target/reports/apidocs || echo "⚠️ apidocs not found!"
+           echo "📂 Generated files:"
+           ls -R target/reports/apidocs || echo "⚠️ No Javadoc generated!"
 
-      - name: Update docs/javadoc directory
-        run: |
-          echo "🧹 Removing old Javadoc..."
-          rm -rf docs/javadoc
-          mkdir -p docs/javadoc
-          echo "📄 Copying new files..."
-          cp -r target/reports/apidocs/* docs/javadoc/
-          echo "✅ Copy complete: $(ls docs/javadoc | wc -l) files"
-
-
-      - name: Commit and push updated Javadoc
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/javadoc
-          git commit -m "🧾 Auto-update Javadoc [skip ci]" || echo "No changes to commit"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Javadoc artifact (for backup)
+      - name: Upload Javadoc artifact
         uses: actions/upload-artifact@v4
         with:
           name: javadoc
-          path: docs/javadoc/
+          path: target/reports/apidocs/
+          retention-days: 30 # 30 days is enough for sure
+
 
   #jb
   ui-student-quiz-tests:
