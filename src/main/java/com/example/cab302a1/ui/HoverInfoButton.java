@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 
 /**
  * A small "!" button that shows a tooltip on hover.
- * Tooltip text is provided by a Supplier<String> and is lazily loaded (computed once on first hover).
+ * Tooltip text is provided by a Supplier&lt;String&gt; and is lazily loaded (computed once on first hover).
  */
 
 public class HoverInfoButton extends Button {

@@ -5,7 +5,8 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-
+permissions:
+  contents: write #give the bot permission to write
 
 jobs:
   build:
@@ -45,6 +46,31 @@ jobs:
           DB_USER: root
           DB_PASS: root
         run: mvn -B verify
+
+        #why this doesnot run
+      # ----------------------------
+      # 📘 Javadoc Generation Section
+      # ----------------------------
+      - name: Generate Javadoc
+        run: |
+          ./mvnw -B clean javadoc:javadoc \
+            -Dmaven.javadoc.failOnError=false \
+            -Dmaven.javadoc.skip=false \
+            -Dsourcepath=src/main/java \
+            -Dencoding=UTF-8
+
+
+      - name: Verify Javadoc Output
+        run: |
+           echo "📂 Generated files:"
+           ls -R target/reports/apidocs || echo "⚠️ No Javadoc generated!"
+
+      - name: Upload Javadoc artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: javadoc
+          path: target/reports/apidocs/
+          retention-days: 30 # 30 days is enough for sure
 
 
   #jb
