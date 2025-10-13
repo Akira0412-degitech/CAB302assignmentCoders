@@ -46,6 +46,8 @@ jobs:
           DB_USER: root
           DB_PASS: root
         run: mvn -B verify
+
+        #why this doesnot run
       # ----------------------------
       # 📘 Javadoc Generation Section
       # ----------------------------
