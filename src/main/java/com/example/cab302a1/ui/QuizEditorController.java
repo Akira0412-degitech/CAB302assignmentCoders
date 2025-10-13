@@ -234,13 +234,7 @@ public class QuizEditorController {
             dialog.initOwner(owner);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.setTitle("Create Quiz");
-            dialog.setScene(new Scene((Parent) root, 900, 640));
-
-            // Attach shared CSS if present
-            var css1 = QuizEditorController.class.getResource("/HomePage.css");
-            var css2 = QuizEditorController.class.getResource("/com/example/cab302a1/HomePage.css");
-            if (css1 != null) dialog.getScene().getStylesheets().add(css1.toExternalForm());
-            else if (css2 != null) dialog.getScene().getStylesheets().add(css2.toExternalForm());
+            dialog.setScene(new Scene((Parent) root, 920, 700));
 
             c.setStage(dialog);
             dialog.showAndWait();
@@ -266,12 +260,7 @@ public class QuizEditorController {
             dialog.initOwner(owner);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.setTitle("Edit Quiz");
-            dialog.setScene(new Scene((Parent) root, 900, 640));
-
-            var css1 = QuizEditorController.class.getResource("/HomePage.css");
-            var css2 = QuizEditorController.class.getResource("/com/example/cab302a1/HomePage.css");
-            if (css1 != null) dialog.getScene().getStylesheets().add(css1.toExternalForm());
-            else if (css2 != null) dialog.getScene().getStylesheets().add(css2.toExternalForm());
+            dialog.setScene(new Scene((Parent) root, 920, 700));
 
             c.prefill(quiz);
 

@@ -1,0 +1,462 @@
+/* ================================================
+   TEACHER QUIZ PAGES - MODERN UI STYLES
+   Matching project design language
+   ================================================ */
+
+/* Root Container */
+.quiz-editor-root {
+    -fx-background-color: #DBEAFE;
+}
+
+/* Top Header Section */
+.quiz-header-section {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #005BA1;
+    -fx-border-width: 0 0 2px 0;
+    -fx-padding: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+.quiz-editor-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #005BA1;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+.quiz-section-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #005BA1;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-padding: 0 0 4 0;
+}
+
+/* Input Fields */
+.quiz-title-field {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #A5D8FF;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 16px;
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #005BA1;
+    -fx-prompt-text-fill: #94A3B8;
+}
+
+.quiz-title-field:focused {
+    -fx-border-color: #005BA1;
+    -fx-background-color: #FFFFFF;
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.2), 6, 0, 0, 0);
+}
+
+.quiz-description-area {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #A5D8FF;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 16px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #1E293B;
+    -fx-prompt-text-fill: #94A3B8;
+}
+
+.quiz-description-area:focused {
+    -fx-border-color: #005BA1;
+    -fx-background-color: #FFFFFF;
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.2), 6, 0, 0, 0);
+}
+
+.quiz-description-area .content {
+    -fx-background-color: transparent;
+}
+
+/* Questions Container */
+.questions-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.questions-scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.questions-scroll-pane .content {
+    -fx-background-color: transparent;
+}
+
+.questions-container {
+    -fx-background-color: transparent;
+    -fx-padding: 16px;
+}
+
+/* Question Card Styling */
+.question-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #A5D8FF;
+    -fx-border-width: 2px;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+}
+
+.question-index-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #005BA1;
+    -fx-background-color: #A5D8FF;
+    -fx-padding: 6px 12px;
+    -fx-background-radius: 6px;
+    -fx-min-width: 70px;
+    -fx-alignment: center;
+}
+
+.question-text-field {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #CBD5E1;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 14px;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+    -fx-text-fill: #1E293B;
+    -fx-prompt-text-fill: #94A3B8;
+}
+
+.question-text-field:focused {
+    -fx-border-color: #005BA1;
+    -fx-background-color: #FFFFFF;
+}
+
+.remove-question-btn {
+    -fx-background-color: #FEE2E2;
+    -fx-text-fill: #DC2626;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #DC2626;
+    -fx-border-width: 2px;
+    -fx-padding: 8px 16px;
+    -fx-cursor: hand;
+    -fx-min-width: 45px;
+}
+
+.remove-question-btn:hover {
+    -fx-background-color: #FECACA;
+    -fx-effect: dropshadow(gaussian, rgba(220, 38, 38, 0.3), 6, 0, 0, 0);
+}
+
+.remove-question-btn:pressed {
+    -fx-background-color: #FCA5A5;
+    -fx-translate-y: 1;
+}
+
+/* Answer Options Styling */
+.answer-option-container {
+    -fx-spacing: 8px;
+}
+
+.answer-radio {
+    -fx-cursor: hand;
+}
+
+.answer-text-field {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #CBD5E1;
+    -fx-border-width: 2px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 8px 12px;
+    -fx-font-size: 13px;
+    -fx-text-fill: #1E293B;
+    -fx-prompt-text-fill: #94A3B8;
+}
+
+.answer-text-field:focused {
+    -fx-border-color: #64748B;
+    -fx-background-color: #FFFFFF;
+}
+
+/* Correct Answer Highlight */
+.correct-answer {
+    -fx-background-color: #DCFCE7;
+    -fx-border-color: #22C55E;
+    -fx-border-width: 2px;
+}
+
+.correct-answer:focused {
+    -fx-background-color: #BBF7D0;
+    -fx-border-color: #16A34A;
+}
+
+/* Tip Label */
+.tip {
+    -fx-font-size: 12px;
+    -fx-text-fill: #64748B;
+    -fx-font-style: italic;
+    -fx-padding: 4px 0;
+}
+
+/* Explanation Section */
+.explanation-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #475569;
+    -fx-padding: 8 0 4 0;
+}
+
+.explanation-area {
+    -fx-background-color: #FEF3C7;
+    -fx-border-color: #F59E0B;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 12px;
+    -fx-font-size: 13px;
+    -fx-text-fill: #78350F;
+    -fx-prompt-text-fill: #92400E;
+}
+
+.explanation-area:focused {
+    -fx-border-color: #D97706;
+    -fx-background-color: #FEF9C3;
+}
+
+.explanation-area .content {
+    -fx-background-color: transparent;
+}
+
+/* Bottom Action Buttons */
+.quiz-actions-container {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #005BA1;
+    -fx-border-width: 2 0 0 0;
+    -fx-padding: 16px 24px;
+}
+
+.add-question-btn {
+    -fx-background-color: #A5D8FF;
+    -fx-text-fill: #005BA1;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #005BA1;
+    -fx-border-width: 2px;
+    -fx-padding: 12px 24px;
+    -fx-cursor: hand;
+}
+
+.add-question-btn:hover {
+    -fx-background-color: #91cdfd;
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.3), 8, 0, 0, 2);
+}
+
+.add-question-btn:pressed {
+    -fx-background-color: #74B3F4;
+    -fx-translate-y: 1;
+}
+
+.done-btn {
+    -fx-background-color: #22C55E;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #16A34A;
+    -fx-border-width: 2px;
+    -fx-padding: 12px 32px;
+    -fx-cursor: hand;
+}
+
+.done-btn:hover {
+    -fx-background-color: #16A34A;
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.4), 8, 0, 0, 2);
+}
+
+.done-btn:pressed {
+    -fx-background-color: #15803D;
+    -fx-translate-y: 1;
+}
+
+/* ================================================
+   QUIZ DETAIL PAGE STYLES
+   ================================================ */
+
+.quiz-detail-root {
+    -fx-background-color: #DBEAFE;
+    -fx-padding: 20px;
+}
+
+.detail-header {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #005BA1;
+    -fx-border-width: 2px;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-padding: 24px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+.detail-page-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #005BA1;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-padding: 0 0 16 0;
+}
+
+.detail-section-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #64748B;
+    -fx-font-family: "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    -fx-padding: 0 0 4 0;
+}
+
+.detail-title-text {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #005BA1;
+    -fx-padding: 0 0 12 0;
+    -fx-wrap-text: true;
+}
+
+.detail-description-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #475569;
+    -fx-padding: 0 0 16 0;
+    -fx-wrap-text: true;
+    -fx-line-spacing: 1.5;
+}
+
+/* Questions Display */
+.detail-questions-container {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #A5D8FF;
+    -fx-border-width: 2px;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+}
+
+.question-block {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #CBD5E1;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 16px;
+    -fx-spacing: 8px;
+}
+
+.question-text {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+    -fx-wrap-text: true;
+}
+
+.choice-text {
+    -fx-font-size: 13px;
+    -fx-text-fill: #475569;
+    -fx-padding: 4px 0 4px 16px;
+}
+
+.correct-choice {
+    -fx-font-weight: bold;
+    -fx-text-fill: #16A34A;
+}
+
+.explanation-text {
+    -fx-font-size: 13px;
+    -fx-text-fill: #78350F;
+    -fx-background-color: #FEF3C7;
+    -fx-padding: 10px 12px;
+    -fx-background-radius: 6px;
+    -fx-wrap-text: true;
+    -fx-font-style: italic;
+}
+
+/* Detail Action Buttons */
+/* .detail-actions-container {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #CBD5E1;
+    -fx-border-width: 2 0 0 0;
+    -fx-padding: 16px 0 0 0;
+} */
+
+.edit-quiz-btn {
+    -fx-background-color: #A5D8FF;
+    -fx-text-fill: #005BA1;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #005BA1;
+    -fx-border-width: 2px;
+    -fx-padding: 10px 24px;
+    -fx-cursor: hand;
+}
+
+.edit-quiz-btn:hover {
+    -fx-background-color: #91cdfd;
+    -fx-effect: dropshadow(gaussian, rgba(0, 91, 161, 0.3), 8, 0, 0, 2);
+}
+
+.edit-quiz-btn:pressed {
+    -fx-background-color: #74B3F4;
+    -fx-translate-y: 1;
+}
+
+.close-btn {
+    -fx-background-color: #E2E8F0;
+    -fx-text-fill: #475569;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #94A3B8;
+    -fx-border-width: 2px;
+    -fx-padding: 10px 24px;
+    -fx-cursor: hand;
+}
+
+.close-btn:hover {
+    -fx-background-color: #CBD5E1;
+}
+
+.close-btn:pressed {
+    -fx-background-color: #94A3B8;
+    -fx-translate-y: 1;
+}
+
+/* ScrollPane Styling */
+.detail-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.detail-scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.detail-scroll-pane .content {
+    -fx-background-color: transparent;
+}
+
+/* Divider */
+.question-divider {
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 8 0 0 0;
+}
+

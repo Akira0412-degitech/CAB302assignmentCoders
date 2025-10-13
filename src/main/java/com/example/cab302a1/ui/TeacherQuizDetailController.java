@@ -52,7 +52,7 @@ public class TeacherQuizDetailController {
             c.stage.initOwner(owner);
             c.stage.initModality(Modality.WINDOW_MODAL);
             c.stage.setTitle("Quiz Detail");
-            c.stage.setScene(new Scene(root, 560, 480));
+            c.stage.setScene(new Scene(root, 700, 650));
 
 
             QuestionDao questionDao = DaoFactory.getQuestionDao();
@@ -92,33 +92,44 @@ public class TeacherQuizDetailController {
         questionsBox.getChildren().clear();
         int qIdx = 1;
         for (QuizQuestionCreate q : quiz.getQuestions()) {
-            VBox block = new VBox(4);
+            // Create styled question block
+            VBox block = new VBox(8);
+            block.getStyleClass().add("question-block");
 
-            Label qLabel = new Label(qIdx + ". " + (q.getQuestionText() == null ? "" : q.getQuestionText()));
-            qLabel.setStyle("-fx-font-weight: bold;");
+            // Question text with styling
+            Label qLabel = new Label("Q" + qIdx + ": " + (q.getQuestionText() == null ? "" : q.getQuestionText()));
+            qLabel.getStyleClass().add("question-text");
+            qLabel.setWrapText(true);
             block.getChildren().add(qLabel);
 
+            // Answer choices with styling
+            VBox choicesBox = new VBox(4);
             int cIdx = 0;
             for (QuizChoiceCreate ch : q.getChoices()) {
-                String mark = ch.isCorrect() ? " (✓)" : "";
+                String mark = ch.isCorrect() ? " ✓" : "";
                 String text = ch.getText() == null ? "" : ch.getText();
-                Label cLabel = new Label(" - " + (char)('A' + cIdx) + ". " + text + mark);
-                block.getChildren().add(cLabel);
+                Label cLabel = new Label((char)('A' + cIdx) + ". " + text + mark);
+                cLabel.getStyleClass().add("choice-text");
+                if (ch.isCorrect()) {
+                    cLabel.getStyleClass().add("correct-choice");
+                }
+                cLabel.setWrapText(true);
+                choicesBox.getChildren().add(cLabel);
                 cIdx++;
             }
+            block.getChildren().add(choicesBox);
 
-            //explanation (if there is)
+            // Explanation (if there is)
             String exp = q.getExplanation();
             if (exp != null && !exp.isBlank()) {
-                Label expLabel = new Label(" * Explanation: " + exp);
+                Label expLabel = new Label("💡 Explanation: " + exp);
+                expLabel.getStyleClass().add("explanation-text");
                 expLabel.setWrapText(true);
-                expLabel.maxWidthProperty().bind(questionsBox.widthProperty().subtract(28));
+                expLabel.maxWidthProperty().bind(questionsBox.widthProperty().subtract(40));
                 block.getChildren().add(expLabel);
             }
 
-            HBox sep = new HBox();
-            sep.setStyle("-fx-border-color: #e0e0e0; -fx-border-width: 0 0 1 0; -fx-padding: 6 0 0 0;");
-            questionsBox.getChildren().addAll(block, sep);
+            questionsBox.getChildren().add(block);
             qIdx++;
         }
     }
