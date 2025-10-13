@@ -2,7 +2,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "Akira_Refactoring" ]
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 permissions:
