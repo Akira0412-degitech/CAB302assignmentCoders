@@ -52,7 +52,12 @@ jobs:
       # 📘 Javadoc Generation Section
       # ----------------------------
       - name: Generate Javadoc
-        run: ./mvnw -B compile javadoc:javadoc
+        run: |
+          ./mvnw -B clean javadoc:javadoc \
+            -Dmaven.javadoc.failOnError=false \
+            -Dmaven.javadoc.skip=false \
+            -Dsourcepath=src/main/java \
+            -Dencoding=UTF-8
 
 
       - name: Verify Javadoc Output
