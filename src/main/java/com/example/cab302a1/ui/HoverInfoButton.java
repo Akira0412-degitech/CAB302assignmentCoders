@@ -51,10 +51,5 @@ public class HoverInfoButton extends Button {
         this.contentSupplier = supplier;
         this.loaded = false;
     }
-
-    // Enables or disables caching of the tooltip text (for safety) can delete
-    public void setCacheEnabled(boolean cacheEnabled) {
-        this.cacheEnabled = cacheEnabled;
-        if (!cacheEnabled) this.loaded = false;
-    }
+    
 }
