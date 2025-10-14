@@ -33,25 +33,37 @@ public class JdbcQuizDao implements QuizDao {
      * </p>
      */
     @Override
-    public List<Quiz> getAllQuizzes(){
+    public List<Quiz> getAllQuizzes() {
         List<Quiz> quizzes = new ArrayList<>();
 
-        String sql = "SELECT quiz_id, title, description, created_by, is_Hidden FROM quizzes";
+        String sql = """
+            SELECT q.quiz_id,
+                   q.title,
+                   q.description,
+                   q.created_by,
+                   q.is_Hidden,
+                   u.username AS author_username
+            FROM quizzes q
+            LEFT JOIN users u ON u.user_id = q.created_by
+            """;
 
-        try(Connection conn = DBconnection.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            ResultSet rs = pstmt.executeQuery()){
+        try (Connection conn = DBconnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
 
-            while (rs.next()){
-                Quiz q = new Quiz(rs.getInt("quiz_id"),
+            while (rs.next()) {
+                Quiz qz = new Quiz(
+                        rs.getInt("quiz_id"),
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getInt("created_by"),
-                        rs.getBoolean("is_Hidden"));
-                quizzes.add(q);
-            }
+                        rs.getBoolean("is_Hidden"),
+                        rs.getString("author_username")
+                );
 
-        } catch (SQLException e){
+                quizzes.add(qz);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return quizzes;
@@ -133,7 +145,8 @@ public class JdbcQuizDao implements QuizDao {
                             rs.getString("title"),
                             rs.getString("description"),
                             rs.getInt("created_by"),
-                            rs.getBoolean("is_Hidden")
+                            rs.getBoolean("is_Hidden"),
+                            rs.getString("author_username")
                     );
 
                 }
