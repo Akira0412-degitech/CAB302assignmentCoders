@@ -35,7 +35,7 @@ public class HideQuizAction {
 
         Optional<ButtonType> res = alert.showAndWait();
         if (res.isPresent() && res.get() == ok) {
-            quizDao.UpdateQuizStatus(quiz.getQuizId(), true); // Soft delete: is_hidden = 1
+            quizDao.updateQuizStatus(quiz.getQuizId(), true); // Soft delete: is_hidden = 1
             grid.getChildren().remove(cardNode);
             return true;
         }

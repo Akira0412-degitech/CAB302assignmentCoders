@@ -41,8 +41,24 @@ public class QuizCardFactory {
     public Node buildStudentCard(Quiz quiz,
                                  Supplier<String> tooltipSupplier,
                                  EventHandler<ActionEvent> onTitleClick) {
+        return buildStudentCard(quiz, tooltipSupplier, onTitleClick, false);
+    }
+
+    /**
+     * [신규 오버로드]
+     * Student card with completion style support.
+     * completed==true 이면 CSS 클래스 'quiz-card-completed' 추가.
+     */
+    public Node buildStudentCard(Quiz quiz,
+                                 Supplier<String> tooltipSupplier,
+                                 EventHandler<ActionEvent> onTitleClick,
+                                 boolean completed) {
         StackPane card = buildBaseCard(quiz);
         Button titleBtn = (Button) card.getChildren().get(0);
+
+        if (completed) {
+            titleBtn.getStyleClass().add("quiz-card-completed");
+        }
 
         if (onTitleClick != null) {
             titleBtn.setOnAction(onTitleClick);
@@ -56,6 +72,7 @@ public class QuizCardFactory {
         }
         return card;
     }
+
 
     /**
      * Teacher card: add '×' (top-left) + title click handler.

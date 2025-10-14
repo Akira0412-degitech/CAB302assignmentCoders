@@ -37,7 +37,6 @@ public class HomeController implements Initializable {
 
     @FXML
     private TilePane grid;
-
     @FXML
     private Label pageTitle;
 
@@ -45,12 +44,14 @@ public class HomeController implements Initializable {
     private final List<Quiz> quizzes = new ArrayList<>();
 
     private final QuizCardFactory cardFactory = new QuizCardFactory();
-    private final QuizFlow studentFlow = new StudentQuizFlow(new AttemptDao(), new ResponseDao(), new QuizService());
+    private final QuizFlow studentFlow =
+            new StudentQuizFlow(DaoFactory.getAttemptDao(), DaoFactory.getResponseDao(), new QuizService());
     private final QuizFlow teacherFlow = new TeacherQuizFlow();
 
-    private final HideQuizAction hideAction = new HideQuizAction(new QuizDao());
+    private final HideQuizAction hideAction = new HideQuizAction(DaoFactory.getQuizDao());
     private final QuizInfoProvider infoProvider = new QuizInfoProvider(new QuizService());
     private CreateQuizAction createAction; // '+' Card action
+
 
 
     @FXML
@@ -100,12 +101,14 @@ public class HomeController implements Initializable {
     public void refresh() {
         grid.getChildren().clear();
         quizzes.clear();
+
         QuizDao quizDao = DaoFactory.getQuizDao();
 
         // Load all quizzes (only Visible)
         List<Quiz> all = quizDao.getAllQuizzes();
         for (Quiz q : all) {
-            if (!q.getIsHidden()) {           // IsHidden filtering
+            Boolean hidden = q.getIsHidden();
+            if (hidden == null || !hidden) {   // visible only
                 quizzes.add(q);
                 grid.getChildren().add(buildQuizCardForRole(q));
             }
@@ -120,17 +123,26 @@ public class HomeController implements Initializable {
 
 
     // 1) Assemble cards according to the role (student/teacher branch core)
+    // Assemble cards per role
     private javafx.scene.Node buildQuizCardForRole(Quiz quiz) {
         if (Session.isStudent()) {
+            // Calculate completion status
+            AttemptDao attemptDao = DaoFactory.getAttemptDao();
+            int userId = (Session.getCurrentUser() != null) ? Session.getCurrentUser().getUser_id() : 0;
+            boolean isCompleted = attemptDao.hasCompleted(quiz.getQuizId(), userId);
+
+            // Create student cards (complete style + branch to take/result on click)
             return cardFactory.buildStudentCard(
                     quiz,
                     () -> infoProvider.build(quiz),
                     e -> {
                         Stage owner = (Stage) ((Node) e.getSource()).getScene().getWindow();
-                        studentFlow.open(owner, quiz, null);
-                    }
+                        ((StudentQuizFlow) studentFlow).openOrShowResult(owner, quiz);
+                    },
+                    isCompleted // <- Apply complete style
             );
         } else {
+            //Teacher Card: Click title => Editor, '×' => Hide
             return cardFactory.buildTeacherCard(
                     quiz,
                     e -> {
