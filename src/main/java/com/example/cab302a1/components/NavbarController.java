@@ -23,8 +23,8 @@ import java.util.ResourceBundle;
  * This controller provides navigation functionality for:
  * - Home page navigation
  * - Review page navigation  
- * - Timetable page navigation
  * - Application exit functionality
+ * (Timetable page navigation - commented out, no longer needed)
  * 
  * @author CAB302 Assignment Team
  * @version 1.0
@@ -44,8 +44,9 @@ public class NavbarController implements Initializable {
     @FXML
     private Button reviewBtn;
 
-    @FXML
-    private Button timetableBtn;
+    // Timetable button commented out - no longer needed for this project
+    // @FXML
+    // private Button timetableBtn;
 
     @FXML
     private Button exitBtn;
@@ -108,9 +109,10 @@ public class NavbarController implements Initializable {
             case "review":
                 setActiveButton(reviewBtn);
                 break;
-            case "timetable":
-                setActiveButton(timetableBtn);
-                break;
+            // Timetable button commented out - no longer needed
+            // case "timetable":
+            //     setActiveButton(timetableBtn);
+            //     break;
             default:
                 setActiveButton(homeBtn);
                 break;
@@ -134,7 +136,8 @@ public class NavbarController implements Initializable {
     private void configureAccessibility() {
         homeBtn.setAccessibleText("Navigate to Home page");
         reviewBtn.setAccessibleText("Navigate to Review page");
-        timetableBtn.setAccessibleText("Navigate to Timetable page");
+        // Timetable button commented out - no longer needed
+        // timetableBtn.setAccessibleText("Navigate to Timetable page");
         exitBtn.setAccessibleText("Exit the application");
     }
 
@@ -148,7 +151,8 @@ public class NavbarController implements Initializable {
         // Reset all buttons to their default state
         resetButtonToDefault(homeBtn);
         resetButtonToDefault(reviewBtn);
-        resetButtonToDefault(timetableBtn);
+        // Timetable button commented out - no longer needed
+        // resetButtonToDefault(timetableBtn);
         
         // Add active styling to the specified button
         if (activeButton != null && activeButton != exitBtn) {
@@ -165,7 +169,8 @@ public class NavbarController implements Initializable {
         // Reset all buttons to their default state
         resetButtonToDefault(homeBtn);
         resetButtonToDefault(reviewBtn);
-        resetButtonToDefault(timetableBtn);
+        // Timetable button commented out - no longer needed
+        // resetButtonToDefault(timetableBtn);
         
         // Clear focus from all buttons to prevent :focused pseudo-class issues
         clearFocusFromAllButtons();
@@ -214,14 +219,16 @@ public class NavbarController implements Initializable {
         // Only clear focus from navigation buttons (exclude EXIT button)
         homeBtn.setFocusTraversable(false);
         reviewBtn.setFocusTraversable(false);
-        timetableBtn.setFocusTraversable(false);
+        // Timetable button commented out - no longer needed
+        // timetableBtn.setFocusTraversable(false);
         // Note: exitBtn is intentionally excluded to maintain its normal state
         
         // Re-enable focus traversal after a short delay
         javafx.application.Platform.runLater(() -> {
             homeBtn.setFocusTraversable(true);
             reviewBtn.setFocusTraversable(true);
-            timetableBtn.setFocusTraversable(true);
+            // Timetable button commented out - no longer needed
+            // timetableBtn.setFocusTraversable(true);
             // Note: exitBtn remains unaffected
         });
     }
@@ -277,21 +284,22 @@ public class NavbarController implements Initializable {
         }
     }
 
+    // Timetable button commented out - no longer needed for this project
     /**
      * Handles the Timetable button click event.
      * Navigates to the timetable page and updates the active button state.
      *
      * @param event The action event triggered by clicking the Timetable button
      */
-    @FXML
-    private void handleTimetableAction(ActionEvent event) {
-        System.out.println("Navigation: Timetable button clicked");
-        setActiveButtonWithFocusClear(timetableBtn);
-        
-        // TODO: Implement actual navigation to Timetable page
-        // Example: SceneManager.switchToTimetable();
-        navigateToPage("Timetable");
-    }
+    // @FXML
+    // private void handleTimetableAction(ActionEvent event) {
+    //     System.out.println("Navigation: Timetable button clicked");
+    //     setActiveButtonWithFocusClear(timetableBtn);
+    //     
+    //     // TODO: Implement actual navigation to Timetable page
+    //     // Example: SceneManager.switchToTimetable();
+    //     navigateToPage("Timetable");
+    // }
 
     /**
      * Handles the EXIT button click event.
@@ -373,9 +381,10 @@ public class NavbarController implements Initializable {
             case "review":
                 setActiveButton(reviewBtn);
                 break;
-            case "timetable":
-                setActiveButton(timetableBtn);
-                break;
+            // Timetable button commented out - no longer needed
+            // case "timetable":
+            //     setActiveButton(timetableBtn);
+            //     break;
             default:
                 System.out.println("Warning: Unknown navigation button name: " + buttonName);
         }
