@@ -44,7 +44,7 @@ public class StudentTakeQuizController {
             s.initOwner(owner);
             s.initModality(Modality.WINDOW_MODAL);
             s.setTitle("Take Quiz");
-            s.setScene(new Scene(root, 900, 680));
+            s.setScene(new Scene(root, 920, 720));
 
             c.stage = s;
             c.onSubmit = onSubmit;

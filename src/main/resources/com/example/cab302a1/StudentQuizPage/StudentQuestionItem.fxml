@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -9,16 +10,30 @@
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.example.cab302a1.ui.StudentQuestionItemController"
-      spacing="12" style="-fx-padding: 16; -fx-background-color: #e3f2ff; -fx-background-radius: 10;">
-    <!-- 01/02 -->
-    <Label fx:id="indexLabel" text="01/02" style="-fx-font-weight: bold;"/>
+      spacing="16" 
+      styleClass="student-question-card">
+      
+    <!-- Question Number Badge -->
+    <HBox alignment="CENTER_LEFT">
+        <Label fx:id="indexLabel" 
+              text="01/02" 
+              styleClass="student-question-index"/>
+    </HBox>
 
-<!--Question = READ only -->
-    <TextField fx:id="questionField" text="Question ..."
-               editable="false" focusTraversable="false" mouseTransparent="true"/>
+    <!-- Question Text (Read Only) -->
+    <TextField fx:id="questionField" 
+              text="Question ..."
+              styleClass="student-question-text"
+              editable="false" 
+              focusTraversable="false" 
+              mouseTransparent="true"/>
 
-<!-- only   can click answer-->
-    <GridPane hgap="16" vgap="16">
+    <!-- Answer Options Label -->
+    <Label text="Select your answer:" 
+          style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #475569;"/>
+
+    <!-- Answer Options Grid -->
+    <GridPane styleClass="answers-grid">
         <columnConstraints>
             <ColumnConstraints percentWidth="50"/>
             <ColumnConstraints percentWidth="50"/>
@@ -29,10 +44,30 @@
         </rowConstraints>
 
         <children>
-            <ToggleButton fx:id="btnA" text="Answer 1" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-            <ToggleButton fx:id="btnB" text="Answer 2" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-            <ToggleButton fx:id="btnC" text="Answer 3" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <ToggleButton fx:id="btnD" text="Answer 4" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <ToggleButton fx:id="btnA" 
+                         text="A. Answer 1" 
+                         styleClass="answer-toggle"
+                         GridPane.columnIndex="0" 
+                         GridPane.rowIndex="0"
+                         maxWidth="Infinity"/>
+            <ToggleButton fx:id="btnB" 
+                         text="B. Answer 2" 
+                         styleClass="answer-toggle"
+                         GridPane.columnIndex="1" 
+                         GridPane.rowIndex="0"
+                         maxWidth="Infinity"/>
+            <ToggleButton fx:id="btnC" 
+                         text="C. Answer 3" 
+                         styleClass="answer-toggle"
+                         GridPane.columnIndex="0" 
+                         GridPane.rowIndex="1"
+                         maxWidth="Infinity"/>
+            <ToggleButton fx:id="btnD" 
+                         text="D. Answer 4" 
+                         styleClass="answer-toggle"
+                         GridPane.columnIndex="1" 
+                         GridPane.rowIndex="1"
+                         maxWidth="Infinity"/>
         </children>
     </GridPane>
 </VBox>

@@ -1,75 +1,38 @@
 package com.example.cab302a1.dao;
 
-import com.example.cab302a1.DBconnection;
 import com.example.cab302a1.model.QuestionResponse;
-import com.mysql.cj.protocol.Resultset;
-import org.flywaydb.core.internal.jdbc.Results;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
-public class ResponseDao {
-    public void saveResponse(int _attemptId, List<QuestionResponse> _response){
-        String sql = "INSERT INTO question_responses (attempt_id, question_id, option_id, is_correct) VALUES (?, ?, ?,?)";
+/**
+ * ResponseDao defines the contract for managing
+ * question response data within a quiz attempt.
+ */
+public interface ResponseDao {
 
-        try(Connection conn = DBconnection.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
+    /**
+     * Save a list of question responses for a specific quiz attempt.
+     *
+     * @param attemptId The ID of the quiz attempt.
+     * @param responses The list of question responses to be saved.
+     */
+    void saveResponse(int attemptId, List<QuestionResponse> responses);
 
-            for(QuestionResponse r : _response){
-                pstmt.setInt(1, _attemptId);
-                pstmt.setInt(2, r.getQuestion_id());
-                pstmt.setInt(3, r.getOption_id());
-                pstmt.setBoolean(4, r.getIs_Correct());
+    /**
+     * Calculate the total score based on correct responses
+     * for a specific quiz attempt.
+     *
+     * @param attemptId The ID of the quiz attempt.
+     * @return The calculated score (number of correct answers),
+     *         or -1 if an error occurs.
+     */
+    int calculateScoreFromResponses(int attemptId);
 
-                pstmt.addBatch(); // Batch for performance
-            }
-
-            pstmt.executeBatch();
-
-        } catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-    public int calculateScoreFromResponses(int _attemptId){
-        String sql = "SELECT COUNT(response_id) AS score FROM question_responses WHERE is_correct = True AND attempt_id = ?";
-
-        try(Connection conn = DBconnection.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
-
-            pstmt.setInt(1, _attemptId);
-            try(ResultSet rs = pstmt.executeQuery()){
-                if(rs.next()){
-                    return rs.getInt("score");
-                }
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return -1;
-    }
-
-    public int getChosenOptionId(int _attempt_id, int _question_id){
-        String sql = "SELECT option_id FROM question_responses WHERE attempt_id = ? AND question_id = ?";
-
-        try(Connection conn = DBconnection.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)){
-
-            pstmt.setInt(1, _attempt_id);
-            pstmt.setInt(2, _question_id);
-
-            try(ResultSet rs = pstmt.executeQuery()){
-                if(rs.next()){
-                    return rs.getInt("option_id");
-                }
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return -1;
-    }
-
+    /**
+     * Retrieve the chosen option ID for a given attempt and question.
+     *
+     * @param attemptId  The ID of the quiz attempt.
+     * @param questionId The ID of the question.
+     * @return The selected option ID, or -1 if not found.
+     */
+    int getChosenOptionId(int attemptId, int questionId);
 }

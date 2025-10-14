@@ -22,11 +22,11 @@ public class QuizQuestionCreate {
         this.explanation = _explanation;
     }
 
-    public void setQuiz_id(int _quizId){
+    public void setQuizId(int _quizId){
         quiz_id = _quizId;
     }
     public void setQuestionText(String questionText) { this.questionText = questionText; }
-    public void setQuestion_id(int _questionId) {
+    public void setQuestionId(int _questionId) {
         question_id = _questionId;
     }
     public void setExplanation(String _explanation){

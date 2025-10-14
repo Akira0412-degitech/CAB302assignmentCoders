@@ -4,6 +4,11 @@ import com.example.cab302a1.ui.info.QuizInfoProvider;
 import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.ResponseDao;
+import com.example.cab302a1.dao.jdbc.DaoFactory;
+import com.example.cab302a1.dao.jdbc.JdbcAttemptDao;
+import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
+import com.example.cab302a1.dao.jdbc.JdbcResponseDao;
+import com.example.cab302a1.model.QuestionResponse;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.service.QuizService;
 import com.example.cab302a1.ui.view.card.QuizCardFactory;
@@ -95,7 +100,7 @@ public class HomeController implements Initializable {
     public void refresh() {
         grid.getChildren().clear();
         quizzes.clear();
-        QuizDao quizDao = new QuizDao();
+        QuizDao quizDao = DaoFactory.getQuizDao();
 
         // Load all quizzes (only Visible)
         List<Quiz> all = quizDao.getAllQuizzes();

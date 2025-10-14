@@ -4,39 +4,68 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.cab302a1.ui.QuestionItemController"
-      spacing="6" styleClass="question-card">
-    <HBox spacing="6" alignment="CENTER_LEFT">
-        <Label fx:id="indexLabel" text="#01/01"/>
-        <TextField fx:id="questionField" promptText="Question text" HBox.hgrow="ALWAYS"/>
-        <Button text="X" onAction="#onRemoveSelf"/>
+      spacing="12" styleClass="question-card">
+      
+    <!-- Question Header -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label fx:id="indexLabel" 
+              text="#01/01"
+              styleClass="question-index-label"/>
+        <TextField fx:id="questionField" 
+                  promptText="Enter question text here..." 
+                  styleClass="question-text-field"
+                  HBox.hgrow="ALWAYS"/>
+        <Button text="✕" 
+               onAction="#onRemoveSelf"
+               styleClass="remove-question-btn"/>
     </HBox>
 
-    <!-- Answers (each row: Radio + TextField) -->
+    <!-- Answer Options -->
+    <VBox spacing="10" styleClass="answer-option-container">
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <RadioButton fx:id="rb1" styleClass="answer-radio"/>
+            <TextField fx:id="answer1" 
+                      promptText="Choice A" 
+                      styleClass="answer-text-field"
+                      HBox.hgrow="ALWAYS"/>
+        </HBox>
+        
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <RadioButton fx:id="rb2" styleClass="answer-radio"/>
+            <TextField fx:id="answer2" 
+                      promptText="Choice B" 
+                      styleClass="answer-text-field"
+                      HBox.hgrow="ALWAYS"/>
+        </HBox>
+        
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <RadioButton fx:id="rb3" styleClass="answer-radio"/>
+            <TextField fx:id="answer3" 
+                      promptText="Choice C" 
+                      styleClass="answer-text-field"
+                      HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <RadioButton fx:id="rb4" styleClass="answer-radio"/>
+            <TextField fx:id="answer4" 
+                      promptText="Choice D" 
+                      styleClass="answer-text-field"
+                      HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <Label text="💡 Tip: Select the radio button to mark the correct answer." 
+              styleClass="tip"/>
+    </VBox>
+
+    <!-- Explanation Section -->
     <VBox spacing="6">
-        <HBox spacing="8" alignment="CENTER_LEFT">
-            <RadioButton fx:id="rb1"/>
-            <TextField fx:id="answer1" promptText="Choice A" HBox.hgrow="ALWAYS"/>
-        </HBox>
-        <HBox spacing="8" alignment="CENTER_LEFT">
-            <RadioButton fx:id="rb2"/>
-            <TextField fx:id="answer2" promptText="Choice B" HBox.hgrow="ALWAYS"/>
-        </HBox>
-        <HBox spacing="8" alignment="CENTER_LEFT">
-            <RadioButton fx:id="rb3"/>
-            <TextField fx:id="answer3" promptText="Choice C" HBox.hgrow="ALWAYS"/>
-        </HBox>
-
-        <HBox spacing="8" alignment="CENTER_LEFT">
-            <RadioButton fx:id="rb4"/>
-            <TextField fx:id="answer4" promptText="Choice D" HBox.hgrow="ALWAYS"/>
-        </HBox>
-
-        <Label text="Tip: Select the radio to mark the correct answer." styleClass="tip"/>
-
-        <Label text="Explanation (optional)"/>
-
+        <Label text="📝 Explanation (optional)"
+              styleClass="explanation-label"/>
         <TextArea fx:id="explanationArea"
-                  promptText="Why is this answer correct? (Shown after submission)"
-                  prefRowCount="3"/>
+                  promptText="Explain why this answer is correct (shown to students after submission)..."
+                  prefRowCount="3"
+                  styleClass="explanation-area"
+                  wrapText="true"/>
     </VBox>
 </VBox>

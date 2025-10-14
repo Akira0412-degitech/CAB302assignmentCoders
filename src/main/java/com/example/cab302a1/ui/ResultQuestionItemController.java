@@ -42,10 +42,10 @@ public class ResultQuestionItemController {
     }
 
     public void setAnswers(List<String> answers) {
-        btnA.setText(answers.size() > 0 ? answers.get(0) : "Answer 1");
-        btnB.setText(answers.size() > 1 ? answers.get(1) : "Answer 2");
-        btnC.setText(answers.size() > 2 ? answers.get(2) : "Answer 3");
-        btnD.setText(answers.size() > 3 ? answers.get(3) : "Answer 4");
+        btnA.setText(answers.size() > 0 ? "A. " + answers.get(0) : "A. Answer 1");
+        btnB.setText(answers.size() > 1 ? "B. " + answers.get(1) : "B. Answer 2");
+        btnC.setText(answers.size() > 2 ? "C. " + answers.get(2) : "C. Answer 3");
+        btnD.setText(answers.size() > 3 ? "D. " + answers.get(3) : "D. Answer 4");
     }
 
     /**

@@ -5,29 +5,57 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.cab302a1.ui.QuizEditorController"
-            prefWidth="900.0" prefHeight="640.0">
+            prefWidth="900.0" prefHeight="640.0"
+            styleClass="quiz-editor-root"
+            stylesheets="@TeacherQuizPage.css">
 
     <top>
-        <VBox spacing="8" style="-fx-padding: 16 16 8 16;">
-            <Label text="Create Quiz" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
-            <TextField fx:id="titleField" promptText="Quiz Title"/>
-            <TextArea fx:id="descArea" promptText="Description..." prefRowCount="3"/>
+        <VBox spacing="12" styleClass="quiz-header-section" style="-fx-padding: 24 24 24 24;">
+            <Label text="Create Quiz" styleClass="quiz-editor-title"/>
+            
+            <VBox spacing="6">
+                <Label text="Quiz Title *" styleClass="quiz-section-label"/>
+                <TextField fx:id="titleField" 
+                          promptText="Enter quiz title here..." 
+                          styleClass="quiz-title-field"/>
+            </VBox>
+            
+            <VBox spacing="6">
+                <Label text="Description" styleClass="quiz-section-label"/>
+                <TextArea fx:id="descArea" 
+                         promptText="Enter a brief description of this quiz..." 
+                         prefRowCount="3"
+                         styleClass="quiz-description-area"
+                         wrapText="true"/>
+            </VBox>
         </VBox>
     </top>
 
     <center>
-        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+        <ScrollPane fitToWidth="true" 
+                   hbarPolicy="NEVER" 
+                   vbarPolicy="AS_NEEDED"
+                   styleClass="questions-scroll-pane">
             <content>
-                <VBox fx:id="questionsBox" spacing="16" style="-fx-padding: 16;">
+                <VBox fx:id="questionsBox" 
+                     spacing="16" 
+                     styleClass="questions-container">
                 </VBox>
             </content>
         </ScrollPane>
     </center>
 
     <bottom>
-        <HBox spacing="12" alignment="CENTER_RIGHT" style="-fx-padding: 12 16;">
-            <Button fx:id="addQuestionBtn" text="ADD MORE" />
-            <Button fx:id="doneBtn" text="Done" defaultButton="true"/>
+        <HBox spacing="12" 
+             alignment="CENTER_RIGHT" 
+             styleClass="quiz-actions-container">
+            <Button fx:id="addQuestionBtn" 
+                   text="+ ADD QUESTION" 
+                   styleClass="add-question-btn"/>
+            <Button fx:id="doneBtn" 
+                   text="Save Quiz" 
+                   defaultButton="true"
+                   styleClass="done-btn"/>
         </HBox>
     </bottom>
 </BorderPane>

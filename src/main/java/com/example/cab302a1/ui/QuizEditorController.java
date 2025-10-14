@@ -16,6 +16,7 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.dao.OptionDao;
 import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.QuizDao;
+import com.example.cab302a1.dao.jdbc.DaoFactory;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizQuestionCreate;
 import com.example.cab302a1.util.Session;
@@ -128,9 +129,9 @@ public class QuizEditorController {
             Quiz built = buildQuizFromUI();
             built.setCreated_by(Session.getCurrentUser().getUser_id());
 
-            QuizDao quizDao = new QuizDao();
-            QuestionDao questionDao = new QuestionDao();
-            OptionDao optionDao = new OptionDao();
+            QuizDao quizDao = DaoFactory.getQuizDao();
+            QuestionDao questionDao = DaoFactory.getQuestionDao();
+            OptionDao optionDao =DaoFactory.getOptionDao();
 
             if(editing != null){
                 built.setQuizId(editing.getQuizId());
@@ -140,9 +141,9 @@ public class QuizEditorController {
                     if(q.getQuestionId() > 0){
                         questionDao.updateQuestion(q);
                     }else{
-                        q.setQuiz_id(built.getQuizId());
+                        q.setQuizId(built.getQuizId());
                         int newIdForQuestion = questionDao.insertQuestion(q);
-                        q.setQuestion_id(newIdForQuestion);
+                        q.setQuestionId(newIdForQuestion);
                     }
 
                     for (QuizChoiceCreate choice : q.getChoices()) {
@@ -162,9 +163,9 @@ public class QuizEditorController {
 
 
                 for (QuizQuestionCreate q : built.getQuestions()) {
-                    q.setQuiz_id(quiz_id);
+                    q.setQuizId(quiz_id);
                     int questionId = questionDao.insertQuestion(q);
-                    q.setQuestion_id(questionId);
+                    q.setQuestionId(questionId);
 
 
                     for (QuizChoiceCreate choice : q.getChoices()) {
@@ -233,13 +234,7 @@ public class QuizEditorController {
             dialog.initOwner(owner);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.setTitle("Create Quiz");
-            dialog.setScene(new Scene((Parent) root, 900, 640));
-
-            // Attach shared CSS if present
-            var css1 = QuizEditorController.class.getResource("/HomePage.css");
-            var css2 = QuizEditorController.class.getResource("/com/example/cab302a1/HomePage.css");
-            if (css1 != null) dialog.getScene().getStylesheets().add(css1.toExternalForm());
-            else if (css2 != null) dialog.getScene().getStylesheets().add(css2.toExternalForm());
+            dialog.setScene(new Scene((Parent) root, 920, 700));
 
             c.setStage(dialog);
             dialog.showAndWait();
@@ -265,12 +260,7 @@ public class QuizEditorController {
             dialog.initOwner(owner);
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.setTitle("Edit Quiz");
-            dialog.setScene(new Scene((Parent) root, 900, 640));
-
-            var css1 = QuizEditorController.class.getResource("/HomePage.css");
-            var css2 = QuizEditorController.class.getResource("/com/example/cab302a1/HomePage.css");
-            if (css1 != null) dialog.getScene().getStylesheets().add(css1.toExternalForm());
-            else if (css2 != null) dialog.getScene().getStylesheets().add(css2.toExternalForm());
+            dialog.setScene(new Scene((Parent) root, 920, 700));
 
             c.prefill(quiz);
 

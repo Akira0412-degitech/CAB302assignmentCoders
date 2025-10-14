@@ -2,6 +2,9 @@ package com.example.cab302a1.service;
 
 import com.example.cab302a1.dao.OptionDao;
 import com.example.cab302a1.dao.QuestionDao;
+import com.example.cab302a1.dao.jdbc.DaoFactory;
+import com.example.cab302a1.dao.jdbc.JdbcOptionDao;
+import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.model.QuizQuestionCreate;
@@ -9,8 +12,8 @@ import com.example.cab302a1.model.QuizQuestionCreate;
 import java.util.List;
 
 public class QuizService {
-    private final QuestionDao questionDao = new QuestionDao();
-    private final OptionDao optionDao = new OptionDao();
+    private final QuestionDao questionDao = DaoFactory.getQuestionDao();
+    private final OptionDao optionDao = DaoFactory.getOptionDao();
 
 
     public Quiz loadQuizFully(Quiz quiz) {
