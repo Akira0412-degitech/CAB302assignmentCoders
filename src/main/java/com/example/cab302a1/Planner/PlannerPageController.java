@@ -118,10 +118,17 @@ public class PlannerPageController {
 
 
     private void updateEvents(){
-        eventsList.getItems().add("No events happening today"); // pre main merge 25/09/2025
+        /**
+         *
+         */
+        if (eventsList.getItems().isEmpty()){
+            eventsList.getItems().add("No events happening today");
+        }
+        else if (eventsList.getItems().contains("No events happening today")){
+        }
     }
 
-    private void addEvent(){//String event){
+    private void addEvent(){
         DateTimeFormatter icalFormat = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'");
 
         String userEmail = "admin@example.com";
