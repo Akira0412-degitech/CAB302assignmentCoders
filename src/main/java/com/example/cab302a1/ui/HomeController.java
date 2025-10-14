@@ -83,9 +83,11 @@ public class HomeController implements Initializable {
         System.out.println("Home page initialized and registered with NavigationManager");
     }
 
+    private void setupPageTitle() {
+    }
+
     /**
      * Set the page title based on user role
-     */
     private void setupPageTitle() {
         if (pageTitle != null) {
             if (Session.isTeacher()) {
