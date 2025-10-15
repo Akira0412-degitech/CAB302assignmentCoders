@@ -3,12 +3,11 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
 import com.example.cab302a1.dao.jdbc.JdbcReviewDao;
-import com.example.cab302a1.result.QuizResultData;
 import com.example.cab302a1.dao.ReviewDao;
 import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.User;
-import com.example.cab302a1.result.QuizResultController; // New Import
-import com.example.cab302a1.result.QuizResultService; // New Import (for exception handling)
+import com.example.cab302a1.result.QuizResultController;
+import com.example.cab302a1.result.QuizResultService;
 import com.example.cab302a1.util.Session;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,10 +30,10 @@ public class StudentReviewController implements Initializable, ReviewPageControl
     @FXML public TableView<QuizReview> studentQuizTable;
     @FXML public TableColumn<QuizReview, String> quizNameCol;
     @FXML public TableColumn<QuizReview, String> scoreCol;
-    @FXML public TableColumn<QuizReview, Void> feedbackCol;
-    @FXML public TableColumn<QuizReview, Void> resultCol;
+    @FXML public TableColumn<QuizReview, Void> feedbackCol; // Button column for feedback
+    @FXML public TableColumn<QuizReview, Void> resultCol; // Button column for results
 
-    // Sidebar Buttons (Used in testing to prevent NPE, actual logic depends on your FXML)
+    // Sidebar Buttons (Only commented for clarity, assume linked in FXML)
     @FXML public Button dashboardBtn;
     @FXML public Button reviewBtn;
     @FXML public Button timetableBtn;
@@ -42,47 +41,51 @@ public class StudentReviewController implements Initializable, ReviewPageControl
 
     private final ObservableList<QuizReview> reviewData = FXCollections.observableArrayList();
     private final QuestionDao questionDao = new JdbcQuestionDao();
-    private final ReviewDao reviewDao = new JdbcReviewDao(questionDao);
+    private final ReviewDao reviewDao = new JdbcReviewDao(questionDao); // DAO dependency injection
 
-    // Stage field (if needed by interface)
     private Stage stage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setupTableColumns();
+        setupTableColumns(); // Configure columns and buttons
         loadReviewData(); // Load data immediately upon entering the scene
     }
 
     /**
-     * Configures the TableView columns, including styling the action buttons.
+     * Configures the TableView columns, delegating button creation to helper methods.
      */
     private void setupTableColumns() {
         if (studentQuizTable == null) return;
 
         studentQuizTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
-        // 1. Quiz Name Column & 2. Score Column (No change)
+        // Standard column setup
         quizNameCol.setCellValueFactory(data -> data.getValue().quizNameProperty());
         scoreCol.setCellValueFactory(data -> data.getValue().scoreSummaryProperty());
 
-        // 3. "View Feedback" Column (Button)
+        // Delegate complex button logic to dedicated methods
+        setupFeedbackColumn();
+        setupResultColumn();
+    }
+
+
+    // REFACTORED METHOD 1: Setup Feedback Button Column
+    private void setupFeedbackColumn() {
         feedbackCol.setText("View Feedback");
         feedbackCol.setCellFactory(col -> new TableCell<QuizReview, Void>() {
-            private final Button btn = new Button("View Feedback");
+            private final Button btn = new Button("View Feedback"); // Create button instance
 
             {
-                btn.getStyleClass().add("action-button");
-                btn.setPrefWidth(120.0);
+                btn.getStyleClass().add("action-button"); // Apply common CSS style
 
                 btn.setOnAction(e -> {
-                    QuizReview item = getTableView().getItems().get(getIndex());
-
-                    // Logic to display the teacher's text feedback
+                    QuizReview item = getTableView().getItems().get(getIndex()); // Get data for the clicked row
                     String feedback = item.getFeedback();
 
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Teacher Feedback for " + item.getQuizName());
-                    alert.setHeaderText("Feedback Status: " + (feedback != null ? "Reviewed" : "Pending Review"));
+                    // Logic to display feedback status
+                    alert.setHeaderText("Feedback Status: " + (feedback != null && !feedback.trim().isEmpty() ? "Reviewed" : "Pending Review"));
                     alert.setContentText(feedback != null && !feedback.trim().isEmpty()
                             ? feedback : "No specific feedback has been assigned by the teacher yet.");
 
@@ -93,36 +96,38 @@ public class StudentReviewController implements Initializable, ReviewPageControl
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                setGraphic(empty ? null : btn);
+                setGraphic(empty ? null : btn); // Display button only if row is not empty
             }
         });
+    }
 
-        // 4. "View Result" Column (Button)
+
+    // REFACTORED METHOD 2: Setup Result Button Column
+    private void setupResultColumn() {
         resultCol.setText("View Result");
         resultCol.setCellFactory(col -> new TableCell<QuizReview, Void>() {
             private final Button btn = new Button("View Result");
 
             {
                 btn.getStyleClass().add("action-button");
-                btn.setPrefWidth(120.0);
 
                 btn.setOnAction(e -> {
                     QuizReview item = getTableView().getItems().get(getIndex());
 
-                    // Navigation Logic to the Quiz Result Page
                     try {
                         int quizId = item.getQuizId();
 
                         if (quizId <= 0) {
+                            // Check for invalid data before navigation
                             throw new IllegalArgumentException("Invalid Quiz ID for result viewing. Data integrity issue.");
                         }
 
-                        Stage stage = (Stage) btn.getScene().getWindow();
-
-                        // Call the static method for the logged-in user
+                        Stage stage = (Stage) btn.getScene().getWindow(); // Get current stage
+                        // Navigate to the detailed quiz result page
                         QuizResultController.showQuizResultFromDatabaseForCurrentUser(stage, quizId);
 
                     } catch (QuizResultService.QuizResultException | IOException ex) {
+                        // Catch exceptions related to result loading or scene change
                         System.err.println("Error viewing quiz result: " + ex.getMessage());
                         ex.printStackTrace();
                         Alert alert = new Alert(Alert.AlertType.ERROR,
@@ -145,7 +150,7 @@ public class StudentReviewController implements Initializable, ReviewPageControl
 
     @Override
     public void setStage(Stage stage) {
-
+        // Required by ReviewPageController interface, implementation may be blank
     }
 
     /**
@@ -155,7 +160,7 @@ public class StudentReviewController implements Initializable, ReviewPageControl
     public void loadReviewData() {
         reviewData.clear();
 
-        // Get the ID of the logged-in user from the corrected Session utility
+        // Get the ID of the logged-in user from Session
         User currentUser = Session.getCurrentUser();
 
         if (currentUser != null) {
@@ -172,6 +177,7 @@ public class StudentReviewController implements Initializable, ReviewPageControl
             System.err.println("Load data failed: No current user found in Session.");
         }
 
+        // Set placeholder if the data list is empty
         if (reviewData.isEmpty() && studentQuizTable != null) {
             studentQuizTable.setPlaceholder(new Label("You have not completed any quizzes yet."));
         }
