@@ -84,20 +84,8 @@ public class HomeController implements Initializable {
     }
 
     private void setupPageTitle() {
+        
     }
-
-    /**
-     * Set the page title based on user role
-    private void setupPageTitle() {
-        if (pageTitle != null) {
-            if (Session.isTeacher()) {
-                pageTitle.setText("Build Your Next Quiz!");
-            } else {
-                pageTitle.setText("Your Learning Journey!");
-            }
-        }
-    }
-
 
     /** Rebuild the grid according to the current role and quiz list. */
     public void refresh() {
