@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -10,12 +9,12 @@
             prefWidth="1200" prefHeight="700"
             stylesheets="@../styles.css">
 
-    <!-- Left: Navbar component -->
+    <!-- Navbar component -->
     <left>
         <fx:include source="../components/Navbar.fxml"/>
     </left>
 
-    <!-- Center: Main Content -->
+    <!-- Main Content -->
     <center>
         <VBox alignment="TOP_CENTER" spacing="20" style="-fx-background-color: #DBEAFE; -fx-padding: 20;">
 
