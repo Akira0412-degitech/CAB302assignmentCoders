@@ -28,7 +28,7 @@
             <!-- Table Container VBox -->
             <VBox spacing="10" VBox.vgrow="ALWAYS" style="-fx-background-color: #FFFFFF; -fx-padding: 10; -fx-background-radius: 8;">
 
-                <!-- TableView must have VBox.vgrow="ALWAYS" -->
+                <!-- TableView -->
                 <TableView fx:id="studentQuizTable" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="quizNameCol" prefWidth="200.0" text="Quiz" />
