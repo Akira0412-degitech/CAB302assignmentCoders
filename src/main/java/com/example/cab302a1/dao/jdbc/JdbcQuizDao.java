@@ -131,7 +131,10 @@ public class JdbcQuizDao implements QuizDao {
      */
     @Override
     public Quiz getQuizById(int _quiz_id){
-        String sql = "SELECT * FROM quizzes WHERE quiz_id = ?";
+        String sql = "select q.quiz_id, q.title, q.description, q.is_Hidden, q.created_by, u.username\n" +
+                "from quizzes q\n" +
+                "join users u on u.user_id = q.created_by\n" +
+                "where quiz_id = ?";
 
         try(Connection conn = DBconnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -146,7 +149,7 @@ public class JdbcQuizDao implements QuizDao {
                             rs.getString("description"),
                             rs.getInt("created_by"),
                             rs.getBoolean("is_Hidden"),
-                            rs.getString("author_username")
+                            rs.getString("username")
                     );
 
                 }
