@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
  * Displays all quiz attempts and feedback for the currently logged-in student
  * in a tabular format, providing options to view results and feedback.
  *
- * @author Cynthia
+ * @author Mitchell
  * @version 1.0
  */
 public class StudentReviewController implements Initializable, ReviewPageController {
