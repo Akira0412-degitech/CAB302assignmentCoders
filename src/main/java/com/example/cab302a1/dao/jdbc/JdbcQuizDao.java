@@ -183,18 +183,18 @@ public class JdbcQuizDao implements QuizDao {
         }
     }
 
-    public List<Quiz> getQuizByTeacherId(int _teacherId) throws SQLException {
+    public List<Quiz> getQuizByTeacherId(int _teacherId) {
         List<Quiz> quizzes = new ArrayList<>();
 
         String sql = "SELECT " +
-                "q.quiz_id" +
-                "q.title" +
-                "q.description" +
-                "q.created_by" +
-                "q.is_Hidden" +
-                "u.username" +
-                "FROM quizzes q" +
-                "JOIN users u on q.created_by = u.user_id" +
+                "q.quiz_id," +
+                "q.title," +
+                "q.description," +
+                "q.created_by," +
+                "q.is_Hidden," +
+                "u.username " +
+                "FROM quizzes q " +
+                "JOIN users u on q.created_by = u.user_id " +
                 "where q.created_by = ?";
 
         try (Connection conn = DBconnection.getConnection();
@@ -216,9 +216,9 @@ public class JdbcQuizDao implements QuizDao {
                     quizzes.add(qz);
 
                 }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
             }
+        }catch (SQLException e) {
+            e.printStackTrace();
         }
         return quizzes;
     }
