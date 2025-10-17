@@ -2,13 +2,14 @@ package com.example.cab302a1.ui;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
+import javafx.util.Duration;
 
 import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
- * A small "!" button that shows a tooltip on hover.
- * Tooltip text is provided by a Supplier<String> and is lazily loaded (computed once on first hover).
+ * A small "i" button that shows info when clicked.
+ * Tooltip text is provided by a Supplier<String> and is lazily loaded (computed once on first click).
  */
 
 public class HoverInfoButton extends Button {
@@ -19,21 +20,51 @@ public class HoverInfoButton extends Button {
     private boolean cacheEnabled = true;
 
     public HoverInfoButton() {
-        super("!");
-        getStyleClass().add("info-btn"); // Vincent DOOOOO
+        super("i");
+        getStyleClass().add("info-btn");
         setFocusTraversable(false);
-        setPrefSize(24, 24);
+        setPrefSize(40, 40);
+        setMinSize(40, 40);
+        setMaxSize(40, 40);
+        setPickOnBounds(true);
 
         tooltip.setWrapText(true);
-        tooltip.setMaxWidth(280);
+        tooltip.setMaxWidth(300);
+        
+        // Disable automatic tooltip behavior - we control it manually
+        tooltip.setShowDelay(Duration.INDEFINITE);
+        tooltip.setShowDuration(Duration.INDEFINITE);
+        tooltip.setHideDelay(Duration.INDEFINITE);
+        
         setTooltip(tooltip);
 
-        // Hover Text calculate and HOver
-        setOnMouseEntered(e -> {
-            if (!loaded || !cacheEnabled) {
-                String text = (contentSupplier != null) ? contentSupplier.get() : "(no content)";
-                tooltip.setText(Objects.toString(text, "(no content)"));
-                loaded = true;
+        // Click to toggle tooltip
+        setOnAction(e -> {
+            if (tooltip.isShowing()) {
+                // Hide if already showing
+                tooltip.hide();
+            } else {
+                // Load content if needed
+                if (!loaded || !cacheEnabled) {
+                    String text = (contentSupplier != null) ? contentSupplier.get() : "(no content)";
+                    tooltip.setText(Objects.toString(text, "(no content)"));
+                    loaded = true;
+                }
+                // Show tooltip to the left of the button, not covering it
+                tooltip.show(this, 
+                    getScene().getWindow().getX() + localToScene(0, 0).getX() - 310, // Position to the left (300px width + 10px gap)
+                    getScene().getWindow().getY() + localToScene(0, 0).getY());
+            }
+        });
+        
+        // Hide tooltip when clicking elsewhere
+        sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                newScene.setOnMousePressed(event -> {
+                    if (!this.getBoundsInParent().contains(event.getX(), event.getY())) {
+                        tooltip.hide();
+                    }
+                });
             }
         });
     }
