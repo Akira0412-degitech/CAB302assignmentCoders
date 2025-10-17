@@ -132,14 +132,15 @@ public class HomeController implements Initializable {
                     isCompleted // <- Apply complete style
             );
         } else {
-            //Teacher Card: Click title => Editor, '×' => Hide
+            //Teacher Card: Click title => Editor, '×' => Hide, 'i' => Info tooltip
             return cardFactory.buildTeacherCard(
                     quiz,
                     e -> {
                         Stage owner = (Stage) ((Node) e.getSource()).getScene().getWindow();
                         teacherFlow.open(owner, quiz, this::refresh);
                     },
-                    cardNode -> hideAction.confirmAndHide(quiz, cardNode, grid)
+                    cardNode -> hideAction.confirmAndHide(quiz, cardNode, grid),
+                    () -> infoProvider.build(quiz) // Add info badge for teachers too
             );
         }
     }

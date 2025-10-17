@@ -75,12 +75,13 @@ public class QuizCardFactory {
 
 
     /**
-     * Teacher card: add '×' (top-left) + title click handler.
+     * Teacher card: add '×' (top-left) + info badge (top-right) + title click handler.
      * onHide receives the whole card Node so controller can remove it from the grid.
      */
     public Node buildTeacherCard(Quiz quiz,
                                  EventHandler<ActionEvent> onTitleClick,
-                                 Consumer<Node> onHide) {
+                                 Consumer<Node> onHide,
+                                 Supplier<String> tooltipSupplier) {
         StackPane card = buildBaseCard(quiz);
         Button titleBtn = (Button) card.getChildren().get(0);
 
@@ -88,6 +89,7 @@ public class QuizCardFactory {
             titleBtn.setOnAction(onTitleClick);
         }
 
+        // Delete button (top-left)
         Button closeBtn = new Button("×");
         closeBtn.getStyleClass().add("delete-btn");
         StackPane.setAlignment(closeBtn, Pos.TOP_LEFT);
@@ -98,6 +100,23 @@ public class QuizCardFactory {
         });
         card.getChildren().add(closeBtn);
 
+        // Info badge (top-right) - same as student cards
+        if (tooltipSupplier != null) {
+            Node infoBtn = HoverInfoButton.of(tooltipSupplier);
+            StackPane.setAlignment(infoBtn, Pos.TOP_RIGHT);
+            StackPane.setMargin(infoBtn, new Insets(6, 6, 0, 0));
+            card.getChildren().add(infoBtn);
+        }
+
         return card;
+    }
+    
+    /**
+     * Overload for backward compatibility - teacher card without info badge
+     */
+    public Node buildTeacherCard(Quiz quiz,
+                                 EventHandler<ActionEvent> onTitleClick,
+                                 Consumer<Node> onHide) {
+        return buildTeacherCard(quiz, onTitleClick, onHide, null);
     }
 }
