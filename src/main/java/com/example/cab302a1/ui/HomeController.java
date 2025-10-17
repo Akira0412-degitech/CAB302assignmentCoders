@@ -94,8 +94,14 @@ public class HomeController implements Initializable {
 
         QuizDao quizDao = DaoFactory.getQuizDao();
 
-        // Load all quizzes (only Visible)
-        List<Quiz> all = quizDao.getAllQuizzes();
+        List<Quiz> all = new ArrayList<>();
+
+        if(Session.isTeacher()){
+            all = quizDao.getQuizByTeacherId(Session.getCurrentUser().getUser_id());
+        }else if(Session.isStudent()){
+            all = quizDao.getAllQuizzes();
+        }
+
         for (Quiz q : all) {
             Boolean hidden = q.getIsHidden();
             if (hidden == null || !hidden) {   // visible only
