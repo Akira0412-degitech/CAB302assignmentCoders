@@ -214,7 +214,7 @@ public class JdbcQuizDao implements QuizDao {
                     );
 
                     quizzes.add(qz);
-                    return quizzes;
+
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);

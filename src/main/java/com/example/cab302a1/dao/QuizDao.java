@@ -52,4 +52,10 @@ public interface QuizDao {
      */
     void updateQuizStatus(int quizId, boolean IsHidden);
 
+    /**
+     * Retrieve all quizzes created by a specific teacher.
+     * @param teacherId the user ID of the teacher
+     * @return a list of quizzes created by that teacher
+     */
+    List<Quiz> getQuizByTeacherId(int teacherId);
 }
