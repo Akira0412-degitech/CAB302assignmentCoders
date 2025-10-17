@@ -100,10 +100,16 @@ public class StudentResultDetailController {
             }
             
             // Set quiz title and description
-            titleLabel.setText(resultDetail.getQuiz().getTitle() != null ? 
-                    resultDetail.getQuiz().getTitle() : "Quiz Results");
-            descriptionLabel.setText(resultDetail.getQuiz().getDescription() != null ? 
-                    resultDetail.getQuiz().getDescription() : "Review your answers below");
+            var quiz = resultDetail.getQuiz();
+            String title = (quiz != null && quiz.getTitle() != null) ? quiz.getTitle() : "Quiz Results";
+            String desc  = (quiz != null && quiz.getDescription() != null) ? quiz.getDescription() : "Review your answers below";
+
+            titleLabel.setText(title);
+            descriptionLabel.setText(desc);
+
+            if (quiz == null) {
+                System.err.println("[ResultDetail] quiz is null - check service wiring");
+            }
 
             // Load questions
             questionsBox.getChildren().clear();

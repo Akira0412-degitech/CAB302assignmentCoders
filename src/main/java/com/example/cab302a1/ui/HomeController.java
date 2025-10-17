@@ -83,19 +83,9 @@ public class HomeController implements Initializable {
         System.out.println("Home page initialized and registered with NavigationManager");
     }
 
-    /**
-     * Set the page title based on user role
-     */
     private void setupPageTitle() {
-        if (pageTitle != null) {
-            if (Session.isTeacher()) {
-                pageTitle.setText("Build Your Next Quiz!");
-            } else {
-                pageTitle.setText("Your Learning Journey!");
-            }
-        }
+        
     }
-
 
     /** Rebuild the grid according to the current role and quiz list. */
     public void refresh() {
@@ -142,14 +132,15 @@ public class HomeController implements Initializable {
                     isCompleted // <- Apply complete style
             );
         } else {
-            //Teacher Card: Click title => Editor, '×' => Hide
+            //Teacher Card: Click title => Editor, '×' => Hide, 'i' => Info tooltip
             return cardFactory.buildTeacherCard(
                     quiz,
                     e -> {
                         Stage owner = (Stage) ((Node) e.getSource()).getScene().getWindow();
                         teacherFlow.open(owner, quiz, this::refresh);
                     },
-                    cardNode -> hideAction.confirmAndHide(quiz, cardNode, grid)
+                    cardNode -> hideAction.confirmAndHide(quiz, cardNode, grid),
+                    () -> infoProvider.build(quiz) // Add info badge for teachers too
             );
         }
     }

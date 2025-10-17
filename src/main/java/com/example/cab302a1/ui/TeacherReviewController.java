@@ -1,10 +1,9 @@
 package com.example.cab302a1.ui;
 
-import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.ReviewDao;
 import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.UserDao;
-import com.example.cab302a1.dao.jdbc.*;
+import com.example.cab302a1.dao.jdbc.DaoFactory;
 import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.User;
@@ -13,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -24,63 +22,101 @@ import java.util.ResourceBundle;
 
 /**
  * Controller for the Teacher Review Page.
- * Displays a list of student quiz attempts and provides actions for review.
+ * Displays a list of all students and allows the teacher to select a student
+ * to view their quiz attempts and assign feedback.
+ *
+ * @author Mitchell
+ * @version 1.0
  */
 public class TeacherReviewController implements Initializable, ReviewPageController {
 
-    // FXML Fields
+    /**
+     * The TableView displaying the quiz attempts for the currently selected student.
+     */
     @FXML public TableView<QuizReview> quizTable;
+    /**
+     * Column that displays the quiz name and acts as a button to view the quiz definition.
+     */
     @FXML public TableColumn<QuizReview, String> quizNameCol;
+    /**
+     * Column for displaying the score summary (e.g., "15/20").
+     */
     @FXML public TableColumn<QuizReview, String> scoreCol;
+    /**
+     * Column containing a button to navigate to the detailed quiz result page.
+     */
     @FXML public TableColumn<QuizReview, Void> resultCol;
+    /**
+     * Button to trigger the dialog for assigning or updating feedback on a selected quiz attempt.
+     */
     @FXML public Button assignReviewBtn;
 
-    // Student List FXML Container and Label
+    /**
+     * VBox container in the sidebar used to display the list of student buttons.
+     */
     @FXML public VBox studentListContainer;
+    /**
+     * Label displaying the name of the currently selected student.
+     */
     @FXML public Label studentNameLabel;
 
     private final ObservableList<QuizReview> reviewData = FXCollections.observableArrayList();
     private Stage stage;
 
-
+    /**
+     * Data Access Object for fetching quiz review data.
+     */
     private final ReviewDao reviewDao = DaoFactory.getReviewDao();
+    /**
+     * Data Access Object for updating the feedback field in quiz attempts.
+     */
     private final AttemptDao attemptDao = DaoFactory.getAttemptDao();
+    /**
+     * Data Access Object for fetching student user data.
+     */
     private final UserDao userDao = DaoFactory.getUserDao();
 
-    private int currentSelectedStudentId = -1; // Tracks the ID of the student whose quizzes are displayed
+    /**
+     * Tracks the ID of the student whose quizzes are currently loaded and displayed.
+     */
+    private int currentSelectedStudentId = -1;
 
+    /**
+     * Called to initialize a controller after its root element has been completely processed.
+     * This method sets up the table, action buttons, and loads the student list.
+     *
+     * @param location The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resources The resources used to localize the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setupTableColumns();
         setupActionButtons();
-        loadStudentList(); // Load students dynamically
+        loadStudentList(); // Load students dynamically into sidebar
 
-        // Initial setup text
         studentNameLabel.setText("Student Name: (Please select a student)");
+        quizTable.setItems(reviewData);
     }
 
     /**
-     * Loads the list of students from the database and populates the sidebar with styled buttons.
+     * Loads the list of all users with the role 'Student' from the database
+     * and populates the {@code studentListContainer} sidebar with clickable buttons.
      */
     private void loadStudentList() {
         if (studentListContainer == null) return;
         studentListContainer.getChildren().clear();
 
-        // Fetch list of all Users with role 'Student'
         List<User> students = userDao.getAllStudents();
 
         for (User user : students) {
-            // Use the Student Object Fields (by safe casting)
             if (!(user instanceof Student student)) continue;
 
             Button studentBtn = new Button(student.getUsername());
 
-            // Apply the CSS style: student-list-item
             studentBtn.getStyleClass().add("action-button");
             studentBtn.setMaxWidth(Double.MAX_VALUE);
 
             studentBtn.setOnAction(e -> {
-                // Set the label and load the quiz data for the selected student
                 System.out.println("Teacher selected student: " + student.getUsername() + " (ID: " + student.getUser_id() + ")");
                 studentNameLabel.setText("Student Name: " + student.getUsername());
                 currentSelectedStudentId = student.getUser_id();
@@ -91,14 +127,17 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
         }
     }
 
-
+    /**
+     * Sets up the action for the {@code assignReviewBtn}.
+     * When clicked, it launches a {@code TextInputDialog} to get feedback from the teacher
+     * and then calls the DAO to persist the feedback to the database for the selected quiz attempt.
+     */
     private void setupActionButtons() {
         if (assignReviewBtn != null) {
             assignReviewBtn.setOnAction(e -> {
                 QuizReview selectedQuiz = quizTable.getSelectionModel().getSelectedItem();
 
                 if (selectedQuiz == null || currentSelectedStudentId == -1) {
-                    // Provide feedback if no selection is made
                     Alert alert = new Alert(Alert.AlertType.WARNING,
                             "Please select a quiz attempt from the table to assign a review.");
                     alert.showAndWait();
@@ -109,7 +148,6 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
                 TextInputDialog dialog = new TextInputDialog(selectedQuiz.getFeedback() != null ? selectedQuiz.getFeedback() : "");
                 dialog.setTitle("Assign Review and Feedback");
                 dialog.setHeaderText("Provide feedback for: " + selectedQuiz.getQuizName());
-                dialog.setContentText("Enter feedback text:");
 
                 dialog.showAndWait().ifPresent(feedbackText -> {
 
@@ -117,17 +155,14 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
                     int attemptId = selectedQuiz.getAttemptId();
 
                     try {
-                        // SWAP METHOD CALL: Use the AttemptDao and the team's method
                         attemptDao.updateFeedback(attemptId, feedbackText);
 
                         // 3. Update the UI and inform the user
                         Alert successAlert = new Alert(Alert.AlertType.INFORMATION, "Feedback successfully assigned.");
                         successAlert.showAndWait();
 
-                        // Reload the data to update the local QuizReview object with the new feedback
-                        loadReviewData();
+                        loadReviewData(); // Reload data to show updated feedback
                     } catch (Exception ex) {
-                        // Handle SQLException from UpdateFeedback
                         System.err.println("Failed to assign feedback: " + ex.getMessage());
                         ex.printStackTrace();
                         Alert errorAlert = new Alert(Alert.AlertType.ERROR,
@@ -139,28 +174,35 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
         }
     }
 
+    /**
+     * Sets the primary stage for the controller. Required by the {@code ReviewPageController} interface.
+     *
+     * @param stage The primary stage of the application.
+     */
     @Override
     public void setStage(Stage stage) {
-
+        this.stage = stage;
     }
 
+    /**
+     * Loads quiz attempt data from the database for the currently selected student (via {@code currentSelectedStudentId})
+     * and populates the {@code quizTable}.
+     * Clears the table and adds a placeholder item if no student is selected or no attempts are found.
+     */
     @Override
     public void loadReviewData() {
         reviewData.clear();
 
         if (currentSelectedStudentId != -1) {
             try {
-                // Load quizzes for the currently selected student
                 reviewData.addAll(reviewDao.getAllAttemptsById(currentSelectedStudentId));
-                System.out.println("Loaded " + reviewData.size() + " attempts for student ID: " + currentSelectedStudentId);
             } catch (Exception e) {
                 System.err.println("Error fetching quiz attempts for student ID " + currentSelectedStudentId + ": " + e.getMessage());
             }
         }
 
         if (reviewData.isEmpty()) {
-            // Show placeholder data if no attempts are found for the selected student
-            System.out.println("No quiz attempts found or selected student ID is invalid.");
+            // Add a placeholder item if no attempts are found (for usability)
             reviewData.add(new QuizReview("No attempts available", 0, 0, "Select a student from the list.", -1));
         }
 
@@ -169,29 +211,41 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
         }
     }
 
+    /**
+     * Configures the TableView columns, setting up cell value factories and delegating
+     * button column creation to helper methods.
+     */
     private void setupTableColumns() {
-
         if (quizTable == null) return;
 
         quizTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
-        // ===============================================
-        // 1. Setup Quiz Name Column (Styled Link)
-        // ===============================================
+        if (scoreCol != null) {
+            scoreCol.setCellValueFactory(data -> data.getValue().scoreSummaryProperty());
+        }
 
+        // Delegate complex button logic
+        setupQuizNameColumnAsButton();
+        setupResultColumnAsButton();
+    }
+
+    /**
+     * Sets up the cell factory for the {@code quizNameCol}.
+     * The quiz name is displayed inside a button which, when clicked, allows the teacher
+     * to perform an action related to the quiz definition (e.g., viewing the questions).
+     */
+    private void setupQuizNameColumnAsButton() {
         quizNameCol.setCellValueFactory(data -> data.getValue().quizNameProperty());
 
-        // Renders the quiz name as a styled button (using view-answer-button style)
         quizNameCol.setCellFactory(col -> new TableCell<QuizReview, String>() {
             private final Button btn = new Button();
             {
-                // Ensure correct CSS is applied here
                 btn.getStyleClass().add("action-button");
-                btn.setPrefWidth(120.0);
 
                 btn.setOnAction(e -> {
                     QuizReview item = getTableView().getItems().get(getIndex());
                     System.out.println("Viewing Quiz Attempt ID: " + item.getAttemptId());
+                    // NOTE: Navigation logic would be added here to view the quiz definition
                 });
             }
 
@@ -206,56 +260,44 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
                 }
             }
         });
-
-        // ===============================================
-        // 2. Setup Score Column
-        // ===============================================
-
-        if (scoreCol != null) {
-            scoreCol.setCellValueFactory(data -> data.getValue().scoreSummaryProperty());
-        }
-
-        // ===============================================
-        // 3. Setup View Result Column (Button)
-        // ===============================================
-        if (resultCol != null) {
-            resultCol.setCellFactory(col -> new TableCell<QuizReview, Void>() {
-
-                private final Button btn = new Button("View Result");
-
-                {
-                    btn.getStyleClass().add("action-button");
-                    btn.setPrefWidth(120.0);
-
-                    btn.setOnAction(e -> {
-                        QuizReview item = getTableView().getItems().get(getIndex());
-                        System.out.println("Showing full result for Attempt ID: " + item.getAttemptId());
-
-                        try {
-                            Stage currentStage = (Stage) quizTable.getScene().getWindow();
-                            // Use the factory method in QuizResultController to show the result
-                            QuizResultController.showQuizResultFromDatabase(currentStage, item.getQuizId(), currentSelectedStudentId);
-                        } catch (Exception ex) {
-                            System.err.println("Error opening quiz result page: " + ex.getMessage());
-                            ex.printStackTrace();
-                            Alert alert = new Alert(Alert.AlertType.ERROR,
-                                    "Unable to load quiz result page. Please try again.");
-                            alert.showAndWait();
-                        }
-                    });
-                }
-
-                @Override
-                protected void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    setGraphic(empty ? null : btn);
-                }
-            });
-        }
     }
 
-    private void handleExit(javafx.event.ActionEvent event) {
-        Stage currentStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        currentStage.close();
+    /**
+     * Sets up the cell factory for the {@code resultCol}.
+     * Each cell contains a button that, when clicked, navigates the teacher to the
+     * detailed result page for the corresponding quiz attempt of the selected student.
+     */
+    private void setupResultColumnAsButton() {
+        if (resultCol == null) return;
+
+        resultCol.setCellFactory(col -> new TableCell<QuizReview, Void>() {
+            private final Button btn = new Button("View Result");
+
+            {
+                btn.getStyleClass().add("action-button");
+
+                btn.setOnAction(e -> {
+                    QuizReview item = getTableView().getItems().get(getIndex());
+
+                    try {
+                        Stage currentStage = (Stage) quizTable.getScene().getWindow();
+                        // Navigate to the result page using the item's quiz ID and the selected student's user ID
+                        QuizResultController.showQuizResultFromDatabase(currentStage, item.getQuizId(), currentSelectedStudentId);
+                    } catch (Exception ex) {
+                        System.err.println("Error opening quiz result page: " + ex.getMessage());
+                        ex.printStackTrace();
+                        Alert alert = new Alert(Alert.AlertType.ERROR,
+                                "Unable to load quiz result page. Please try again.");
+                        alert.showAndWait();
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btn);
+            }
+        });
     }
 }

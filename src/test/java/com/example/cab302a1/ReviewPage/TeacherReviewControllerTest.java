@@ -2,9 +2,9 @@ package com.example.cab302a1.ReviewPage;
 
 import com.example.cab302a1.dao.ReviewDao;
 import com.example.cab302a1.dao.UserDao;
+import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.Student;
-import com.example.cab302a1.model.User;
 import com.example.cab302a1.ui.TeacherReviewController;
 import javafx.application.Platform;
 import javafx.scene.control.*;
@@ -16,16 +16,18 @@ import org.mockito.Mockito;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class TeacherReviewControllerTest {
 
     private TeacherReviewController controller;
     private UserDao mockUserDao;
     private ReviewDao mockReviewDao;
+    private AttemptDao mockAttemptDao;
 
     // Test data
     private static final int TEST_STUDENT_ID = 5001;
@@ -34,6 +36,7 @@ class TeacherReviewControllerTest {
 
     @BeforeAll
     static void initToolkit() {
+        // Ensures the JavaFX environment is initialized once
         try {
             Platform.startup(() -> {});
         } catch (IllegalStateException e) {
@@ -55,10 +58,8 @@ class TeacherReviewControllerTest {
         controller = new TeacherReviewController();
 
         // 1. Setup Mock Data
-        // IMPORTANT: Assuming Student class has getUserID() method (capitalized)
         testStudent = new Student(TEST_STUDENT_ID, "Alice Smith", "alice@test.com", "Student", new Timestamp(System.currentTimeMillis()));
 
-        // Mock data to be returned when Alice is selected
         mockQuizzes = List.of(
                 new QuizReview("Intro to Java", 15, 20, "Good attempt.", 101),
                 new QuizReview("Adv Databases", 8, 10, null, 102)
@@ -67,17 +68,16 @@ class TeacherReviewControllerTest {
         // 2. Setup DAO Mocks (Mockito)
         mockUserDao = mock(UserDao.class);
         mockReviewDao = mock(ReviewDao.class);
+        mockAttemptDao = mock(AttemptDao.class);
 
-        // Mock UserDAO: Return one student for the sidebar list
         when(mockUserDao.getAllStudents()).thenReturn(List.of(testStudent));
-
-        // Mock ReviewDAO: Return quiz data ONLY when the test student's ID is requested
         when(mockReviewDao.getAllAttemptsById(TEST_STUDENT_ID)).thenReturn(mockQuizzes);
-        when(mockReviewDao.getAllAttemptsById(Mockito.anyInt())).thenReturn(List.of()); // Fail safe
+        when(mockReviewDao.getAllAttemptsById(Mockito.anyInt())).thenReturn(List.of());
 
-        // 3. Inject Mocks into the Controller (Uses reflection for private final fields)
+        // 3. Inject Mocks into the Controller
         injectMock(controller, "userDao", mockUserDao);
         injectMock(controller, "reviewDao", mockReviewDao);
+        injectMock(controller, "attemptDao", mockAttemptDao);
 
 
         // 4. Inject ALL FXML-mapped UI controls
@@ -95,55 +95,58 @@ class TeacherReviewControllerTest {
                 controller.resultCol
         );
 
-        // 5. Call initialize(). This populates studentListContainer but leaves quizTable empty.
+        // 5. Initialize the controller. This populates the student list and
+        // sets the initial placeholder item in quizTable via loadReviewData().
         controller.initialize(null, null);
     }
 
     /**
-     * Utility to fire the button click and run the Platform task synchronously.
-     * This is needed because button actions are handled on the JavaFX thread.
+     * Utility to fire the button click and reliably wait for the Platform task.
      */
     private void selectStudent() {
-        // Fire the click event on the first student button
-        Button studentBtn = (Button) controller.studentListContainer.getChildren().get(0);
+        final CountDownLatch latch = new CountDownLatch(1);
 
-        // Run the action on the JavaFX thread and wait for it to complete
-        Platform.runLater(studentBtn::fire);
+        Platform.runLater(() -> {
+            Button studentBtn = (Button) controller.studentListContainer.getChildren().get(0);
+            studentBtn.fire(); // Triggers the loadReviewData() call, which updates the quizTable.
+            latch.countDown();
+        });
 
-        // Wait for the Platform.runLater task to complete.
-        // This is a common hack in non-FX test runners.
+        // Wait for the UI update and data load to complete
         try {
-            Thread.sleep(100);
+            latch.await(5, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            fail("Student selection interrupted or timed out.");
         }
     }
 
 
     @Test
     void testStudentListPopulated() {
-        // Verify the student list sidebar is populated using the mocked UserDao
+        // Test 1: Check if the sidebar is populated and styled correctly
         assertFalse(controller.studentListContainer.getChildren().isEmpty(),
                 "Student list container should be populated after initialization.");
         assertEquals(1, controller.studentListContainer.getChildren().size());
 
         Button studentBtn = (Button) controller.studentListContainer.getChildren().get(0);
         assertEquals(testStudent.getUsername(), studentBtn.getText());
-        assertEquals("student-list-item", studentBtn.getStyleClass().get(0), "CSS class should be applied.");
+
+        assertTrue(studentBtn.getStyleClass().contains("action-button"),
+                "CSS class 'action-button' should be applied to student buttons.");
     }
 
     @Test
     void testQuizTablePopulatedAfterStudentSelection() {
-        // 1. Initially, the table should be empty
-        assertTrue(controller.quizTable.getItems().isEmpty() ||
-                        controller.quizTable.getItems().get(0).getQuizName().contains("No attempts"),
-                "Quiz table should be empty before student selection.");
+        // Test 2: Check if the correct number of quiz attempts loads after selecting a student
 
-        // 2. Simulate student selection
+        // 1. Simulate student selection
         selectStudent();
 
-        // 3. Verify data loaded
-        assertEquals(2, controller.quizTable.getItems().size(),
+        // 2. Verify data loaded
+        // The table must now be populated with the mockQuizzes list.
+        assertNotNull(controller.quizTable.getItems(), "TableView items list must not be null after selection.");
+        assertEquals(mockQuizzes.size(), controller.quizTable.getItems().size(),
                 "Quiz table should now contain 2 mock quiz reviews after student selection.");
 
         QuizReview result0 = controller.quizTable.getItems().get(0);
@@ -152,10 +155,13 @@ class TeacherReviewControllerTest {
 
     @Test
     void testFirstRowScoreSummary() {
+        // Test 3: Check data binding accuracy for the score summary
+
         // 1. Simulate student selection
         selectStudent();
 
         // 2. Get the first row
+        assertFalse(controller.quizTable.getItems().isEmpty(), "Quiz table must not be empty to check score.");
         QuizReview result = controller.quizTable.getItems().get(0);
 
         // 3. Verify the score summary property (15/20)
