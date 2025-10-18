@@ -2,9 +2,7 @@ package com.example.cab302a1.ui;
 
 import com.example.cab302a1.dao.OptionDao;
 import com.example.cab302a1.dao.QuestionDao;
-import com.example.cab302a1.dao.jdbc.DaoFactory;
-import com.example.cab302a1.dao.jdbc.JdbcOptionDao;
-import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
+import com.example.cab302a1.dao.DaoFactory;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.model.QuizQuestionCreate;
@@ -12,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;

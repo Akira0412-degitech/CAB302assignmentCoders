@@ -16,7 +16,7 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.dao.OptionDao;
 import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.QuizDao;
-import com.example.cab302a1.dao.jdbc.DaoFactory;
+import com.example.cab302a1.dao.DaoFactory;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizQuestionCreate;
 import com.example.cab302a1.util.Session;

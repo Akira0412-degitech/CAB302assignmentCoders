@@ -1,17 +1,11 @@
 package com.example.cab302a1;
 
-import com.example.cab302a1.dao.AttemptDao;
-import com.example.cab302a1.dao.QuestionDao;
-import com.example.cab302a1.dao.ResponseDao;
 import com.example.cab302a1.dao.UserDao;
-import com.example.cab302a1.dao.jdbc.DaoFactory;
-import com.example.cab302a1.dao.jdbc.JdbcUserDao;
+import com.example.cab302a1.dao.DaoFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import com.example.cab302a1.components.NavigationManager;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 

@@ -1,7 +1,6 @@
 package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
-import com.example.cab302a1.dao.jdbc.DaoFactory;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

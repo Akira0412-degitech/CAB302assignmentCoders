@@ -1,5 +1,6 @@
 package com.example.cab302a1.dao;
 
+import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.User;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public interface UserDao {
      * Retrieve all users with the role "Student".
      * @return list of students
      */
-    List<User> getAllStudents();
+    List<Student> getAllStudents();
 
     void printAllUsers();
     /**

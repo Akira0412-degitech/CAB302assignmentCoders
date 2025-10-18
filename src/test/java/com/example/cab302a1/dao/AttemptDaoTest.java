@@ -1,9 +1,7 @@
 package com.example.cab302a1.dao;
 
 import com.example.cab302a1.DBconnection;
-import com.example.cab302a1.dao.jdbc.DaoFactory;
 import com.example.cab302a1.dao.jdbc.JdbcAttemptDao;
-import com.example.cab302a1.dao.jdbc.JdbcResponseDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;

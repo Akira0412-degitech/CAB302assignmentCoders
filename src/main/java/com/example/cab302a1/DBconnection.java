@@ -3,6 +3,8 @@ package com.example.cab302a1;
 import java.sql.*;
 import org.flywaydb.core.Flyway;
 import java.util.logging.*;
+import org.jdbi.v3.core.Jdbi;
+
 
 public class DBconnection {
 
@@ -22,6 +24,12 @@ public class DBconnection {
      */
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    private static final Jdbi jdbi = Jdbi.create(URL, USER, PASSWORD);
+
+    public static Jdbi getJdbi() {
+        return jdbi;
     }
 
     /**

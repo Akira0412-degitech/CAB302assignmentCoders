@@ -72,8 +72,8 @@ public class JdbcUserDao implements UserDao {
      * </p>
      */
     @Override
-    public List<User> getAllStudents() {
-        List<User> students = new ArrayList<>();
+    public List<Student> getAllStudents() {
+        List<Student> students = new ArrayList<>();
         // Select all fields needed by the Student constructor
         String sql = "SELECT user_id, username, email, role, created_at FROM users WHERE role = 'Student'";
 

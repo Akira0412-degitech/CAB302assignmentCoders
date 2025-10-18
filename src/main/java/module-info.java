@@ -10,6 +10,7 @@ module com.example.cab302a1 {
     requires flyway.core;
     requires javafx.graphics;
     requires jbcrypt;
+    requires org.jdbi.v3.core;
     //requires com.example.cab302a;
 
     // FXML
