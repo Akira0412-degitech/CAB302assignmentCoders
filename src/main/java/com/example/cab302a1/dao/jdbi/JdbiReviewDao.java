@@ -49,7 +49,7 @@ public class JdbiReviewDao implements ReviewDao {
                    qa.feedback
             FROM quiz_attempts qa
             JOIN quizzes q ON qa.quiz_id = q.quiz_id
-            WHERE qa.answered_by = :userId AND qa.is_completed = TRUE
+            WHERE qa.answered_by = :userId AND qa.is_completed = 1
         """;
 
         return jdbi.withHandle(handle ->
