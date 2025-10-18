@@ -93,6 +93,13 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.jdbi</groupId>
+            <artifactId>jdbi3-core</artifactId>
+            <version>3.45.1</version>
+        </dependency>
+
+
 
     </dependencies>
 
