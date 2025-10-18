@@ -80,7 +80,7 @@ public class JdbiUserDao implements UserDao {
 
         return jdbi.withHandle(handle ->
                 handle.createQuery(sql)
-                        .map((rs, ctx) -> new Student(
+                        .map((rs, ctx) -> new User(
                                 rs.getInt("user_id"),
                                 rs.getString("username"),
                                 rs.getString("email"),
