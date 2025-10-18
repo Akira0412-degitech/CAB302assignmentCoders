@@ -1,81 +1,86 @@
 package com.example.cab302a1.ui.view.components;
-// ↑ card 폴더에 두었으면 ui.view.card 로 변경
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
-public final class HoverInfoButton {
+/**
+ * A small "i" button that shows info when clicked.
+ * Tooltip text is provided by a Supplier<String> and is lazily loaded (computed once on first click).
+ */
 
-    private HoverInfoButton() {}
+public class HoverInfoButton extends Button {
 
-    /** Returns a Button (which IS a Node) that shows info when clicked */
-    public static Button of(Supplier<String> tooltipSupplier) {
-        Button info = new Button("i");
-        info.getStyleClass().add("info-btn");
-        info.setFocusTraversable(false);
-        info.setPrefSize(40, 40);
-        info.setMinSize(40, 40);
-        info.setMaxSize(40, 40);
-        info.setPickOnBounds(true);
+    private final Tooltip tooltip = new Tooltip("Loading...");
+    private Supplier<String> contentSupplier;
+    private boolean loaded = false;
+    private final boolean cacheEnabled = true;
 
-        Tooltip tooltip = new Tooltip();
+    public HoverInfoButton() {
+        super("i");
+        getStyleClass().add("info-btn");
+        setFocusTraversable(false);
+        setPrefSize(40, 40);
+        setMinSize(40, 40);
+        setMaxSize(40, 40);
+        setPickOnBounds(true);
+
         tooltip.setWrapText(true);
         tooltip.setMaxWidth(300);
-        
+
         // Disable automatic tooltip behavior - we control it manually
         tooltip.setShowDelay(Duration.INDEFINITE);
         tooltip.setShowDuration(Duration.INDEFINITE);
         tooltip.setHideDelay(Duration.INDEFINITE);
-        
-        info.setTooltip(tooltip);
 
-        AtomicReference<String> cache = new AtomicReference<>(null);
+        setTooltip(tooltip);
 
         // Click to toggle tooltip
-        info.setOnAction(e -> {
+        setOnAction(e -> {
             if (tooltip.isShowing()) {
                 // Hide if already showing
                 tooltip.hide();
             } else {
                 // Load content if needed
-                String cached = cache.get();
-                if (cached == null) {
-                    String text = Objects.toString(
-                            tooltipSupplier != null ? tooltipSupplier.get() : "", "");
-                    cache.compareAndSet(null, text);
-                    cached = text;
+                if (!loaded || !cacheEnabled) {
+                    String text = (contentSupplier != null) ? contentSupplier.get() : "(no content)";
+                    tooltip.setText(Objects.toString(text, "(no content)"));
+                    loaded = true;
                 }
-                tooltip.setText(cached);
-                
                 // Show tooltip to the left of the button, not covering it
-                var scene = info.getScene();
-                if (scene != null && scene.getWindow() != null) {
-                    var localPos = info.localToScene(0, 0);
-                    tooltip.show(info,
-                        scene.getWindow().getX() + localPos.getX() - 310, // Position to the left (300px width + 10px gap)
-                        scene.getWindow().getY() + localPos.getY());
-                }
+                tooltip.show(this,
+                        getScene().getWindow().getX() + localToScene(0, 0).getX() - 310, // Position to the left (300px width + 10px gap)
+                        getScene().getWindow().getY() + localToScene(0, 0).getY());
             }
         });
-        
+
         // Hide tooltip when clicking elsewhere
-        info.sceneProperty().addListener((obs, oldScene, newScene) -> {
+        sceneProperty().addListener((obs, oldScene, newScene) -> {
             if (newScene != null) {
                 newScene.setOnMousePressed(event -> {
-                    var node = event.getPickResult().getIntersectedNode();
-                    // Hide if clicking outside the info button
-                    if (node != info && !info.getChildrenUnmodifiable().contains(node)) {
+                    if (!this.getBoundsInParent().contains(event.getX(), event.getY())) {
                         tooltip.hide();
                     }
                 });
             }
         });
-
-        return info;
     }
+
+    //  Factory method:
+    // *Creates a HoverInfoButton and immediately assigns the content supplier.
+    public static HoverInfoButton of(Supplier<String> supplier) {
+        HoverInfoButton b = new HoverInfoButton();
+        b.setContentSupplier(supplier);
+        return b;
+    }
+
+    //Sets or updates the supplier that provides the tooltip text.
+    public void setContentSupplier(Supplier<String> supplier) {
+        this.contentSupplier = supplier;
+        this.loaded = false;
+    }
+
 }

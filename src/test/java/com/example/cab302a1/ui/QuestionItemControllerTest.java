@@ -1,6 +1,7 @@
 package com.example.cab302a1.ui;
 
 import com.example.cab302a1.model.QuizQuestionCreate;
+import com.example.cab302a1.ui.view.components.question.QuestionItemController;
 import javafx.application.Platform;
 import javafx.scene.control.*;
 import org.junit.jupiter.api.*;

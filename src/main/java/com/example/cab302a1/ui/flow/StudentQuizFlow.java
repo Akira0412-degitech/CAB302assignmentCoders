@@ -7,7 +7,7 @@ import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.result.QuizResultController;
 import com.example.cab302a1.result.QuizResultData;
 import com.example.cab302a1.service.QuizService;
-import com.example.cab302a1.ui.StudentTakeQuizController;
+import com.example.cab302a1.ui.page.student.StudentTakeQuizController;
 import com.example.cab302a1.util.Session;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

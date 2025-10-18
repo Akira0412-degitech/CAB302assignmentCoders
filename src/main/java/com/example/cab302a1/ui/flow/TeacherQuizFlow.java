@@ -1,7 +1,7 @@
 package com.example.cab302a1.ui.flow;
 
 import com.example.cab302a1.model.Quiz;
-import com.example.cab302a1.ui.TeacherQuizDetailController; // 실제 경로에 맞춰 조정
+import com.example.cab302a1.ui.page.teacher.TeacherQuizDetailController; // 실제 경로에 맞춰 조정
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;

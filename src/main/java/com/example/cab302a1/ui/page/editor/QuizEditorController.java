@@ -1,4 +1,4 @@
-package com.example.cab302a1.ui;
+package com.example.cab302a1.ui.page.editor;
 
 /*
  * Purpose:
@@ -19,6 +19,7 @@ import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.dao.DaoFactory;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizQuestionCreate;
+import com.example.cab302a1.ui.view.components.question.QuestionItemController;
 import com.example.cab302a1.util.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

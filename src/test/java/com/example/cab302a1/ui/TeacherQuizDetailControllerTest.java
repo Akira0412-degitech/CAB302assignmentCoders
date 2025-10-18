@@ -3,6 +3,7 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.model.QuizQuestionCreate;
+import com.example.cab302a1.ui.page.teacher.TeacherQuizDetailController;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Parent;

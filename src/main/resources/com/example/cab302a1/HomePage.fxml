@@ -4,7 +4,7 @@
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.cab302a1.ui.HomeController"
+            fx:controller="com.example.cab302a1.ui.page.HomeController"
             styleClass="root-container"
             prefWidth="1000.0" prefHeight="640.0">
 

@@ -3,7 +3,7 @@ package com.example.cab302a1.ReviewPage;
 import com.example.cab302a1.dao.ReviewDao;
 import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.User;
-import com.example.cab302a1.ui.StudentReviewController;
+import com.example.cab302a1.ui.page.review.student.StudentReviewController;
 import com.example.cab302a1.util.Session;
 import javafx.application.Platform;
 import javafx.scene.control.*;

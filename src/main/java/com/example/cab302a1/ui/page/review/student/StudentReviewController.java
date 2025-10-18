@@ -1,14 +1,13 @@
-package com.example.cab302a1.ui;
+package com.example.cab302a1.ui.page.review.student;
 
 import com.example.cab302a1.dao.DaoFactory;
 import com.example.cab302a1.dao.QuestionDao;
-import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
-import com.example.cab302a1.dao.jdbc.JdbcReviewDao;
 import com.example.cab302a1.dao.ReviewDao;
 import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.User;
 import com.example.cab302a1.result.QuizResultController;
 import com.example.cab302a1.result.QuizResultService;
+import com.example.cab302a1.ui.page.review.ReviewPageController;
 import com.example.cab302a1.util.Session;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

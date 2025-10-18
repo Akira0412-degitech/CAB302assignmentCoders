@@ -7,7 +7,7 @@
 <?import javafx.scene.control.ScrollPane?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.cab302a1.ui.StudentTakeQuizController"
+            fx:controller="com.example.cab302a1.ui.page.student.StudentTakeQuizController"
             prefWidth="920.0" prefHeight="720.0"
             styleClass="student-quiz-root"
             stylesheets="@StudentQuizPage.css">

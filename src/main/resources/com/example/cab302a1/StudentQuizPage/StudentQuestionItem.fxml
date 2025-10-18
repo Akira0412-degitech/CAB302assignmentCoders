@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TextField?>
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.cab302a1.ui.StudentQuestionItemController"
+      fx:controller="com.example.cab302a1.ui.view.components.question.StudentQuestionItemController"
       spacing="16" 
       styleClass="student-question-card">
       

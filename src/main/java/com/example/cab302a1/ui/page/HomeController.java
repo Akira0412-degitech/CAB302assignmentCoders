@@ -1,4 +1,5 @@
-package com.example.cab302a1.ui;
+package com.example.cab302a1.ui.page;
+import com.example.cab302a1.ui.page.editor.QuizEditorController;
 import com.example.cab302a1.ui.action.HideQuizAction;
 import com.example.cab302a1.ui.info.QuizInfoProvider;
 import com.example.cab302a1.dao.QuizDao;

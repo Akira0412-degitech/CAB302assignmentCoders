@@ -5,7 +5,7 @@ import com.example.cab302a1.dao.UserDao;
 import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.Student;
-import com.example.cab302a1.ui.TeacherReviewController;
+import com.example.cab302a1.ui.page.review.teacher.TeacherReviewController;
 import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;

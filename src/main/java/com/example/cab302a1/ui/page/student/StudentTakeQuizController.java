@@ -1,7 +1,8 @@
-package com.example.cab302a1.ui;
+package com.example.cab302a1.ui.page.student;
 
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizChoiceCreate;
+import com.example.cab302a1.ui.view.components.question.StudentQuestionItemController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

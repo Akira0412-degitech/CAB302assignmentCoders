@@ -3,6 +3,7 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.DBconnection;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.Teacher;
+import com.example.cab302a1.ui.page.HomeController;
 import com.example.cab302a1.util.Session;
 import javafx.application.Platform;
 import javafx.scene.control.Button;

@@ -8,7 +8,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.cab302a1.ui.StudentReviewController"
+            fx:controller="com.example.cab302a1.ui.page.review.student.StudentReviewController"
             prefWidth="1200.0" prefHeight="700.0"
             stylesheets="@../styles.css">
 

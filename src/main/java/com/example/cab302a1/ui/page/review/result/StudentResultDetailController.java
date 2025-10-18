@@ -1,10 +1,5 @@
-package com.example.cab302a1.ui;
+package com.example.cab302a1.ui.page.review.result;
 
-import com.example.cab302a1.dao.AttemptDao;
-import com.example.cab302a1.dao.OptionDao;
-import com.example.cab302a1.dao.QuestionDao;
-import com.example.cab302a1.dao.QuizDao;
-import com.example.cab302a1.dao.ResponseDao;
 import com.example.cab302a1.dao.jdbc.JdbcOptionDao;
 import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
 import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
@@ -26,7 +21,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 
 <VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.cab302a1.ui.QuestionItemController"
+      fx:controller="com.example.cab302a1.ui.view.components.question.QuestionItemController"
       spacing="12" styleClass="question-card">
       
     <!-- Question Header -->
