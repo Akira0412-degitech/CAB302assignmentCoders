@@ -22,4 +22,6 @@ public interface ReviewDao {
      *         with its score, feedback, and quiz title. Returns an empty list if none are found.
      */
     List<QuizReview> getAllAttemptsById(int userId);
+
+    List<QuizReview> getStudentAttemptsforTeacher(int userId, int teacherId);
 }

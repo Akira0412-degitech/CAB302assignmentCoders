@@ -8,6 +8,7 @@ import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.User;
 import com.example.cab302a1.result.QuizResultController;
+import com.example.cab302a1.util.Session;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -195,7 +196,7 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
 
         if (currentSelectedStudentId != -1) {
             try {
-                reviewData.addAll(reviewDao.getAllAttemptsById(currentSelectedStudentId));
+                reviewData.addAll(reviewDao.getStudentAttemptsforTeacher(currentSelectedStudentId, Session.getCurrentUser().getUser_id()));
             } catch (Exception e) {
                 System.err.println("Error fetching quiz attempts for student ID " + currentSelectedStudentId + ": " + e.getMessage());
             }
