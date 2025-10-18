@@ -61,8 +61,10 @@ public class JdbiReviewDao implements ReviewDao {
                             String feedback = rs.getString("feedback");
                             String title = rs.getString("title");
 
-                            // Retrieve total number of questions using QuestionDao
+//                            // Retrieve total number of questions using QuestionDao
                             int totalQuestions = questionDao.getNumQuestion(quizId);
+
+                            System.out.println("[DEBUG] Found attempt " + attemptId + " for quizId " + quizId);
 
                             return new QuizReview(
                                     attemptId,

@@ -106,7 +106,7 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
         if (studentListContainer == null) return;
         studentListContainer.getChildren().clear();
 
-        List<User> students = userDao.getAllStudents();
+        List<Student> students = userDao.getAllStudents();
 
         for (User user : students) {
             if (!(user instanceof Student student)) continue;

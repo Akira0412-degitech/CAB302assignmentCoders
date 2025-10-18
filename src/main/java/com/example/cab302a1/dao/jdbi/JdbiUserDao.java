@@ -71,7 +71,7 @@ public class JdbiUserDao implements UserDao {
      * </p>
      */
     @Override
-    public List<User> getAllStudents() {
+    public List<Student> getAllStudents() {
         String sql = """
             SELECT user_id, username, email, role, created_at
             FROM users
@@ -80,7 +80,7 @@ public class JdbiUserDao implements UserDao {
 
         return jdbi.withHandle(handle ->
                 handle.createQuery(sql)
-                        .map((rs, ctx) -> new User(
+                        .map((rs, ctx) -> new Student(
                                 rs.getInt("user_id"),
                                 rs.getString("username"),
                                 rs.getString("email"),

@@ -113,7 +113,7 @@ class UserDaoTest {
         // Simulate connection.prepareStatement() throwing SQLException
         when(conn.prepareStatement(anyString())).thenThrow(new SQLException("boom"));
 
-        List<User> result;
+        List<Student> result;
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             mocked.when(DBconnection::getConnection).thenReturn(conn);
             result = DaoFactory.getUserDao().getAllStudents();
