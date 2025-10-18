@@ -3,7 +3,7 @@ package com.example.cab302a1.ui;
 import com.example.cab302a1.dao.ReviewDao;
 import com.example.cab302a1.dao.AttemptDao;
 import com.example.cab302a1.dao.UserDao;
-import com.example.cab302a1.dao.jdbc.DaoFactory;
+import com.example.cab302a1.dao.DaoFactory;
 import com.example.cab302a1.model.QuizReview;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.User;

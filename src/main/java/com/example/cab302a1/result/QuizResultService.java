@@ -1,15 +1,11 @@
 package com.example.cab302a1.result;
 
-import com.example.cab302a1.dao.AttemptDao;
-import com.example.cab302a1.dao.QuizDao;
-import com.example.cab302a1.dao.UserDao;
-import com.example.cab302a1.dao.QuestionDao;
+import com.example.cab302a1.dao.*;
 import com.example.cab302a1.dao.jdbc.*;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.User;
 import com.example.cab302a1.util.Session;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**

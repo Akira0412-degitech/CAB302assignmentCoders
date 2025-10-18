@@ -1,8 +1,7 @@
 package com.example.cab302a1.Login;
 
 import com.example.cab302a1.dao.UserDao;
-import com.example.cab302a1.dao.jdbc.DaoFactory;
-import com.example.cab302a1.dao.jdbc.JdbcUserDao;
+import com.example.cab302a1.dao.DaoFactory;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.Teacher;
 import com.example.cab302a1.model.User;
