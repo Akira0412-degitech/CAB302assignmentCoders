@@ -3,6 +3,7 @@ package com.example.cab302a1.dao.jdbi;
 import com.example.cab302a1.DBconnection;
 import com.example.cab302a1.dao.QuestionDao;
 import com.example.cab302a1.dao.ReviewDao;
+import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.QuizReview;
 import org.jdbi.v3.core.Jdbi;
 
@@ -64,7 +65,6 @@ public class JdbiReviewDao implements ReviewDao {
 //                            // Retrieve total number of questions using QuestionDao
                             int totalQuestions = questionDao.getNumQuestion(quizId);
 
-                            System.out.println("[DEBUG] Found attempt " + attemptId + " for quizId " + quizId);
 
                             return new QuizReview(
                                     attemptId,
@@ -77,6 +77,49 @@ public class JdbiReviewDao implements ReviewDao {
                             );
                         })
                         .list()
+        );
+    }
+
+    public List<QuizReview> getStudentAttemptsforTeacher(int userId, int teacherId){
+        String sql = """
+                 SELECT qa.attempt_id,
+                               qa.quiz_id,
+                               qa.answered_by,
+                               q.title,
+                               qa.score,
+                               qa.feedback
+                        FROM quiz_attempts qa
+                        JOIN quizzes q ON qa.quiz_id = q.quiz_id
+                        WHERE qa.answered_by = :userId
+                          AND qa.is_completed = TRUE
+                          AND q.created_by = :teacherId
+                """;
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("userId", userId)
+                        .bind("teacherId", teacherId)
+                        .map((rs, ctx) -> {
+                            int attemptId = rs.getInt("attempt_id");
+                            int quizId = rs.getInt("quiz_id");
+                            String title = rs.getString("title");
+                            int score = rs.getInt("score");
+                            String feedback = rs.getString("feedback");
+
+                            int totalQuestions = questionDao.getNumQuestion(quizId);
+
+                            return new QuizReview(
+                                    attemptId,
+                                    quizId,
+                                    userId,
+                                    title,
+                                    score,
+                                    totalQuestions,
+                                    feedback
+                            );
+                        })
+                        .list()
+
         );
     }
 }

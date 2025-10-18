@@ -25,6 +25,7 @@ import java.util.List;
  * in each quiz, ensuring that reviews include both raw score and quiz context.
  * </p>
  */
+
 public class JdbcReviewDao implements ReviewDao {
 
 
@@ -97,5 +98,10 @@ public class JdbcReviewDao implements ReviewDao {
         }
 
         return reviews;
+    }
+
+    @Override
+    public List<QuizReview> getStudentAttemptsforTeacher(int userId, int teacherId) {
+        return List.of();
     }
 }
