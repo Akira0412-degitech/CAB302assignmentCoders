@@ -371,7 +371,7 @@ public class NavbarController implements Initializable {
      * Public method to programmatically set the active navigation button.
      * Useful for external components that need to update the navbar state.
      *
-     * @param buttonName The name of the button to activate ("Home", "Review", "Timetable")
+     * @param buttonName The name of the button to activate ("Home", "Review")
      */
     public void setActiveNavigation(String buttonName) {
         switch (buttonName.toLowerCase()) {
@@ -381,10 +381,6 @@ public class NavbarController implements Initializable {
             case "review":
                 setActiveButton(reviewBtn);
                 break;
-            // Timetable button commented out - no longer needed
-            // case "timetable":
-            //     setActiveButton(timetableBtn);
-            //     break;
             default:
                 System.out.println("Warning: Unknown navigation button name: " + buttonName);
         }
