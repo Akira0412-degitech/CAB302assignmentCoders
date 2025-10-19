@@ -61,14 +61,24 @@ public class ResultQuestionItemController {
             btn.getStyleClass().removeAll("correct-answer", "wrong-answer", "not-selected");
         }
         
-        // Highlight correct answer
+        // Highlight correct answer with checkmark icon
         if (correctIndex >= 0 && correctIndex < buttons.length) {
             buttons[correctIndex].getStyleClass().add("correct-answer");
+            String currentText = buttons[correctIndex].getText();
+            // Add checkmark if not already present
+            if (!currentText.contains("✓")) {
+                buttons[correctIndex].setText("✓ " + currentText);
+            }
         }
         
-        // Highlight user's selected answer if it's wrong
+        // Highlight user's selected answer if it's wrong with X icon
         if (selectedIndex >= 0 && selectedIndex < buttons.length && selectedIndex != correctIndex) {
             buttons[selectedIndex].getStyleClass().add("wrong-answer");
+            String currentText = buttons[selectedIndex].getText();
+            // Add X mark if not already present
+            if (!currentText.contains("✗")) {
+                buttons[selectedIndex].setText("✗ " + currentText);
+            }
         }
         
         // Mark not selected answers

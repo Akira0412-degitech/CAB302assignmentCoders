@@ -29,8 +29,12 @@
               mouseTransparent="true"/>
 
     <!-- Answer Results Label -->
-    <Label text="Your Answer vs Correct Answer:" 
-          style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #475569;"/>
+    <VBox spacing="4">
+        <Label text="Your Answer vs Correct Answer:" 
+              style="-fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #475569;"/>
+        <Label text="✓ = Correct Answer  |  ✗ = Your Wrong Answer" 
+              style="-fx-font-size: 11px; -fx-text-fill: #64748B; -fx-font-style: italic;"/>
+    </VBox>
 
     <!-- Answer Options Grid -->
     <GridPane hgap="16" vgap="16">

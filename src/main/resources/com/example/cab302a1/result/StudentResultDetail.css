@@ -122,24 +122,28 @@
     -fx-min-height: 50px;
 }
 
-/* Correct Answer - Green */
+/* Correct Answer - Green with Checkmark Icon 
+   Accessible for color blind users with both color and icon */
 .answer-button.correct-answer {
     -fx-background-color: #DCFCE7;
     -fx-border-color: #22C55E;
     -fx-border-width: 3px;
     -fx-text-fill: #16A34A;
     -fx-font-weight: bold;
-    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.2), 6, 0, 0, 0);
+    -fx-font-size: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.3), 8, 0, 0, 0);
 }
 
-/* Wrong Answer - Red */
+/* Wrong Answer - Red with X Icon 
+   Accessible for color blind users with both color and icon */
 .answer-button.wrong-answer {
     -fx-background-color: #FEE2E2;
     -fx-border-color: #EF4444;
     -fx-border-width: 3px;
     -fx-text-fill: #DC2626;
     -fx-font-weight: bold;
-    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.2), 6, 0, 0, 0);
+    -fx-font-size: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.3), 8, 0, 0, 0);
 }
 
 /* Not Selected Answer - Gray */
