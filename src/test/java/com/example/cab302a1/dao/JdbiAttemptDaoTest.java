@@ -162,5 +162,128 @@ class JdbiAttemptDaoTest extends BaseJdbiDaoTest {
         verify(mockQuery).bind("userId", 77);
     }
 
+    /** ✅ hasCompleted(): returns true when count > 0 */
+    @Test
+    void testHasCompletedTrue() {
+        // Arrange
+        when(mockHandle.createQuery(anyString())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("quizId"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("userId"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.mapTo(Integer.class)).thenReturn(mockResultIterable);
+        when(mockResultIterable.findOne()).thenReturn(Optional.of(2)); // COUNT(*) = 2 → true
+
+        // Act
+        boolean result = new JdbiAttemptDao(mockResponseDao).hasCompleted(1, 10);
+
+        // Assert
+        assertTrue(result);
+        verify(mockQuery).bind("quizId", 1);
+        verify(mockQuery).bind("userId", 10);
+    }
+
+    /** ❌ hasCompleted(): returns false when count = 0 */
+    @Test
+    void testHasCompletedFalse() {
+        // Arrange
+        when(mockHandle.createQuery(anyString())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("quizId"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("userId"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.mapTo(Integer.class)).thenReturn(mockResultIterable);
+        when(mockResultIterable.findOne()).thenReturn(Optional.of(0)); // COUNT(*) = 0 → false
+
+        // Act
+        boolean result = new JdbiAttemptDao(mockResponseDao).hasCompleted(5, 22);
+
+        // Assert
+        assertFalse(result);
+        verify(mockQuery).bind("quizId", 5);
+        verify(mockQuery).bind("userId", 22);
+    }
+
+    /** ✅ updateFeedback(): executes update with correct parameters */
+    @Test
+    void testUpdateFeedbackSuccess() {
+        // Arrange
+        when(mockHandle.createUpdate(anyString())).thenReturn(mockUpdate);
+        when(mockUpdate.bind(anyString(), anyString())).thenReturn(mockUpdate); // for feedback
+        when(mockUpdate.bind(anyString(), anyInt())).thenReturn(mockUpdate);    // for id
+        when(mockUpdate.execute()).thenReturn(1);
+
+        // Act
+        new JdbiAttemptDao(mockResponseDao).updateFeedback(42, "Well done!");
+
+        // Assert
+        verify(mockHandle).createUpdate(contains("UPDATE quiz_attempts SET feedback"));
+        verify(mockUpdate).bind("feedback", "Well done!");
+        verify(mockUpdate).bind("id", 42);
+        verify(mockUpdate).execute();
+    }
+
+
+    /** 💥 updateFeedback(): propagates runtime exception */
+    @Test
+    void testUpdateFeedbackThrowsException() {
+        // Arrange
+        doThrow(new RuntimeException("DB failure"))
+                .when(mockJdbi)
+                .useHandle(any()); // ✅ doThrow + useHandle
+
+        // Act + Assert
+        assertThrows(RuntimeException.class, () ->
+                new JdbiAttemptDao(mockResponseDao).updateFeedback(7, "error test"));
+    }
+
+
+    /** ✅ getAttemptId(): returns latest completed attempt */
+    @Test
+    void testGetAttemptIdReturnsValue() {
+        // Arrange
+        when(mockHandle.createQuery(anyString())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("quizId"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("userId"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.mapTo(Integer.class)).thenReturn(mockResultIterable);
+        when(mockResultIterable.findOne()).thenReturn(Optional.of(99));
+
+        // Act
+        Integer attemptId = new JdbiAttemptDao(mockResponseDao).getAttemptId(3, 15);
+
+        // Assert
+        assertEquals(99, attemptId);
+        verify(mockQuery).bind("quizId", 3);
+        verify(mockQuery).bind("userId", 15);
+    }
+
+    /** ❌ getAttemptId(): returns null when no attempt exists */
+    @Test
+    void testGetAttemptIdNoResultReturnsNull() {
+        // Arrange
+        when(mockHandle.createQuery(anyString())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("quizId"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("userId"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.mapTo(Integer.class)).thenReturn(mockResultIterable);
+        when(mockResultIterable.findOne()).thenReturn(Optional.empty());
+
+        // Act
+        Integer attemptId = new JdbiAttemptDao(mockResponseDao).getAttemptId(4, 77);
+
+        // Assert
+        assertNull(attemptId);
+        verify(mockQuery).bind("quizId", 4);
+        verify(mockQuery).bind("userId", 77);
+    }
+
+    /** 💥 getAttemptId(): propagates runtime exception */
+    @Test
+    void testGetAttemptIdThrowsException() {
+        // Arrange
+        reset(mockJdbi);
+        when(mockJdbi.withHandle(any(org.jdbi.v3.core.HandleCallback.class)))
+                .thenThrow(new RuntimeException("DB failure"));
+
+        // Act + Assert
+        assertThrows(RuntimeException.class, () ->
+                new JdbiAttemptDao(mockResponseDao).getAttemptId(2, 9));
+    }
+
 
 }
