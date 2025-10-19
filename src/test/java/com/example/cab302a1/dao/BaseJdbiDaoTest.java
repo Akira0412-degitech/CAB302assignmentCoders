@@ -79,6 +79,11 @@ public abstract class BaseJdbiDaoTest {
         doReturn(mockBatch).when(mockBatch).bind(anyString(), anyLong());
         doReturn(mockBatch).when(mockBatch).bind(anyString(), anyDouble());
 
+        // --- Allow String bindings for Update / Query / PreparedBatch ---
+        doReturn(mockUpdate).when(mockUpdate).bind(anyString(), anyString());
+        doReturn(mockQuery).when(mockQuery).bind(anyString(), anyString());
+        doReturn(mockBatch).when(mockBatch).bind(anyString(), anyString());
+
         doReturn(mockBatch).when(mockBatch).add();
         when(mockBatch.execute()).thenReturn(new int[]{1});
     }
