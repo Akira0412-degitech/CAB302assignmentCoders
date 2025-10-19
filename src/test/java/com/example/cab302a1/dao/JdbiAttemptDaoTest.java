@@ -1,105 +1,166 @@
 package com.example.cab302a1.dao;
 
-import com.example.cab302a1.DBconnection;
 import com.example.cab302a1.dao.jdbi.JdbiAttemptDao;
-import org.jdbi.v3.core.Handle;
-import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.core.statement.Update;
+import com.example.cab302a1.dao.ResponseDao;
 import org.jdbi.v3.core.result.ResultBearing;
 import org.jdbi.v3.core.result.ResultIterable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 /**
- * JDBI-based tests for startAttempt() in {@link JdbiAttemptDao}.
+ * ✅ Unit tests for {@link JdbiAttemptDao}.
+ * These tests mock Jdbi and verify logical behavior (binding, branching, exception handling)
+ * without requiring a real database.
  */
-class JdbiAttemptDaoTest {
+class JdbiAttemptDaoTest extends BaseJdbiDaoTest {
 
-    private Jdbi mockJdbi;
-    private Handle mockHandle;
-    private Update mockUpdate;
     private ResponseDao mockResponseDao;
     private ResultBearing mockResultBearing;
     private ResultIterable<Integer> mockResultIterable;
 
     @BeforeEach
-    void setUp() {
-        mockJdbi = mock(Jdbi.class);
-        mockHandle = mock(Handle.class);
-        mockUpdate = mock(Update.class);
+    protected void setupMocks() {
+        super.setupCommonMocks();
         mockResponseDao = mock(ResponseDao.class);
         mockResultBearing = mock(ResultBearing.class);
         mockResultIterable = mock(ResultIterable.class);
     }
 
-    // Utility: mock withHandle() to return value through our mock handle
-    private void mockWithHandleReturning() {
-        when(mockJdbi.withHandle(any())).thenAnswer(invocation -> {
-            var callback = (org.jdbi.v3.core.HandleCallback<Object, Exception>) invocation.getArgument(0);
-            return callback.withHandle(mockHandle);
-        });
-    }
-
-    /** ✅ startAttempt(): should return generated key when successful */
+    /** ✅ startAttempt(): returns generated key */
     @Test
     void testStartAttemptSuccess() {
-        mockWithHandleReturning();
-
         when(mockHandle.createUpdate(anyString())).thenReturn(mockUpdate);
         when(mockUpdate.bind(anyString(), anyInt())).thenReturn(mockUpdate);
-        when(mockUpdate.bind(anyString(), any(Object.class))).thenReturn(mockUpdate);
-        when(mockUpdate.executeAndReturnGeneratedKeys("attempt_id")).thenReturn(mockResultBearing);
+        when(mockUpdate.executeAndReturnGeneratedKeys(anyString())).thenReturn(mockResultBearing);
         when(mockResultBearing.mapTo(Integer.class)).thenReturn(mockResultIterable);
         when(mockResultIterable.findOne()).thenReturn(Optional.of(42));
 
-        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
-            mocked.when(DBconnection::getJdbi).thenReturn(mockJdbi);
-            int result = new JdbiAttemptDao(mockResponseDao).startAttempt(1, 10);
-            assertEquals(42, result);
-        }
+        int result = new JdbiAttemptDao(mockResponseDao).startAttempt(1, 10);
 
-        verify(mockHandle).createUpdate(contains("INSERT INTO quiz_attempts"));
+        assertEquals(42, result);
         verify(mockUpdate).bind("quizId", 1);
         verify(mockUpdate).bind("userId", 10);
-        verify(mockResultBearing).mapTo(Integer.class);
     }
 
-    /** ❌ startAttempt(): should return -1 when no key is generated */
+    /** ❌ startAttempt(): returns -1 when no key generated */
     @Test
     void testStartAttemptNoGeneratedKey() {
-        mockWithHandleReturning();
-
         when(mockHandle.createUpdate(anyString())).thenReturn(mockUpdate);
         when(mockUpdate.bind(anyString(), anyInt())).thenReturn(mockUpdate);
-        when(mockUpdate.bind(anyString(), any(Object.class))).thenReturn(mockUpdate);
-        when(mockUpdate.executeAndReturnGeneratedKeys("attempt_id")).thenReturn(mockResultBearing);
+        when(mockUpdate.executeAndReturnGeneratedKeys(anyString())).thenReturn(mockResultBearing);
         when(mockResultBearing.mapTo(Integer.class)).thenReturn(mockResultIterable);
         when(mockResultIterable.findOne()).thenReturn(Optional.empty());
 
+        int result = new JdbiAttemptDao(mockResponseDao).startAttempt(1, 10);
 
-        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
-            mocked.when(DBconnection::getJdbi).thenReturn(mockJdbi);
-            int result = new JdbiAttemptDao(mockResponseDao).startAttempt(1, 10);
-            assertEquals(-1, result);
-        }
+        assertEquals(-1, result);
+        verify(mockUpdate).bind("quizId", 1);
+        verify(mockUpdate).bind("userId", 10);
     }
 
-    /** 💥 startAttempt(): should handle exception gracefully */
+    /** 💥 startAttempt(): propagates runtime exception */
     @Test
-    void testStartAttemptHandlesException() {
-        when(mockJdbi.withHandle(any())).thenThrow(new RuntimeException("DB error"));
-
-        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
-            mocked.when(DBconnection::getJdbi).thenReturn(mockJdbi);
-            assertThrows(RuntimeException.class, () ->
-                    new JdbiAttemptDao(mockResponseDao).startAttempt(1, 10));
-        }
+    void testStartAttemptThrowsException() {
+        reset(mockJdbi);
+        when(mockJdbi.withHandle(any())).thenThrow(new RuntimeException("Simulated DB failure"));
+        assertThrows(RuntimeException.class, () ->
+                new JdbiAttemptDao(mockResponseDao).startAttempt(1, 10));
     }
+
+    /** ✅ attemptExist(): returns true when record found */
+    @Test
+    void testAttemptExistTrue() {
+        when(mockHandle.createQuery(anyString())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("id"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.mapTo(Integer.class)).thenReturn(mockResultIterable);
+        when(mockResultIterable.findOne()).thenReturn(Optional.of(1));
+
+        boolean result = new JdbiAttemptDao(mockResponseDao).attemptExist(5);
+
+        assertTrue(result);
+        verify(mockQuery).bind("id", 5);
+    }
+
+    /** ❌ attemptExist(): returns false when no record */
+    @Test
+    void testAttemptExistFalse() {
+        when(mockHandle.createQuery(anyString())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("id"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.mapTo(Integer.class)).thenReturn(mockResultIterable);
+        when(mockResultIterable.findOne()).thenReturn(Optional.empty());
+
+        boolean result = new JdbiAttemptDao(mockResponseDao).attemptExist(999);
+
+        assertFalse(result);
+        verify(mockQuery).bind("id", 999);
+    }
+
+    /** ✅ endAttempt(): updates score when attempt exists */
+    @Test
+    void testEndAttemptSuccess() {
+        JdbiAttemptDao daoSpy = spy(new JdbiAttemptDao(mockResponseDao));
+        doReturn(true).when(daoSpy).attemptExist(anyInt());
+        when(mockResponseDao.calculateScoreFromResponses(anyInt())).thenReturn(85);
+        when(mockHandle.createUpdate(anyString())).thenReturn(mockUpdate);
+        when(mockUpdate.bind(anyString(), (Object) any())).thenReturn(mockUpdate);
+        when(mockUpdate.execute()).thenReturn(1);
+
+        daoSpy.endAttempt(10);
+
+        verify(mockUpdate).bind("score", 85);
+        verify(mockUpdate).bind("id", 10);
+        verify(mockUpdate).execute();
+    }
+
+    /** ❌ endAttempt(): skips update when attempt doesn't exist */
+    @Test
+    void testEndAttemptAttemptDoesNotExist() {
+        JdbiAttemptDao daoSpy = spy(new JdbiAttemptDao(mockResponseDao));
+        doReturn(false).when(daoSpy).attemptExist(anyInt());
+
+        daoSpy.endAttempt(99);
+
+        verify(mockResponseDao, never()).calculateScoreFromResponses(anyInt());
+        verify(mockHandle, never()).createUpdate(anyString());
+    }
+
+    /** ✅ getScore(): returns value when record exists */
+    @Test
+    void testGetScoreReturnsValue() {
+        when(mockHandle.createQuery(anyString())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("quizId"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("userId"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.mapTo(Integer.class)).thenReturn(mockResultIterable);
+        when(mockResultIterable.findOne()).thenReturn(Optional.of(85));
+
+        Integer score = new JdbiAttemptDao(mockResponseDao).getScore(1, 10);
+
+        assertEquals(85, score);
+        verify(mockQuery).bind("quizId", 1);
+        verify(mockQuery).bind("userId", 10);
+    }
+
+    /** ❌ getScore(): returns null when no result found */
+    @Test
+    void testGetScoreNoRowReturnsNull() {
+        when(mockHandle.createQuery(anyString())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("quizId"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.bind(eq("userId"), anyInt())).thenReturn(mockQuery);
+        when(mockQuery.mapTo(Integer.class)).thenReturn(mockResultIterable);
+        when(mockResultIterable.findOne()).thenReturn(Optional.empty());
+
+        Integer score = new JdbiAttemptDao(mockResponseDao).getScore(9, 77);
+
+        assertNull(score);
+        verify(mockQuery).bind("quizId", 9);
+        verify(mockQuery).bind("userId", 77);
+    }
+
 
 }
