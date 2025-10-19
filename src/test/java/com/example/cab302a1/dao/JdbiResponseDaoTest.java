@@ -38,27 +38,34 @@ class JdbiResponseDaoTest extends BaseJdbiDaoTest {
     /** ✅ saveResponse(): inserts multiple responses successfully */
     @Test
     void testSaveResponseSuccess() {
+        // Arrange
         QuestionResponse r1 = new QuestionResponse(1, 10, 101, true);
         QuestionResponse r2 = new QuestionResponse(1, 11, 102, false);
         List<QuestionResponse> responses = List.of(r1, r2);
 
-        when(mockHandle.prepareBatch(startsWith("INSERT"))).thenReturn(mockBatch);
-        when(mockBatch.bind("attemptId", 5)).thenReturn(mockBatch);
-        when(mockBatch.bind("questionId", r1.getQuestion_id())).thenReturn(mockBatch);
-        when(mockBatch.bind("optionId", r1.getOption_id())).thenReturn(mockBatch);
-        when(mockBatch.bind("isCorrect", r1.getIs_Correct())).thenReturn(mockBatch);
+        when(mockHandle.prepareBatch(anyString())).thenReturn(mockBatch);
+        when(mockBatch.bind(anyString(), anyInt())).thenReturn(mockBatch);
+        when(mockBatch.bind(anyString(), anyBoolean())).thenReturn(mockBatch);
         when(mockBatch.add()).thenReturn(mockBatch);
         when(mockBatch.execute()).thenReturn(new int[]{1, 1});
+
+        // ✅ override useHandle() to ensure our mockHandle is used
+        doAnswer(invocation -> {
+            org.jdbi.v3.core.HandleConsumer<?> consumer = invocation.getArgument(0);
+            consumer.useHandle(mockHandle); // our mockHandle, not new one
+            return null;
+        }).when(mockJdbi).useHandle(any());
 
         // Act
         new JdbiResponseDao().saveResponse(5, responses);
 
         // Assert
-        verify(mockHandle).prepareBatch(startsWith("INSERT"));
+        verify(mockHandle).prepareBatch(argThat(sql -> sql.trim().startsWith("INSERT")));
         verify(mockBatch, atLeastOnce()).bind(eq("attemptId"), eq(5));
         verify(mockBatch, atLeastOnce()).add();
         verify(mockBatch).execute();
     }
+
 
     /** ❌ saveResponse(): skips when list is null or empty */
     @Test

@@ -16,7 +16,6 @@ import static org.mockito.Mockito.*;
 
 /**
  * ✅ Base class for all JDBI DAO tests.
- *
  * Provides shared Mockito setup for mocking JDBI behavior,
  * so DAO logic can be tested without a real database.
  */
@@ -26,6 +25,7 @@ public abstract class BaseJdbiDaoTest {
     protected Handle mockHandle;
     protected Update mockUpdate;
     protected Query mockQuery;
+    protected org.jdbi.v3.core.statement.PreparedBatch mockBatch;
     protected MockedStatic<DBconnection> dbMock;
 
     @BeforeEach
@@ -38,6 +38,7 @@ public abstract class BaseJdbiDaoTest {
         mockHandle = mock(Handle.class);
         mockUpdate = mock(Update.class);
         mockQuery = mock(Query.class);
+        mockBatch = mock(org.jdbi.v3.core.statement.PreparedBatch.class);
 
         dbMock = mockStatic(DBconnection.class);
         dbMock.when(DBconnection::getJdbi).thenReturn(mockJdbi);
@@ -58,21 +59,28 @@ public abstract class BaseJdbiDaoTest {
         // ✅ Basic behavior for handle
         when(mockHandle.createUpdate(anyString())).thenReturn(mockUpdate);
         when(mockHandle.createQuery(anyString())).thenReturn(mockQuery);
+        when(mockHandle.prepareBatch(anyString())).thenReturn(mockBatch);
 
-        // ✅ Allow chaining for all primitive and object types (Update)
+        // ✅ Allow chaining for Update
+        doReturn(mockUpdate).when(mockUpdate).bind(anyString(), anyInt());
+        doReturn(mockUpdate).when(mockUpdate).bind(anyString(), anyBoolean());
+        doReturn(mockUpdate).when(mockUpdate).bind(anyString(), anyLong());
+        doReturn(mockUpdate).when(mockUpdate).bind(anyString(), anyDouble());
 
-        doAnswer(invocation -> mockUpdate).when(mockUpdate).bind(anyString(), anyInt());
-        doAnswer(invocation -> mockUpdate).when(mockUpdate).bind(anyString(), anyBoolean());
-        doAnswer(invocation -> mockUpdate).when(mockUpdate).bind(anyString(), anyLong());
-        doAnswer(invocation -> mockUpdate).when(mockUpdate).bind(anyString(), anyDouble());
+        // ✅ Allow chaining for Query
+        doReturn(mockQuery).when(mockQuery).bind(anyString(), anyInt());
+        doReturn(mockQuery).when(mockQuery).bind(anyString(), anyBoolean());
+        doReturn(mockQuery).when(mockQuery).bind(anyString(), anyLong());
+        doReturn(mockQuery).when(mockQuery).bind(anyString(), anyDouble());
 
-        // ✅ Allow chaining for all primitive and object types (Query)
+        // ✅ Allow chaining for PreparedBatch (fix NPE)
+        doReturn(mockBatch).when(mockBatch).bind(anyString(), anyInt());
+        doReturn(mockBatch).when(mockBatch).bind(anyString(), anyBoolean());
+        doReturn(mockBatch).when(mockBatch).bind(anyString(), anyLong());
+        doReturn(mockBatch).when(mockBatch).bind(anyString(), anyDouble());
 
-        doAnswer(invocation -> mockQuery).when(mockQuery).bind(anyString(), anyInt());
-        doAnswer(invocation -> mockQuery).when(mockQuery).bind(anyString(), anyBoolean());
-        doAnswer(invocation -> mockQuery).when(mockQuery).bind(anyString(), anyLong());
-        doAnswer(invocation -> mockQuery).when(mockQuery).bind(anyString(), anyDouble());
-
+        doReturn(mockBatch).when(mockBatch).add();
+        when(mockBatch.execute()).thenReturn(new int[]{1});
     }
 
     @AfterEach
