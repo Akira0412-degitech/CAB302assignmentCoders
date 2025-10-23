@@ -27,25 +27,12 @@ public final class DaoFactory {
     // Prevent instantiation
     private DaoFactory() {}
 
-    // === Base DAOs ===
-//    private static final UserDao userDao = new JdbcUserDao();
-//    private static final QuizDao quizDao = new JdbcQuizDao();
-//    private static final QuestionDao questionDao = new JdbcQuestionDao();
-//    private static final ResponseDao responseDao = new JdbcResponseDao();
-//    private static final OptionDao optionDao = new JdbcOptionDao();
-
     // Base DAOs
     private static final UserDao userDao = new JdbiUserDao();
     private static final QuizDao quizDao = new JdbiQuizDao();
     private static final QuestionDao questionDao = new JdbiQuestionDao();
     private static final ResponseDao responseDao = new JdbiResponseDao();
     private static final OptionDao optionDao = new JdbiOptionDao();
-
-
-    // === Dependent DAOs ===
-    // ReviewDao depends on QuestionDao for calculating total question count
-//    private static final ReviewDao reviewDao = new JdbcReviewDao(questionDao);
-//    private static final AttemptDao attemptDao = new JdbcAttemptDao(responseDao);
 
     private static final ReviewDao reviewDao = new JdbiReviewDao(questionDao);
     private static final AttemptDao attemptDao = new JdbiAttemptDao(responseDao);
