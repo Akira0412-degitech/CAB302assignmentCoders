@@ -1,8 +1,9 @@
 package com.example.cab302a1.demo;
 
 import com.example.cab302a1.DBconnection;
+import com.example.cab302a1.dao.DaoFactory;
 import com.example.cab302a1.dao.UserDao;
-import com.example.cab302a1.dao.jdbc.JdbcUserDao;
+//import com.example.cab302a1.dao.jdbc.JdbcUserDao;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -64,7 +65,7 @@ public class LoginSignUpDemo extends Application {
             try (var conn = DBconnection.getConnection()) {
                 System.out.println("✅ Connected to database: " + conn.getCatalog());
                 
-                UserDao userDao = new JdbcUserDao();
+                UserDao userDao = DaoFactory.getUserDao();
                 System.out.println("\n📋 Available test users:");
                 userDao.printAllUsers();
                 

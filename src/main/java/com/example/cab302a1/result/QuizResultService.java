@@ -1,7 +1,7 @@
 package com.example.cab302a1.result;
 
 import com.example.cab302a1.dao.*;
-import com.example.cab302a1.dao.jdbc.*;
+//import com.example.cab302a1.dao.jdbc.*;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.model.User;
 import com.example.cab302a1.util.Session;
@@ -44,9 +44,9 @@ public class QuizResultService {
      */
     public QuizResultService() {
         this.attemptDao = DaoFactory.getAttemptDao();
-        this.quizDao = new JdbcQuizDao();
-        this.userDao = new JdbcUserDao();
-        this.questionDao = new JdbcQuestionDao();
+        this.quizDao = DaoFactory.getQuizDao();
+        this.userDao = DaoFactory.getUserDao();
+        this.questionDao = DaoFactory.getQuestionDao();
     }
     
     /**
