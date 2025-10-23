@@ -2,9 +2,7 @@ package com.example.cab302a1.ui.info;
 import com.example.cab302a1.model.Quiz;
 import com.example.cab302a1.service.QuizService;
 
-/**
- * Provide Quiz info for HoverInfoButton(Quiz Info summary)
- */
+
 
 public class QuizInfoProvider {
     private final QuizService quizService;

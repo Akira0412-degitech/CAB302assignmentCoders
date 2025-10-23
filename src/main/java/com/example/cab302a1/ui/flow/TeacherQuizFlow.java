@@ -6,9 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
-/**
- * Opens teacher detail/edit screen; calls onAfterClose (ex refresh) when closed.
- */
+
 public class TeacherQuizFlow implements QuizFlow {
 
     @Override

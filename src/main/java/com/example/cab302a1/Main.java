@@ -44,7 +44,7 @@ public class Main extends Application {
         stage.setResizable(true); // Allow resizing for better user experience
         stage.setMinWidth(600);   // Set minimum width
         stage.setMinHeight(500);  // Set minimum height
-        stage.centerOnScreen();   // Center the windo
+        stage.centerOnScreen();   // Center the window
             stage.show();
     }
 

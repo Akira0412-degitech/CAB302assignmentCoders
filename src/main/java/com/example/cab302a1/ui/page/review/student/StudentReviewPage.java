@@ -7,11 +7,6 @@ import javafx.stage.Stage;
 
 public class StudentReviewPage extends Application {
 
-//    // Static block is a common place for initial setup
-//    static {
-//        // CRITICAL: Ensure this is called first
-//        DBconnection.migrate();
-//    }
 
     @Override
     public void start(Stage stage) throws Exception {

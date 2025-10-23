@@ -291,15 +291,7 @@ public class NavbarController implements Initializable {
      *
      * @param event The action event triggered by clicking the Timetable button
      */
-    // @FXML
-    // private void handleTimetableAction(ActionEvent event) {
-    //     System.out.println("Navigation: Timetable button clicked");
-    //     setActiveButtonWithFocusClear(timetableBtn);
-    //     
-    //     // TODO: Implement actual navigation to Timetable page
-    //     // Example: SceneManager.switchToTimetable();
-    //     navigateToPage("Timetable");
-    // }
+
 
     /**
      * Handles the EXIT button click event.
@@ -359,12 +351,7 @@ public class NavbarController implements Initializable {
     private void navigateToPage(String pageName) {
         System.out.println("Navigating to: " + pageName + " page");
         
-        // TODO: Integrate with actual navigation system
-        // This could involve:
-        // 1. Loading new FXML files
-        // 2. Updating the main content area
-        // 3. Managing application state
-        // 4. Handling navigation history
+
     }
 
     /**

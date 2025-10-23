@@ -41,7 +41,7 @@ public class StudentQuizFlow implements QuizFlow {
      */
     public void openOrShowResult(Stage owner, Quiz quiz) {
         try {
-            // Hidden quiz guard (안전장치)
+            // Hidden quiz guard
             if (Boolean.TRUE.equals(quiz.getIsHidden())) {
                 new Alert(Alert.AlertType.INFORMATION,
                         "This quiz is not available. Please choose another quiz.",
