@@ -55,15 +55,14 @@ public class JdbiQuestionDao implements QuestionDao {
      */
     @Override
     public int insertQuestion(QuizQuestionCreate q) {
-        String type = "MCQ";
+
         return jdbi.withHandle(handle ->
                 handle.createUpdate("""
-                INSERT INTO questions (quiz_id, statement, type, explanation)
-                VALUES (:quizId, :statement, :type, :explanation)
+                INSERT INTO questions (quiz_id, statement, explanation)
+                VALUES (:quizId, :statement, :explanation)
             """)
                         .bind("quizId", q.getQuizId())
                         .bind("statement", q.getQuestionText())
-                        .bind("type", type)
                         .bind("explanation", q.getExplanation())
                         .executeAndReturnGeneratedKeys("question_id")
                         .mapTo(Integer.class)
@@ -124,7 +123,7 @@ public class JdbiQuestionDao implements QuestionDao {
     public List<QuizQuestionCreate> getQuestionsByQuizId(int _quiz_id) {
         return jdbi.withHandle(handle ->
                 handle.createQuery("""
-                SELECT question_id, quiz_id, statement, type, explanation
+                SELECT question_id, quiz_id, statement, explanation
                 FROM questions
                 WHERE quiz_id = :quizId
             """)
