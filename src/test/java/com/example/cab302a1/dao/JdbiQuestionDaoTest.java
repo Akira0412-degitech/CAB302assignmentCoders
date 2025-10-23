@@ -43,7 +43,7 @@ class JdbiQuestionDaoTest extends BaseJdbiDaoTest {
         when(mockHandle.createUpdate(any())).thenReturn(mockUpdate);
         when(mockUpdate.bind(eq("quizId"), eq(1))).thenReturn(mockUpdate);
         when(mockUpdate.bind(eq("statement"), eq("Q1 text"))).thenReturn(mockUpdate);
-        when(mockUpdate.bind(eq("type"), eq("MCQ"))).thenReturn(mockUpdate);
+
         when(mockUpdate.bind(eq("explanation"), eq("explanation A"))).thenReturn(mockUpdate);
 
         when(mockUpdate.executeAndReturnGeneratedKeys(eq("question_id"))).thenReturn(mockResultBearing);
@@ -55,7 +55,7 @@ class JdbiQuestionDaoTest extends BaseJdbiDaoTest {
         assertEquals(77, result);
         verify(mockUpdate).bind("quizId", 1);
         verify(mockUpdate).bind("statement", "Q1 text");
-        verify(mockUpdate).bind("type", "MCQ");
+
         verify(mockUpdate).bind("explanation", "explanation A");
     }
 

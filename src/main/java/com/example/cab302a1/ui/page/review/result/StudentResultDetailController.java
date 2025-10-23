@@ -1,9 +1,10 @@
 package com.example.cab302a1.ui.page.review.result;
 
-import com.example.cab302a1.dao.jdbc.JdbcOptionDao;
-import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
-import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
-import com.example.cab302a1.dao.jdbc.JdbcResponseDao;
+//import com.example.cab302a1.dao.jdbc.JdbcOptionDao;
+//import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
+//import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
+//import com.example.cab302a1.dao.jdbc.JdbcResponseDao;
+import com.example.cab302a1.dao.DaoFactory;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.result.ResultDetail;
 import com.example.cab302a1.result.ResultQuestion;
@@ -82,7 +83,7 @@ public class StudentResultDetailController {
         try {
             // Use QuizResultDetailService to get the data
             QuizResultDetailService service = new QuizResultDetailService(
-                    new JdbcQuizDao(), new JdbcQuestionDao(), new JdbcOptionDao(), new JdbcResponseDao()
+                    DaoFactory.getQuizDao(), DaoFactory.getQuestionDao(), DaoFactory.getOptionDao(), DaoFactory.getResponseDao()
             );
             
             ResultDetail resultDetail = service.getResultDetail(attemptId, quizId);
