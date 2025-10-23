@@ -5,8 +5,16 @@ import org.flywaydb.core.Flyway;
 import java.util.logging.*;
 import org.jdbi.v3.core.Jdbi;
 
+/**
+ * {@code DBconnection} provides a single, shared database access point
+ * for both JDBC and JDBI operations.
+ *
+ * <p>This class follows a <b>Singleton utility</b> design pattern:
+ * all methods and the JDBI instance are static, ensuring a single
+ * consistent connection configuration across the entire application.</p>
+ */
 
-public class DBconnection {
+public final class DBconnection {
 
     // Read from environment variables first; fall back to defaults if not set
     private static final String URL =
@@ -18,6 +26,12 @@ public class DBconnection {
 
     private static final String PASSWORD =
             System.getenv().getOrDefault("DB_PASS", "AppPass#2025");
+
+
+    private DBconnection() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
 
     /**
      * Get a JDBC connection using the configured URL, USER, and PASSWORD.

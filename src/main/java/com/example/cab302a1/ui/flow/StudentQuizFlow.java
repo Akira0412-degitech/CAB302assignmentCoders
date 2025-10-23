@@ -130,11 +130,7 @@ public class StudentQuizFlow implements QuizFlow {
 
             var chosen = choices.get(selectedIndex);
 
-            QuestionResponse r = new QuestionResponse();
-            r.setAttempt_id(attemptId);
-            r.setQuestion_id(q.getQuestionId());
-            r.setOption_id(chosen.getOption_id());
-            r.setIs_correct(chosen.isCorrect());
+            QuestionResponse r = new QuestionResponse(attemptId, q.getQuestionId(), chosen.getOption_id(),chosen.isCorrect() );
 
             responses.add(r);
         }

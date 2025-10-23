@@ -1,6 +1,23 @@
 package com.example.cab302a1.model;
 
 public class QuestionResponse {
+
+    public QuestionResponse() {}
+
+    public QuestionResponse(int _attempt_id, int _question_id, int _option_id, boolean _is_correct) {
+        this.attempt_id = _attempt_id;
+        this.question_id = _question_id;
+        this.option_id = _option_id;
+        this.is_correct = _is_correct;
+    }
+    public QuestionResponse(int _response_id, int _attempt_id, int _question_id, int _option_id, boolean _is_correct) {
+        this.response_id = _response_id;
+        this.attempt_id = _attempt_id;
+        this.question_id = _question_id;
+        this.option_id = _option_id;
+        this.is_correct = _is_correct;
+    }
+
     private int response_id;
     private int attempt_id;
     private int question_id;
