@@ -18,7 +18,7 @@ import java.sql.Timestamp;
  * @author CAB302 Assignment Team
  * @version 1.0
  */
-public class QuizResultDemo extends Application {
+public class QuizResult extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -26,7 +26,7 @@ public class QuizResultDemo extends Application {
         setupMockUser();
         
         // Load the Quiz Result FXML
-        FXMLLoader fxmlLoader = new FXMLLoader(QuizResultDemo.class.getResource("/com/example/cab302a1/result/QuizResult.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(QuizResult.class.getResource("/com/example/cab302a1/result/QuizResult.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);
         
         // Load the CSS stylesheet

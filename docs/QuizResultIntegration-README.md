@@ -401,7 +401,7 @@ Use the provided demo class for isolated testing:
 
 ```bash
 # Run the demo application
-java com.example.cab302a1.result.QuizResultDemo
+java com.example.cab302a1.result.QuizResult
 
 # Or from your IDE, run QuizResultDemo.main()
 ```

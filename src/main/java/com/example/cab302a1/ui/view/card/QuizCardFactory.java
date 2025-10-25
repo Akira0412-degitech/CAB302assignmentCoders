@@ -44,11 +44,6 @@ public class QuizCardFactory {
         return buildStudentCard(quiz, tooltipSupplier, onTitleClick, false);
     }
 
-    /**
-     * [신규 오버로드]
-     * Student card with completion style support.
-     * completed==true 이면 CSS 클래스 'quiz-card-completed' 추가.
-     */
     public Node buildStudentCard(Quiz quiz,
                                  Supplier<String> tooltipSupplier,
                                  EventHandler<ActionEvent> onTitleClick,
@@ -72,8 +67,6 @@ public class QuizCardFactory {
         }
         return card;
     }
-
-
     /**
      * Teacher card: add '×' (top-left) + info badge (top-right) + title click handler.
      * onHide receives the whole card Node so controller can remove it from the grid.

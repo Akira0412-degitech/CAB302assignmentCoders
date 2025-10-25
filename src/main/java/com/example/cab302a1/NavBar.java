@@ -6,12 +6,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-public class NavBarDemo extends Application {
+public class NavBar extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
         // Load the FXML file for the navbar demo
-        FXMLLoader fxmlLoader = new FXMLLoader(NavBarDemo.class.getResource("demo-navbar-integration.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(NavBar.class.getResource("demo-navbar-integration.fxml"));
 
         // Set the scene dimensions to accommodate the navbar demo
         Scene scene = new Scene(fxmlLoader.load(), 1000, 650);

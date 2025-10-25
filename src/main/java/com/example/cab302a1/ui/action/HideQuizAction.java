@@ -25,7 +25,7 @@ public class HideQuizAction {
     /**
      * Confirm and hide the quiz. Removes the card node from the grid on success.
      */
-    public boolean confirmAndHide(Quiz quiz, Node cardNode, TilePane grid) {
+    public void confirmAndHide(Quiz quiz, Node cardNode, TilePane grid) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete this quiz?");
         alert.setHeaderText("This quiz will be hidden from the list.//test comment");
@@ -37,8 +37,6 @@ public class HideQuizAction {
         if (res.isPresent() && res.get() == ok) {
             quizDao.updateQuizStatus(quiz.getQuizId(), true); // Soft delete: is_hidden = 1
             grid.getChildren().remove(cardNode);
-            return true;
         }
-        return false;
     }
 }
