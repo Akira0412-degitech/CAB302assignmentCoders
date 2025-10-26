@@ -1,5 +1,3 @@
--- Migration V1__Create_users_table.sql
--- -------------------------------------
 -- Creates the 'users' table and inserts demo user accounts for testing.
 -- Includes basic fields: user_id, email, password, role, and creation timestamp.
 -- Provides one Student and one Teacher account for initial login testing.

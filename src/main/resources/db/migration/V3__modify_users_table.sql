@@ -1,5 +1,3 @@
--- Migration V3__Update_users_table.sql
--- ------------------------------------
 -- Updates the users table to ensure all records have a valid role.
 -- Sets missing roles to 'Student' and enforces NOT NULL and DEFAULT constraints.
 -- Also ensures 'created_at' always stores a non-null timestamp.

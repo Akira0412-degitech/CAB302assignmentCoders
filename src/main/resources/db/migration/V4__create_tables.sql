@@ -1,5 +1,3 @@
--- Migration V4__Create_quiz_related_tables.sql
--- --------------------------------------------
 -- Creates all core quiz system tables:
 --   - quizzes, questions, question_options
 --   - quiz_attempts, question_responses, quiz_assignments
