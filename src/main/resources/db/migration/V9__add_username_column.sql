@@ -1,4 +1,5 @@
--- Add username column to users table with proper handling of existing data
+-- Adds a new username column to the users table with safe handling.
+-- Ensures existing records receive default or generated usernames before enforcing NOT NULL constraint.
 
 -- First, check if username column exists and drop it if it does (in case of partial failure)
 SET @column_exists = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS 

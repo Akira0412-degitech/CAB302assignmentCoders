@@ -1,3 +1,6 @@
+-- Inserts sample questions and multiple-choice options for all demo quizzes.
+-- Populates data for "Java Basics", "OOP Essentials", and "Exception Handling" quizzes.
+
 -- Java Basics Quiz (quiz_id = 1)
 INSERT INTO questions (quiz_id, statement, type, explanation) VALUES
 (1, 'Which keyword is used to declare a variable in Java?', 'MCQ', 'Variables are declared using type keywords such as int, double, or String.'),
