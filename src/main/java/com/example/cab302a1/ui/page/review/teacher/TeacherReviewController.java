@@ -26,9 +26,6 @@ import java.util.ResourceBundle;
  * Controller for the Teacher Review Page.
  * Displays a list of all students and allows the teacher to select a student
  * to view their quiz attempts and assign feedback.
- *
- * @author Mitchell
- * @version 1.0
  */
 public class TeacherReviewController implements Initializable, ReviewPageController {
 
