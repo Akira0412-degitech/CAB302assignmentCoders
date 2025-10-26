@@ -113,25 +113,15 @@ public class QuizResultController implements Initializable {
         
         // Register this page with NavigationManager to ensure proper CSS loading
         NavigationManager.getInstance().setCurrentPage(NavigationManager.Pages.QUIZ_RESULT);
-        
-        System.out.println("Quiz result page initialized successfully");
     }
 
     /**
      * Loads the component-specific CSS stylesheet.
      */
     private void loadStylesheet() {
-        try {
-            URL cssUrl = getClass().getResource("/com/example/cab302a1/result/QuizResult.css");
-            if (cssUrl != null) {
-                // CSS will be loaded by the scene creator
-                System.out.println("Quiz result stylesheet path confirmed");
-            } else {
-                System.out.println("Warning: QuizReview.css not found");
-            }
-        } catch (Exception e) {
-            System.err.println("Error locating quiz result stylesheet: " + e.getMessage());
-        }
+        // CSS will be loaded by the scene creator
+        // Verify resource exists for debugging purposes
+        URL cssUrl = getClass().getResource("/com/example/cab302a1/result/QuizResult.css");
     }
 
     /**
@@ -178,8 +168,6 @@ public class QuizResultController implements Initializable {
         
         // Register this page with NavigationManager
         NavigationManager.getInstance().setCurrentPage(NavigationManager.Pages.QUIZ_RESULT);
-        
-        System.out.println("Quiz result data set: " + quizResultData.toString());
     }
 
     /**
@@ -231,15 +219,11 @@ public class QuizResultController implements Initializable {
      */
     @FXML
     private void handleViewAnswerAction(ActionEvent event) {
-        System.out.println("View answer button clicked");
-
         if (answerReviewHandler != null && currentQuizResult != null) {
             try {
                 Stage currentStage = (Stage) viewAnswerBtn.getScene().getWindow();
                 answerReviewHandler.showAnswerReview(currentStage, currentQuizResult);
-                System.out.println("Answer review handler called successfully");
             } catch (Exception e) {
-                System.err.println("Error in answer review handler: " + e.getMessage());
                 e.printStackTrace();
             }
         } else if (currentQuizResult != null) {
@@ -255,17 +239,13 @@ public class QuizResultController implements Initializable {
                 
                 if (attemptId != null) {
                     StudentResultDetailController.open(currentStage, quizId, attemptId, null);
-                    System.out.println("Opened result detail page for quiz " + quizId);
                 } else {
-                    System.err.println("No attempt found for quiz " + quizId + " and user " + userId);
                     showPlaceholderMessage("No quiz attempt found");
                 }
             } catch (Exception e) {
-                System.err.println("Error opening result detail page: " + e.getMessage());
                 e.printStackTrace();
             }
         } else {
-            System.out.println("No quiz result data available");
             showPlaceholderMessage("No quiz data available");
         }
     }
@@ -278,15 +258,11 @@ public class QuizResultController implements Initializable {
      */
     @FXML
     private void handleBackHomeAction(ActionEvent event) {
-        System.out.println("Back to home button clicked");
-
         if (homeNavigationHandler != null) {
             try {
                 Stage currentStage = (Stage) backHomeBtn.getScene().getWindow();
                 homeNavigationHandler.navigateToHome(currentStage);
-                System.out.println("Home navigation handler called successfully");
             } catch (Exception e) {
-                System.err.println("Error in home navigation handler: " + e.getMessage());
                 e.printStackTrace();
             }
         } else {
@@ -294,7 +270,6 @@ public class QuizResultController implements Initializable {
             try {
                 navigateToDefaultHome();
             } catch (IOException e) {
-                System.err.println("Error navigating to default home: " + e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -319,14 +294,10 @@ public class QuizResultController implements Initializable {
             User currentUser = Session.getCurrentUser();
             String roleTitle = currentUser.getRole();
             currentStage.setTitle("Interactive Quiz Creator - " + roleTitle + " Home");
-            
-            System.out.println("Successfully navigated to " + roleTitle + " home page");
         } else {
             // No user logged in, fallback to navbar demo
             NavigationManager navigationManager = NavigationManager.getInstance();
             navigationManager.navigateToReplace(currentStage, NavigationManager.Pages.NAVBAR_DEMO);
-            
-            System.out.println("No user logged in, navigated to navbar demo page");
         }
     }
 
@@ -337,7 +308,6 @@ public class QuizResultController implements Initializable {
      * @param message The message to display
      */
     private void showPlaceholderMessage(String message) {
-        System.out.println("PLACEHOLDER: " + message);
         // In a full implementation, this could show a dialog or toast notification
     }
 
@@ -356,7 +326,6 @@ public class QuizResultController implements Initializable {
     public void setQuizResultFromDatabase(int quizId, int userId) throws QuizResultService.QuizResultException {
         QuizResultData resultData = quizResultService.getQuizResult(quizId, userId);
         setQuizResult(resultData);
-        System.out.println("Quiz result loaded from database: quiz_id=" + quizId + ", user_id=" + userId);
     }
     
     /**
@@ -369,7 +338,6 @@ public class QuizResultController implements Initializable {
     public void setQuizResultFromDatabaseForCurrentUser(int quizId) throws QuizResultService.QuizResultException {
         QuizResultData resultData = quizResultService.getQuizResultForCurrentUser(quizId);
         setQuizResult(resultData);
-        System.out.println("Quiz result loaded from database for current user: quiz_id=" + quizId);
     }
     
     /**
@@ -392,9 +360,6 @@ public class QuizResultController implements Initializable {
         URL cssUrl = QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.css");
         if (cssUrl != null) {
             resultScene.getStylesheets().add(cssUrl.toExternalForm());
-            System.out.println("Quiz result CSS loaded successfully");
-        } else {
-            System.err.println("Warning: Quiz result CSS not found");
         }
         
         // Get the controller and set the quiz result data from database
@@ -406,8 +371,6 @@ public class QuizResultController implements Initializable {
         stage.setScene(resultScene);
         stage.setResizable(true);
         stage.centerOnScreen();
-        
-        System.out.println("Quiz result page displayed with database data: quiz_id=" + quizId + ", user_id=" + userId);
     }
     
     /**
@@ -428,9 +391,6 @@ public class QuizResultController implements Initializable {
         URL cssUrl = QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.css");
         if (cssUrl != null) {
             resultScene.getStylesheets().add(cssUrl.toExternalForm());
-            System.out.println("Quiz result CSS loaded successfully");
-        } else {
-            System.err.println("Warning: Quiz result CSS not found");
         }
         
         // Get the controller and set the quiz result data from database
@@ -442,8 +402,6 @@ public class QuizResultController implements Initializable {
         stage.setScene(resultScene);
         stage.setResizable(true);
         stage.centerOnScreen();
-        
-        System.out.println("Quiz result page displayed with database data for current user: quiz_id=" + quizId);
     }
 
     // ============================================
@@ -458,7 +416,6 @@ public class QuizResultController implements Initializable {
      */
     public void setAnswerReviewHandler(AnswerReviewHandler handler) {
         this.answerReviewHandler = handler;
-        System.out.println("Answer review handler registered");
     }
 
     /**
@@ -469,7 +426,6 @@ public class QuizResultController implements Initializable {
      */
     public void setHomeNavigationHandler(HomeNavigationHandler handler) {
         this.homeNavigationHandler = handler;
-        System.out.println("Home navigation handler registered");
     }
 
     /**
@@ -488,9 +444,6 @@ public class QuizResultController implements Initializable {
         URL cssUrl = QuizResultController.class.getResource("/com/example/cab302a1/result/QuizResult.css");
         if (cssUrl != null) {
             resultScene.getStylesheets().add(cssUrl.toExternalForm());
-            System.out.println("Quiz result CSS loaded successfully");
-        } else {
-            System.err.println("Warning: Quiz result CSS not found");
         }
         
         // Get the controller and set the quiz result data
@@ -502,8 +455,6 @@ public class QuizResultController implements Initializable {
         stage.setScene(resultScene);
         stage.setResizable(true);
         stage.centerOnScreen();
-        
-        System.out.println("Quiz result page displayed successfully");
     }
 
     /**

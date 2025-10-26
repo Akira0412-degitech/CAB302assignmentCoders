@@ -75,7 +75,6 @@ public class HomeController implements Initializable {
         Platform.runLater(this::refresh);
 
 
-        System.out.println("Home page initialized and registered with NavigationManager");
     }
 
 

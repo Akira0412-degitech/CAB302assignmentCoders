@@ -110,7 +110,6 @@ public class NavigationManager {
         // Add current page to history if it exists
         if (currentPage != null) {
             navigationHistory.push(currentPage);
-            System.out.println("Added to history: " + currentPage.toString());
         }
         
         // Load and display the new page
@@ -119,8 +118,6 @@ public class NavigationManager {
         // Update current page
         currentPage = pageInfo;
         
-        System.out.println("Navigated to: " + pageInfo.toString());
-        System.out.println("History size: " + navigationHistory.size());
     }
     
     /**
@@ -137,7 +134,6 @@ public class NavigationManager {
         // Update current page
         currentPage = pageInfo;
         
-        System.out.println("Replaced current page with: " + pageInfo.toString());
     }
     
     /**
@@ -149,7 +145,6 @@ public class NavigationManager {
      */
     public boolean navigateBack(Stage stage) throws IOException {
         if (navigationHistory.isEmpty()) {
-            System.out.println("No navigation history available");
             return false;
         }
         
@@ -162,8 +157,6 @@ public class NavigationManager {
         // Update current page
         currentPage = previousPage;
         
-        System.out.println("Navigated back to: " + previousPage.toString());
-        System.out.println("Remaining history size: " + navigationHistory.size());
         
         return true;
     }
@@ -186,9 +179,6 @@ public class NavigationManager {
                 URL cssUrl = getClass().getResource(pageInfo.getCssPath());
                 if (cssUrl != null) {
                     scene.getStylesheets().add(cssUrl.toExternalForm());
-                    System.out.println("CSS loaded: " + pageInfo.getCssPath());
-                } else {
-                    System.out.println("Warning: CSS not found: " + pageInfo.getCssPath());
                 }
             } catch (Exception e) {
                 System.err.println("Error loading CSS: " + e.getMessage());
@@ -227,7 +217,6 @@ public class NavigationManager {
     public void clearHistory() {
         navigationHistory.clear();
         currentPage = null;
-        System.out.println("Navigation history cleared");
     }
     
     /**
@@ -265,8 +254,6 @@ public class NavigationManager {
         // Only update if it's actually different to avoid unnecessary operations
         if (this.currentPage == null || !this.currentPage.equals(pageInfo)) {
             this.currentPage = pageInfo;
-            System.out.println("Current page set to: " + pageInfo.toString());
-            System.out.println("Navigation history size: " + navigationHistory.size());
         }
     }
     

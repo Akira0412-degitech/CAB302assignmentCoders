@@ -118,6 +118,18 @@ To initialize the project database, use the provided `db/init.sql` script.
 
 This makes Database called ```cab302_quizapp``` where user ```appuser@localhost``` password ```AppPass#2025``` are used to login.
 
+## Default Users
+
+This app includes a few **default users** for quick testing and demos.  
+You can log in with them to verify basic flows and permissions.
+
+| user_id | Email               | Password | Username     | Role |
+|----------|--------------------|-----------|---------------|----------|
+| 1        | demo@example.com   | demo      | demo_user     | Student |
+| 2        | admin@example.com  | 1234      | admin_user    | Teacher |
+| 3        | testuser@example.com | testpass | user_3        | Student |
+
+
 ## Additional Documents
 
 See more detail in [docs folder](docs)
@@ -160,18 +172,27 @@ See more detail in [docs folder](docs)
 - [x] Debugging
 - [x] Github action
 
+** After Checkpoint 4 (Week 11 - 13) - Project finalize**
+- [x] Code review and refactoring
+- [x] UI/UX refinement based on testing feedback
+- [x] Code cleanup and formatting
+- [x] Remove dead code and unused imports
+- [x] Ensure consistent coding standards
+- [x] Final code quality checks
+- [x] Final bug fixes and polish
+- [x] Accessibility improvements (keyboard navigation,     screen reader support)
+- [x] Final UI/UX polish and consistency check
+- [x] Complete, working JavaFX application
+- [x] Comprehensive documentation (technical & user)
+- [x] Practice presentation
+- [x] Prepare demo data and scenarios
+- [x] Project submission preparation
+- [x] Test suite with adequate coverage
+- [x] Final presentation/demo materials
+- [x] Individual work logs (final weeks)
+- [x] Team reflection and contribution summary
+
 ---
-
-
-# Default Users
-
-| user_id | Email               | Password | Username     |
-|----------|--------------------|-----------|---------------|
-| 1        | demo@example.com   | demo      | demo_user     |
-| 2        | admin@example.com  | 1234      | admin_user    |
-| 3        | testuser@example.com | testpass | user_3        |
-
-
 
 **CAB302 - Software Development Project**  
 *Teaching and Learning Theme*  

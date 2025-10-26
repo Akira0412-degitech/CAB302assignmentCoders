@@ -116,7 +116,6 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
             studentBtn.setMaxWidth(Double.MAX_VALUE);
 
             studentBtn.setOnAction(e -> {
-                System.out.println("Teacher selected student: " + student.getUsername() + " (ID: " + student.getUser_id() + ")");
                 studentNameLabel.setText("Student Name: " + student.getUsername());
                 currentSelectedStudentId = student.getUser_id();
                 loadReviewData(); // Reloads table with quizzes for this student
@@ -253,7 +252,6 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
 
                 btn.setOnAction(e -> {
                     QuizReview item = getTableView().getItems().get(getIndex());
-                    System.out.println("Viewing Quiz Attempt ID: " + item.getAttemptId());
                     // NOTE: Navigation logic would be added here to view the quiz definition
                 });
             }

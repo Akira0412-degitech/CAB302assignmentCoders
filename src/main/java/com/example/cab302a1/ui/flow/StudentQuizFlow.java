@@ -20,7 +20,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Handles: completed → result, not-completed → take quiz → submit → result.
+ * Implementation of QuizFlow for student users.
+ * <p>
+ * This flow manages the complete student quiz-taking lifecycle including:
+ * </p>
+ * <ul>
+ *   <li>Checking if a quiz has already been completed</li>
+ *   <li>Displaying results for completed quizzes</li>
+ *   <li>Opening the quiz-taking interface for incomplete quizzes</li>
+ *   <li>Saving student responses and calculating scores</li>
+ *   <li>Displaying final results after submission</li>
+ * </ul>
+ * <p>
+ * The flow handles: completed quiz → result view, incomplete quiz → take quiz → submit → result view.
+ * </p>
  */
 public class StudentQuizFlow implements QuizFlow {
 
@@ -28,6 +41,13 @@ public class StudentQuizFlow implements QuizFlow {
     private final ResponseDao responseDao;
     private final QuizService quizService;
 
+    /**
+     * Constructs a StudentQuizFlow with required DAO dependencies.
+     *
+     * @param attemptDao DAO for managing quiz attempts
+     * @param responseDao DAO for storing student responses
+     * @param quizService service for loading complete quiz data
+     */
     public StudentQuizFlow(AttemptDao attemptDao, ResponseDao responseDao, QuizService quizService) {
         this.attemptDao = attemptDao;
         this.responseDao = responseDao;
@@ -35,9 +55,15 @@ public class StudentQuizFlow implements QuizFlow {
     }
 
     /**
-     * New helper:
-     * If user has already completed this quiz -> show result,
-     * else -> open quiz normally.
+     * Opens a quiz or displays results based on completion status.
+     * <p>
+     * If the user has already completed this quiz, displays the result page.
+     * If not completed, opens the quiz-taking interface.
+     * Hidden quizzes are blocked with an informational message.
+     * </p>
+     *
+     * @param owner the parent Stage
+     * @param quiz the Quiz to open or show results for
      */
     public void openOrShowResult(Stage owner, Quiz quiz) {
         try {
@@ -62,10 +88,23 @@ public class StudentQuizFlow implements QuizFlow {
         }
     }
 
-
-/**
- * Standard open to take a quiz. After submission, shows result.
- */
+    /**
+     * Opens the quiz-taking interface for the student.
+     * <p>
+     * This method:
+     * </p>
+     * <ol>
+     *   <li>Loads the complete quiz with questions and options</li>
+     *   <li>Starts a new quiz attempt in the database</li>
+     *   <li>Opens the student quiz-taking UI</li>
+     *   <li>Saves responses on submission</li>
+     *   <li>Calculates and displays the final result</li>
+     * </ol>
+     *
+     * @param owner the parent Stage
+     * @param quiz the Quiz to take
+     * @param onFinish callback executed after quiz completion (may be null)
+     */
     @Override
     public void open(Stage owner, Quiz quiz, Runnable onFinish) {
         try {
@@ -116,6 +155,18 @@ public class StudentQuizFlow implements QuizFlow {
         }
     }
 
+    /**
+     * Converts student selections into QuestionResponse objects.
+     * <p>
+     * Maps the list of selected option indices to QuestionResponse objects
+     * containing the attempt ID, question ID, chosen option ID, and correctness.
+     * </p>
+     *
+     * @param selections list of selected option indices (one per question)
+     * @param fullQuiz the complete Quiz with questions and options
+     * @param attemptId the ID of the current quiz attempt
+     * @return list of QuestionResponse objects representing student answers
+     */
     private static List<QuestionResponse> getQuestionResponses(List<Integer> selections, Quiz fullQuiz, int attemptId) {
         List<QuestionResponse> responses = new ArrayList<>();
         var questions = fullQuiz.getQuestions();
@@ -137,7 +188,17 @@ public class StudentQuizFlow implements QuizFlow {
         return responses;
     }
 
-    /** Render the result screen for this user & quiz. */
+    /**
+     * Displays the quiz result screen for the student.
+     * <p>
+     * Fetches the student's score from the database and displays it
+     * along with quiz metadata in a formatted result view.
+     * </p>
+     *
+     * @param owner the parent Stage
+     * @param quiz the Quiz that was completed
+     * @param userId the ID of the student user
+     */
     private void showResult(Stage owner, Quiz quiz, int userId) {
         try {
             Integer score = attemptDao.getScore(quiz.getQuizId(), userId);

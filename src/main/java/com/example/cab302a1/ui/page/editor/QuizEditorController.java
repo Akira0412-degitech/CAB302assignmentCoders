@@ -82,7 +82,6 @@ public class QuizEditorController {
         try {
             var url = Objects.requireNonNull(
                     getClass().getResource("/com/example/cab302a1/QuestionItem.fxml"));
-            System.out.println("Loading FXML: " + url);
 
             FXMLLoader loader = new FXMLLoader(url);
             Node node = loader.load();
@@ -315,7 +314,6 @@ public class QuizEditorController {
             if (correctIdx >= 0) {
                 item.setCorrectIndex(correctIdx);
             }
-            System.out.println("[prefill] qid=" + q.getQuestionId() + " exp=" + q.getExplanation());
 
         }
 

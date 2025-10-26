@@ -108,6 +108,5 @@ public final class DBconnection {
         flyway.repair();
         flyway.migrate();
 
-        System.out.println("Flyway migration applied");
     }
 }
