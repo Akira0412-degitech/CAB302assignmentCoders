@@ -64,6 +64,21 @@ public final class DBconnection {
     }
 
     /**
+     * Provides a plain JDBC connection for legacy code or testing.
+     * <p>
+     * While most DAOs use {@link #getJdbi()}, this method allows
+     * direct JDBC access for backward compatibility in tests or setup scripts.
+     * </p>
+     *
+     * @return an open {@link java.sql.Connection} to the database
+     * @throws java.sql.SQLException if the connection fails
+     */
+    public static java.sql.Connection getConnection() throws java.sql.SQLException {
+        return java.sql.DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+
+    /**
      * Executes Flyway migrations to update the database schema.
      * <p>
      * Automatically repairs migration history and applies any pending schema changes.

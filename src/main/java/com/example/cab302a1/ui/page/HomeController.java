@@ -55,8 +55,7 @@ public class HomeController implements Initializable {
         // Register this page with NavigationManager for proper navigation history
         NavigationManager.getInstance().setCurrentPage(NavigationManager.Pages.HOME);
 
-        // Set role-based page title
-        setupPageTitle();
+
 
         // Reset Card action (+ button)
         // open quiz editor
@@ -79,9 +78,7 @@ public class HomeController implements Initializable {
         System.out.println("Home page initialized and registered with NavigationManager");
     }
 
-    private void setupPageTitle() {
-        
-    }
+
 
     /** Rebuild the grid according to the current role and quiz list. */
     public void refresh() {
@@ -110,7 +107,7 @@ public class HomeController implements Initializable {
             grid.getChildren().add(createAction.buildPlusCard());
         }
 
-        setupPageTitle();
+
     }
 
 

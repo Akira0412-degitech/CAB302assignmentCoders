@@ -1,6 +1,8 @@
 package com.example.cab302a1.ui;
 
 import com.example.cab302a1.DBconnection;
+import com.example.cab302a1.dao.DaoFactory;
+import com.example.cab302a1.dao.QuizDao;
 import com.example.cab302a1.model.Student;
 import com.example.cab302a1.model.Teacher;
 import com.example.cab302a1.ui.page.HomeController;
@@ -12,11 +14,11 @@ import javafx.scene.layout.TilePane;
 import org.junit.jupiter.api.*;
 import org.mockito.MockedStatic;
 
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -33,21 +35,15 @@ class HomeControllerTest {
         Session.clearUser();
     }
 
-    private static void invokePrivate(Object target, String name) throws Exception {
-        Method m = target.getClass().getDeclaredMethod(name);
-        m.setAccessible(true);
-        m.invoke(target);
-    }
-
     @Test
-    void student_seesStudentTitle_andNoPlusCard() throws Exception {
+    void student_seesNoPlusCard() throws Exception {
         // given
         Session.setCurrentUser(new Student(2, "stu", "s@x.io", "Student", new Timestamp(System.currentTimeMillis())));
         HomeController c = new HomeController();
-        // inject UI
         var grid = new TilePane();
         var title = new Label();
 
+        // Inject UI fields manually
         var gridField = HomeController.class.getDeclaredField("grid");
         gridField.setAccessible(true);
         gridField.set(c, grid);
@@ -55,31 +51,29 @@ class HomeControllerTest {
         titleField.setAccessible(true);
         titleField.set(c, title);
 
-        // when: avoid DB by mocking empty result
-        try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
-            Connection conn = mock(Connection.class);
-            PreparedStatement ps = mock(PreparedStatement.class);
-            ResultSet rs = mock(ResultSet.class);
-            mocked.when(DBconnection::getConnection).thenReturn(conn);
-            when(conn.prepareStatement(anyString())).thenReturn(ps);
-            when(ps.executeQuery()).thenReturn(rs);
-            when(rs.next()).thenReturn(false);
+        // Mock DB call (simulate no quizzes)
+        try (MockedStatic<DaoFactory> mockedFactory = mockStatic(DaoFactory.class)) {
+            QuizDao mockQuizDao = mock(QuizDao.class);
+            when(mockQuizDao.getAllQuizzes()).thenReturn(new ArrayList<>());
+            when(mockQuizDao.getQuizByTeacherId(anyInt())).thenReturn(new ArrayList<>());
+            mockedFactory.when(DaoFactory::getQuizDao).thenReturn(mockQuizDao);
 
-            c.refresh(); // will also call setupPageTitle()
+            c.refresh();
         }
 
         // then
-        assertEquals("Your Learning Journey!", title.getText());
-        assertEquals(0, grid.getChildren().size()); // no quizzes, and no + card for student
+        assertEquals(0, grid.getChildren().size(), "Student should not have + card or quizzes");
     }
 
     @Test
-    void teacher_seesTeacherTitle_andPlusCard() throws Exception {
+    void teacher_seesPlusCard() throws Exception {
         // given
         Session.setCurrentUser(new Teacher(1, "tutor", "t@x.io", "Teacher", new Timestamp(System.currentTimeMillis())));
         HomeController c = new HomeController();
         var grid = new TilePane();
         var title = new Label();
+
+        // Inject UI fields manually
         var gridField = HomeController.class.getDeclaredField("grid");
         gridField.setAccessible(true);
         gridField.set(c, grid);
@@ -87,7 +81,14 @@ class HomeControllerTest {
         titleField.setAccessible(true);
         titleField.set(c, title);
 
-        // when
+        // Mock CreateQuizAction (+ button)
+        var createAction = mock(com.example.cab302a1.ui.action.CreateQuizAction.class);
+        when(createAction.buildPlusCard()).thenReturn(new Button("+"));
+        var createField = HomeController.class.getDeclaredField("createAction");
+        createField.setAccessible(true);
+        createField.set(c, createAction);
+
+        // Mock DB call (simulate no quizzes)
         try (MockedStatic<DBconnection> mocked = mockStatic(DBconnection.class)) {
             Connection conn = mock(Connection.class);
             PreparedStatement ps = mock(PreparedStatement.class);
@@ -101,17 +102,10 @@ class HomeControllerTest {
         }
 
         // then
-        assertEquals("Build Your Next Quiz!", title.getText());
-        // plus card is a Button with text starting with "+"
-        boolean hasPlus = grid.getChildren().stream().anyMatch(n -> {
+        boolean hasPlus = grid.getChildren().stream().anyMatch(n ->
+                n instanceof Button btn && ("+".equals(btn.getText()) || btn.getStyleClass().contains("plus-card"))
+        );
 
-            if (n instanceof Button btn) {
-                String t = btn.getText() == null ? "" : btn.getText().toLowerCase();
-                if ("+".equals(btn.getText()) || t.contains("create")) return true;
-                if (btn.getStyleClass() != null && btn.getStyleClass().contains("plus-card")) return true;
-            }
-            return n.getStyleClass() != null && n.getStyleClass().contains("plus-card");
-        });
-        assertTrue(hasPlus, "Teacher should see a plus card (text '+' or styleClass 'plus-card').");
+        assertTrue(hasPlus, "Teacher should see a '+' card for quiz creation.");
     }
 }

@@ -1,19 +1,37 @@
 package com.example.cab302a1;
 
-import jdk.jfr.Experimental;
+import org.jdbi.v3.core.Jdbi;
 import org.junit.jupiter.api.Test;
-import java.sql.Connection;
-import java.sql.DriverManager;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for {@link DBconnection}.
+ * <p>
+ * Verifies that the JDBI connection is properly initialized and
+ * Flyway migrations can be executed successfully.
+ * </p>
+ */
 public class DBconnectionTest {
+
+    /**
+     * Ensures that the shared JDBI instance is created successfully.
+     */
     @Test
-    void testMySQLConnection() throws Exception {
-        try(Connection conn = DBconnection.getConnection()){
-            assertNotNull(conn);
-            assertTrue(conn.isValid(10));
-        }
+    void testJdbiInstanceNotNull() {
+        Jdbi jdbi = DBconnection.getJdbi();
+        assertNotNull(jdbi, "JDBI instance should not be null");
+    }
+
+    /**
+     * Verifies that Flyway migration runs without throwing an exception.
+     * <p>
+     * This test checks schema synchronization and ensures that the
+     * migration process completes successfully.
+     * </p>
+     */
+    @Test
+    void testFlywayMigrationRunsSuccessfully() {
+        assertDoesNotThrow(DBconnection::migrate, "Flyway migration should run without exceptions");
     }
 }
