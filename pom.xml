@@ -163,7 +163,7 @@
                     <failOnError>false</failOnError>
                     <subpackages>com.example.cab302a1</subpackages>
                     <use>true</use>
-                    <includePrivate>false</includePrivate>
+                    <show>private</show>
                 </configuration>
             </plugin>
 
