@@ -1,9 +1,4 @@
 package com.example.cab302a1.ui.page.review.result;
-
-//import com.example.cab302a1.dao.jdbc.JdbcOptionDao;
-//import com.example.cab302a1.dao.jdbc.JdbcQuestionDao;
-//import com.example.cab302a1.dao.jdbc.JdbcQuizDao;
-//import com.example.cab302a1.dao.jdbc.JdbcResponseDao;
 import com.example.cab302a1.dao.DaoFactory;
 import com.example.cab302a1.model.QuizChoiceCreate;
 import com.example.cab302a1.result.ResultDetail;
