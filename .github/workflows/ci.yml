@@ -2,7 +2,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "Akira_CITest" ]
   pull_request:
     branches: [ "main" ]
 permissions:
@@ -63,13 +63,14 @@ jobs:
       - name: Verify Javadoc Output
         run: |
            echo "📂 Generated files:"
-           ls -R target/reports/apidocs || echo "⚠️ No Javadoc generated!"
-
+#           ls -R target/reports/apidocs || echo "⚠️ No Javadoc generated!"
+             ls -R target/site/apidocs || echo "⚠️ No Javadoc generated!"
       - name: Upload Javadoc artifact
         uses: actions/upload-artifact@v4
         with:
           name: javadoc
-          path: target/reports/apidocs/
+#          path: target/reports/apidocs/
+          path: target/site/apidocs/
           retention-days: 30 # 30 days is enough for sure
 
 
