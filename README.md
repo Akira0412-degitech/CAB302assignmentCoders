@@ -172,7 +172,7 @@ See more detail in [docs folder](docs)
 - [x] Debugging
 - [x] Github action
 
-** After Checkpoint 4 (Week 11 - 13) - Project finalize**
+**After Checkpoint 4 (Week 11 - 13) - Project finalize**
 - [x] Code review and refactoring
 - [x] UI/UX refinement based on testing feedback
 - [x] Code cleanup and formatting
