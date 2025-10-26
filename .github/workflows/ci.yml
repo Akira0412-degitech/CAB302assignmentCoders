@@ -57,8 +57,6 @@ jobs:
             -Dmaven.javadoc.failOnError=false \
             -Dmaven.javadoc.skip=false \
             -Dencoding=UTF-8
-          # NOTE: 出力先は target/site/apidocs
-
       - name: Verify Javadoc Output
         run: |
           echo "📂 Generated files:"
@@ -68,8 +66,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: javadoc
-#          path: target/reports/apidocs/
-          path: target/site/apidocs/
+          path: '**/target/site/apidocs/**'
           retention-days: 30 # 30 days is enough for sure
 
 
