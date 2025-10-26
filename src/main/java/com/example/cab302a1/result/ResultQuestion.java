@@ -9,8 +9,6 @@ import com.example.cab302a1.model.QuizQuestionCreate;
  * This is a simple data container (POJO) typically created when assembling
  * a quiz attempt's detailed result view.
  * </p>
- *
- * @since 1.0
  */
 public class ResultQuestion {
 

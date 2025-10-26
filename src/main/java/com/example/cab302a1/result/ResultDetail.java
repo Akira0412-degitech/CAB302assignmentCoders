@@ -12,8 +12,6 @@ import java.util.List;
  * by a service after evaluating a user's quiz attempt and then passed
  * to the UI layer for rendering.
  * </p>
- *
- * @since 1.0
  */
 public class ResultDetail {
 
