@@ -2,9 +2,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "Akira_CITest" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "Akira_CITest" ]
+    branches: [ "main" ]
 permissions:
   contents: write #give the bot permission to write
 
