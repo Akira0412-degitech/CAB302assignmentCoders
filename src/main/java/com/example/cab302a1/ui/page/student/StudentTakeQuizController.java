@@ -21,19 +21,44 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-
+/**
+ * Controller responsible for handling the student quiz-taking interface.
+ * <p>
+ * This class loads quiz questions, displays them dynamically,
+ * collects the student's selected answers, and triggers a callback when
+ * the quiz is submitted.
+ * </p>
+ */
 public class StudentTakeQuizController {
 
+    /** Label showing the quiz title. */
     @FXML private Label titleLabel;
+
+    /** Label showing the quiz description. */
     @FXML private Label descriptionLabel;
+
+    /** Container for dynamically loaded question items. */
     @FXML private VBox questionsBox;
+
+    /** Button for submitting answers and closing the quiz. */
     @FXML private Button doneButton;
 
+    /** List of controllers for each displayed question. */
     private final List<StudentQuestionItemController> itemControllers = new ArrayList<>();
+
+    /** Reference to the quiz stage (modal window). */
     private Stage stage;
+
+    /** Callback executed when the quiz is submitted. */
     private Consumer<List<Integer>> onSubmit;
 
-    /** Open as modal dialog. */
+    /**
+     * Opens the student quiz page as a modal dialog window.
+     *
+     * @param owner    the parent stage
+     * @param quiz     the {@link Quiz} object containing questions and choices
+     * @param onSubmit callback that receives a list of selected option indices
+     */
     public static void open(Stage owner, Quiz quiz, Consumer<List<Integer>> onSubmit) {
         try {
             FXMLLoader loader = new FXMLLoader(StudentTakeQuizController.class.getResource(
@@ -58,6 +83,16 @@ public class StudentTakeQuizController {
         }
     }
 
+    /**
+     * Loads the quiz content into the UI and prepares question items.
+     * <p>
+     * This method dynamically generates each question component,
+     * binds question text and answer choices, and attaches submit logic
+     * to the Done button.
+     * </p>
+     *
+     * @param quiz the {@link Quiz} object to load and display
+     */
     private void loadQuiz(Quiz quiz) {
         titleLabel.setText(quiz.getTitle() == null ? "Quiz" : quiz.getTitle());
         descriptionLabel.setText(quiz.getDescription() == null ? "" : quiz.getDescription());
@@ -65,9 +100,9 @@ public class StudentTakeQuizController {
         questionsBox.getChildren().clear();
         itemControllers.clear();
 
-
-        //done yet need to explain
+        // Load each question if available
         if (quiz.getQuestions() == null || quiz.getQuestions().isEmpty()) {
+            // No questions to display
         } else {
             int total = quiz.getQuestions().size();
             for (int i = 0; i < total; i++) {

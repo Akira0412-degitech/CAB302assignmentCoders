@@ -19,17 +19,41 @@ import java.net.URL;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Controller for displaying detailed information about a quiz in the teacher view.
+ * <p>
+ * This controller allows teachers to view quiz questions, choices, and explanations,
+ * as well as open the quiz editor for modifications. It retrieves full quiz details
+ * (including questions and options) from DAOs and displays them in a formatted layout.
+ * </p>
+ */
 public class TeacherQuizDetailController {
 
+    /** Label displaying the quiz title. */
     @FXML private Label titleLabel;
+
+    /** Label displaying the quiz description. */
     @FXML private Label descLabel;
+
+    /** Container holding dynamically generated question and answer blocks. */
     @FXML private VBox questionsBox;
 
+    /** Reference to the modal stage for this window. */
     private Stage stage;
+
+    /** The quiz currently being displayed. */
     private Quiz quiz;
+
+    /** Callback executed when the quiz is edited and updated. */
     private Consumer<Quiz> onUpdated;
 
-
+    /**
+     * Opens the quiz detail window as a modal dialog for teachers.
+     *
+     * @param owner     the parent stage
+     * @param quiz      the quiz to display
+     * @param onUpdated callback executed when the quiz is modified and saved
+     */
     public static void open(Stage owner, Quiz quiz, Consumer<Quiz> onUpdated) {
         try {
             URL fxml = TeacherQuizDetailController.class.getResource(
@@ -52,16 +76,15 @@ public class TeacherQuizDetailController {
             c.stage.setTitle("Quiz Detail");
             c.stage.setScene(new Scene(root, 700, 650));
 
-
+            // Load questions and options from the database
             QuestionDao questionDao = DaoFactory.getQuestionDao();
             List<QuizQuestionCreate> loadedQuestions = questionDao.getAllQuestions(quiz.getQuizId());
 
             OptionDao optionDao = DaoFactory.getOptionDao();
-            for(QuizQuestionCreate q : loadedQuestions){
+            for (QuizQuestionCreate q : loadedQuestions) {
                 q.getChoices().addAll(optionDao.getOptionsByQuestionId(q.getQuestionId()));
             }
             quiz.setQuestions(loadedQuestions);
-
 
             c.setData(quiz, onUpdated);
             c.stage.show();
@@ -75,12 +98,25 @@ public class TeacherQuizDetailController {
         }
     }
 
+    /**
+     * Sets the quiz data and update callback, then renders the content.
+     *
+     * @param quiz      the {@link Quiz} object containing all question and choice data
+     * @param onUpdated callback to invoke when quiz data changes
+     */
     private void setData(Quiz quiz, Consumer<Quiz> onUpdated) {
         this.quiz = quiz;
         this.onUpdated = onUpdated;
         render();
     }
 
+    /**
+     * Renders quiz details including questions, choices, and explanations.
+     * <p>
+     * Each question is displayed in a styled block with answer choices
+     * and the correct answers visually highlighted.
+     * </p>
+     */
     private void render() {
         titleLabel.setText(quiz.getTitle() == null ? "(Untitled)" : quiz.getTitle());
         descLabel.setText(quiz.getDescription() == null ? "No Description" : quiz.getDescription());
@@ -90,23 +126,20 @@ public class TeacherQuizDetailController {
         questionsBox.getChildren().clear();
         int qIdx = 1;
         for (QuizQuestionCreate q : quiz.getQuestions()) {
-            // Create styled question block
             VBox block = new VBox(8);
             block.getStyleClass().add("question-block");
 
-            // Question text with styling
             Label qLabel = new Label("Q" + qIdx + ": " + (q.getQuestionText() == null ? "" : q.getQuestionText()));
             qLabel.getStyleClass().add("question-text");
             qLabel.setWrapText(true);
             block.getChildren().add(qLabel);
 
-            // Answer choices with styling
             VBox choicesBox = new VBox(4);
             int cIdx = 0;
             for (QuizChoiceCreate ch : q.getChoices()) {
                 String mark = ch.isCorrect() ? " ✓" : "";
                 String text = ch.getText() == null ? "" : ch.getText();
-                Label cLabel = new Label((char)('A' + cIdx) + ". " + text + mark);
+                Label cLabel = new Label((char) ('A' + cIdx) + ". " + text + mark);
                 cLabel.getStyleClass().add("choice-text");
                 if (ch.isCorrect()) {
                     cLabel.getStyleClass().add("correct-choice");
@@ -117,7 +150,6 @@ public class TeacherQuizDetailController {
             }
             block.getChildren().add(choicesBox);
 
-            // Explanation (if there is)
             String exp = q.getExplanation();
             if (exp != null && !exp.isBlank()) {
                 Label expLabel = new Label("💡 Explanation: " + exp);
@@ -132,6 +164,13 @@ public class TeacherQuizDetailController {
         }
     }
 
+    /**
+     * Opens the quiz editor window to allow teachers to modify quiz content.
+     * <p>
+     * After editing, updates the displayed quiz details and invokes
+     * the {@code onUpdated} callback if provided.
+     * </p>
+     */
     @FXML
     private void onEdit() {
         Stage owner = (Stage) questionsBox.getScene().getWindow();
@@ -142,6 +181,9 @@ public class TeacherQuizDetailController {
         });
     }
 
+    /**
+     * Closes the quiz detail window.
+     */
     @FXML
     private void onClose() {
         stage.close();
