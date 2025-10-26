@@ -161,9 +161,11 @@
                 <configuration>
                     <source>21</source>
                     <failOnError>false</failOnError>
-                    <subpackages>com.example.cab302a1.dao:com.example.cab302a1.dao.jdbc:com.example.cab302a1</subpackages>
+                    <sourcepath>src/main/java</sourcepath>
+                    <subpackages>com.example.cab302a1.ui</subpackages>
                     <use>true</use>
                     <includePrivate>false</includePrivate>
+                    <excludePackageNames>*.module-info</excludePackageNames>
                 </configuration>
             </plugin>
 

@@ -9,7 +9,7 @@ import java.util.function.Consumer;
  * - Builds a '+' card Button and wires the provided handler to open editor.
  * - Controller injects the handler (so action stays UI-agnostic).
  */
-public class CreateQuizAction {
+public class  CreateQuizAction {
 
     private final Consumer<javafx.event.ActionEvent> openEditorHandler;
 
