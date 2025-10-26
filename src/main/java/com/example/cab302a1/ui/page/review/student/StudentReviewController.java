@@ -205,7 +205,6 @@ public class StudentReviewController implements Initializable, ReviewPageControl
 
             try {
                 reviewData.addAll(reviewDao.getAllAttemptsById(studentId));
-                System.out.println("Student ID " + studentId + " loaded " + reviewData.size() + " attempts.");
             } catch (Exception e) {
                 System.err.println("Error fetching quiz attempts for current user: " + e.getMessage());
             }

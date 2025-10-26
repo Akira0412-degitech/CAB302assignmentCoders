@@ -100,17 +100,7 @@ public class JdbiUserDao implements UserDao {
 
         jdbi.useHandle(handle ->
                 handle.createQuery(sql)
-                        .map((rs, ctx) -> {
-                            System.out.println(
-                                    rs.getInt("user_id") + " | " +
-                                            rs.getString("username") + " | " +
-                                            rs.getString("email") + " | " +
-                                            rs.getTimestamp("created_at") + " | " +
-                                            rs.getString("password") + " | " +
-                                            rs.getString("role")
-                            );
-                            return null;
-                        })
+                        .map((rs, ctx) -> null)
                         .list()
         );
     }
@@ -143,7 +133,6 @@ public class JdbiUserDao implements UserDao {
     @Override
     public User signUpUser(String _username, String _email, String _password, String _role) {
         if (existsByEmail(_email)) {
-            System.out.println("User already exists: " + _email);
             return null;
         }
 
@@ -167,12 +156,10 @@ public class JdbiUserDao implements UserDao {
         );
 
         if (newId == null) {
-            System.out.println("Sign-up failed for: " + _email);
             return null;
         }
 
         User currentUser = getUserById(newId);
-        System.out.printf("User: %s | Email: %s | Role: %s added%n", _username, _email, _role);
         return currentUser;
     }
 
@@ -185,7 +172,6 @@ public class JdbiUserDao implements UserDao {
     @Override
     public User login(String _email, String _password) {
         if (!existsByEmail(_email)) {
-            System.out.println("User not found: " + _email);
             return null;
         }
 

@@ -45,7 +45,6 @@ public class LogoutConfirmationController implements Initializable {
         // Initialize the logout confirmation page
         setupButtonAccessibility();
         
-        System.out.println("Logout confirmation page initialized successfully");
     }
 
     /**
@@ -68,7 +67,6 @@ public class LogoutConfirmationController implements Initializable {
      */
     @FXML
     private void handleLogoutAction(ActionEvent event) {
-        System.out.println("User confirmed logout - navigating to login page");
         
         try {
             // Clear any user session data here if applicable
@@ -77,7 +75,6 @@ public class LogoutConfirmationController implements Initializable {
             // Navigate to login page
             navigateToLogin();
             
-            System.out.println("User logged out successfully");
             
         } catch (Exception e) {
             System.err.println("Error during logout process: " + e.getMessage());
@@ -93,7 +90,6 @@ public class LogoutConfirmationController implements Initializable {
      */
     @FXML
     private void handleCancelAction(ActionEvent event) {
-        System.out.println("Logout cancelled by user - returning to previous page");
         
         try {
             // Get the current stage
@@ -107,13 +103,11 @@ public class LogoutConfirmationController implements Initializable {
                 boolean navigationSuccessful = navigationManager.navigateBack(currentStage);
                 
                 if (navigationSuccessful) {
-                    System.out.println("Successfully returned to previous page via NavigationManager");
                     return; // Successfully navigated back
                 }
             }
             
             // If no history available or navigation failed, use intelligent fallback
-            System.out.println("No navigation history available or navigation failed, using intelligent fallback");
             returnToPreviousPageFallback();
             
         } catch (Exception e) {
@@ -146,7 +140,6 @@ public class LogoutConfirmationController implements Initializable {
         // Navigate to login page (replace, don't add to history)
         navigationManager.navigateToReplace(currentStage, NavigationManager.Pages.LOGIN);
         
-        System.out.println("Successfully navigated to login page");
     }
 
     /**
@@ -170,17 +163,14 @@ public class LogoutConfirmationController implements Initializable {
                 String roleTitle = currentUser.getRole();
                 currentStage.setTitle("Interactive Quiz Creator - " + roleTitle + " Home");
                 
-                System.out.println("Used intelligent fallback navigation to " + roleTitle + " home page");
                 return;
             }
         }
         
         // If no user is logged in or session is invalid, go to login page instead of navbar demo
         // This is safer than navbar demo and provides a clear path for the user
-        System.out.println("User session invalid or not logged in, redirecting to login page");
         navigationManager.navigateToReplace(currentStage, NavigationManager.Pages.LOGIN);
         
-        System.out.println("Used fallback navigation to login page (session invalid)");
     }
 
     /**
@@ -198,7 +188,6 @@ public class LogoutConfirmationController implements Initializable {
         // - Clear cached data
         // - Invalidate authentication tokens
         
-        System.out.println("User session data cleared successfully");
     }
 
     /**
@@ -208,7 +197,6 @@ public class LogoutConfirmationController implements Initializable {
     private void closeCurrentWindow() {
         Stage currentStage = (Stage) cancelBtn.getScene().getWindow();
         currentStage.close();
-        System.out.println("Logout confirmation window closed");
     }
 
     /**
@@ -219,7 +207,6 @@ public class LogoutConfirmationController implements Initializable {
         try {
             clearUserSession();
             navigateToLogin();
-            System.out.println("Programmatic logout completed successfully");
         } catch (IOException e) {
             System.err.println("Error during programmatic logout: " + e.getMessage());
         }
@@ -240,7 +227,6 @@ public class LogoutConfirmationController implements Initializable {
                 returnToPreviousPageFallback();
             }
             
-            System.out.println("Programmatic logout cancellation completed successfully");
         } catch (IOException e) {
             System.err.println("Error during programmatic logout cancellation: " + e.getMessage());
         }

@@ -72,7 +72,6 @@ public class JdbiAttemptDao implements AttemptDao {
     @Override
     public void endAttempt(int attemptId) {
         if (!attemptExist(attemptId)) {
-            System.out.println("Attempt record does not exist");
             return;
         }
 

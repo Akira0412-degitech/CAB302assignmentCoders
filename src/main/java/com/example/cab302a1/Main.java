@@ -25,7 +25,6 @@ public class Main extends Application {
         try {
             String cssPath = Main.class.getResource("/com/example/cab302a1/Login/Login.css").toExternalForm();
             scene.getStylesheets().add(cssPath);
-            System.out.println("Login CSS loaded successfully: " + cssPath);
         } catch (Exception e) {
             System.err.println("Could not load Login.css: " + e.getMessage());
         }

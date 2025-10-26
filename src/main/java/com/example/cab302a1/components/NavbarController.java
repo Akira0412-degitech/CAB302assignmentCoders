@@ -65,7 +65,6 @@ public class NavbarController implements Initializable {
         configureAccessibility();
         loadStylesheet();
         
-        System.out.println("Navbar component initialized successfully");
     }
 
     /**
@@ -76,9 +75,6 @@ public class NavbarController implements Initializable {
             URL cssUrl = getClass().getResource("/com/example/cab302a1/components/Navbar.css");
             if (cssUrl != null) {
                 navbarContainer.getStylesheets().add(cssUrl.toExternalForm());
-                System.out.println("Navbar stylesheet loaded successfully");
-            } else {
-                System.out.println("Warning: Navbar.css not found");
             }
         } catch (Exception e) {
             System.err.println("Error loading navbar stylesheet: " + e.getMessage());
@@ -238,7 +234,6 @@ public class NavbarController implements Initializable {
      */
     @FXML
     private void handleHomeAction(ActionEvent event) {
-        System.out.println("Navigation: Home button clicked");
         setActiveButtonWithFocusClear(homeBtn);
         
         try {
@@ -258,7 +253,6 @@ public class NavbarController implements Initializable {
      */
     @FXML
     private void handleReviewAction(ActionEvent event) throws IOException {
-        System.out.println("Review button clicked. Checking user role...");
         
         // Set active button state first, before navigation (with focus clearing)
         setActiveButtonWithFocusClear(reviewBtn);
@@ -267,13 +261,11 @@ public class NavbarController implements Initializable {
 
 
         if (Session.isTeacher()) {
-            System.out.println("Navigating to Teacher Review Page...");
             NavigationManager.getInstance().navigateTo(
                     (Stage) ((Node) event.getSource()).getScene().getWindow(),
                     NavigationManager.Pages.TEACHER_REVIEW
             );
         } else if(Session.isStudent()){
-            System.out.println("Navigating to Student Review Page...");
             NavigationManager.getInstance().navigateTo(
                     (Stage) ((Node) event.getSource()).getScene().getWindow(),
                     NavigationManager.Pages.STUDENT_REVIEW
@@ -298,7 +290,6 @@ public class NavbarController implements Initializable {
      */
     @FXML
     private void handleExitAction(ActionEvent event) {
-        System.out.println("Navigation: EXIT button clicked - opening logout confirmation");
         
         try {
             // Navigate to logout confirmation page
@@ -330,12 +321,10 @@ public class NavbarController implements Initializable {
             if (currentUser != null) {
                 String roleTitle = currentUser.getRole();
                 currentStage.setTitle("Interactive Quiz Creator - " + roleTitle + " Home");
-                System.out.println("Successfully navigated to " + roleTitle + " home page");
             }
         } else {
             // No user logged in, redirect to login page
             navigationManager.navigateTo(currentStage, NavigationManager.Pages.LOGIN);
-            System.out.println("No user logged in, redirected to login page");
         }
     }
     
@@ -346,7 +335,6 @@ public class NavbarController implements Initializable {
      * @param pageName The name of the page to navigate to
      */
     private void navigateToPage(String pageName) {
-        System.out.println("Navigating to: " + pageName + " page");
         
 
     }
@@ -366,7 +354,6 @@ public class NavbarController implements Initializable {
                 setActiveButton(reviewBtn);
                 break;
             default:
-                System.out.println("Warning: Unknown navigation button name: " + buttonName);
         }
     }
 
@@ -385,7 +372,6 @@ public class NavbarController implements Initializable {
         NavigationManager navigationManager = NavigationManager.getInstance();
         navigationManager.navigateTo(currentStage, NavigationManager.Pages.LOGOUT_CONFIRMATION);
         
-        System.out.println("Successfully navigated to logout confirmation page");
     }
 
     /**

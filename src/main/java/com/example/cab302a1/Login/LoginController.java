@@ -96,7 +96,6 @@ public class LoginController {
         User currentUser = userdao.login(email.trim(), password);
 
         if(currentUser != null){
-            System.out.println("Login successful: " + currentUser.getEmail());
             Session.setCurrentUser(currentUser);
             String title = "";
             if(currentUser instanceof Student){
@@ -112,7 +111,6 @@ public class LoginController {
             try {
                 String cssPath = getClass().getResource("/com/example/cab302a1/HomePage.css").toExternalForm();
                 scene.getStylesheets().add(cssPath);
-                System.out.println("HomePage CSS loaded successfully: " + cssPath);
             } catch (Exception e) {
                 System.err.println("Could not load HomePage.css: " + e.getMessage());
             }
@@ -166,7 +164,6 @@ public class LoginController {
         try {
             String cssPath = getClass().getResource("/com/example/cab302a1/SignUp/SignUp.css").toExternalForm();
             scene.getStylesheets().add(cssPath);
-            System.out.println("SignUp CSS loaded successfully: " + cssPath);
         } catch (Exception e) {
             System.err.println("Could not load SignUp.css: " + e.getMessage());
         }

@@ -205,7 +205,6 @@ public class SignUpController {
         try {
             String cssPath = getClass().getResource("/com/example/cab302a1/Login/Login.css").toExternalForm();
             scene.getStylesheets().add(cssPath);
-            System.out.println("Login CSS loaded successfully: " + cssPath);
         } catch (Exception e) {
             System.err.println("Could not load Login.css: " + e.getMessage());
         }
@@ -253,8 +252,6 @@ public class SignUpController {
 
         if(currentUser != null){
             Session.setCurrentUser(currentUser);
-            System.out.println("Signup successfully: " + currentUser.getEmail());
-            System.out.println("Username (display): " + username + ", Email (database): " + email);
 
             root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -264,7 +261,6 @@ public class SignUpController {
             try {
                 String cssPath = getClass().getResource("/com/example/cab302a1/HomePage.css").toExternalForm();
                 scene.getStylesheets().add(cssPath);
-                System.out.println("HomePage CSS loaded successfully after signup: " + cssPath);
             } catch (Exception e) {
                 System.err.println("Could not load HomePage.css after signup: " + e.getMessage());
             }
