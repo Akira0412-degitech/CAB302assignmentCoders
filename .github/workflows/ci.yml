@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "Akira_CITest" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "Akira_CITest" ]
 permissions:
   contents: write #give the bot permission to write
 
