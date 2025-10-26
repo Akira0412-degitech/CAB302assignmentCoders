@@ -146,23 +146,7 @@ public class QuizResultData {
         return "F";
     }
     
-    // Utility methods for team integration
-    
-    /**
-     * Creates sample quiz result data for testing purposes.
-     * Team members can use this method to test the result page with various scenarios.
-     * 
-     * @return Array of sample QuizResultData objects
-     */
-    public static QuizResultData[] getSampleData() {
-        return new QuizResultData[] {
-            new QuizResultData(1, 2, "Sample Quiz 1", 1, 1),
-            new QuizResultData(13, 20, "Mathematics Quiz", 2, 1),
-            new QuizResultData(47, 50, "Science Assessment", 3, 1),
-            new QuizResultData(8, 10, "History Quiz", 4, 1),
-            new QuizResultData(0, 5, "Programming Challenge", 5, 1)
-        };
-    }
+
     
     /**
      * Validation method to check if the quiz result data is valid.
