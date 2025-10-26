@@ -14,9 +14,6 @@ package com.example.cab302a1.model;
  *   <li>Provide constructors for creating and retrieving response records</li>
  *   <li>Offer getter and setter methods for all response attributes</li>
  * </ul>
- *
- * @author CAB302
- * @version 1.0
  */
 public class QuestionResponse {
 
