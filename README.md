@@ -165,6 +165,10 @@ See more detail in [docs folder](docs)
 
 # Default Users
 
+- This app includes a few **default users** for quick testing and demos.  
+You can log in with them to verify basic flows and permissions.
+
+
 | user_id | Email               | Password | Username     |
 |----------|--------------------|-----------|---------------|
 | 1        | demo@example.com   | demo      | demo_user     |
