@@ -32,9 +32,6 @@ import java.io.IOException;
  *   <li>Navigate to the Login or HomePage after appropriate actions</li>
  *   <li>Display error messages for invalid or failed sign-up attempts</li>
  * </ul>
- *
- * @author CAB302
- * @version 2.0
  */
 public class SignUpController {
 

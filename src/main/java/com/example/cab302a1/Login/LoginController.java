@@ -31,9 +31,6 @@ import java.io.IOException;
  *   <li>Display appropriate error messages for invalid credentials</li>
  *   <li>Handle navigation to Sign Up page via hyperlink</li>
  * </ul>
- *
- * @author CAB302
- * @version 2.0
  */
 public class LoginController {
 
