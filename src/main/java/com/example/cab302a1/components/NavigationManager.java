@@ -18,9 +18,6 @@ import java.util.Stack;
  * - Back navigation support
  * - Scene management
  * - Integration with logout confirmation
- * 
- * @author CAB302 Assignment Team
- * @version 1.0
  */
 public class NavigationManager {
     

@@ -12,9 +12,6 @@ import java.util.List;
  * Service class for handling quiz result operations with database integration.
  * This class provides methods to fetch quiz results from the database using
  * the AttemptDao.getScore() method and related data from other DAOs.
- * 
- * @author CAB302 Assignment Team
- * @version 1.0
  */
 public class QuizResultService {
     

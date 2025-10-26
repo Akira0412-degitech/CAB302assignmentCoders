@@ -23,9 +23,6 @@ import java.util.ResourceBundle;
  * - Confirming logout and navigating to login page
  * - Cancelling logout and returning to previous page
  * - Managing scene transitions and window behavior
- * 
- * @author CAB302 Assignment Team
- * @version 1.0
  */
 public class LogoutConfirmationController implements Initializable {
 

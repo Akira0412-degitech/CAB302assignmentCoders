@@ -7,9 +7,6 @@ import java.util.Objects;
  * Data model for quiz result information.
  * This class encapsulates all data related to a completed quiz result,
  * providing a standardized way for team members to pass quiz data to the result page.
- * 
- * @author CAB302 Assignment Team
- * @version 1.0
  */
 public class QuizResultData {
     

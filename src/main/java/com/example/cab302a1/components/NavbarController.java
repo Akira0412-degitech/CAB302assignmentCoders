@@ -25,9 +25,6 @@ import java.util.ResourceBundle;
  * - Review page navigation  
  * - Application exit functionality
  * (Timetable page navigation - commented out, no longer needed)
- * 
- * @author CAB302 Assignment Team
- * @version 1.0
  */
 public class NavbarController implements Initializable {
 

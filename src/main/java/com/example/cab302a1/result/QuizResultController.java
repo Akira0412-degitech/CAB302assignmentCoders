@@ -30,9 +30,6 @@ import java.util.ResourceBundle;
  * - Navigation to answer review page
  * - Navigation back to home page
  * - Team integration interfaces for easy connection
- * 
- * @author CAB302 Assignment Team
- * @version 1.0
  */
 public class QuizResultController implements Initializable {
 
