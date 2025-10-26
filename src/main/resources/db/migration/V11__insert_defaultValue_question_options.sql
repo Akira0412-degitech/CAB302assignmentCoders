@@ -1,3 +1,7 @@
+-- Inserts sample question responses linked to demo quiz attempts.
+-- Provides realistic answer data for testing result calculation and review features.
+
+
 -- Attempt 1 (quiz 1 by user 3, score = 3, all correct)
 INSERT INTO question_responses (attempt_id, question_id, option_id, is_correct) VALUES
 (1, 1, 1, 1),

@@ -1,4 +1,6 @@
--- V16__delete_unusedColumn.sql
+-- Removes unused columns from questions and quiz_attempts tables.
+-- Cleans up legacy fields no longer needed after refactoring.
+
 
 -- Drop column safely from 'questions' table
 ALTER TABLE questions

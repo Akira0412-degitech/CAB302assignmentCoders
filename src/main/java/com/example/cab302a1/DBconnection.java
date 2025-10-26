@@ -1,22 +1,32 @@
 package com.example.cab302a1;
 
-import java.sql.*;
 import org.flywaydb.core.Flyway;
-import java.util.logging.*;
 import org.jdbi.v3.core.Jdbi;
+import java.util.logging.*;
 
 /**
- * {@code DBconnection} provides a single, shared database access point
- * for both JDBC and JDBI operations.
+ * Provides a centralized database connection utility for JDBI operations.
+ * <p>
+ * This class follows the <b>Singleton design pattern</b>, ensuring a single shared
+ * {@link Jdbi} instance across the application. It also supports Flyway migrations
+ * to keep the database schema synchronized.
+ * </p>
  *
- * <p>This class follows a <b>Singleton utility</b> design pattern:
- * all methods and the JDBI instance are static, ensuring a single
- * consistent connection configuration across the entire application.</p>
+ * <p>Key responsibilities:</p>
+ * <ul>
+ *   <li>Expose a single shared {@link Jdbi} instance for all DAO classes</li>
+ *   <li>Run Flyway migrations to maintain the database schema</li>
+ * </ul>
+ *
+ * <p>Usage Example:</p>
+ * <pre>
+ *     Jdbi jdbi = DBconnection.getJdbi();
+ *     DBconnection.migrate();
+ * </pre>
  */
-
 public final class DBconnection {
 
-    // Read from environment variables first; fall back to defaults if not set
+    // Database credentials (environment variable first, then defaults)
     private static final String URL =
             System.getenv().getOrDefault("DB_URL",
                     "jdbc:mysql://localhost:3306/cab302_quizapp?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
@@ -27,35 +37,60 @@ public final class DBconnection {
     private static final String PASSWORD =
             System.getenv().getOrDefault("DB_PASS", "AppPass#2025");
 
-
+    /**
+     * Private constructor prevents instantiation.
+     * <p>
+     * Enforces the Singleton design pattern by disallowing creation of class instances.
+     * </p>
+     */
     private DBconnection() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
 
-
-    /**
-     * Get a JDBC connection using the configured URL, USER, and PASSWORD.
-     */
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
-    }
-
+    /** Shared JDBI instance for the entire application. */
     private static final Jdbi jdbi = Jdbi.create(URL, USER, PASSWORD);
 
+    /**
+     * Returns the shared {@link Jdbi} instance.
+     * <p>
+     * Ensures all DAO classes use a single consistent configuration and connection
+     * management strategy throughout the application.
+     * </p>
+     *
+     * @return the shared {@link Jdbi} instance
+     */
     public static Jdbi getJdbi() {
         return jdbi;
     }
 
     /**
-     * Run Flyway migrations against the configured database.
-     * This ensures the schema is up-to-date before tests or runtime.
+     * Provides a plain JDBC connection for legacy code or testing.
+     * <p>
+     * While most DAOs use {@link #getJdbi()}, this method allows
+     * direct JDBC access for backward compatibility in tests or setup scripts.
+     * </p>
+     *
+     * @return an open {@link java.sql.Connection} to the database
+     * @throws java.sql.SQLException if the connection fails
+     */
+    public static java.sql.Connection getConnection() throws java.sql.SQLException {
+        return java.sql.DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+
+    /**
+     * Executes Flyway migrations to update the database schema.
+     * <p>
+     * Automatically repairs migration history and applies any pending schema changes.
+     * Flyway logging is suppressed for cleaner console output.
+     * </p>
      */
     public static void migrate() {
-        // Suppress Flyway logging output to keep logs clean
+        // Suppress Flyway logging output
         Logger flywayLogger = Logger.getLogger("org.flywaydb");
         flywayLogger.setLevel(Level.WARNING);
-        for (var h : Logger.getLogger("").getHandlers()) {
-            h.setLevel(Level.WARNING);
+        for (var handler : Logger.getLogger("").getHandlers()) {
+            handler.setLevel(Level.WARNING);
         }
 
         try {
@@ -65,12 +100,11 @@ public final class DBconnection {
             throw new RuntimeException("MySQL Driver not found!", e);
         }
 
-        // Configure Flyway with current DB connection info
+        // Configure and run Flyway migrations
         Flyway flyway = Flyway.configure()
                 .dataSource(URL, USER, PASSWORD)
                 .load();
 
-        // Repair any corrupted Flyway history and apply migrations
         flyway.repair();
         flyway.migrate();
 

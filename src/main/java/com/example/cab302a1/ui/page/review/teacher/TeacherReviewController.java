@@ -26,9 +26,6 @@ import java.util.ResourceBundle;
  * Controller for the Teacher Review Page.
  * Displays a list of all students and allows the teacher to select a student
  * to view their quiz attempts and assign feedback.
- *
- * @author Mitchell
- * @version 1.0
  */
 public class TeacherReviewController implements Initializable, ReviewPageController {
 
@@ -157,7 +154,17 @@ public class TeacherReviewController implements Initializable, ReviewPageControl
                     int attemptId = selectedQuiz.getAttemptId();
 
                     try {
-                        attemptDao.updateFeedback(attemptId, feedbackText);
+                        if (!attemptDao.attemptExist(attemptId)) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Error");
+                            alert.setHeaderText("Attempt Not Found");
+                            alert.setContentText("The chosen attempt does not exist");
+                            alert.showAndWait();
+                            return;
+                        }else {
+                            attemptDao.updateFeedback(attemptId, feedbackText);
+                        }
+
 
                         // 3. Update the UI and inform the user
                         Alert successAlert = new Alert(Alert.AlertType.INFORMATION, "Feedback successfully assigned.");

@@ -15,6 +15,24 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Controller class responsible for managing the Sign Up page functionality.
+ * <p>
+ * This class handles user registration, validation, and navigation to related views.
+ * It also manages UI components for user input, such as username, email, password,
+ * and role selection. The class integrates with {@link UserDao} to persist new users,
+ * and with {@link NavigationManager} to handle scene transitions.
+ * </p>
+ *
+ * <p><b>Responsibilities:</b></p>
+ * <ul>
+ *   <li>Initialize and configure the role selection ComboBox</li>
+ *   <li>Validate input fields before signing up</li>
+ *   <li>Register new users using {@link UserDao}</li>
+ *   <li>Navigate to the Login or HomePage after appropriate actions</li>
+ *   <li>Display error messages for invalid or failed sign-up attempts</li>
+ * </ul>
+ */
 public class SignUpController {
 
     private Stage stage;
@@ -41,19 +59,23 @@ public class SignUpController {
 
     UserDao userdao = DaoFactory.getUserDao();
 
-
-
-
+    /**
+     * Initializes the Sign Up page.
+     * <p>
+     * This method sets up the role selection ComboBox, defines its visual style,
+     * and removes default focus from input fields to improve UX.
+     * </p>
+     */
     @FXML
     private void initialize() {
         // Add items to the role selection box
         roleBox.getItems().addAll("Teacher", "Student");
         // Default value is Student
         roleBox.setValue("Student");
-        
+
         // Custom cell factory to fix tick visibility
         setupRoleBoxCellFactory();
-        
+
         // Remove auto-focus from first field by focusing on the container instead
         // This will be executed after the FXML is loaded
         javafx.application.Platform.runLater(() -> {
@@ -62,13 +84,21 @@ public class SignUpController {
             }
         });
     }
-    
+
+    /**
+     * Configures the custom cell factory for the role selection ComboBox.
+     * <p>
+     * This setup provides visual enhancements such as checkmarks for selected items
+     * and hover effects to make the dropdown list more user-friendly and consistent
+     * with the app's design language.
+     * </p>
+     */
     private void setupRoleBoxCellFactory() {
         // Set up custom cell factory for ComboBox dropdown items
         roleBox.setCellFactory(listView -> {
             return new javafx.scene.control.ListCell<String>() {
                 private final javafx.scene.control.Label checkmark = new javafx.scene.control.Label("✓");
-                
+
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -80,32 +110,32 @@ public class SignUpController {
                         javafx.scene.layout.HBox container = new javafx.scene.layout.HBox();
                         container.setSpacing(8);
                         container.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-                        
+
                         javafx.scene.control.Label textLabel = new javafx.scene.control.Label(item);
                         textLabel.setStyle("-fx-text-fill: #000000; -fx-font-size: 14px; -fx-font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;");
-                        
+
                         // Setup checkmark
                         checkmark.setStyle("-fx-text-fill: #005BA1; -fx-font-weight: bold; -fx-font-size: 16px;");
                         checkmark.setVisible(false);
-                        
+
                         container.getChildren().addAll(textLabel, checkmark);
-                        
+
                         // Add spacer to push checkmark to the right
                         javafx.scene.layout.Region spacer = new javafx.scene.layout.Region();
                         javafx.scene.layout.HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
                         container.getChildren().add(1, spacer);
-                        
+
                         setGraphic(container);
                         setText(null);
-                        
+
                         // Update based on selection state
                         updateCellAppearance(textLabel, roleBox.getValue() != null && roleBox.getValue().equals(item));
-                        
+
                         // Listen for selection changes
                         roleBox.valueProperty().addListener((obs, oldVal, newVal) -> {
                             updateCellAppearance(textLabel, newVal != null && newVal.equals(item));
                         });
-                        
+
                         // Hover effect
                         setOnMouseEntered(e -> {
                             if (!isCurrentlySelected(item)) {
@@ -113,7 +143,7 @@ public class SignUpController {
                                 setStyle("-fx-background-color: #DBEAFE;");
                             }
                         });
-                        
+
                         setOnMouseExited(e -> {
                             if (!isCurrentlySelected(item)) {
                                 textLabel.setStyle("-fx-text-fill: #000000; -fx-font-size: 14px; -fx-font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;");
@@ -122,11 +152,11 @@ public class SignUpController {
                         });
                     }
                 }
-                
+
                 private boolean isCurrentlySelected(String item) {
                     return roleBox.getValue() != null && roleBox.getValue().equals(item);
                 }
-                
+
                 private void updateCellAppearance(javafx.scene.control.Label textLabel, boolean isSelectedItem) {
                     if (isSelectedItem) {
                         checkmark.setVisible(true);
@@ -140,7 +170,7 @@ public class SignUpController {
                 }
             };
         });
-        
+
         // Also set button cell factory for the main display
         roleBox.setButtonCell(new javafx.scene.control.ListCell<String>() {
             @Override
@@ -154,11 +184,17 @@ public class SignUpController {
                 }
             }
         });
-        
+
         // Make ComboBox non-editable (dropdown only)
         roleBox.setEditable(false);
     }
 
+    /**
+     * Handles navigation to the Login page when the Login hyperlink is clicked.
+     *
+     * @param event The {@link ActionEvent} triggered by clicking the Login link.
+     * @throws IOException If the FXML or CSS files cannot be loaded.
+     */
     @FXML
     private void handleLoginClick(ActionEvent event) throws IOException {
         // Switch to Login page
@@ -181,6 +217,17 @@ public class SignUpController {
         stage.show();
     }
 
+    /**
+     * Handles the Sign Up button click event.
+     * <p>
+     * This method collects input data, validates it, and attempts to register
+     * a new user using {@link UserDao}. If successful, the user is redirected
+     * to the HomePage; otherwise, an error message is displayed.
+     * </p>
+     *
+     * @param event The {@link ActionEvent} triggered by clicking the Sign Up button.
+     * @throws IOException If there is an issue loading the next view (HomePage).
+     */
     @FXML
     void handleSignUpclick(ActionEvent event) throws IOException {
         // Get values from input fields
@@ -212,7 +259,7 @@ public class SignUpController {
             root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root, 1000, 640);
-            
+
             // Load HomePage CSS
             try {
                 String cssPath = getClass().getResource("/com/example/cab302a1/HomePage.css").toExternalForm();
@@ -221,13 +268,13 @@ public class SignUpController {
             } catch (Exception e) {
                 System.err.println("Could not load HomePage.css after signup: " + e.getMessage());
             }
-            
+
             stage.setTitle(currentUser.getRole() + "-Home");
             stage.setScene(scene);
-            
+
             // Clear any existing navigation history since this is a fresh signup
             NavigationManager.getInstance().clearHistory();
-            
+
             stage.show();
         }else {
             showErrorMessage("Something went wrong, Try again later.");
@@ -235,7 +282,13 @@ public class SignUpController {
     }
 
     /**
-     * Helper method to display error messages with proper UI management
+     * Displays an error message on the sign-up page.
+     * <p>
+     * This helper method updates the error label's text, visibility,
+     * and layout management properties to ensure the message appears properly.
+     * </p>
+     *
+     * @param message The message text to display.
      */
     private void showErrorMessage(String message) {
         errorsignup.setText(message);
@@ -244,7 +297,14 @@ public class SignUpController {
     }
 
     /**
-     * Basic email validation
+     * Performs basic email validation.
+     * <p>
+     * Checks that the email contains an '@' symbol, a period,
+     * and is longer than five characters.
+     * </p>
+     *
+     * @param email The email string to validate.
+     * @return true if the email appears valid; false otherwise.
      */
     private boolean isValidEmail(String email) {
         return email.contains("@") && email.contains(".") && email.length() > 5;

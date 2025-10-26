@@ -1,5 +1,5 @@
-
--- Default Data for quiz_attempts table
+-- Inserts default quiz attempt records for demo users.
+-- Provides sample progress and scores for test and demo accounts.
 
 -- testuser@example.com tried quiz_id = 1 and the score is 3
 INSERT INTO quiz_attempts (quiz_id, answered_by, score, is_completed)

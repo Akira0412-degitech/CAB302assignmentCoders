@@ -1,7 +1,5 @@
 package com.example.cab302a1;
 
-import com.example.cab302a1.dao.UserDao;
-import com.example.cab302a1.dao.DaoFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,14 +13,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         // Db connection check
         DBconnection.migrate();
-        try (var conn = DBconnection.getConnection()){
-            System.out.println(("Connected to DB: " + conn.getCatalog()));
-            UserDao userdao = DaoFactory.getUserDao();
-            userdao.printAllUsers();
 
-        } catch (Exception e){
-            e.printStackTrace();
-        }
 
         // Load the FXML file for the login page UI
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/example/cab302a1/Login/Login-view.fxml"));

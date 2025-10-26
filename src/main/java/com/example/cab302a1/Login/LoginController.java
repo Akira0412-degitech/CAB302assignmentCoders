@@ -15,6 +15,23 @@ import javafx.stage.*;
 import javafx.event.ActionEvent;
 import java.io.IOException;
 
+/**
+ * Controller class responsible for managing the Login page functionality.
+ * <p>
+ * This class handles user authentication, scene transitions to the HomePage or
+ * SignUp page, and UI updates for login error handling. It interacts with
+ * {@link UserDao} for authentication and uses {@link NavigationManager} to
+ * manage navigation history.
+ * </p>
+ *
+ * <p><b>Responsibilities:</b></p>
+ * <ul>
+ *   <li>Validate user login input and perform authentication</li>
+ *   <li>Navigate to HomePage upon successful login</li>
+ *   <li>Display appropriate error messages for invalid credentials</li>
+ *   <li>Handle navigation to Sign Up page via hyperlink</li>
+ * </ul>
+ */
 public class LoginController {
 
     private Stage stage;
@@ -33,9 +50,15 @@ public class LoginController {
     @FXML
     Label errorloginLabel;
 
-
     UserDao userdao = DaoFactory.getUserDao();
 
+    /**
+     * Initializes the Login view controller.
+     * <p>
+     * This method removes the default focus from the first text field
+     * to improve user experience by placing focus on the container.
+     * </p>
+     */
     @FXML
     private void initialize() {
         // Remove auto-focus from first field by focusing on the container instead
@@ -47,6 +70,17 @@ public class LoginController {
         });
     }
 
+    /**
+     * Handles user login when the "Login" button is clicked.
+     * <p>
+     * This method validates the input, authenticates the user via {@link UserDao#login(String, String)},
+     * sets the current session, and transitions to the HomePage scene if login is successful.
+     * In case of invalid credentials, an error message is displayed on the UI.
+     * </p>
+     *
+     * @param event The {@link ActionEvent} triggered by clicking the Login button.
+     * @throws IOException If there is an issue loading the next FXML view.
+     */
     @FXML
     protected void handleLogin(ActionEvent event) throws IOException {
 
@@ -73,7 +107,7 @@ public class LoginController {
             root = FXMLLoader.load(getClass().getResource("/com/example/cab302a1/HomePage.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root, 1000, 640);
-            
+
             // Load HomePage CSS
             try {
                 String cssPath = getClass().getResource("/com/example/cab302a1/HomePage.css").toExternalForm();
@@ -82,13 +116,13 @@ public class LoginController {
             } catch (Exception e) {
                 System.err.println("Could not load HomePage.css: " + e.getMessage());
             }
-            
+
             stage.setTitle(title + "-Home");
             stage.setScene(scene);
-            
+
             // Clear any existing navigation history since this is a fresh login
             NavigationManager.getInstance().clearHistory();
-            
+
             stage.show();
 
         }else{
@@ -98,7 +132,13 @@ public class LoginController {
     }
 
     /**
-     * Helper method to display error messages with proper UI management
+     * Displays an error message on the login page.
+     * <p>
+     * This helper method updates the error label with a custom message and ensures
+     * it is visible and managed within the UI layout.
+     * </p>
+     *
+     * @param message The error message to be displayed.
      */
     private void showErrorMessage(String message) {
         errorloginLabel.setText(message);
@@ -106,6 +146,16 @@ public class LoginController {
         errorloginLabel.setManaged(true);
     }
 
+    /**
+     * Handles the click event of the Sign Up hyperlink.
+     * <p>
+     * This method switches the current scene to the Sign Up page defined in
+     * {@code SignUp-view.fxml}, and applies its corresponding CSS stylesheet.
+     * </p>
+     *
+     * @param event The {@link ActionEvent} triggered by clicking the Sign Up link.
+     * @throws IOException If the FXML file or CSS cannot be loaded.
+     */
     @FXML
     private void handleSignUpClick(ActionEvent event) throws IOException {
         // Load SignUp-view.fxml and switch to Sign Up scene
@@ -127,6 +177,4 @@ public class LoginController {
         stage.centerOnScreen();
         stage.show();
     }
-
-
 }
