@@ -56,15 +56,14 @@ jobs:
           ./mvnw -B clean javadoc:javadoc \
             -Dmaven.javadoc.failOnError=false \
             -Dmaven.javadoc.skip=false \
-            -Dsourcepath=src/main/java \
             -Dencoding=UTF-8
-
+          # NOTE: 出力先は target/site/apidocs
 
       - name: Verify Javadoc Output
         run: |
-           echo "📂 Generated files:"
-#           ls -R target/reports/apidocs || echo "⚠️ No Javadoc generated!"
-             ls -R target/site/apidocs || echo "⚠️ No Javadoc generated!"
+          echo "📂 Generated files:"
+          ls -R target/site/apidocs || echo "⚠️ No Javadoc generated!"
+
       - name: Upload Javadoc artifact
         uses: actions/upload-artifact@v4
         with:
