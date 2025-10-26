@@ -162,6 +162,17 @@ See more detail in [docs folder](docs)
 
 ---
 
+
+# Default Users
+
+| user_id | Email               | Password | Username     |
+|----------|--------------------|-----------|---------------|
+| 1        | demo@example.com   | demo      | demo_user     |
+| 2        | admin@example.com  | 1234      | admin_user    |
+| 3        | testuser@example.com | testpass | user_3        |
+
+
+
 **CAB302 - Software Development Project**  
 *Teaching and Learning Theme*  
 Queensland University of Technology
