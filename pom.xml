@@ -161,7 +161,7 @@
                 <configuration>
                     <source>21</source>
                     <failOnError>false</failOnError>
-                    <subpackages>com.example.cab302a1.dao:com.example.cab302a1.dao.jdbc:com.example.cab302a1</subpackages>
+                    <subpackages>com.example.cab302a1</subpackages>
                     <use>true</use>
                     <includePrivate>false</includePrivate>
                 </configuration>
